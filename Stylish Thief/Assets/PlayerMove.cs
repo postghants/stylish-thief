@@ -1,12 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : Actor
 {
     [Header("Grounded Movement")]
     [SerializeField] private float acceleration;
     [SerializeField] private float groundFriction;
     [SerializeField] private float maxSpeed;
+
+    [Header("Air Movement")]
+    [SerializeField] private float airAccel;
+    [SerializeField] private float airFriction;
 
     [Header("Jump")]
     [SerializeField] float jumpHeight; //Typically between 0 and 5
@@ -17,19 +21,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float coyoteTime; //How many seconds until you can't jump anymore when falling off a ledge
     [SerializeField] float jumpBuffer;
 
-    [Header("Physics & Collision")]
-    [SerializeField] private LayerMask collisionLayerMask;
-    [SerializeField] private int maxBounces = 5;
-    [SerializeField] private float skinWidth = 0.015f;
-    [SerializeField] private float maxSlopeAngle = 55;
-    [SerializeField] private Vector3 gravity;
-
-    [Header("References")]
-    [SerializeField] private Collider collider;
-
     [Header("Internal NO TOUCH")]
-    [SerializeField] private Vector3 velocity;
-    [SerializeField] private bool isGrounded;
     [SerializeField] private float coyoteTimeCounter;
     [SerializeField] private float jumpBufferCounter;
     [SerializeField] private bool desiredJump;
@@ -42,7 +34,6 @@ public class PlayerMove : MonoBehaviour
     private InputAction jumpAction;
     private Transform cam;
 
-    private int groundCollisions;
     private Vector3 currentVelocity;
 
 
@@ -53,10 +44,12 @@ public class PlayerMove : MonoBehaviour
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         cam = Camera.main.transform;
+        isGrounded = IsGrounded();
     }
 
     private void FixedUpdate()
     {
+        isGrounded = IsGrounded();
         JumpBuffer();
         if (!currentlyJumping && !isGrounded)
         {
@@ -67,11 +60,6 @@ public class PlayerMove : MonoBehaviour
             coyoteTimeCounter = 0;
         }
 
-        // manage jump
-        if (isGrounded)
-        {
-            currentlyJumping = false;
-        }
         currentVelocity = velocity; //Reads the current speed we're shmoving at to make new calculations with
         if (desiredJump)
         {
@@ -88,12 +76,27 @@ public class PlayerMove : MonoBehaviour
 
         if (moveInputValue != Vector2.zero)
         {
-            velocity += moveDirection * acceleration * Time.deltaTime;
+            if (isGrounded)
+            {
+                velocity += moveDirection * acceleration * Time.deltaTime;
+            }
+            else
+            {
+                velocity += moveDirection * airAccel * Time.deltaTime;
+            }
             OnMoveInput(moveInputValue);
+
         }
-        else if (isGrounded)
+        else
         {
-            velocity /= groundFriction;
+            if (isGrounded)
+            {
+                velocity.x /= groundFriction; velocity.z /= groundFriction;
+            }
+            else
+            {
+                velocity.x /= airFriction; velocity.z /= airFriction;
+            }
         }
 
         if (!isGrounded)
@@ -106,7 +109,9 @@ public class PlayerMove : MonoBehaviour
         velocity.x = horizontalVel.x; velocity.z = horizontalVel.y;
         if (velocity.sqrMagnitude < 0.001f) { velocity = Vector3.zero; }
 
-        Move(Time.deltaTime * velocity);
+        bool doGravityPass = !currentlyJumping;
+
+        Move(Time.deltaTime * velocity, doGravityPass);
     }
 
     public void OnMoveInput(Vector2 input)
@@ -225,90 +230,5 @@ public class PlayerMove : MonoBehaviour
         //Set the character's Rigidbody's velocity
         //But clamp the Y variable within the bounds of the speed limit, for the terminal velocity assist option
         //rb.velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -speedLimit, 100));
-    }
-
-    public void Move(Vector3 moveAmount)
-    {
-        moveAmount = CollideAndSlide(moveAmount, transform.position, 0, false, moveAmount);
-
-        // do a gravity pass if 
-        if (velocity.y >= 0 && !currentlyJumping && !desiredJump)
-        {
-            moveAmount += CollideAndSlide(gravity * Time.fixedDeltaTime, transform.position + moveAmount, 0, true, gravity * Time.fixedDeltaTime);
-        }
-
-        velocity.x = moveAmount.x / Time.deltaTime; velocity.z = moveAmount.z / Time.deltaTime;
-
-        if (groundCollisions > 0) { isGrounded = true; }
-        else { isGrounded = false; }
-        groundCollisions = 0;
-
-        transform.Translate(moveAmount);
-    }
-
-    private Vector3 CollideAndSlide(Vector3 vel, Vector3 pos, int depth, bool gravityPass, Vector3 velInit)
-    {
-        if (depth >= maxBounces)
-        {
-            return Vector3.zero;
-        }
-
-        Bounds bounds = collider.bounds;
-        bounds.Expand(-2 * skinWidth);
-
-        float dist = vel.magnitude + skinWidth;
-        RaycastHit hit;
-        if (Physics.BoxCast(pos, bounds.extents, vel.normalized, out hit, Quaternion.identity, dist, collisionLayerMask))
-        {
-            Vector3 snapToSurface = vel.normalized * (hit.distance - skinWidth);
-            Vector3 leftover = vel - snapToSurface;
-            float verticalAngle = Vector3.Angle(Vector3.up, hit.normal);
-
-            if (snapToSurface.magnitude <= skinWidth)
-            {
-                snapToSurface = Vector3.zero;
-            }
-
-            // check ground collision
-            if (hit.point.y <= pos.y - bounds.extents.y + skinWidth)
-            {
-                groundCollisions++;
-            }
-
-            // normal ground / slope
-            if (verticalAngle < maxSlopeAngle)
-            {
-                if (gravityPass) { return snapToSurface; }
-
-                float mag = leftover.magnitude;
-                leftover = ProjectAndScale(leftover, hit.normal);
-            }
-            // wall or steep slope
-            else
-            {
-                float scale = 1 - Vector3.Dot(
-                    new Vector3(hit.normal.x, 0, hit.normal.z).normalized,
-                    -new Vector3(velInit.x, 0, velInit.z).normalized);
-
-                if (isGrounded && !gravityPass)
-                {
-                    leftover = ProjectAndScale(new Vector3(leftover.x, 0, leftover.z), new Vector3(hit.normal.x, 0, hit.normal.z)) * scale;
-                }
-                else
-                {
-                    Vector3 horizontalLeftover = ProjectAndScale(leftover, hit.normal) * scale;
-                    leftover.x = horizontalLeftover.x; leftover.z = horizontalLeftover.z;
-                }
-            }
-
-            return snapToSurface + CollideAndSlide(leftover, pos + snapToSurface, depth + 1, gravityPass, velInit);
-        }
-
-        return vel;
-    }
-
-    private Vector3 ProjectAndScale(Vector3 leftover, Vector3 normal)
-    {
-        return Vector3.ProjectOnPlane(leftover, normal).normalized * leftover.magnitude;
     }
 }

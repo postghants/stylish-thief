@@ -936,7 +936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1052293000}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CameraFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -970,7 +970,7 @@ GameObject:
   - component: {fileID: 1084212719}
   - component: {fileID: 1084212718}
   - component: {fileID: 1084212720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1338,7 +1338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1891646662}
   - component: {fileID: 1891646658}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1357,26 +1357,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a82b407d4e80cde4296eb0a618fc0394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
-  acceleration: 40
-  groundFriction: 2
-  maxSpeed: 12
-  jumpHeight: 5
-  timeToJumpApex: 0.6
-  upwardMovementMultiplier: 1
-  downwardMovementMultiplier: 1.8
-  jumpCutOff: 1.5
-  coyoteTime: 0.5
-  jumpBuffer: 0.1
   collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  groundMask:
     serializedVersion: 2
     m_Bits: 1
   maxBounces: 5
   skinWidth: 0.015
+  groundCheckDist: 0.1
   maxSlopeAngle: 55
   gravity: {x: 0, y: -9.81, z: 0}
-  collider: {fileID: 1084212720}
+  environmentCollider: {fileID: 1084212720}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
+  acceleration: 40
+  groundFriction: 2
+  maxSpeed: 8
+  airAccel: 20
+  airFriction: 1.1
+  jumpHeight: 5
+  timeToJumpApex: 1
+  upwardMovementMultiplier: 1
+  downwardMovementMultiplier: 3
+  jumpCutOff: 6
+  coyoteTime: 0.1
+  jumpBuffer: 0.1
   coyoteTimeCounter: 0
   jumpBufferCounter: 0
   desiredJump: 0

@@ -6,6 +6,7 @@ public class PlayerMove : Actor
     [Header("Grounded Movement")]
     [SerializeField] private float acceleration;
     [SerializeField] private float groundFriction;
+    [SerializeField] private float groundDeceleration;
     [SerializeField] private float maxSpeed;
 
     [Header("Air Movement")]
@@ -27,6 +28,7 @@ public class PlayerMove : Actor
     [SerializeField] private bool desiredJump;
     [SerializeField] private bool pressingJump;
     [SerializeField] private bool currentlyJumping;
+    [SerializeField] private float baseGrav;
     [SerializeField] private float gravMultiplier;
     [SerializeField] private float jumpSpeed;
 
@@ -44,12 +46,17 @@ public class PlayerMove : Actor
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         cam = Camera.main.transform;
-        isGrounded = IsGrounded();
+        isGrounded = IsGrounded(environmentCollider.transform.position);
+    }
+
+    private void Update()
+    {
+        SetPhysics();
     }
 
     private void FixedUpdate()
     {
-        isGrounded = IsGrounded();
+        isGrounded = IsGrounded(environmentCollider.transform.position);
         JumpBuffer();
         if (!currentlyJumping && !isGrounded)
         {
@@ -85,29 +92,31 @@ public class PlayerMove : Actor
                 velocity += moveDirection * airAccel * Time.deltaTime;
             }
             OnMoveInput(moveInputValue);
+        }
+        else if(isGrounded)
+        {
+            velocity += new Vector3(-velocity.x, 0, -velocity.z) * groundDeceleration;
+        }
 
+        if (isGrounded)
+        {
+            velocity += new Vector3(-velocity.x, 0, -velocity.z) * groundFriction;
         }
         else
         {
-            if (isGrounded)
-            {
-                velocity.x /= groundFriction; velocity.z /= groundFriction;
-            }
-            else
-            {
-                velocity.x /= airFriction; velocity.z /= airFriction;
-            }
+            velocity += new Vector3(-velocity.x, 0, -velocity.z) * airFriction;
+
         }
 
         if (!isGrounded)
         {
-            velocity += gravMultiplier * Time.deltaTime * gravity;
+            velocity.y += Time.deltaTime * -baseGrav;
         }
 
         Vector2 horizontalVel = new Vector2(velocity.x, velocity.z);
         horizontalVel = Vector2.ClampMagnitude(horizontalVel, maxSpeed);
         velocity.x = horizontalVel.x; velocity.z = horizontalVel.y;
-        if (velocity.sqrMagnitude < 0.001f) { velocity = Vector3.zero; }
+        if (velocity.sqrMagnitude < 0.005f) { velocity = Vector3.zero; }
 
         bool doGravityPass = !currentlyJumping;
 
@@ -130,6 +139,13 @@ public class PlayerMove : Actor
         pressingJump = false;
     }
 
+    private void SetPhysics()
+    {
+        //Determine the character's gravity scale, using the stats provided. Multiply it by a gravMultiplier, used later
+        Vector2 newGravity = new Vector2(0, (-2 * jumpHeight) / (timeToJumpApex * timeToJumpApex));
+        baseGrav = (newGravity.y / gravity.y) * gravMultiplier;
+    }
+
     private void PerformJump()
     {
         if ((isGrounded && velocity.y > -0.1) || (coyoteTimeCounter > 0.03f && coyoteTimeCounter < coyoteTime)) //If grounded or if you still have coyote time
@@ -149,14 +165,15 @@ public class PlayerMove : Actor
     public void CalculateJump()
     {
         jumpSpeed = Mathf.Sqrt(-2f * gravity.y * jumpHeight);
-        if (velocity.y > 0f)
-        {
-            jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
-        }
-        else if (velocity.y < 0f)
-        {
-            jumpSpeed += Mathf.Abs(velocity.y);
-        }
+        // was causing issues with coyote jump
+        //if (velocity.y > 0f)
+        //{
+        //    jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
+        //}
+        //else if (velocity.y < 0f)
+        //{
+        //    jumpSpeed += Mathf.Abs(velocity.y);
+        //}
     }
 
     private void JumpBuffer()

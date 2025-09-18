@@ -26,14 +26,13 @@ public class Actor : MonoBehaviour
     public void Move(Vector3 moveAmount, bool doGravityPass)
     {
         moveAmount = CollideAndSlide(moveAmount, transform.position, 0, false, moveAmount);
+        Debug.Log(moveAmount / Time.deltaTime);
 
         // do a gravity pass if 
         if (IsGrounded(environmentCollider.transform.position + moveAmount) && doGravityPass)
         {
             moveAmount += CollideAndSlide(gravity * Time.fixedDeltaTime, transform.position + moveAmount, 0, true, gravity * Time.fixedDeltaTime);
         }
-
-        velocity.x = moveAmount.x / Time.deltaTime; velocity.z = moveAmount.z / Time.deltaTime;
 
         transform.Translate(moveAmount);
     }
@@ -61,11 +60,10 @@ public class Actor : MonoBehaviour
             }
 
             // normal ground / slope
-            if (verticalAngle < maxSlopeAngle)
+            if (verticalAngle <= maxSlopeAngle)
             {
                 if (gravityPass) { return snapToSurface; }
 
-                float mag = leftover.magnitude;
                 leftover = ProjectAndScale(leftover, hit.normal);
             }
             // wall or steep slope
@@ -75,11 +73,9 @@ public class Actor : MonoBehaviour
                     new Vector3(hit.normal.x, 0, hit.normal.z).normalized,
                     -new Vector3(velInit.x, 0, velInit.z).normalized);
 
-
-
-                if (isGrounded && !gravityPass)
+                bool stairFound = false;
+                if (isGrounded && velocity.y == 0 && !gravityPass)
                 {
-
                     // STAIR CHECK STAIR CHECK OH YEAH!!!
                     if (hit.point.y < pos.y - bounds.extents.y + maxStairHeight)
                     {
@@ -113,24 +109,31 @@ public class Actor : MonoBehaviour
 
                                     }
                                     snapToSurface.y += maxStairHeight;
-
+                                    stairFound = true;
                                 }
 
                                 break;
                             }
 
                         }
-                    }
 
+
+                    }
                     leftover = ProjectAndScale(new Vector3(leftover.x, 0, leftover.z), new Vector3(hit.normal.x, 0, hit.normal.z)) * scale;
+
+
                 }
                 else
                 {
                     Vector3 horizontalLeftover = ProjectAndScale(leftover, hit.normal) * scale;
                     leftover.x = horizontalLeftover.x; leftover.z = horizontalLeftover.z;
+
+                }
+                if (!stairFound)
+                {
+                    velocity.x = leftover.x / Time.deltaTime; velocity.z = leftover.z / Time.deltaTime;
                 }
             }
-
             return snapToSurface + CollideAndSlide(leftover, pos + snapToSurface, depth + 1, gravityPass, velInit);
         }
 

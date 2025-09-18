@@ -85,11 +85,11 @@ public class PlayerMove : Actor
         {
             if (isGrounded)
             {
-                velocity += moveDirection * acceleration * Time.deltaTime;
+                velocity += acceleration * Time.deltaTime * moveDirection;
             }
             else
             {
-                velocity += moveDirection * airAccel * Time.deltaTime;
+                velocity += airAccel * Time.deltaTime * moveDirection;
             }
             OnMoveInput(moveInputValue);
         }
@@ -116,7 +116,7 @@ public class PlayerMove : Actor
         Vector2 horizontalVel = new Vector2(velocity.x, velocity.z);
         horizontalVel = Vector2.ClampMagnitude(horizontalVel, maxSpeed);
         velocity.x = horizontalVel.x; velocity.z = horizontalVel.y;
-        if (velocity.sqrMagnitude < 0.005f) { velocity = Vector3.zero; }
+        if (velocity.sqrMagnitude < 0.001f) { velocity = Vector3.zero; }
 
         bool doGravityPass = !currentlyJumping;
 

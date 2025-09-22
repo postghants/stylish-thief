@@ -1,32 +1,33 @@
-using System.Linq;
 using UnityEngine;
 
-// Base class for any player/enemy/npc. Includes basic collision and a Move function to be called every fixed update.
-public class Actor : MonoBehaviour
-{
 
-    [Header("Physics & Collision")]
-    [SerializeField] protected LayerMask collisionLayerMask;
-    [SerializeField] protected LayerMask groundMask;
-    [SerializeField] protected int maxBounces = 5;
-    [SerializeField] protected float skinWidth = 0.015f;
-    [SerializeField] protected float groundCheckDist = 0.1f;
-    [SerializeField] protected float maxSlopeAngle = 55;
-    [SerializeField] protected float maxStairHeight = 0.15f;
-    [SerializeField] protected float minStairWidth = 0.1f;
-    [SerializeField] protected Vector3 gravity;
+//Physics behaviour specifically for actors.
+public class CustomBoxRigidbody : MonoBehaviour
+{
+    [Header("Properties")]
+    public float mass = 1.0f;
+
+    [Header("Physics settings")]
+    public LayerMask collisionLayerMask;
+    public LayerMask groundMask;
+    public int maxBounces = 5;
+    public float skinWidth = 0.015f;
+    public float groundCheckDist = 0.1f;
+    public float maxSlopeAngle = 55;
+    public float maxStairHeight = 0.15f;
+    public float minStairWidth = 0.1f;
+    public Vector3 gravity;
 
     [Header("References")]
-    [SerializeField] protected Collider environmentCollider;
+    public Collider environmentCollider;
 
     [Header("Internal NO TOUCH")]
-    [SerializeField] protected Vector3 velocity;
-    [SerializeField] protected bool isGrounded;
+    public Vector3 velocity;
+    public bool isGrounded;
 
     public void Move(Vector3 moveAmount, bool doGravityPass)
     {
         moveAmount = CollideAndSlide(moveAmount, transform.position, 0, false, moveAmount);
-        Debug.Log(moveAmount / Time.deltaTime);
 
         // do a gravity pass if 
         if (IsGrounded(environmentCollider.transform.position + moveAmount) && doGravityPass)
@@ -145,8 +146,30 @@ public class Actor : MonoBehaviour
         return Vector3.ProjectOnPlane(leftover, normal).normalized * leftover.magnitude;
     }
 
-    protected bool IsGrounded(Vector3 pos)
+    public bool IsGrounded(Vector3 pos)
     {
+        Bounds bounds = environmentCollider.bounds;
+        bounds.Expand(-2 * skinWidth);
+        var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, groundCheckDist, groundMask);
+
+        foreach (var hit in hits)
+        {
+            if (hit.distance == 0) // if collider is already overlapping
+            {
+
+            }
+
+            if (Vector3.Angle(Vector3.up, hit.normal) < maxSlopeAngle)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsGrounded()
+    {
+        Vector3 pos = environmentCollider.transform.position;
         Bounds bounds = environmentCollider.bounds;
         bounds.Expand(-2 * skinWidth);
         var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, groundCheckDist, groundMask);

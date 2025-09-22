@@ -22,6 +22,9 @@ public class PlayerMove : Actor
     [SerializeField] float coyoteTime; //How many seconds until you can't jump anymore when falling off a ledge
     [SerializeField] float jumpBuffer;
 
+    [Header("References")]
+    [SerializeField] private CustomBoxRigidbody rb;
+
     [Header("Internal NO TOUCH")]
     [SerializeField] private float coyoteTimeCounter;
     [SerializeField] private float jumpBufferCounter;
@@ -46,7 +49,6 @@ public class PlayerMove : Actor
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         cam = Camera.main.transform;
-        isGrounded = IsGrounded(environmentCollider.transform.position);
     }
 
     private void Update()
@@ -56,9 +58,9 @@ public class PlayerMove : Actor
 
     private void FixedUpdate()
     {
-        isGrounded = IsGrounded(environmentCollider.transform.position);
+        rb.isGrounded = rb.IsGrounded();
         JumpBuffer();
-        if (!currentlyJumping && !isGrounded)
+        if (!currentlyJumping && !rb.isGrounded)
         {
             coyoteTimeCounter += Time.deltaTime;
         }
@@ -67,11 +69,11 @@ public class PlayerMove : Actor
             coyoteTimeCounter = 0;
         }
 
-        currentVelocity = velocity; //Reads the current speed we're shmoving at to make new calculations with
+        currentVelocity = rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
         if (desiredJump)
         {
             PerformJump(); //Resets jump preparations and calculates a new Y speed to jump with
-            velocity = currentVelocity; //Applies new Y speed as well as the X that was read earlier
+            rb.velocity = currentVelocity; //Applies new Y speed as well as the X that was read earlier
             currentlyJumping = true; //Tells the code we're jumping now. Used for variable height
         }
         CalculateGravity();
@@ -83,44 +85,44 @@ public class PlayerMove : Actor
 
         if (moveInputValue != Vector2.zero)
         {
-            if (isGrounded)
+            if (rb.isGrounded)
             {
-                velocity += acceleration * Time.deltaTime * moveDirection;
+                rb.velocity += acceleration * Time.deltaTime * moveDirection;
             }
             else
             {
-                velocity += airAccel * Time.deltaTime * moveDirection;
+                rb.velocity += airAccel * Time.deltaTime * moveDirection;
             }
             OnMoveInput(moveInputValue);
         }
-        else if(isGrounded)
+        else if (rb.isGrounded)
         {
-            velocity += new Vector3(-velocity.x, 0, -velocity.z) * groundDeceleration;
+            rb.velocity += new Vector3(-rb.velocity.x, 0, -rb.velocity.z) * groundDeceleration;
         }
 
-        if (isGrounded)
+        if (rb.isGrounded)
         {
-            velocity += new Vector3(-velocity.x, 0, -velocity.z) * groundFriction;
+            rb.velocity += new Vector3(-rb.velocity.x, 0, -rb.velocity.z) * groundFriction;
         }
         else
         {
-            velocity += new Vector3(-velocity.x, 0, -velocity.z) * airFriction;
+            rb.velocity += new Vector3(-rb.velocity.x, 0, -rb.velocity.z) * airFriction;
 
         }
 
-        if (!isGrounded)
+        if (!rb.isGrounded)
         {
-            velocity.y += Time.deltaTime * -baseGrav;
+            rb.velocity.y += Time.deltaTime * -baseGrav;
         }
 
-        Vector2 horizontalVel = new Vector2(velocity.x, velocity.z);
+        Vector2 horizontalVel = new Vector2(rb.velocity.x, rb.velocity.z);
         horizontalVel = Vector2.ClampMagnitude(horizontalVel, maxSpeed);
-        velocity.x = horizontalVel.x; velocity.z = horizontalVel.y;
-        if (velocity.sqrMagnitude < 0.001f) { velocity = Vector3.zero; }
+        rb.velocity.x = horizontalVel.x; rb.velocity.z = horizontalVel.y;
+        if (rb.velocity.sqrMagnitude < 0.001f) { rb.velocity = Vector3.zero; }
 
         bool doGravityPass = !currentlyJumping;
 
-        Move(Time.deltaTime * velocity, doGravityPass);
+        rb.Move(Time.deltaTime * rb.velocity, doGravityPass);
     }
 
     public void OnMoveInput(Vector2 input)
@@ -143,12 +145,12 @@ public class PlayerMove : Actor
     {
         //Determine the character's gravity scale, using the stats provided. Multiply it by a gravMultiplier, used later
         Vector2 newGravity = new Vector2(0, (-2 * jumpHeight) / (timeToJumpApex * timeToJumpApex));
-        baseGrav = (newGravity.y / gravity.y) * gravMultiplier;
+        baseGrav = (newGravity.y / rb.gravity.y) * gravMultiplier;
     }
 
     private void PerformJump()
     {
-        if ((isGrounded && velocity.y > -0.1) || (coyoteTimeCounter > 0.03f && coyoteTimeCounter < coyoteTime)) //If grounded or if you still have coyote time
+        if ((rb.isGrounded && rb.velocity.y > -0.1) || (coyoteTimeCounter > 0.03f && coyoteTimeCounter < coyoteTime)) //If grounded or if you still have coyote time
         {
             desiredJump = false;
             jumpBufferCounter = 0;
@@ -164,7 +166,7 @@ public class PlayerMove : Actor
 
     public void CalculateJump()
     {
-        jumpSpeed = Mathf.Sqrt(-2f * gravity.y * jumpHeight);
+        jumpSpeed = Mathf.Sqrt(-2f * rb.gravity.y * jumpHeight);
         // was causing issues with coyote jump
         //if (velocity.y > 0f)
         //{
@@ -193,9 +195,9 @@ public class PlayerMove : Actor
         //We change the character's gravity based on her Y direction
 
         //If Kit is going up...
-        if (velocity.y > 0.01f)
+        if (rb.velocity.y > 0.01f)
         {
-            if (isGrounded)
+            if (rb.isGrounded)
             {
                 //Don't change it if Kit is stood on something (such as a moving platform)
                 gravMultiplier = 1;
@@ -216,14 +218,14 @@ public class PlayerMove : Actor
         }
 
         //Else if going down...
-        else if (velocity.y < -0.01f)
+        else if (rb.velocity.y < -0.01f)
         {
 
-            if (isGrounded)
+            if (rb.isGrounded)
             //Don't change it if Kit is stood on something (such as a moving platform)
             {
                 gravMultiplier = 1;
-                velocity.y = 0f;
+                rb.velocity.y = 0f;
             }
             else
             {
@@ -235,10 +237,10 @@ public class PlayerMove : Actor
         //Else not moving vertically at all
         else
         {
-            if (isGrounded)
+            if (rb.isGrounded)
             {
                 currentlyJumping = false;
-                velocity.y = 0f;
+                rb.velocity.y = 0f;
             }
 
             gravMultiplier = 1;

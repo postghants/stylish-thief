@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStateDriver : MonoBehaviour
+public class PlayerStateDriver : Actor
 {
     public PlayerContext ctx;
 
@@ -12,12 +12,14 @@ public class PlayerStateDriver : MonoBehaviour
 
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction grabAction;
 
     private void Awake()
     {
 
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
+        grabAction = InputSystem.actions.FindAction("Grab");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         ctx.cam = Camera.main.transform;
@@ -35,7 +37,16 @@ public class PlayerStateDriver : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Read input
         ctx.moveInputValue = moveAction.ReadValue<Vector2>();
+        if (ctx.moveInputValue.sqrMagnitude > 0)
+        {
+            ctx.facing.x = ctx.moveInputValue.normalized.x; ctx.facing.z = ctx.moveInputValue.normalized.y;
+        }
+
+        ctx.desiredGrab = grabAction.ReadValue<float>() > 0.5f;
+
+        // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
         PlayerMove.JumpBuffer(ctx);
         PlayerMove.SetPhysics(ctx);
@@ -78,12 +89,18 @@ public class PlayerContext
     public float coyoteTime; //How many seconds until you can't jump anymore when falling off a ledge
     public float jumpBuffer;
 
+    [Header("Grab")]
+    public float grabSpeed;
+    public float grabDuration;
+    public float grabDeceleration;
+
     [Header("References")]
     public CustomBoxRigidbody rb;
     [HideInInspector] public Transform cam;
 
     [Header("Internal NO TOUCHY")]
     public Vector3 velocity;
+    public Vector3 facing;
     public float coyoteTimeCounter;
     public float jumpBufferCounter;
     public bool desiredJump;
@@ -93,7 +110,11 @@ public class PlayerContext
     public float gravMultiplier;
     public float jumpSpeed;
     public Vector3 currentVelocity;
+    public bool useGravity = true;
+    public bool hasGrabbed;
+    public float grabTimer;
 
     [Header("Input values")]
     public Vector2 moveInputValue;
+    public bool desiredGrab;
 }

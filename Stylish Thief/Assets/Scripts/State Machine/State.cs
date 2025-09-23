@@ -29,7 +29,6 @@ namespace HSM
             State init = GetInitialState();
             if (init != null)
             {
-                Debug.Log("Initial state: " + GetInitialState());
                 init.Enter();
             }
         }
@@ -43,7 +42,6 @@ namespace HSM
 
         internal void Update(float deltaTime)
         {
-            Debug.Log("Update " + ToString());
             State t = GetTransition();
             if (t != null)
             {

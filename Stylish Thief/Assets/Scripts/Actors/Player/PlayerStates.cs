@@ -14,32 +14,65 @@ namespace HSM
         }
     }
 
-    public class PlayerIdle : State
+    public class PlayerGrabbing : State
     {
         readonly PlayerContext ctx;
-        public PlayerIdle(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        public PlayerGrabbing(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.useGravity = false;
+            ctx.hasGrabbed = true;
+
+            Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
+            if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
+            ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            ctx.rb.velocity.y = 0;
+        }
+
+        protected override void OnUpdate()
+        {
+
+        }
+
+        protected override void OnExit()
+        {
+            ctx.useGravity = true;
+        }
+
+
+        protected override State GetTransition()
+        {
+            ctx.grabTimer += Time.fixedDeltaTime;
+            if (ctx.grabTimer > ctx.grabDuration)
+            {
+                ctx.grabTimer = 0;
+                return Parent;
+            }
+            return null;
         }
     }
 
     public class PlayerGrounded : State
     {
         readonly PlayerContext ctx;
-        public readonly PlayerIdle idle;
         public readonly PlayerMoving moving;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
-            idle = new(m, this, ctx);
             moving = new(m, this, ctx);
         }
 
         protected override void OnEnter()
         {
+            ctx.hasGrabbed = false;
+
             // Do animations or whatever
         }
 
@@ -65,9 +98,12 @@ namespace HSM
         //protected override State GetInitialState() => idle;
         protected override State GetTransition()
         {
+            if (ctx.desiredGrab && !ctx.hasGrabbed)
+            {
+                return ((PlayerRoot)Parent).airborne.grabbing;
+            }
             if (!ctx.rb.isGrounded)
             {
-                Debug.Log("Trying to enter airborne");
                 return ((PlayerRoot)Parent).airborne;
             }
             return null;
@@ -77,10 +113,14 @@ namespace HSM
     public class PlayerAirborne : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerGrabbing grabbing;
+
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
+
+            grabbing = new(m, this, ctx);
         }
 
         protected override void OnUpdate()
@@ -95,11 +135,22 @@ namespace HSM
 
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.airFriction;
 
-            ctx.rb.velocity.y += Time.deltaTime * -ctx.baseGrav;
+            if (ctx.useGravity)
+            {
+                ctx.rb.velocity.y += Time.deltaTime * -ctx.baseGrav;
+            }
         }
 
         protected override State GetTransition()
         {
+            if (ctx.desiredGrab && !ctx.hasGrabbed)
+            {
+                return grabbing;
+            }
+            if(ctx.grabTimer > 0)
+            {
+                return null;
+            }
             return ctx.rb.isGrounded ? ((PlayerRoot)Parent).grounded : null;
         }
     }
@@ -121,7 +172,7 @@ namespace HSM
         {
             CustomBoxRigidbody rb = ctx.rb;
 
-            Vector2 horizontalVel = new Vector2(rb.velocity.x, rb.velocity.z);
+            Vector2 horizontalVel = new(rb.velocity.x, rb.velocity.z);
             horizontalVel = Vector2.ClampMagnitude(horizontalVel, ctx.maxSpeed);
             rb.velocity.x = horizontalVel.x; rb.velocity.z = horizontalVel.y;
             if (rb.velocity.sqrMagnitude < 0.001f) { rb.velocity = Vector3.zero; }

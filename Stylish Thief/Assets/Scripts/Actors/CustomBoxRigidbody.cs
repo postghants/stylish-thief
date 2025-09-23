@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 
 
-//Physics behaviour specifically for actors.
+//Physics behaviour specifically made for actors.
 public class CustomBoxRigidbody : MonoBehaviour
 {
     [Header("Properties")]

@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4199111852456702283}
-  - component: {fileID: 6982450748892258044}
+  - component: {fileID: 5039265793413682498}
   - component: {fileID: 5516163521354773594}
   m_Layer: 6
   m_Name: Player
@@ -146,7 +146,7 @@ Transform:
   - {fileID: 4798847615133056621}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6982450748892258044
+--- !u!114 &5039265793413682498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,31 +155,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 4668033689235908336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a82b407d4e80cde4296eb0a618fc0394, type: 3}
+  m_Script: {fileID: 11500000, guid: d8faeb1ba5820f34385ddf47f5657177, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
-  acceleration: 40
-  groundFriction: 0.08
-  groundDeceleration: 0.3
-  maxSpeed: 8
-  airAccel: 15
-  airFriction: 0.03
-  jumpHeight: 5
-  timeToJumpApex: 0.3
-  upwardMovementMultiplier: 1
-  downwardMovementMultiplier: 3
-  jumpCutOff: 6
-  coyoteTime: 0.1
-  jumpBuffer: 0.1
-  rb: {fileID: 5516163521354773594}
-  coyoteTimeCounter: 0
-  jumpBufferCounter: 0
-  desiredJump: 0
-  pressingJump: 0
-  currentlyJumping: 0
-  baseGrav: 0
-  gravMultiplier: 1
-  jumpSpeed: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStateDriver
+  ctx:
+    acceleration: 40
+    groundFriction: 0.08
+    groundDeceleration: 0.3
+    maxSpeed: 8
+    airAccel: 15
+    airFriction: 0.03
+    jumpHeight: 5
+    timeToJumpApex: 0.3
+    upwardMovementMultiplier: 1
+    downwardMovementMultiplier: 3
+    jumpCutOff: 6
+    coyoteTime: 0.1
+    jumpBuffer: 0.1
+    rb: {fileID: 5516163521354773594}
+    cam: {fileID: 0}
+    velocity: {x: 0, y: 0, z: 0}
+    coyoteTimeCounter: 0
+    jumpBufferCounter: 0
+    desiredJump: 0
+    pressingJump: 0
+    currentlyJumping: 0
+    baseGrav: 0
+    gravMultiplier: 1
+    jumpSpeed: 0
+    currentVelocity: {x: 0, y: 0, z: 0}
+    moveInputValue: {x: 0, y: 0}
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +5,8 @@ namespace HSM
 {
     public abstract class State
     {
-        public readonly StateMachine Machine;
-        public readonly State Parent;
+        public StateMachine Machine;
+        public State Parent;
         public State ActiveChild;
         public State(StateMachine machine, State parent = null)
         {
@@ -28,28 +27,30 @@ namespace HSM
             if (Parent != null) { Parent.ActiveChild = this; }
             OnEnter();
             State init = GetInitialState();
-            if (init != null) { init.Enter(); }
+            if (init != null)
+            {
+                Debug.Log("Initial state: " + GetInitialState());
+                init.Enter();
+            }
         }
 
         internal void Exit()
         {
-            if(ActiveChild != null) { ActiveChild.Exit(); }
+            if (ActiveChild != null) { ActiveChild.Exit(); }
             ActiveChild = null;
             OnExit();
         }
 
         internal void Update(float deltaTime)
         {
+            Debug.Log("Update " + ToString());
             State t = GetTransition();
-            if(t !=  null)
+            if (t != null)
             {
                 Machine.Sequencer.RequestTransition(this, t);
                 return;
             }
-            if(ActiveChild != null)
-            {
-                ActiveChild.Update(deltaTime);
-            }
+            ActiveChild?.Update(deltaTime);
             OnUpdate();
         }
 
@@ -64,7 +65,7 @@ namespace HSM
         // Yields this state and then each ancestor up to the root state
         public IEnumerable<State> PathToRoot()
         {
-            for(State s = this; s != null; s = s.Parent) yield return s;
+            for (State s = this; s != null; s = s.Parent) yield return s;
         }
     }
 }

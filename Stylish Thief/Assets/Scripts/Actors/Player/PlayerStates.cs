@@ -4,13 +4,43 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 namespace HSM
 {
-    public class PlayerMoving : State
+    public class PlayerSliding : State
     {
         readonly PlayerContext ctx;
-        public PlayerMoving(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        public PlayerSliding(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
+        }
+        protected override void OnEnter()
+        {
+            ctx.currentFriction = ctx.slideFriction;
+        }
+        protected override State GetTransition()
+        {
+            if (!ctx.pressingGrab) { return Parent; }
+            return null;
+        }
+    }
+
+    public class PlayerSlidingAirborne : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerSlidingAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.currentFriction = ctx.slideFriction;
+        }
+
+        protected override State GetTransition()
+        {
+            if (!ctx.pressingGrab) { return Parent; }
+            return null;
         }
     }
 
@@ -28,6 +58,7 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
+            ctx.currentFriction = ctx.grabFriction;
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
@@ -44,7 +75,6 @@ namespace HSM
         {
             ctx.useGravity = true;
 
-            ctx.rb.velocity *= 1 - ctx.grabDeceleration;
         }
 
         protected override State GetTransition()
@@ -53,28 +83,45 @@ namespace HSM
             if (ctx.grabTimer > ctx.grabDuration)
             {
                 ctx.grabTimer = 0;
+                if (ctx.pressingGrab)
+                {
+                    return ((PlayerAirborne)Parent).slidingAirborne;
+                }
+                ctx.rb.velocity *= 1 - ctx.grabDeceleration;
                 return Parent;
             }
             return null;
         }
     }
 
+    public class PlayerIdle : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerIdle(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
+
     public class PlayerGrounded : State
     {
         readonly PlayerContext ctx;
-        public readonly PlayerMoving moving;
+        public readonly PlayerSliding sliding;
+        public readonly PlayerIdle idle;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
-            moving = new(m, this, ctx);
+            sliding = new(m, this, ctx);
+            idle = new(m, this, ctx);
         }
 
         protected override void OnEnter()
         {
             ctx.hasGrabbed = false;
-
+            ctx.currentFriction = ctx.groundFriction;
             // Do animations or whatever
         }
 
@@ -89,11 +136,9 @@ namespace HSM
                 ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.groundDeceleration;
             }
 
-            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.groundFriction;
-
         }
 
-        //protected override State GetInitialState() => idle;
+        protected override State GetInitialState() => idle;
         protected override State GetTransition()
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed)
@@ -108,33 +153,56 @@ namespace HSM
         }
     }
 
+    public class PlayerFalling : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerFalling(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
+
     public class PlayerAirborne : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerFalling falling;
         public readonly PlayerGrabbing grabbing;
+        public readonly PlayerSlidingAirborne slidingAirborne;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
 
+            falling = new(m, this, ctx);
             grabbing = new(m, this, ctx);
+            slidingAirborne = new(m, this, ctx);
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.currentFriction = ctx.airFriction;
         }
 
         protected override void OnUpdate()
         {
-
+            ctx.coyoteTimeCounter += Time.fixedDeltaTime;
             if (ctx.moveInputValue != Vector2.zero)
             {
                 ctx.rb.velocity += ctx.airAccel * Time.deltaTime * ctx.moveDirection;
             }
 
-            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.airFriction;
-
             if (ctx.useGravity)
             {
                 ctx.rb.velocity.y += Time.deltaTime * -ctx.baseGrav;
             }
+        }
+
+        protected override void OnExit()
+        {
+            ctx.coyoteTimeCounter = 0;
         }
 
         protected override State GetTransition()
@@ -143,11 +211,20 @@ namespace HSM
             {
                 return grabbing;
             }
-            if(ctx.grabTimer > 0)
+            if (ctx.grabTimer > 0)
             {
                 return null;
             }
-            return ctx.rb.isGrounded ? ((PlayerRoot)Parent).grounded : null;
+            if (ctx.rb.isGrounded)
+            {
+                if(Leaf() == slidingAirborne)
+                {
+                    return ((PlayerRoot)Parent).grounded.sliding;
+                }
+                return ((PlayerRoot)Parent).grounded;
+
+            }
+            return null;
         }
     }
 
@@ -167,6 +244,8 @@ namespace HSM
         protected override void OnUpdate()
         {
             CustomBoxRigidbody rb = ctx.rb;
+
+            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
 
             if (rb.velocity.sqrMagnitude < 0.001f) { rb.velocity = Vector3.zero; }
 

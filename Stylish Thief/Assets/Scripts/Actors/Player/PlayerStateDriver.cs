@@ -25,6 +25,7 @@ public class PlayerStateDriver : Actor
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         grabAction.started += OnGrabStart;
+        grabAction.canceled += OnGrabStop;
         ctx.cam = Camera.main.transform;
 
         root = new(null, ctx);
@@ -71,6 +72,12 @@ public class PlayerStateDriver : Actor
     public void OnGrabStart(InputAction.CallbackContext c)
     {
         StartCoroutine(GrabTimer());
+        ctx.pressingGrab = true;
+    }
+
+    public void OnGrabStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingGrab = false;
     }
 
     private IEnumerator GrabTimer()
@@ -109,6 +116,10 @@ public class PlayerContext
     public float grabSpeed;
     public float grabDuration;
     public float grabDeceleration;
+    public float grabFriction;
+
+    [Header("Slide")]
+    public float slideFriction;
 
     [Header("References")]
     public CustomBoxRigidbody rb;
@@ -120,8 +131,6 @@ public class PlayerContext
     public Vector3 facing;
     public float coyoteTimeCounter;
     public float jumpBufferCounter;
-    public bool desiredJump;
-    public bool pressingJump;
     public bool currentlyJumping;
     public float baseGrav;
     public float gravMultiplier;
@@ -130,8 +139,12 @@ public class PlayerContext
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float currentFriction;
 
     [Header("Input values")]
     public Vector2 moveInputValue;
+    public bool desiredJump;
+    public bool pressingJump;
     public bool desiredGrab;
+    public bool pressingGrab;
 }

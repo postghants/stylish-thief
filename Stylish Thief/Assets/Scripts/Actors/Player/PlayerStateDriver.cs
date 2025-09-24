@@ -36,7 +36,7 @@ public class PlayerStateDriver : Actor
 
     private void Update()
     {
-        PlayerMove.SetPhysics(ctx);
+        Jump.SetPhysics(ctx);
     }
 
     private void FixedUpdate()
@@ -52,8 +52,8 @@ public class PlayerStateDriver : Actor
 
         // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
-        PlayerMove.JumpBuffer(ctx);
-        PlayerMove.SetPhysics(ctx);
+        Jump.JumpBuffer(ctx);
+        Jump.SetPhysics(ctx);
 
         machine.Update(Time.deltaTime);
         Debug.Log(root.Leaf());
@@ -120,9 +120,11 @@ public class PlayerContext
 
     [Header("Slide")]
     public float slideFriction;
+    public float slideMoveMult;
+    public float maxSlideBonkAngle;
 
     [Header("References")]
-    public CustomBoxRigidbody rb;
+    public ActorPhysics rb;
     [HideInInspector] public Transform cam;
 
     [Header("Internal NO TOUCHY")]
@@ -140,6 +142,7 @@ public class PlayerContext
     public bool hasGrabbed;
     public float grabTimer;
     public float currentFriction;
+    public float currentMoveMult;
 
     [Header("Input values")]
     public Vector2 moveInputValue;

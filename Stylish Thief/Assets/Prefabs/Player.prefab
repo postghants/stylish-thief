@@ -172,19 +172,32 @@ MonoBehaviour:
     jumpCutOff: 6
     coyoteTime: 0.1
     jumpBuffer: 0.1
+    grabSpeed: 20
+    grabDuration: 0.3
+    grabDeceleration: 0.4
+    grabFriction: 0.03
+    slideFriction: 0.02
     rb: {fileID: 5516163521354773594}
     cam: {fileID: 0}
     velocity: {x: 0, y: 0, z: 0}
+    moveDirection: {x: 0, y: 0, z: 0}
+    facing: {x: 0, y: 0, z: 0}
     coyoteTimeCounter: 0
     jumpBufferCounter: 0
-    desiredJump: 0
-    pressingJump: 0
     currentlyJumping: 0
     baseGrav: 0
     gravMultiplier: 1
     jumpSpeed: 0
     currentVelocity: {x: 0, y: 0, z: 0}
+    useGravity: 1
+    hasGrabbed: 0
+    grabTimer: 0
+    currentFriction: 0
     moveInputValue: {x: 0, y: 0}
+    desiredJump: 0
+    pressingJump: 0
+    desiredGrab: 0
+    pressingGrab: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0

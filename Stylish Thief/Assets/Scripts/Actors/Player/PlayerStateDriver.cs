@@ -1,6 +1,8 @@
 using HSM;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerStateDriver : Actor
@@ -22,6 +24,7 @@ public class PlayerStateDriver : Actor
         grabAction = InputSystem.actions.FindAction("Grab");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
+        grabAction.started += OnGrabStart;
         ctx.cam = Camera.main.transform;
 
         root = new(null, ctx);
@@ -39,12 +42,12 @@ public class PlayerStateDriver : Actor
     {
         // Read input
         ctx.moveInputValue = moveAction.ReadValue<Vector2>();
-        if (ctx.moveInputValue.sqrMagnitude > 0)
+        float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
+        ctx.moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
+        if(ctx.moveDirection.sqrMagnitude > 0)
         {
-            ctx.facing.x = ctx.moveInputValue.normalized.x; ctx.facing.z = ctx.moveInputValue.normalized.y;
+            ctx.facing = ctx.moveDirection;
         }
-
-        ctx.desiredGrab = grabAction.ReadValue<float>() > 0.5f;
 
         // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
@@ -63,6 +66,19 @@ public class PlayerStateDriver : Actor
     public void OnJumpStop(InputAction.CallbackContext c)
     {
         ctx.pressingJump = false;
+    }
+
+    public void OnGrabStart(InputAction.CallbackContext c)
+    {
+        StartCoroutine(GrabTimer());
+    }
+
+    private IEnumerator GrabTimer()
+    {
+        ctx.desiredGrab = true;
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        ctx.desiredGrab = false;
     }
 
 }
@@ -100,6 +116,7 @@ public class PlayerContext
 
     [Header("Internal NO TOUCHY")]
     public Vector3 velocity;
+    public Vector3 moveDirection;
     public Vector3 facing;
     public float coyoteTimeCounter;
     public float jumpBufferCounter;

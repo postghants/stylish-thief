@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace HSM { 
 
@@ -34,7 +35,6 @@ namespace HSM {
         public void ChangeState(State from, State to)
         {
             if (from == to || from == null || to == null) return;
-
             State lca = TransitionSequencer.Lca(from, to);
 
             // Exit current branch up to (but not including) LCA
@@ -43,6 +43,7 @@ namespace HSM {
             var stack = new Stack<State>();
             for (State s = to; s != lca; s = s.Parent) { stack.Push(s); }
             while (stack.Count > 0) { stack.Pop().Enter(); }
+
         }
     }
 }

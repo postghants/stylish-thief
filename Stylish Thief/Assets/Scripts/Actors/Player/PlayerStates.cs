@@ -27,6 +27,7 @@ namespace HSM
         {
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
+            ctx.grabTimer = 0.001f;
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
@@ -42,8 +43,9 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.useGravity = true;
-        }
 
+            ctx.rb.velocity *= 1 - ctx.grabDeceleration;
+        }
 
         protected override State GetTransition()
         {
@@ -78,12 +80,9 @@ namespace HSM
 
         protected override void OnUpdate()
         {
-            float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
-
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.acceleration * Time.deltaTime * moveDirection;
+                ctx.rb.velocity += ctx.acceleration * Time.deltaTime * ctx.moveDirection;
             }
             else
             {
@@ -91,7 +90,6 @@ namespace HSM
             }
 
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.groundFriction;
-
 
         }
 
@@ -125,12 +123,10 @@ namespace HSM
 
         protected override void OnUpdate()
         {
-            float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
 
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.airAccel * Time.deltaTime * moveDirection;
+                ctx.rb.velocity += ctx.airAccel * Time.deltaTime * ctx.moveDirection;
             }
 
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.airFriction;
@@ -172,9 +168,6 @@ namespace HSM
         {
             CustomBoxRigidbody rb = ctx.rb;
 
-            Vector2 horizontalVel = new(rb.velocity.x, rb.velocity.z);
-            horizontalVel = Vector2.ClampMagnitude(horizontalVel, ctx.maxSpeed);
-            rb.velocity.x = horizontalVel.x; rb.velocity.z = horizontalVel.y;
             if (rb.velocity.sqrMagnitude < 0.001f) { rb.velocity = Vector3.zero; }
 
             bool doGravityPass = !ctx.currentlyJumping;

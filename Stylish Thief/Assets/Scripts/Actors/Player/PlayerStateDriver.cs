@@ -1,6 +1,8 @@
 using HSM;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerStateDriver : Actor
@@ -22,6 +24,8 @@ public class PlayerStateDriver : Actor
         grabAction = InputSystem.actions.FindAction("Grab");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
+        grabAction.started += OnGrabStart;
+        grabAction.canceled += OnGrabStop;
         ctx.cam = Camera.main.transform;
 
         root = new(null, ctx);
@@ -32,24 +36,24 @@ public class PlayerStateDriver : Actor
 
     private void Update()
     {
-        PlayerMove.SetPhysics(ctx);
+        Jump.SetPhysics(ctx);
     }
 
     private void FixedUpdate()
     {
         // Read input
         ctx.moveInputValue = moveAction.ReadValue<Vector2>();
-        if (ctx.moveInputValue.sqrMagnitude > 0)
+        float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
+        ctx.moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
+        if(ctx.moveDirection.sqrMagnitude > 0)
         {
-            ctx.facing.x = ctx.moveInputValue.normalized.x; ctx.facing.z = ctx.moveInputValue.normalized.y;
+            ctx.facing = ctx.moveDirection;
         }
-
-        ctx.desiredGrab = grabAction.ReadValue<float>() > 0.5f;
 
         // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
-        PlayerMove.JumpBuffer(ctx);
-        PlayerMove.SetPhysics(ctx);
+        Jump.JumpBuffer(ctx);
+        Jump.SetPhysics(ctx);
 
         machine.Update(Time.deltaTime);
         Debug.Log(root.Leaf());
@@ -63,6 +67,25 @@ public class PlayerStateDriver : Actor
     public void OnJumpStop(InputAction.CallbackContext c)
     {
         ctx.pressingJump = false;
+    }
+
+    public void OnGrabStart(InputAction.CallbackContext c)
+    {
+        StartCoroutine(GrabTimer());
+        ctx.pressingGrab = true;
+    }
+
+    public void OnGrabStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingGrab = false;
+    }
+
+    private IEnumerator GrabTimer()
+    {
+        ctx.desiredGrab = true;
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        ctx.desiredGrab = false;
     }
 
 }
@@ -93,18 +116,23 @@ public class PlayerContext
     public float grabSpeed;
     public float grabDuration;
     public float grabDeceleration;
+    public float grabFriction;
+
+    [Header("Slide")]
+    public float slideFriction;
+    public float slideMoveMult;
+    public float maxSlideBonkAngle;
 
     [Header("References")]
-    public CustomBoxRigidbody rb;
+    public ActorPhysics rb;
     [HideInInspector] public Transform cam;
 
     [Header("Internal NO TOUCHY")]
     public Vector3 velocity;
+    public Vector3 moveDirection;
     public Vector3 facing;
     public float coyoteTimeCounter;
     public float jumpBufferCounter;
-    public bool desiredJump;
-    public bool pressingJump;
     public bool currentlyJumping;
     public float baseGrav;
     public float gravMultiplier;
@@ -113,8 +141,13 @@ public class PlayerContext
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float currentFriction;
+    public float currentMoveMult;
 
     [Header("Input values")]
     public Vector2 moveInputValue;
+    public bool desiredJump;
+    public bool pressingJump;
     public bool desiredGrab;
+    public bool pressingGrab;
 }

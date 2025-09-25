@@ -36,6 +36,7 @@ namespace HSM
         internal void Exit()
         {
             if (ActiveChild != null) { ActiveChild.Exit(); }
+            if (Parent != null) { Parent.ActiveChild = null; }
             ActiveChild = null;
             OnExit();
         }

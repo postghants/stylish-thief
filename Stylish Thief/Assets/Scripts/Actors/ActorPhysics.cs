@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 //Physics behaviour specifically made for actors.
-public class CustomBoxRigidbody : MonoBehaviour
+public class ActorPhysics : MonoBehaviour
 {
     [Header("Properties")]
     public float mass = 1.0f;
@@ -25,6 +25,9 @@ public class CustomBoxRigidbody : MonoBehaviour
     [Header("Internal NO TOUCH")]
     public Vector3 velocity;
     public bool isGrounded;
+
+    public delegate void OnCollision(RaycastHit hit);
+    public OnCollision onCollision;
 
     public void Move(Vector3 moveAmount, bool doGravityPass)
     {
@@ -135,6 +138,10 @@ public class CustomBoxRigidbody : MonoBehaviour
                 {
                     velocity.x = leftover.x / Time.deltaTime; velocity.z = leftover.z / Time.deltaTime;
                 }
+            }
+            if (hit.point != Vector3.zero)
+            {
+                onCollision?.Invoke(hit);
             }
             return snapToSurface + CollideAndSlide(leftover, pos + snapToSurface, depth + 1, gravityPass, velInit);
         }

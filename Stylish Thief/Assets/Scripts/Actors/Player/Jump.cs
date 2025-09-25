@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 // Contains movement math stuff
-public class PlayerMove
+public class Jump
 {
 
     public static void SetPhysics(PlayerContext ctx)

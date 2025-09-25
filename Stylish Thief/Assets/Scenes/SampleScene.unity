@@ -2159,12 +2159,36 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.facing.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.grabSpeed
-      value: 20
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.airFriction
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.grabDuration
-      value: 0.8
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.grabFriction
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.slideFriction
+      value: 0.013
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.slideMoveMult
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.grabDeceleration
+      value: 0.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

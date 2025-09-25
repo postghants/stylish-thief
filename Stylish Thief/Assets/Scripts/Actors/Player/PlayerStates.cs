@@ -1,19 +1,91 @@
-using HSM;
-using UnityEditor.Timeline;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 namespace HSM
 {
-    public class PlayerMoving : State
+    public class PlayerStunned : State
     {
         readonly PlayerContext ctx;
-        public PlayerMoving(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        public PlayerStunned(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
         }
+
+        protected override void OnEnter()
+        {
+            ctx.currentMoveMult = 0;
+        }
     }
 
+    // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
+    public class PlayerSliding : State
+    {
+        readonly PlayerContext ctx;
+
+        private bool bonked;
+        public PlayerSliding(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+        protected override void OnEnter()
+        {
+            ctx.currentFriction = ctx.slideFriction;
+            ctx.currentMoveMult = ctx.slideMoveMult;
+
+            ctx.rb.onCollision += OnCollision;
+        }
+
+        private void OnCollision(RaycastHit hit)
+        {
+            if(hit.normal.y > 0.1)
+            {
+                return;
+            }
+
+            Vector3 horizontalVel = ctx.rb.velocity; horizontalVel.y = 0;
+            if(Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
+            {
+                bonked = true;
+            }
+        }
+
+        protected override void OnExit()
+        {
+            ctx.currentMoveMult = 1;
+        }
+        protected override State GetTransition()
+        {
+            if (bonked) { }
+            if (!ctx.pressingGrab) { return Parent; }
+            return null;
+        }
+    }
+
+    // Always entered first when performing a slide out of a grab. Transitions to Sliding when you hit the ground.
+    public class PlayerSlidingAirborne : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerSlidingAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.currentFriction = ctx.slideFriction;
+            ctx.currentMoveMult = ctx.slideMoveMult;
+        }
+
+        protected override State GetTransition()
+        {
+            if (!ctx.pressingGrab) { return Parent; }
+            return null;
+        }
+    }
+
+    // Performing a grab.
     public class PlayerGrabbing : State
     {
         readonly PlayerContext ctx;
@@ -27,6 +99,8 @@ namespace HSM
         {
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
+            ctx.grabTimer = 0.001f;
+            ctx.currentFriction = ctx.grabFriction;
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
@@ -42,8 +116,8 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.useGravity = true;
-        }
 
+        }
 
         protected override State GetTransition()
         {
@@ -51,51 +125,79 @@ namespace HSM
             if (ctx.grabTimer > ctx.grabDuration)
             {
                 ctx.grabTimer = 0;
+                if (ctx.pressingGrab)
+                {
+                    return ((PlayerAirborne)Parent).slidingAirborne;
+                }
+                ctx.rb.velocity *= 1 - ctx.grabDeceleration;
                 return Parent;
             }
             return null;
         }
     }
 
+    // On the ground and standing still.
+    public class PlayerIdle : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerIdle(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
+
+    // State entered when on the ground and walking.
+    public class PlayerMoving : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerMoving(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
+
+    // All grounded states are children of this state.
     public class PlayerGrounded : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerSliding sliding;
         public readonly PlayerMoving moving;
+        public readonly PlayerIdle idle;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
+
             moving = new(m, this, ctx);
+            sliding = new(m, this, ctx);
+            idle = new(m, this, ctx);
         }
 
         protected override void OnEnter()
         {
             ctx.hasGrabbed = false;
-
+            ctx.currentFriction = ctx.groundFriction;
+            ctx.currentMoveMult = 1;
             // Do animations or whatever
         }
 
         protected override void OnUpdate()
         {
-            float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
-
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.acceleration * Time.deltaTime * moveDirection;
+                ctx.rb.velocity += ctx.acceleration * ctx.currentMoveMult * Time.deltaTime * ctx.moveDirection;
             }
-            else
+            else if(Leaf() != sliding) 
             {
                 ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.groundDeceleration;
             }
 
-            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.groundFriction;
-
-
         }
 
-        //protected override State GetInitialState() => idle;
+        protected override State GetInitialState() => idle;
         protected override State GetTransition()
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed)
@@ -104,36 +206,58 @@ namespace HSM
             }
             if (!ctx.rb.isGrounded)
             {
+                if(Leaf() == sliding)
+                {
+                    return ((PlayerRoot)Parent).airborne.slidingAirborne;
+                }
                 return ((PlayerRoot)Parent).airborne;
             }
             return null;
         }
     }
 
+    // Initial state entered when airborne.
+    public class PlayerFalling : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerFalling(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
+
+    // All airborne states are children of this state.
     public class PlayerAirborne : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerFalling falling;
         public readonly PlayerGrabbing grabbing;
+        public readonly PlayerSlidingAirborne slidingAirborne;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
 
+            falling = new(m, this, ctx);
             grabbing = new(m, this, ctx);
+            slidingAirborne = new(m, this, ctx);
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.currentFriction = ctx.airFriction;
         }
 
         protected override void OnUpdate()
         {
-            float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
-
+            ctx.coyoteTimeCounter += Time.fixedDeltaTime;
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.airAccel * Time.deltaTime * moveDirection;
+                ctx.rb.velocity += ctx.airAccel * Time.deltaTime * ctx.moveDirection;
             }
-
-            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.airFriction;
 
             if (ctx.useGravity)
             {
@@ -141,20 +265,36 @@ namespace HSM
             }
         }
 
+        protected override void OnExit()
+        {
+            ctx.coyoteTimeCounter = 0;
+        }
+
+        protected override State GetInitialState() => falling;
         protected override State GetTransition()
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed)
             {
                 return grabbing;
             }
-            if(ctx.grabTimer > 0)
+            if (ctx.grabTimer > 0)
             {
                 return null;
             }
-            return ctx.rb.isGrounded ? ((PlayerRoot)Parent).grounded : null;
+            if (ctx.rb.isGrounded)
+            {
+                if(Leaf() == slidingAirborne)
+                {
+                    return ((PlayerRoot)Parent).grounded.sliding;
+                }
+                return ((PlayerRoot)Parent).grounded;
+
+            }
+            return null;
         }
     }
 
+    // Root class. Does important physics stuff at the end of every update cycle.
     public class PlayerRoot : State
     {
         readonly PlayerContext ctx;
@@ -170,11 +310,10 @@ namespace HSM
 
         protected override void OnUpdate()
         {
-            CustomBoxRigidbody rb = ctx.rb;
+            ActorPhysics rb = ctx.rb;
 
-            Vector2 horizontalVel = new(rb.velocity.x, rb.velocity.z);
-            horizontalVel = Vector2.ClampMagnitude(horizontalVel, ctx.maxSpeed);
-            rb.velocity.x = horizontalVel.x; rb.velocity.z = horizontalVel.y;
+            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
+
             if (rb.velocity.sqrMagnitude < 0.001f) { rb.velocity = Vector3.zero; }
 
             bool doGravityPass = !ctx.currentlyJumping;
@@ -188,11 +327,11 @@ namespace HSM
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump)
             {
-                PlayerMove.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
+                Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
                 ctx.rb.velocity = ctx.currentVelocity; //Applies new Y speed as well as the X that was read earlier
                 ctx.currentlyJumping = true; //Tells the code we're jumping now. Used for variable height
             }
-            PlayerMove.CalculateGravity(ctx);
+            Jump.CalculateGravity(ctx);
 
             return null;
         }

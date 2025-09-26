@@ -172,16 +172,21 @@ MonoBehaviour:
     jumpCutOff: 6
     coyoteTime: 0.1
     jumpBuffer: 0.1
-    grabSpeed: 20
-    grabDuration: 0.3
-    grabDeceleration: 0.4
-    grabFriction: 0.03
-    slideFriction: 0.02
+    grabSpeed: 22
+    grabDuration: 0.2
+    grabDeceleration: 0.45
+    grabFriction: 0.02
+    slideFriction: 0.013
+    slideMoveMult: 0.2
+    maxSlideBonkAngle: 0
+    stunDeceleration: 0.8
+    stunUpwardSpeed: 4
+    stunDuration: 0.4
     rb: {fileID: 5516163521354773594}
     cam: {fileID: 0}
     velocity: {x: 0, y: 0, z: 0}
     moveDirection: {x: 0, y: 0, z: 0}
-    facing: {x: 0, y: 0, z: 0}
+    facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0
     jumpBufferCounter: 0
     currentlyJumping: 0
@@ -192,7 +197,10 @@ MonoBehaviour:
     useGravity: 1
     hasGrabbed: 0
     grabTimer: 0
+    stunTimer: 0
     currentFriction: 0
+    currentMoveMult: 0
+    isStunned: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0

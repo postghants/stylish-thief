@@ -123,6 +123,11 @@ public class PlayerContext
     public float slideMoveMult;
     public float maxSlideBonkAngle;
 
+    [Header("Stunned")]
+    public float stunDeceleration;
+    public float stunUpwardSpeed;
+    public float stunDuration;
+
     [Header("References")]
     public ActorPhysics rb;
     [HideInInspector] public Transform cam;
@@ -141,8 +146,10 @@ public class PlayerContext
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float stunTimer;
     public float currentFriction;
     public float currentMoveMult;
+    public bool isStunned;
 
     [Header("Input values")]
     public Vector2 moveInputValue;

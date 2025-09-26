@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -26,8 +28,11 @@ public class ActorPhysics : MonoBehaviour
     public Vector3 velocity;
     public bool isGrounded;
 
-    public delegate void OnCollision(RaycastHit hit);
+    public delegate void OnCollision(RaycastHit hit, Vector3 impactVelocity);
     public OnCollision onCollision;
+
+    private Queue<RaycastHit> hits = new();
+    private Queue<Vector3> impactVelocities = new();
 
     public void Move(Vector3 moveAmount, bool doGravityPass)
     {
@@ -40,6 +45,14 @@ public class ActorPhysics : MonoBehaviour
         }
 
         transform.Translate(moveAmount);
+
+        for (int i = hits.Count - 1; i >= 0; i--)
+        {
+            if (onCollision == null) { break; }
+            onCollision?.Invoke(hits.Dequeue(), impactVelocities.Dequeue());
+        }
+        hits.Clear();
+
     }
 
     protected Vector3 CollideAndSlide(Vector3 vel, Vector3 pos, int depth, bool gravityPass, Vector3 velInit)
@@ -141,7 +154,8 @@ public class ActorPhysics : MonoBehaviour
             }
             if (hit.point != Vector3.zero)
             {
-                onCollision?.Invoke(hit);
+                hits.Enqueue(hit);
+                impactVelocities.Enqueue(velInit / Time.deltaTime);
             }
             return snapToSurface + CollideAndSlide(leftover, pos + snapToSurface, depth + 1, gravityPass, velInit);
         }

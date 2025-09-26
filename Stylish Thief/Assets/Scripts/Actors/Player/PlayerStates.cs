@@ -1,4 +1,3 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
 namespace HSM
@@ -101,7 +100,12 @@ namespace HSM
         }
         protected override State GetTransition()
         {
-            if (!ctx.pressingGrab) { return Parent; }
+            ctx.slideTimer += Time.fixedDeltaTime;
+            if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
+            {
+                ctx.slideTimer = 0;
+                return Parent;
+            }
             return null;
         }
     }
@@ -150,7 +154,12 @@ namespace HSM
 
         protected override State GetTransition()
         {
-            if (!ctx.pressingGrab) { return Parent; }
+            ctx.slideTimer += Time.fixedDeltaTime;
+            if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
+            {
+                ctx.slideTimer = 0;
+                return Parent;
+            }
             return null;
         }
     }
@@ -275,7 +284,6 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            Debug.Log("Trying to move");
             if (ctx.moveInputValue != Vector2.zero)
             {
                 ctx.rb.velocity += ctx.acceleration * ctx.currentMoveMult * deltaTime * ctx.moveDirection;
@@ -428,7 +436,16 @@ namespace HSM
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump)
             {
+                if (ctx.slideTimer > 0)
+                {
+                    ctx.currentJumpData = ctx.slideJumpData;
+                }
+                else
+                {
+                    ctx.currentJumpData = ctx.baseJumpData;
+                }
                 Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
+
                 ctx.rb.velocity = ctx.currentVelocity; //Applies new Y speed as well as the X that was read earlier
                 ctx.currentlyJumping = true; //Tells the code we're jumping now. Used for variable height
             }

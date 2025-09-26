@@ -27,6 +27,7 @@ public class PlayerStateDriver : Actor
         grabAction.started += OnGrabStart;
         grabAction.canceled += OnGrabStop;
         ctx.cam = Camera.main.transform;
+        ctx.currentJumpData = ctx.baseJumpData;
 
         root = new(null, ctx);
         StateMachineBuilder builder = new(root);
@@ -104,11 +105,7 @@ public class PlayerContext
     public float airFriction;
 
     [Header("Jump")]
-    public float jumpHeight; //Typically between 0 and 5
-    public float timeToJumpApex; //Typically between 0.2 and 2.5
-    public float upwardMovementMultiplier = 1;
-    public float downwardMovementMultiplier; //Typically between 1 and 10
-    public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
+    public JumpData baseJumpData;
     public float coyoteTime; //How many seconds until you can't jump anymore when falling off a ledge
     public float jumpBuffer;
 
@@ -119,9 +116,13 @@ public class PlayerContext
     public float grabFriction;
 
     [Header("Slide")]
+    public float minSlideTime;
     public float slideFriction;
     public float slideMoveMult;
     public float maxSlideBonkAngle;
+
+    [Header("Slide Jump")]
+    public JumpData slideJumpData;
 
     [Header("Stunned")]
     public float stunDeceleration;
@@ -133,7 +134,6 @@ public class PlayerContext
     [HideInInspector] public Transform cam;
 
     [Header("Internal NO TOUCHY")]
-    public Vector3 velocity;
     public Vector3 moveDirection;
     public Vector3 facing;
     public float coyoteTimeCounter;
@@ -147,8 +147,10 @@ public class PlayerContext
     public bool hasGrabbed;
     public float grabTimer;
     public float stunTimer;
+    public float slideTimer;
     public float currentFriction;
     public float currentMoveMult;
+    public JumpData currentJumpData;
     public bool isStunned;
 
     [Header("Input values")]
@@ -157,4 +159,14 @@ public class PlayerContext
     public bool pressingJump;
     public bool desiredGrab;
     public bool pressingGrab;
+}
+
+[Serializable]
+public class JumpData
+{
+    public float jumpHeight; //Typically between 0 and 5
+    public float timeToJumpApex; //Typically between 0.2 and 2.5
+    public float upwardMovementMultiplier = 1;
+    public float downwardMovementMultiplier; //Typically between 1 and 10
+    public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
 }

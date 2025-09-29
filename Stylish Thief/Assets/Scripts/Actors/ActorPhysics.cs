@@ -14,6 +14,7 @@ public class ActorPhysics : MonoBehaviour
     public int maxBounces = 5;
     public float skinWidth = 0.015f;
     public float groundCheckDist = 0.1f;
+    public float groundCheckSpeedMult = 0.1f;
     public float maxSlopeAngle = 55;
     public float maxStairHeight = 0.15f;
     public float minStairWidth = 0.1f;
@@ -25,6 +26,7 @@ public class ActorPhysics : MonoBehaviour
     [Header("Internal NO TOUCH")]
     public Vector3 velocity;
     public bool isGrounded;
+    public float currentGroundAngle;
 
     public delegate void OnCollision(RaycastHit hit);
     public OnCollision onCollision;
@@ -36,7 +38,12 @@ public class ActorPhysics : MonoBehaviour
         // do a gravity pass if 
         if (IsGrounded(environmentCollider.transform.position + moveAmount) && doGravityPass)
         {
-            moveAmount += CollideAndSlide(gravity * Time.fixedDeltaTime, transform.position + moveAmount, 0, true, gravity * Time.fixedDeltaTime);
+            Vector3 gravityMoveAmount = gravity * Time.fixedDeltaTime;
+            if (isGrounded && velocity.y == 0 && currentGroundAngle > 0.1f)
+            {
+                gravityMoveAmount.y -= velocity.magnitude * groundCheckSpeedMult;
+            }
+            moveAmount += CollideAndSlide(gravityMoveAmount, transform.position + moveAmount, 0, true, gravity * Time.fixedDeltaTime);
         }
 
         transform.Translate(moveAmount);
@@ -67,6 +74,7 @@ public class ActorPhysics : MonoBehaviour
             // normal ground / slope
             if (verticalAngle <= maxSlopeAngle)
             {
+                currentGroundAngle = verticalAngle;
                 if (gravityPass) { return snapToSurface; }
 
                 leftover = ProjectAndScale(leftover, hit.normal);
@@ -145,7 +153,10 @@ public class ActorPhysics : MonoBehaviour
             }
             return snapToSurface + CollideAndSlide(leftover, pos + snapToSurface, depth + 1, gravityPass, velInit);
         }
-
+        if (vel == velInit)
+        {
+            currentGroundAngle = 0;
+        }
         return vel;
     }
 
@@ -158,7 +169,13 @@ public class ActorPhysics : MonoBehaviour
     {
         Bounds bounds = environmentCollider.bounds;
         bounds.Expand(-2 * skinWidth);
-        var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, groundCheckDist, groundMask);
+
+        float dist = groundCheckDist;
+        if (isGrounded && velocity.y == 0 /*&& currentGroundAngle > 0.1f*/)
+        {
+            dist += velocity.magnitude * groundCheckSpeedMult;
+        }
+        var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, dist, groundMask);
 
         foreach (var hit in hits)
         {
@@ -178,22 +195,6 @@ public class ActorPhysics : MonoBehaviour
     public bool IsGrounded()
     {
         Vector3 pos = environmentCollider.transform.position;
-        Bounds bounds = environmentCollider.bounds;
-        bounds.Expand(-2 * skinWidth);
-        var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, groundCheckDist, groundMask);
-
-        foreach (var hit in hits)
-        {
-            if (hit.distance == 0) // if collider is already overlapping
-            {
-
-            }
-
-            if (Vector3.Angle(Vector3.up, hit.normal) < maxSlopeAngle)
-            {
-                return true;
-            }
-        }
-        return false;
+        return IsGrounded(pos);
     }
 }

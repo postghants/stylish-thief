@@ -17,6 +17,23 @@ namespace HSM
         }
     }
 
+    public class PlayerStunnedAirborne : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerStunnedAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.currentMoveMult = 0;
+        }
+
+
+    }
+
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
     public class PlayerSliding : State
     {

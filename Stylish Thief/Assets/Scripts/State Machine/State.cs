@@ -20,7 +20,7 @@ namespace HSM
         // Lifecycle hooks
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }
-        protected virtual void OnUpdate() { }
+        protected virtual void OnUpdate(float deltaTime) { }
 
         internal void Enter()
         {
@@ -50,7 +50,7 @@ namespace HSM
                 return;
             }
             ActiveChild?.Update(deltaTime);
-            OnUpdate();
+            OnUpdate(deltaTime);
         }
 
         // Returns the deepest currently-active child state

@@ -64,7 +64,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
@@ -144,6 +144,7 @@ Transform:
   m_Children:
   - {fileID: 1829839790368132534}
   - {fileID: 4798847615133056621}
+  - {fileID: 4633621372895187267}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5039265793413682498
@@ -165,26 +166,61 @@ MonoBehaviour:
     maxSpeed: 8
     airAccel: 15
     airFriction: 0.03
-    jumpHeight: 5
-    timeToJumpApex: 0.3
-    upwardMovementMultiplier: 1
-    downwardMovementMultiplier: 3
-    jumpCutOff: 6
+    baseJumpData:
+      jumpHeight: 5
+      timeToJumpApex: 0.3
+      upwardMovementMultiplier: 1
+      downwardMovementMultiplier: 3
+      jumpCutOff: 5
     coyoteTime: 0.1
     jumpBuffer: 0.1
+    grabSpeed: 22
+    grabDuration: 0.2
+    grabDeceleration: 0.45
+    grabFriction: 0.02
+    minSlideTime: 1
+    slideFriction: 0.013
+    slideMoveMult: 0.2
+    maxSlideBonkAngle: 90
+    slideJumpData:
+      jumpHeight: 9
+      timeToJumpApex: 0.38
+      upwardMovementMultiplier: 1
+      downwardMovementMultiplier: 3
+      jumpCutOff: 5
+    stunDeceleration: 0.8
+    stunUpwardSpeed: 4
+    stunDuration: 0.4
     rb: {fileID: 5516163521354773594}
     cam: {fileID: 0}
-    velocity: {x: 0, y: 0, z: 0}
+    moveDirection: {x: 0, y: 0, z: 0}
+    facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0
     jumpBufferCounter: 0
-    desiredJump: 0
-    pressingJump: 0
     currentlyJumping: 0
     baseGrav: 0
     gravMultiplier: 1
     jumpSpeed: 0
     currentVelocity: {x: 0, y: 0, z: 0}
+    useGravity: 1
+    hasGrabbed: 0
+    grabTimer: 0
+    stunTimer: 0
+    slideTimer: 0
+    currentFriction: 0
+    currentMoveMult: 0
+    currentJumpData:
+      jumpHeight: 0
+      timeToJumpApex: 0
+      upwardMovementMultiplier: 1
+      downwardMovementMultiplier: 0
+      jumpCutOff: 0
+    isStunned: 0
     moveInputValue: {x: 0, y: 0}
+    desiredJump: 0
+    pressingJump: 0
+    desiredGrab: 0
+    pressingGrab: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,3 +281,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4199111852456702283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7621942762537137260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4633621372895187267}
+  - component: {fileID: 4555733706674315406}
+  m_Layer: 6
+  m_Name: ShadowDecal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4633621372895187267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7621942762537137260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -5.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 4199111852456702283}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &4555733706674315406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7621942762537137260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
+  m_Material: {fileID: 2100000, guid: 6bfeb1a1ad997ca499ffe072153f503a, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_RenderingLayerMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.7, y: 0.7, z: 10}
+  m_FadeFactor: 1
+  version: 1
+  m_DecalLayerMask: 1

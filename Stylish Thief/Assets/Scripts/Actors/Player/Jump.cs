@@ -1,14 +1,13 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 // Contains movement math stuff
-public class PlayerMove
+public class Jump
 {
 
     public static void SetPhysics(PlayerContext ctx)
     {
         //Determine the character's gravity scale, using the stats provided. Multiply it by a gravMultiplier, used later
-        Vector2 newGravity = new Vector2(0, (-2 * ctx.jumpHeight) / (ctx.timeToJumpApex * ctx.timeToJumpApex));
+        Vector2 newGravity = new(0, (-2 * ctx.currentJumpData.jumpHeight) / (ctx.currentJumpData.timeToJumpApex * ctx.currentJumpData.timeToJumpApex));
         ctx.baseGrav = (newGravity.y / ctx.rb.gravity.y) * ctx.gravMultiplier;
     }
 
@@ -30,7 +29,7 @@ public class PlayerMove
 
     public static void CalculateJump(PlayerContext ctx)
     {
-        ctx.jumpSpeed = Mathf.Sqrt(-2f * ctx.rb.gravity.y * ctx.jumpHeight);
+        ctx.jumpSpeed = Mathf.Sqrt(-2f * ctx.rb.gravity.y * ctx.currentJumpData.jumpHeight);
         // was causing issues with coyote jump
         //if (velocity.y > 0f)
         //{
@@ -71,12 +70,12 @@ public class PlayerMove
                 //Apply upward multiplier if player is rising and holding jump
                 if (ctx.pressingJump && ctx.currentlyJumping)
                 {
-                    ctx.gravMultiplier = ctx.upwardMovementMultiplier;
+                    ctx.gravMultiplier = ctx.currentJumpData.upwardMovementMultiplier;
                 }
                 //But apply a special downward multiplier if the player lets go of jump
                 else
                 {
-                    ctx.gravMultiplier = ctx.jumpCutOff;
+                    ctx.gravMultiplier = ctx.currentJumpData.jumpCutOff;
                 }
             }
         }
@@ -94,7 +93,7 @@ public class PlayerMove
             else
             {
                 //Otherwise, apply the downward gravity multiplier as Kit comes back to Earth
-                ctx.gravMultiplier = ctx.downwardMovementMultiplier;
+                ctx.gravMultiplier = ctx.currentJumpData.downwardMovementMultiplier;
             }
 
         }

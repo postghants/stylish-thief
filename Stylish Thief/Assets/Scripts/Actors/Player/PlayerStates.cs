@@ -15,6 +15,43 @@ namespace HSM
         {
             ctx.currentMoveMult = 0;
         }
+
+        protected override void OnExit()
+        {
+            ctx.currentMoveMult = 1;
+            ctx.isStunned = false;
+        }
+
+        protected override State GetTransition()
+        {
+            ctx.stunTimer += Time.fixedDeltaTime;
+            if (ctx.stunTimer >= ctx.stunDuration)
+            {
+                ctx.stunTimer = 0;
+                return Parent;
+            }
+            return null;
+        }
+    }
+    public class PlayerStunnedAirborne : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerStunnedAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            Debug.Log("Got stunned :((");
+            ctx.currentMoveMult = 0;
+        }
+
+        protected override void OnExit()
+        {
+            ctx.currentMoveMult = 1;
+        }
     }
 
     public class PlayerStunnedAirborne : State
@@ -39,7 +76,6 @@ namespace HSM
     {
         readonly PlayerContext ctx;
 
-        private bool bonked;
         public PlayerSliding(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -53,28 +89,40 @@ namespace HSM
             ctx.rb.onCollision += OnCollision;
         }
 
-        private void OnCollision(RaycastHit hit)
+        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if(hit.normal.y > 0.1)
+            if (ctx.isStunned) { return; }
+            if (hit.normal.y > 0.1)
             {
                 return;
             }
-
-            Vector3 horizontalVel = ctx.rb.velocity; horizontalVel.y = 0;
-            if(Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
+            Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
+            Debug.Log("Getting stunned maybe?");
+            if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                bonked = true;
+                Debug.Log("Getting stunned definitely");
+                ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                Debug.Log(ctx.rb.velocity);
+                ctx.rb.velocity.y += ctx.stunUpwardSpeed;
+                ctx.isStunned = true;
+                Machine.ChangeState(this, ((PlayerRoot)(Machine.Root)).airborne.stunnedAirborne);
             }
         }
 
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
+            ctx.currentFriction = ctx.groundFriction;
+            ctx.rb.onCollision -= OnCollision;
         }
         protected override State GetTransition()
         {
-            if (bonked) { }
-            if (!ctx.pressingGrab) { return Parent; }
+            ctx.slideTimer += Time.fixedDeltaTime;
+            if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
+            {
+                ctx.slideTimer = 0;
+                return Parent;
+            }
             return null;
         }
     }
@@ -88,16 +136,47 @@ namespace HSM
             this.ctx = ctx;
             Parent = parent;
         }
+        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
+        {
+            if (ctx.isStunned) { return; }
+            if (hit.normal.y > 0.1)
+            {
+                return;
+            }
+            Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
+            Debug.Log("Getting stunned maybe?");
+            if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
+            {
+                Debug.Log("Getting stunned definitely");
+                ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                Debug.Log(horizontalVel.ToString() + " " + ctx.rb.velocity);
+                ctx.rb.velocity.y += ctx.stunUpwardSpeed;
+                ctx.isStunned = true;
+                Machine.ChangeState(this, ((PlayerRoot)(Machine.Root)).airborne.stunnedAirborne);
+            }
+        }
 
         protected override void OnEnter()
         {
             ctx.currentFriction = ctx.slideFriction;
             ctx.currentMoveMult = ctx.slideMoveMult;
+
+            ctx.rb.onCollision += OnCollision;
+        }
+        protected override void OnExit()
+        {
+            ctx.currentMoveMult = 1;
+            ctx.rb.onCollision -= OnCollision;
         }
 
         protected override State GetTransition()
         {
-            if (!ctx.pressingGrab) { return Parent; }
+            ctx.slideTimer += Time.fixedDeltaTime;
+            if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
+            {
+                ctx.slideTimer = 0;
+                return Parent;
+            }
             return null;
         }
     }
@@ -125,7 +204,7 @@ namespace HSM
             ctx.rb.velocity.y = 0;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(float deltaTime)
         {
 
         }
@@ -162,6 +241,14 @@ namespace HSM
             this.ctx = ctx;
             Parent = parent;
         }
+        protected override State GetTransition()
+        {
+            if (ctx.rb.velocity != Vector3.zero)
+            {
+                return ((PlayerGrounded)Parent).moving;
+            }
+            return null;
+        }
     }
 
     // State entered when on the ground and walking.
@@ -173,6 +260,15 @@ namespace HSM
             this.ctx = ctx;
             Parent = parent;
         }
+
+        protected override State GetTransition()
+        {
+            if (ctx.rb.velocity == Vector3.zero)
+            {
+                return ((PlayerGrounded)Parent).idle;
+            }
+            return null;
+        }
     }
 
     // All grounded states are children of this state.
@@ -182,6 +278,7 @@ namespace HSM
         public readonly PlayerSliding sliding;
         public readonly PlayerMoving moving;
         public readonly PlayerIdle idle;
+        public readonly PlayerStunned stunned;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -191,6 +288,7 @@ namespace HSM
             moving = new(m, this, ctx);
             sliding = new(m, this, ctx);
             idle = new(m, this, ctx);
+            stunned = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -201,20 +299,24 @@ namespace HSM
             // Do animations or whatever
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(float deltaTime)
         {
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.acceleration * ctx.currentMoveMult * Time.deltaTime * ctx.moveDirection;
+                ctx.rb.velocity += ctx.acceleration * ctx.currentMoveMult * deltaTime * ctx.moveDirection;
             }
-            else if(Leaf() != sliding) 
+            else if (Leaf() != sliding)
             {
                 ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.groundDeceleration;
             }
 
         }
 
-        protected override State GetInitialState() => idle;
+        protected override State GetInitialState()
+        {
+            if (ctx.rb.velocity != Vector3.zero) { return moving; }
+            else { return idle; }
+        }
         protected override State GetTransition()
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed)
@@ -223,7 +325,7 @@ namespace HSM
             }
             if (!ctx.rb.isGrounded)
             {
-                if(Leaf() == sliding)
+                if (Leaf() == sliding)
                 {
                     return ((PlayerRoot)Parent).airborne.slidingAirborne;
                 }
@@ -252,6 +354,7 @@ namespace HSM
         public readonly PlayerFalling falling;
         public readonly PlayerGrabbing grabbing;
         public readonly PlayerSlidingAirborne slidingAirborne;
+        public readonly PlayerStunnedAirborne stunnedAirborne;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -261,6 +364,7 @@ namespace HSM
             falling = new(m, this, ctx);
             grabbing = new(m, this, ctx);
             slidingAirborne = new(m, this, ctx);
+            stunnedAirborne = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -268,17 +372,17 @@ namespace HSM
             ctx.currentFriction = ctx.airFriction;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(float deltaTime)
         {
-            ctx.coyoteTimeCounter += Time.fixedDeltaTime;
+            ctx.coyoteTimeCounter += deltaTime;
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.airAccel * Time.deltaTime * ctx.moveDirection;
+                ctx.rb.velocity += ctx.airAccel * deltaTime * ctx.moveDirection;
             }
 
             if (ctx.useGravity)
             {
-                ctx.rb.velocity.y += Time.deltaTime * -ctx.baseGrav;
+                ctx.rb.velocity.y += deltaTime * -ctx.baseGrav;
             }
         }
 
@@ -290,19 +394,26 @@ namespace HSM
         protected override State GetInitialState() => falling;
         protected override State GetTransition()
         {
-            if (ctx.desiredGrab && !ctx.hasGrabbed)
+            if (!ctx.isStunned)
             {
-                return grabbing;
-            }
-            if (ctx.grabTimer > 0)
-            {
-                return null;
+                if (ctx.desiredGrab && !ctx.hasGrabbed)
+                {
+                    return grabbing;
+                }
+                if (ctx.grabTimer > 0)
+                {
+                    return null;
+                }
             }
             if (ctx.rb.isGrounded)
             {
-                if(Leaf() == slidingAirborne)
+                if (Leaf() == slidingAirborne)
                 {
                     return ((PlayerRoot)Parent).grounded.sliding;
+                }
+                if (Leaf() == stunnedAirborne)
+                {
+                    return ((PlayerRoot)Parent).grounded.stunned;
                 }
                 return ((PlayerRoot)Parent).grounded;
 
@@ -325,17 +436,15 @@ namespace HSM
             this.ctx = ctx;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(float deltaTime)
         {
-            ActorPhysics rb = ctx.rb;
-
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
 
-            if (rb.velocity.sqrMagnitude < 0.001f) { rb.velocity = Vector3.zero; }
+            if (ctx.rb.velocity.sqrMagnitude < 0.001f) { ctx.rb.velocity = Vector3.zero; }
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            rb.Move(Time.deltaTime * rb.velocity, doGravityPass);
+            ctx.rb.Move(deltaTime * ctx.rb.velocity, doGravityPass);
         }
 
         protected override State GetInitialState() => grounded;
@@ -344,7 +453,16 @@ namespace HSM
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump)
             {
+                if (ctx.slideTimer > 0)
+                {
+                    ctx.currentJumpData = ctx.slideJumpData;
+                }
+                else
+                {
+                    ctx.currentJumpData = ctx.baseJumpData;
+                }
                 Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
+
                 ctx.rb.velocity = ctx.currentVelocity; //Applies new Y speed as well as the X that was read earlier
                 ctx.currentlyJumping = true; //Tells the code we're jumping now. Used for variable height
             }

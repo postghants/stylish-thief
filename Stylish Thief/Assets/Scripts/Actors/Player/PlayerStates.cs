@@ -54,23 +54,6 @@ namespace HSM
         }
     }
 
-    public class PlayerStunnedAirborne : State
-    {
-        readonly PlayerContext ctx;
-        public PlayerStunnedAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.currentMoveMult = 0;
-        }
-
-
-    }
-
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
     public class PlayerSliding : State
     {
@@ -439,6 +422,15 @@ namespace HSM
         protected override void OnUpdate(float deltaTime)
         {
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
+
+            Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+            if(horizontalVel.magnitude > ctx.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))
+            {
+                horizontalVel *= ctx.maxSpeed / horizontalVel.magnitude;
+                horizontalVel *= ctx.groundSpeedCapMult;
+                ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            }
+
 
             if (ctx.rb.velocity.sqrMagnitude < 0.001f) { ctx.rb.velocity = Vector3.zero; }
 

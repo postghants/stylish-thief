@@ -578,7 +578,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 3
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -629,7 +629,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 1
   m_RenderingLayersMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 3
   m_ShadowRenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -2154,9 +2154,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4555733706674315406, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_EndAngleFade
+      value: 41.249992
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555733706674315406, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_StartAngleFade
+      value: 28.392845
+      objectReference: {fileID: 0}
     - target: {fileID: 4668033689235908336, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.groundSpeedCapMult
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7895177472267553196, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_Enabled

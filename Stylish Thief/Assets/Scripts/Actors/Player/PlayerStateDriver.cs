@@ -98,6 +98,7 @@ public class PlayerContext
     public float acceleration;
     public float groundFriction;
     public float groundDeceleration;
+    public float groundSpeedCapMult = 0.1f;
     public float maxSpeed;
 
     [Header("Air Movement")]

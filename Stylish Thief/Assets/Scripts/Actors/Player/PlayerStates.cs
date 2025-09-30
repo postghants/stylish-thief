@@ -423,6 +423,15 @@ namespace HSM
         {
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
 
+            Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+            if(horizontalVel.magnitude > ctx.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))
+            {
+                horizontalVel *= ctx.maxSpeed / horizontalVel.magnitude;
+                horizontalVel *= ctx.groundSpeedCapMult;
+                ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            }
+
+
             if (ctx.rb.velocity.sqrMagnitude < 0.001f) { ctx.rb.velocity = Vector3.zero; }
 
             bool doGravityPass = !ctx.currentlyJumping;

@@ -89,6 +89,14 @@ public class PlayerStateDriver : Actor
         ctx.desiredGrab = false;
     }
 
+    private void OnGUI()
+    {
+        Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
+        GUI.Label(new Rect(0, 10, 200, 30), $"XZ speed: {horizontalVel.magnitude}");
+        GUI.Label(new Rect(0, 30, 200, 30), $"Y speed: {ctx.rb.velocity.y}");
+        GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {machine.Root.Leaf()}");
+    }
+
 }
 
 [Serializable]
@@ -133,6 +141,15 @@ public class PlayerContext
     [Header("References")]
     public ActorPhysics rb;
     [HideInInspector] public Transform cam;
+    public Material playerMat;
+    public ParticleSystem landParticles;
+
+    [Header("State colors")]
+    public Color baseColor;
+    public Color airColor;
+    public Color grabColor;
+    public Color slidingColor;
+    public Color stunnedColor;
 
     [Header("Internal NO TOUCHY")]
     public Vector3 moveDirection;

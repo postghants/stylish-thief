@@ -1,3 +1,4 @@
+using System.Xml;
 using UnityEngine;
 
 namespace HSM
@@ -14,12 +15,14 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveMult = 0;
+            ctx.playerMat.color = ctx.stunnedColor;
         }
 
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
             ctx.isStunned = false;
+            ctx.playerMat.color = ctx.baseColor;
         }
 
         protected override State GetTransition()
@@ -44,13 +47,14 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            Debug.Log("Got stunned :((");
+            ctx.playerMat.color = ctx.stunnedColor;
             ctx.currentMoveMult = 0;
         }
 
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
+            ctx.playerMat.color = ctx.baseColor;
         }
     }
 
@@ -68,6 +72,7 @@ namespace HSM
         {
             ctx.currentFriction = ctx.slideFriction;
             ctx.currentMoveMult = ctx.slideMoveMult;
+            ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
         }
@@ -97,6 +102,8 @@ namespace HSM
             ctx.currentMoveMult = 1;
             ctx.currentFriction = ctx.groundFriction;
             ctx.rb.onCollision -= OnCollision;
+            ctx.hasGrabbed = false;
+            ctx.playerMat.color = ctx.baseColor;
         }
         protected override State GetTransition()
         {
@@ -119,6 +126,7 @@ namespace HSM
             this.ctx = ctx;
             Parent = parent;
         }
+
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
             if (ctx.isStunned) { return; }
@@ -143,6 +151,7 @@ namespace HSM
         {
             ctx.currentFriction = ctx.slideFriction;
             ctx.currentMoveMult = ctx.slideMoveMult;
+            ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
         }
@@ -180,6 +189,7 @@ namespace HSM
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
             ctx.currentFriction = ctx.grabFriction;
+            ctx.playerMat.color = ctx.grabColor;
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
@@ -279,6 +289,8 @@ namespace HSM
             ctx.hasGrabbed = false;
             ctx.currentFriction = ctx.groundFriction;
             ctx.currentMoveMult = 1;
+            ctx.playerMat.color = ctx.baseColor;
+            ctx.landParticles.Play();
             // Do animations or whatever
         }
 
@@ -353,6 +365,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentFriction = ctx.airFriction;
+            ctx.playerMat.color = ctx.airColor;
         }
 
         protected override void OnUpdate(float deltaTime)

@@ -15,6 +15,7 @@ public class Jump
     {
         if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime)) //If grounded or if you still have coyote time
         {
+            ctx.landParticles.Play();
             ctx.desiredJump = false;
             ctx.jumpBufferCounter = 0;
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...

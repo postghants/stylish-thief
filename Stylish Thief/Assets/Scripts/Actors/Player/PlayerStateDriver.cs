@@ -46,7 +46,7 @@ public class PlayerStateDriver : Actor
         ctx.moveInputValue = moveAction.ReadValue<Vector2>();
         float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
         ctx.moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
-        if(ctx.moveDirection.sqrMagnitude > 0)
+        if (ctx.moveDirection.sqrMagnitude > 0)
         {
             ctx.facing = ctx.moveDirection;
         }
@@ -89,50 +89,67 @@ public class PlayerStateDriver : Actor
         ctx.desiredGrab = false;
     }
 
+    private void OnGUI()
+    {
+        Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
+        GUI.Label(new Rect(0, 10, 200, 30), $"XZ speed: {horizontalVel.magnitude}");
+        GUI.Label(new Rect(0, 30, 200, 30), $"Y speed: {ctx.rb.velocity.y}");
+        GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {machine.Root.Leaf()}");
+    }
+
 }
 
 [Serializable]
 public class PlayerContext
 {
     [Header("Grounded Movement")]
-    public float acceleration;
-    public float groundFriction;
-    public float groundDeceleration;
-    public float groundSpeedCapMult = 0.1f;
-    public float maxSpeed;
+    [Tooltip("Acceleration in units/s^2")] public float acceleration;
+    [Tooltip("Friction applied when on the ground.")] public float groundFriction;
+    [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
+    [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
+    [Tooltip("Maximum grounded speed.")] public float maxSpeed;
 
     [Header("Air Movement")]
-    public float airAccel;
-    public float airFriction;
+    [Tooltip("Acceleration when airborne.")] public float airAccel;
+    [Tooltip("Friction applied when airborne.")] public float airFriction;
 
     [Header("Jump")]
     public JumpData baseJumpData;
-    public float coyoteTime; //How many seconds until you can't jump anymore when falling off a ledge
-    public float jumpBuffer;
+    public float coyoteTime;
+    [Tooltip("Jump input buffer time")] public float jumpBuffer;
 
     [Header("Grab")]
-    public float grabSpeed;
-    public float grabDuration;
-    public float grabDeceleration;
-    public float grabFriction;
+    [Tooltip("Speed added when entering grab")] public float grabSpeed;
+    [Tooltip("Time before grab ends")] public float grabDuration;
+    [Tooltip("Speed multiplier applied when exiting grab")] public float grabDeceleration;
+    [Tooltip("Friction applied during grab state")] public float grabFriction;
 
     [Header("Slide")]
-    public float minSlideTime;
-    public float slideFriction;
-    public float slideMoveMult;
-    public float maxSlideBonkAngle;
+    [Tooltip("Minimum duration of slide state")] public float minSlideTime;
+    [Tooltip("Friction applied when sliding")] public float slideFriction;
+    [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
+    [Tooltip("Maximum horizontal impact angle for a bonk")] public float maxSlideBonkAngle;
 
     [Header("Slide Jump")]
     public JumpData slideJumpData;
 
     [Header("Stunned")]
-    public float stunDeceleration;
-    public float stunUpwardSpeed;
-    public float stunDuration;
+    [Tooltip("Multiplier applied to speed when entering stun")]public float stunDeceleration;
+    [Tooltip("Speed added to Y velocity when entering stun")]public float stunUpwardSpeed;
+    [Tooltip("Duration of stun state")]public float stunDuration;
 
     [Header("References")]
     public ActorPhysics rb;
     [HideInInspector] public Transform cam;
+    public Material playerMat;
+    public ParticleSystem landParticles;
+
+    [Header("State colors")]
+    public Color baseColor;
+    public Color airColor;
+    public Color grabColor;
+    public Color slidingColor;
+    public Color stunnedColor;
 
     [Header("Internal NO TOUCHY")]
     public Vector3 moveDirection;
@@ -165,9 +182,9 @@ public class PlayerContext
 [Serializable]
 public class JumpData
 {
-    public float jumpHeight; //Typically between 0 and 5
-    public float timeToJumpApex; //Typically between 0.2 and 2.5
-    public float upwardMovementMultiplier = 1;
-    public float downwardMovementMultiplier; //Typically between 1 and 10
-    public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
+    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
+    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
+    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
+    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
+    [Tooltip("Gravity multiplier while moving up after letting go of jump")] public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
 }

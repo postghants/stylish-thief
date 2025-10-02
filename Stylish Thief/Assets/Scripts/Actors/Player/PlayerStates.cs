@@ -6,6 +6,8 @@ namespace HSM
     public class PlayerStunned : State
     {
         readonly PlayerContext ctx;
+
+        // Entered when you hit the ground when stunned. Transitions to its parent when done.
         public PlayerStunned(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -36,6 +38,8 @@ namespace HSM
             return null;
         }
     }
+
+    // Always entered first when stunned. Transitions to its parent when done.
     public class PlayerStunnedAirborne : State
     {
         readonly PlayerContext ctx;
@@ -85,15 +89,12 @@ namespace HSM
                 return;
             }
             Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
-            Debug.Log("Getting stunned maybe?");
             if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                Debug.Log("Getting stunned definitely");
                 ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
-                Debug.Log(ctx.rb.velocity);
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
-                Machine.ChangeState(this, ((PlayerRoot)(Machine.Root)).airborne.stunnedAirborne);
+                Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.stunnedAirborne);
             }
         }
 
@@ -135,15 +136,12 @@ namespace HSM
                 return;
             }
             Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
-            Debug.Log("Getting stunned maybe?");
             if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                Debug.Log("Getting stunned definitely");
                 ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
-                Debug.Log(horizontalVel.ToString() + " " + ctx.rb.velocity);
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
-                Machine.ChangeState(this, ((PlayerRoot)(Machine.Root)).airborne.stunnedAirborne);
+                Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.stunnedAirborne);
             }
         }
 
@@ -177,6 +175,9 @@ namespace HSM
     public class PlayerGrabbing : State
     {
         readonly PlayerContext ctx;
+        private bool isDecelerating;
+        private Vector2 initialVelocity;
+        private Vector2 targetVelocity;
         public PlayerGrabbing(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -205,7 +206,10 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.useGravity = true;
-
+            isDecelerating = false;
+            initialVelocity = Vector2.zero;
+            targetVelocity = Vector2.zero;
+            ctx.playerMat.color = ctx.airColor;
         }
 
         protected override State GetTransition()
@@ -213,13 +217,25 @@ namespace HSM
             ctx.grabTimer += Time.fixedDeltaTime;
             if (ctx.grabTimer > ctx.grabDuration)
             {
-                ctx.grabTimer = 0;
-                if (ctx.pressingGrab)
+                if (ctx.pressingGrab && !isDecelerating)
                 {
+                    ctx.grabTimer = 0;
                     return ((PlayerAirborne)Parent).slidingAirborne;
                 }
-                ctx.rb.velocity *= 1 - ctx.grabDeceleration;
-                return Parent;
+                if (!isDecelerating)
+                {
+                    isDecelerating = true;
+                    Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                    initialVelocity = horizontalVel;
+                    targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
+                }
+                var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.grabTimer - ctx.grabDuration) / ctx.grabDeceleration);
+                ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
+                if(ctx.grabTimer > ctx.grabDuration + ctx.grabDeceleration)
+                {
+                    ctx.grabTimer = 0;
+                    return Parent;
+                }
             }
             return null;
         }
@@ -437,7 +453,7 @@ namespace HSM
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-            if(horizontalVel.magnitude > ctx.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))
+            if (horizontalVel.magnitude > ctx.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))
             {
                 horizontalVel *= ctx.maxSpeed / horizontalVel.magnitude;
                 horizontalVel *= ctx.groundSpeedCapMult;

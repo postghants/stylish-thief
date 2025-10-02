@@ -121,6 +121,7 @@ public class PlayerContext
     [Header("Grab")]
     [Tooltip("Speed added when entering grab")] public float grabSpeed;
     [Tooltip("Time before grab ends")] public float grabDuration;
+    [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
     [Tooltip("Speed multiplier applied when exiting grab")] public float grabDeceleration;
     [Tooltip("Friction applied during grab state")] public float grabFriction;
 

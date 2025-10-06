@@ -136,6 +136,7 @@ public class PlayerContext
 
     [Header("Stunned")]
     [Tooltip("Multiplier applied to speed when entering stun")]public float stunDeceleration;
+    [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")]public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")]public float stunDuration;
 

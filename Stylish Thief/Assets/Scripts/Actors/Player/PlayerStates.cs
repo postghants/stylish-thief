@@ -83,6 +83,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
+            Collision(hit, impactVelocity, ctx, Machine);
+        }
+
+        public static void Collision(RaycastHit hit, Vector3 impactVelocity, PlayerContext ctx, StateMachine machine)
+        {
             if (ctx.isStunned) { return; }
             if (hit.normal.y > 0.1)
             {
@@ -91,10 +96,20 @@ namespace HSM
             Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
             if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                Vector3 newVel = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                if(newVel == Vector3.zero)
+                {
+                    newVel = hit.normal * ctx.stunMinSpeed;
+                }
+                if (newVel.magnitude < ctx.stunMinSpeed)
+                {
+                    newVel = newVel.normalized * ctx.stunMinSpeed;
+                }
+                ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
-                Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.stunnedAirborne);
+                ctx.currentlyJumping = true;
+                machine.ChangeState(machine.Root.Leaf(), ((PlayerRoot)machine.Root).airborne.stunnedAirborne);
             }
         }
 
@@ -130,19 +145,7 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (ctx.isStunned) { return; }
-            if (hit.normal.y > 0.1)
-            {
-                return;
-            }
-            Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
-            if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
-            {
-                ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
-                ctx.rb.velocity.y += ctx.stunUpwardSpeed;
-                ctx.isStunned = true;
-                Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.stunnedAirborne);
-            }
+            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
         protected override void OnEnter()
@@ -195,7 +198,14 @@ namespace HSM
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
-            ctx.rb.velocity.y = 0;
+            ctx.rb.velocity.y = 0; 
+            
+            ctx.rb.onCollision += OnCollision;
+        }
+
+        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
+        {
+            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -205,6 +215,7 @@ namespace HSM
 
         protected override void OnExit()
         {
+            ctx.rb.onCollision -= OnCollision;
             ctx.useGravity = true;
             isDecelerating = false;
             initialVelocity = Vector2.zero;

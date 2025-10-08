@@ -461,6 +461,19 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
+            if(ctx.regenTimer >= ctx.regenDelay)
+            {
+                if (ctx.currentHealth < ctx.maxHealth)
+                {
+                    ctx.currentHealth = Mathf.Clamp(ctx.currentHealth + ctx.regenRate * deltaTime, 0, ctx.maxHealth);
+                    ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+                }
+            }
+            else
+            {
+                ctx.regenTimer += deltaTime;
+            }
+
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);

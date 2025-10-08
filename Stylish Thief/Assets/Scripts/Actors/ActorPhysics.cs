@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 
 //Physics behaviour specifically made for actors.
@@ -73,7 +74,7 @@ public class ActorPhysics : MonoBehaviour
         bounds.Expand(-2 * skinWidth);
 
         float dist = vel.magnitude + skinWidth;
-        if (Physics.BoxCast(pos, bounds.extents, vel.normalized, out RaycastHit hit, Quaternion.identity, dist, collisionLayerMask))
+        if (Physics.BoxCast(pos, bounds.extents, vel.normalized, out RaycastHit hit, Quaternion.identity, dist, collisionLayerMask, QueryTriggerInteraction.Ignore))
         {
             Vector3 snapToSurface = vel.normalized * (hit.distance - skinWidth);
             Vector3 leftover = vel - snapToSurface;
@@ -110,8 +111,8 @@ public class ActorPhysics : MonoBehaviour
 
                         Vector3 antiStairBoxPos = pos + vel;
                         antiStairBoxPos.y += maxStairHeight / 2 + skinWidth * 2;
-                        var possibleStairs = Physics.OverlapBox(stairBoxPos, new Vector3(bounds.extents.x, maxStairHeight, bounds.extents.z), Quaternion.identity, groundMask);
-                        var notStairs = Physics.OverlapBox(antiStairBoxPos, new Vector3(bounds.extents.x, bounds.extents.y - maxStairHeight, bounds.extents.z), Quaternion.identity, groundMask);
+                        var possibleStairs = Physics.OverlapBox(stairBoxPos, new Vector3(bounds.extents.x, maxStairHeight, bounds.extents.z), Quaternion.identity, groundMask, QueryTriggerInteraction.Ignore);
+                        var notStairs = Physics.OverlapBox(antiStairBoxPos, new Vector3(bounds.extents.x, bounds.extents.y - maxStairHeight, bounds.extents.z), Quaternion.identity, groundMask, QueryTriggerInteraction.Ignore);
                         if (notStairs.Length == 0)
                         {
                             foreach (var possibleStair in possibleStairs)
@@ -124,7 +125,7 @@ public class ActorPhysics : MonoBehaviour
                                 {
                                     Vector3 newPos = pos;
                                     newPos.y += maxStairHeight;
-                                    if (Physics.BoxCast(newPos, bounds.extents, vel.normalized, out RaycastHit newHit, Quaternion.identity, dist, collisionLayerMask))
+                                    if (Physics.BoxCast(newPos, bounds.extents, vel.normalized, out RaycastHit newHit, Quaternion.identity, dist, collisionLayerMask, QueryTriggerInteraction.Ignore))
                                     {
                                         snapToSurface = vel.normalized * (hit.distance - skinWidth);
                                         hit = newHit;
@@ -189,7 +190,7 @@ public class ActorPhysics : MonoBehaviour
         {
             dist += velocity.magnitude * groundCheckSpeedMult;
         }
-        var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, dist, groundMask);
+        var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, dist, groundMask, QueryTriggerInteraction.Ignore);
 
         foreach (var hit in hits)
         {

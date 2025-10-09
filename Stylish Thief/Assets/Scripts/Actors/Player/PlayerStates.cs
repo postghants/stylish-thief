@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace HSM
 {
+    // Entered when you hit the ground when stunned. Transitions to its parent when done.
     public class PlayerStunned : State
     {
         readonly PlayerContext ctx;
 
-        // Entered when you hit the ground when stunned. Transitions to its parent when done.
         public PlayerStunned(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -17,6 +17,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveMult = 0;
+            ctx.currentlyJumping = false;
             ctx.playerMat.color = ctx.stunnedColor;
         }
 
@@ -83,6 +84,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
+            Collision(hit, impactVelocity, ctx, Machine);
+        }
+
+        public static void Collision(RaycastHit hit, Vector3 impactVelocity, PlayerContext ctx, StateMachine machine)
+        {
             if (ctx.isStunned) { return; }
             if (hit.normal.y > 0.1)
             {
@@ -91,10 +97,20 @@ namespace HSM
             Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
             if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                Vector3 newVel = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                if (newVel == Vector3.zero)
+                {
+                    newVel = hit.normal * ctx.stunMinSpeed;
+                }
+                if (newVel.magnitude < ctx.stunMinSpeed)
+                {
+                    newVel = newVel.normalized * ctx.stunMinSpeed;
+                }
+                ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
-                Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.stunnedAirborne);
+                ctx.currentlyJumping = true;
+                machine.ChangeState(machine.Root.Leaf(), ((PlayerRoot)machine.Root).airborne.stunnedAirborne);
             }
         }
 
@@ -130,19 +146,7 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (ctx.isStunned) { return; }
-            if (hit.normal.y > 0.1)
-            {
-                return;
-            }
-            Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
-            if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
-            {
-                ctx.rb.velocity = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
-                ctx.rb.velocity.y += ctx.stunUpwardSpeed;
-                ctx.isStunned = true;
-                Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.stunnedAirborne);
-            }
+            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
         protected override void OnEnter()
@@ -196,6 +200,13 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
+
+            ctx.rb.onCollision += OnCollision;
+        }
+
+        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
+        {
+            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -205,6 +216,8 @@ namespace HSM
 
         protected override void OnExit()
         {
+            ctx.grabTimer = 0;
+            ctx.rb.onCollision -= OnCollision;
             ctx.useGravity = true;
             isDecelerating = false;
             initialVelocity = Vector2.zero;
@@ -231,7 +244,7 @@ namespace HSM
                 }
                 var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.grabTimer - ctx.grabDuration) / ctx.grabDeceleration);
                 ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
-                if(ctx.grabTimer > ctx.grabDuration + ctx.grabDeceleration)
+                if (ctx.grabTimer > ctx.grabDuration + ctx.grabDeceleration)
                 {
                     ctx.grabTimer = 0;
                     return Parent;
@@ -450,6 +463,19 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
+            if (ctx.regenTimer >= ctx.regenDelay)
+            {
+                if (ctx.currentHealth < ctx.maxHealth)
+                {
+                    ctx.currentHealth = Mathf.Clamp(ctx.currentHealth + ctx.regenRate * deltaTime, 0, ctx.maxHealth);
+                    ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+                }
+            }
+            else
+            {
+                ctx.regenTimer += deltaTime;
+            }
+
             ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);

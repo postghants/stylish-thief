@@ -119,6 +119,15 @@ public class PlayerStateDriver : Actor, IDamageable
             Die();
         }
     }
+
+    private void OnDestroy()
+    {
+        jumpAction.started -= OnJumpStart;
+        jumpAction.canceled -= OnJumpStop;
+        grabAction.started -= OnGrabStart;
+        grabAction.canceled -= OnGrabStop;
+
+    }
 }
 
 [Serializable]

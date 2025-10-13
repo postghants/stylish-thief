@@ -40,6 +40,8 @@ namespace HSM {
             // Exit current branch up to (but not including) LCA
             for (State s = from; s != lca; s = s.Parent) { s.Exit(); }
 
+            if (to == lca) { to.Enter(); return; }
+
             var stack = new Stack<State>();
             for (State s = to; s != lca; s = s.Parent) { stack.Push(s); }
             while (stack.Count > 0) { stack.Pop().Enter(); }

@@ -2,10 +2,9 @@ using HSM;
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class PlayerStateDriver : Actor
+public class PlayerStateDriver : Actor, IDamageable
 {
     public PlayerContext ctx;
 
@@ -18,7 +17,7 @@ public class PlayerStateDriver : Actor
 
     private void Awake()
     {
-
+        // Set input references
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         grabAction = InputSystem.actions.FindAction("Grab");
@@ -28,10 +27,17 @@ public class PlayerStateDriver : Actor
         grabAction.canceled += OnGrabStop;
         ctx.cam = Camera.main.transform;
         ctx.currentJumpData = ctx.baseJumpData;
+        ctx.currentHealth = ctx.maxHealth;
 
+
+        // Initialize state machine
         root = new(null, ctx);
         StateMachineBuilder builder = new(root);
         machine = builder.Build();
+
+        // Instantiate player UI
+        ctx.healthBar = Instantiate(ctx.playerUIPrefab).GetComponentInChildren<HealthBar>();
+
 
     }
 
@@ -97,11 +103,41 @@ public class PlayerStateDriver : Actor
         GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {machine.Root.Leaf()}");
     }
 
+    private void Die()
+    {
+        Instantiate(ctx.gameOverUIPrefab);
+        enabled = false;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        ctx.currentHealth -= damage;
+        ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        ctx.regenTimer = 0;
+        if(ctx.currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        jumpAction.started -= OnJumpStart;
+        jumpAction.canceled -= OnJumpStop;
+        grabAction.started -= OnGrabStart;
+        grabAction.canceled -= OnGrabStop;
+
+    }
 }
 
 [Serializable]
 public class PlayerContext
 {
+    [Header("Status")]
+    public float maxHealth = 100;
+    public float regenRate = 10;
+    public float regenDelay = 1.5f;
+
     [Header("Grounded Movement")]
     [Tooltip("Acceleration in units/s^2")] public float acceleration;
     [Tooltip("Friction applied when on the ground.")] public float groundFriction;
@@ -122,8 +158,9 @@ public class PlayerContext
     [Tooltip("Speed added when entering grab")] public float grabSpeed;
     [Tooltip("Time before grab ends")] public float grabDuration;
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
-    [Tooltip("Speed multiplier applied when exiting grab")] public float grabDeceleration;
+    [Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
     [Tooltip("Friction applied during grab state")] public float grabFriction;
+    [Tooltip("Time until player can move after grab")]public float grabEndLag;
 
     [Header("Slide")]
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
@@ -136,14 +173,20 @@ public class PlayerContext
 
     [Header("Stunned")]
     [Tooltip("Multiplier applied to speed when entering stun")]public float stunDeceleration;
+    [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")]public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")]public float stunDuration;
 
     [Header("References")]
     public ActorPhysics rb;
     [HideInInspector] public Transform cam;
+    [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
     public ParticleSystem landParticles;
+
+    [Header("Prefabs")]
+    public GameObject playerUIPrefab;
+    public GameObject gameOverUIPrefab;
 
     [Header("State colors")]
     public Color baseColor;
@@ -153,6 +196,7 @@ public class PlayerContext
     public Color stunnedColor;
 
     [Header("Internal NO TOUCHY")]
+    public float currentHealth;
     public Vector3 moveDirection;
     public Vector3 facing;
     public float coyoteTimeCounter;
@@ -167,6 +211,7 @@ public class PlayerContext
     public float grabTimer;
     public float stunTimer;
     public float slideTimer;
+    public float regenTimer;
     public float currentFriction;
     public float currentMoveMult;
     public JumpData currentJumpData;

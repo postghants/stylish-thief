@@ -22,7 +22,7 @@ public class Patrol : MonoBehaviour
     {
         if (patrolZone != null)
         {
-            if (patrolZone.gameObject.GetComponent<PatrolZone>().playerIsHere)
+            if (patrolZone.gameObject.GetComponent<PatrolZone>().IsPlayerInZone())
             {
                 theChaseIsOn = true;
             }

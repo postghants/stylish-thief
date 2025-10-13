@@ -25,7 +25,7 @@ public class ReturnToBase : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.ToString() == "6");
+        if (other.gameObject.layer.ToString() == "6")
         {
             timesHit++;
             Debug.Log("Hits: " + timesHit);

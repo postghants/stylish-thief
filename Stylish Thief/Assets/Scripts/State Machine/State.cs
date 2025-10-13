@@ -15,7 +15,7 @@ namespace HSM
         }
 
         protected virtual State GetInitialState() => null;
-        protected virtual State GetTransition() => null;
+        protected virtual State GetTransition(float deltaTime) => null;
 
         // Lifecycle hooks
         protected virtual void OnEnter() { }
@@ -26,11 +26,7 @@ namespace HSM
         {
             if (Parent != null) { Parent.ActiveChild = this; }
             OnEnter();
-            State init = GetInitialState();
-            if (init != null)
-            {
-                init.Enter();
-            }
+            GetInitialState()?.Enter();
         }
 
         internal void Exit()
@@ -43,7 +39,7 @@ namespace HSM
 
         internal void Update(float deltaTime)
         {
-            State t = GetTransition();
+            State t = GetTransition(deltaTime);
             if (t != null)
             {
                 Machine.Sequencer.RequestTransition(this, t);

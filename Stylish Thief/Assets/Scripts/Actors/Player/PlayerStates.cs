@@ -28,9 +28,9 @@ namespace HSM
             ctx.playerMat.color = ctx.baseColor;
         }
 
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
-            ctx.stunTimer += Time.fixedDeltaTime;
+            ctx.stunTimer += deltaTime;
             if (ctx.stunTimer >= ctx.stunDuration)
             {
                 ctx.stunTimer = 0;
@@ -122,9 +122,9 @@ namespace HSM
             ctx.hasGrabbed = false;
             ctx.playerMat.color = ctx.baseColor;
         }
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
-            ctx.slideTimer += Time.fixedDeltaTime;
+            ctx.slideTimer += deltaTime;
             if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
             {
                 ctx.slideTimer = 0;
@@ -163,9 +163,9 @@ namespace HSM
             ctx.rb.onCollision -= OnCollision;
         }
 
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
-            ctx.slideTimer += Time.fixedDeltaTime;
+            ctx.slideTimer += deltaTime;
             if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
             {
                 ctx.slideTimer = 0;
@@ -225,9 +225,9 @@ namespace HSM
             ctx.playerMat.color = ctx.airColor;
         }
 
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
-            ctx.grabTimer += Time.fixedDeltaTime;
+            ctx.grabTimer += deltaTime;
             if (ctx.grabTimer > ctx.grabDuration)
             {
                 if (ctx.pressingGrab && !isDecelerating)
@@ -242,9 +242,12 @@ namespace HSM
                     initialVelocity = horizontalVel;
                     targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
                 }
-                var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.grabTimer - ctx.grabDuration) / ctx.grabDeceleration);
-                ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
-                if (ctx.grabTimer > ctx.grabDuration + ctx.grabDeceleration)
+                if (ctx.grabTimer <= ctx.grabDuration + ctx.grabDeceleration)
+                {
+                    var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.grabTimer - ctx.grabDuration) / ctx.grabDeceleration);
+                    ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
+                }
+                if (ctx.grabTimer > ctx.grabDuration + ctx.grabDeceleration + ctx.grabEndLag)
                 {
                     ctx.grabTimer = 0;
                     return Parent;
@@ -263,7 +266,7 @@ namespace HSM
             this.ctx = ctx;
             Parent = parent;
         }
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
             if (ctx.rb.velocity != Vector3.zero)
             {
@@ -283,7 +286,7 @@ namespace HSM
             Parent = parent;
         }
 
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
             if (ctx.rb.velocity == Vector3.zero)
             {
@@ -341,7 +344,7 @@ namespace HSM
             if (ctx.rb.velocity != Vector3.zero) { return moving; }
             else { return idle; }
         }
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed)
             {
@@ -417,7 +420,7 @@ namespace HSM
         }
 
         protected override State GetInitialState() => falling;
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
             if (!ctx.isStunned)
             {
@@ -495,7 +498,7 @@ namespace HSM
         }
 
         protected override State GetInitialState() => grounded;
-        protected override State GetTransition()
+        protected override State GetTransition(float deltaTime)
         {
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump)

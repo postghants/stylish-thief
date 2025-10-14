@@ -50,8 +50,6 @@ public class GrabberStateDriver : EnemyStateDriver
     {
         ctx.hitEvent?.Invoke();
     }
-
-    
 }
 
 [Serializable]
@@ -60,9 +58,9 @@ public class GrabberContext : EnemyContext
     public PlayerStateDriver player;
 
     [Header("References")]
-    [HideInInspector]GrabberStateDriver grabber;
     public ActorPhysics rb;
     public NavMeshAgent agent;
+    public Animator animator;
     public Collider grabHitbox;
 
     [Header("Movement")]

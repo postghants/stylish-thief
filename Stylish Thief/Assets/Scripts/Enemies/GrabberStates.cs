@@ -19,6 +19,11 @@ public class GrabberGrabbing : State
         ctx.hasGrabbed = true;
         ctx.grabTimer = 0.001f;
         ctx.agent.enabled = false;
+        ctx.animator.SetTrigger("Grab");
+
+        Vector3 lookPos = ctx.player.transform.position;
+        lookPos.y = ctx.agent.transform.position.y;
+        ctx.animator.transform.LookAt(lookPos);
 
         ctx.grabHitbox.gameObject.SetActive(true);
         ctx.grabHitbox.transform.localPosition = (ctx.player.transform.position - ctx.rb.transform.position).normalized * ctx.hitboxOffset;
@@ -92,11 +97,15 @@ public class GrabberChasing : State
     {
         ctx.agent.speed = ctx.maxSpeed;
         ctx.agent.acceleration = ctx.acceleration;
+        ctx.animator.SetTrigger("Run");
     }
 
     protected override void OnUpdate(float deltaTime)
     {
         ctx.agent.SetDestination(ctx.player.transform.position);
+        Vector3 lookPos = ctx.player.transform.position;
+        lookPos.y = ctx.agent.transform.position.y;
+        ctx.animator.transform.LookAt(lookPos);
     }
 
     protected override State GetTransition(float deltaTime)
@@ -133,6 +142,7 @@ public class GrabberIdle : State
         ctx.agent.acceleration = ctx.walkAccel;
         destination = ctx.activeZone.RandomPointInZone();
         ctx.agent.SetDestination(destination);
+        ctx.animator.SetTrigger("Walk");
     }
 
     protected override void OnUpdate(float deltaTime)
@@ -142,6 +152,9 @@ public class GrabberIdle : State
             destination = ctx.activeZone.RandomPointInZone();
             ctx.agent.SetDestination(destination);
         }
+        Vector3 lookPos = destination;
+        lookPos.y = ctx.agent.transform.position.y;
+        ctx.animator.transform.LookAt(lookPos);
     }
 
     protected override State GetTransition(float deltaTime)

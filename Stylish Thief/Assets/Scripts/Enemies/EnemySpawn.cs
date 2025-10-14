@@ -6,6 +6,7 @@ public class EnemySpawn : MonoBehaviour
 {
     [SerializeField] private PatrolZone patrolZone;
     [SerializeField] private bool spawnOnlyOnce;
+    [SerializeField] private bool spawnOnStart;
     private PlayerStateDriver player;
 
     [SerializeField] private List<EnemySpawnInfo> enemySpawnInfo;
@@ -15,13 +16,17 @@ public class EnemySpawn : MonoBehaviour
     private void Start()
     {
         player = FindAnyObjectByType<PlayerStateDriver>();
+        if (spawnOnStart)
+        {
+            SpawnRandomEnemy();
+        }
     }
 
     public void SpawnRandomEnemy()
     {
-        if(hasSpawned) { return; }
+        if (hasSpawned) { return; }
 
-        if(spawnOnlyOnce) { hasSpawned = true; }
+        if (spawnOnlyOnce) { hasSpawned = true; }
         int totalWeight = 0;
         foreach (var enemy in enemySpawnInfo) { totalWeight += enemy.weight; }
 

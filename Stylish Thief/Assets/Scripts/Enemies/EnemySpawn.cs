@@ -44,7 +44,7 @@ public class EnemySpawn : MonoBehaviour
 
     public void SpawnEnemy(EnemySpawnInfo spawnInfo)
     {
-        Instantiate(spawnInfo.enemy.gameObject).GetComponent<EnemyStateDriver>().Initialize(patrolZone, player);
+        Instantiate(spawnInfo.enemy.gameObject, transform.position, Quaternion.identity).GetComponent<EnemyStateDriver>().Initialize(patrolZone, player);
     }
 }
 

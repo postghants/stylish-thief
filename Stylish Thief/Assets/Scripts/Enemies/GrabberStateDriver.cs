@@ -8,7 +8,7 @@ public class GrabberStateDriver : EnemyStateDriver
 {
     public GrabberContext ctx;
 
-    private HSM.StateMachine machine;
+    private StateMachine machine;
     private GrabberRoot root;
 
     private void Start()
@@ -19,9 +19,16 @@ public class GrabberStateDriver : EnemyStateDriver
         StateMachineBuilder builder = new(root);
         machine = builder.Build();
 
-        
+
         ctx.activeZone.OnPlayerEnter.AddListener(OnPlayerEnterZone);
         ctx.activeZone.OnPlayerExit.AddListener(OnPlayerExitZone);
+        ctx.playerInZone = ctx.activeZone.IsPlayerInZone();
+    }
+
+    public override void Initialize(PatrolZone zone, PlayerStateDriver player)
+    {
+        ctx.activeZone = zone;
+        ctx.player = player;
     }
 
     private void FixedUpdate()
@@ -55,8 +62,6 @@ public class GrabberStateDriver : EnemyStateDriver
 [Serializable]
 public class GrabberContext : EnemyContext
 {
-    public PlayerStateDriver player;
-
     [Header("References")]
     public ActorPhysics rb;
     public NavMeshAgent agent;

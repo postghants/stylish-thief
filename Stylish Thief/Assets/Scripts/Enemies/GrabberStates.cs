@@ -97,7 +97,7 @@ public class GrabberChasing : State
     {
         ctx.agent.speed = ctx.maxSpeed;
         ctx.agent.acceleration = ctx.acceleration;
-        ctx.animator.SetTrigger("Run");
+        ctx.animator.SetInteger("WalkOrRun", 1);
     }
 
     protected override void OnUpdate(float deltaTime)
@@ -142,7 +142,10 @@ public class GrabberIdle : State
         ctx.agent.acceleration = ctx.walkAccel;
         destination = ctx.activeZone.RandomPointInZone();
         ctx.agent.SetDestination(destination);
-        ctx.animator.SetTrigger("Walk");
+        Vector3 lookPos = destination;
+        lookPos.y = ctx.agent.transform.position.y;
+        ctx.animator.transform.LookAt(lookPos);
+        ctx.animator.SetInteger("WalkOrRun", 0);
     }
 
     protected override void OnUpdate(float deltaTime)
@@ -151,10 +154,10 @@ public class GrabberIdle : State
         {
             destination = ctx.activeZone.RandomPointInZone();
             ctx.agent.SetDestination(destination);
+            Vector3 lookPos = destination;
+            lookPos.y = ctx.agent.transform.position.y;
+            ctx.animator.transform.LookAt(lookPos);
         }
-        Vector3 lookPos = destination;
-        lookPos.y = ctx.agent.transform.position.y;
-        ctx.animator.transform.LookAt(lookPos);
     }
 
     protected override State GetTransition(float deltaTime)

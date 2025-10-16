@@ -156,6 +156,7 @@ public class PlayerContext
     [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
     [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
     [Tooltip("Maximum grounded speed.")] public float maxSpeed;
+    [Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
     [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
     [Header("Air Movement")]

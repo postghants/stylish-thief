@@ -1195,6 +1195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
   patrolZone: {fileID: 714902637}
   spawnOnlyOnce: 1
+  spawnOnStart: 0
   enemySpawnInfo:
   - enemy: {fileID: 708725008641531498, guid: d3710434c58b2e34f826c022e6bbc3a9, type: 3}
     weight: 10
@@ -2606,6 +2607,50 @@ PrefabInstance:
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.groundSpeedCapMult
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[1].time
+      value: 0.47722977
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[1].value
+      value: 0.06891057
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[1].inSlope
+      value: 0.44583067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[2].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[1].inWeight
+      value: 0.2517193
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[1].outSlope
+      value: 0.44583067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[2].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[2].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.turnDeceleration.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 7895177472267553196, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_Enabled

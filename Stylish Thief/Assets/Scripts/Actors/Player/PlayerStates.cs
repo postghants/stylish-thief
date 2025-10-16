@@ -290,7 +290,7 @@ namespace HSM
             if (ctx.moveInputValue != Vector2.zero)
             {
                 float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
-                ctx.rb.velocity *= 1 - ctx.turnDeceleration.Evaluate(angle / 180);
+                ctx.rb.velocity *= 1 - (ctx.turnDeceleration.Evaluate(angle / 180) * deltaTime);
             }
         }
 

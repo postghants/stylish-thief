@@ -170,6 +170,39 @@ MonoBehaviour:
     groundDeceleration: 0.3
     groundSpeedCapMult: 0.1
     maxSpeed: 8
+    turnDeceleration:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.6549124
+        value: 0.051286466
+        inSlope: 0.2660134
+        outSlope: 0.2660134
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.279899
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.5680313
+        inSlope: 1.2319243
+        outSlope: 1.2319243
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.06333327
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     airAccel: 15
     airFriction: 0.03
     baseJumpData:

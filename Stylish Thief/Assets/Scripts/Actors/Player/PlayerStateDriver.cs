@@ -1,6 +1,7 @@
 using HSM;
 using System;
 using System.Collections;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -155,6 +156,7 @@ public class PlayerContext
     [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
     [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
     [Tooltip("Maximum grounded speed.")] public float maxSpeed;
+    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
     [Header("Air Movement")]
     [Tooltip("Acceleration when airborne.")] public float airAccel;

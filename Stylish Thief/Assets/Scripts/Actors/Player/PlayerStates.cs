@@ -1,4 +1,3 @@
-using System.Xml;
 using UnityEngine;
 
 namespace HSM
@@ -284,6 +283,15 @@ namespace HSM
         {
             this.ctx = ctx;
             Parent = parent;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ctx.moveInputValue != Vector2.zero)
+            {
+                float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
+                ctx.rb.velocity *= 1 - ctx.turnDeceleration.Evaluate(angle / 180);
+            }
         }
 
         protected override State GetTransition(float deltaTime)

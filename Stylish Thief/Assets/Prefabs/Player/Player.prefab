@@ -164,11 +164,46 @@ MonoBehaviour:
     maxHealth: 100
     regenRate: 10
     regenDelay: 1.5
+    timeScale: 1
     acceleration: 40
     groundFriction: 0.08
     groundDeceleration: 0.3
     groundSpeedCapMult: 0.1
     maxSpeed: 8
+    turnDecelerationMult: 10
+    turnDeceleration:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.6549124
+        value: 0.051286466
+        inSlope: 0.2660134
+        outSlope: 0.2660134
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.279899
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.5680313
+        inSlope: 1.2319243
+        outSlope: 1.2319243
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.06333327
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     airAccel: 15
     airFriction: 0.03
     baseJumpData:
@@ -184,6 +219,7 @@ MonoBehaviour:
     grabEndSpeed: 0
     grabDeceleration: 0.45
     grabFriction: 0.02
+    grabEndLag: 0
     minSlideTime: 1
     slideFriction: 0.013
     slideMoveMult: 0.2

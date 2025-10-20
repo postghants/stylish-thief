@@ -1,6 +1,7 @@
 using HSM;
 using System;
 using System.Collections;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -62,9 +63,17 @@ public class PlayerStateDriver : Actor, IDamageable
         Jump.JumpBuffer(ctx);
         Jump.SetPhysics(ctx);
 
-        machine.Update(Time.deltaTime);
+        machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(root.Leaf());
     }
+
+    public void TakeKnockback(Vector3 knockback)
+    {
+        ctx.rb.velocity += knockback;
+        machine.ChangeState(root.Leaf(), root.airborne.stunnedAirborne);
+    }
+
+
     public void OnJumpStart(InputAction.CallbackContext c)
     {
         ctx.desiredJump = true;
@@ -138,12 +147,17 @@ public class PlayerContext
     public float regenRate = 10;
     public float regenDelay = 1.5f;
 
+    [Header("General")]
+    public float timeScale = 1;
+
     [Header("Grounded Movement")]
     [Tooltip("Acceleration in units/s^2")] public float acceleration;
     [Tooltip("Friction applied when on the ground.")] public float groundFriction;
     [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
     [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
     [Tooltip("Maximum grounded speed.")] public float maxSpeed;
+    [Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
+    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
     [Header("Air Movement")]
     [Tooltip("Acceleration when airborne.")] public float airAccel;

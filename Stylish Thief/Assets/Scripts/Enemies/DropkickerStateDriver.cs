@@ -1,15 +1,14 @@
-
 using HSM;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GrabberStateDriver : EnemyStateDriver
+public class DropkickerStateDriver : EnemyStateDriver
 {
-    public GrabberContext ctx;
+    public DropkickerContext ctx;
 
+    private DropkickerRoot root;
     private StateMachine machine;
-    private GrabberRoot root;
 
     private void Start()
     {
@@ -39,6 +38,14 @@ public class GrabberStateDriver : EnemyStateDriver
         ctx.rb.Move(ctx.rb.velocity * Time.deltaTime, false);
         if (!ctx.activeZone.IsPointInZone(transform.position))
         {
+            var colliders = Physics.OverlapBox(transform.position, ctx.rb.environmentCollider.bounds.extents);
+            foreach (var collider in colliders)
+            {
+                if(collider.TryGetComponent(out PatrolZone zone))
+                {
+                    SwitchActiveZone(zone);
+                }
+            }
             transform.position = ctx.activeZone.ClosestPoint(transform.position);
         }
     }
@@ -53,11 +60,6 @@ public class GrabberStateDriver : EnemyStateDriver
         ctx.playerInZone = false;
     }
 
-    public void OnPlayerHit()
-    {
-        ctx.hitEvent?.Invoke();
-    }
-
     public override void SwitchActiveZone(PatrolZone zone)
     {
         ctx.activeZone.OnPlayerEnter.RemoveListener(OnPlayerEnterZone);
@@ -67,11 +69,12 @@ public class GrabberStateDriver : EnemyStateDriver
 
         ctx.activeZone.OnPlayerEnter.AddListener(OnPlayerEnterZone);
         ctx.activeZone.OnPlayerExit.AddListener(OnPlayerExitZone);
+
     }
 }
 
 [Serializable]
-public class GrabberContext : EnemyContext
+public class DropkickerContext : EnemyContext
 {
     [Header("References")]
     public ActorPhysics rb;
@@ -84,27 +87,8 @@ public class GrabberContext : EnemyContext
     public float acceleration;
     public float walkSpeed;
     public float walkAccel;
-
-    [Header("Grab")]
-    public float grabTriggerDistance;
-    [Tooltip("Speed added when entering grab")] public float grabSpeed;
-    [Tooltip("Time before grab ends")] public float grabDuration;
-    [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
-    [Tooltip("Speed multiplier applied when exiting grab")] public float grabDeceleration;
-    [Tooltip("Friction applied during grab state")] public float grabFriction;
-    public float grabEndLag;
-
-    [Header("Grab hitbox")]
-    public float hitboxOffset;
-    public float grabDamage;
-
+    
     [Header("Internal")]
-    public float grabTimer = 0;
-    public bool hasGrabbed;
     public bool playerInZone;
     public string currentState;
-
-    //Events
-    public delegate void HitEvent();
-    public HitEvent hitEvent;
 }

@@ -1,6 +1,26 @@
 using HSM;
 using UnityEngine;
 
+public class DropkickerKicking : State
+{
+    readonly DropkickerContext ctx;
+    public DropkickerKicking(StateMachine m, State parent, DropkickerContext ctx) : base(m)
+    {
+        this.ctx = ctx;
+        Parent = parent;
+    }
+    protected override void OnEnter()
+    {
+        EnemyJump.PerformJump(ctx);
+    }
+
+    protected override void OnUpdate(float deltaTime)
+    {
+        EnemyJump.SetPhysics(ctx);
+    }
+
+}
+
 public class DropkickerChasing : State
 {
     readonly DropkickerContext ctx;

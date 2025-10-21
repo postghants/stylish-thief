@@ -1,33 +1,39 @@
 using UnityEngine;
 
-// Contains movement math stuff
-public class Jump
+public class JumperContext : EnemyContext
 {
-    public static void SetPhysics(PlayerContext ctx)
+    [Header("References")]
+    public ActorPhysics rb;
+     
+    [Header("Internal")]
+    public bool currentlyJumping;
+    public float baseGrav;
+    public float gravMultiplier;
+    public float jumpSpeed;
+    public JumpData currentJumpData;
+    public Vector3 currentVelocity;
+}
+
+public class EnemyJump
+{
+    public static void SetPhysics(JumperContext ctx)
     {
         //Determine the character's gravity scale, using the stats provided. Multiply it by a gravMultiplier, used later
         Vector2 newGravity = new(0, (-2 * ctx.currentJumpData.jumpHeight) / (ctx.currentJumpData.timeToJumpApex * ctx.currentJumpData.timeToJumpApex));
         ctx.baseGrav = (newGravity.y / ctx.rb.gravity.y) * ctx.gravMultiplier;
     }
 
-    public static void PerformJump(PlayerContext ctx)
+    public static void PerformJump(JumperContext ctx)
     {
-        if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime)) //If grounded or if you still have coyote time
+        if (ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) //If grounded or if you still have coyote time
         {
-            ctx.landParticles.Play();
-            ctx.desiredJump = false;
-            ctx.jumpBufferCounter = 0;
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
             CalculateJump(ctx);
             ctx.currentVelocity.y += ctx.jumpSpeed; //Swaps Y speed for the newly calculated one in CalculateJump()
         }
-        if (ctx.jumpBuffer == 0)
-        {
-            ctx.desiredJump = false;
-        }
     }
 
-    public static void CalculateJump(PlayerContext ctx)
+    public static void CalculateJump(JumperContext ctx)
     {
         ctx.jumpSpeed = Mathf.Sqrt(-2f * ctx.rb.gravity.y * ctx.currentJumpData.jumpHeight);
         // was causing issues with coyote jump
@@ -41,19 +47,7 @@ public class Jump
         //}
     }
 
-    public static void JumpBuffer(PlayerContext ctx)
-    {
-        if (ctx.desiredJump)
-        {
-            ctx.jumpBufferCounter += Time.deltaTime;
-            if (ctx.jumpBufferCounter > ctx.jumpBuffer)
-            {
-                ctx.desiredJump = false;
-                ctx.jumpBufferCounter = 0;
-            }
-        }
-    }
-    public static void CalculateGravity(PlayerContext ctx)
+    public static void CalculateGravity(JumperContext ctx)
     {
         //We change the character's gravity based on her Y direction
 
@@ -68,14 +62,9 @@ public class Jump
             else
             {
                 //Apply upward multiplier if player is rising and holding jump
-                if (ctx.pressingJump && ctx.currentlyJumping)
+                if (ctx.currentlyJumping)
                 {
                     ctx.gravMultiplier = ctx.currentJumpData.upwardMovementMultiplier;
-                }
-                //But apply a special downward multiplier if the player lets go of jump
-                else
-                {
-                    ctx.gravMultiplier = ctx.currentJumpData.jumpCutOff;
                 }
             }
         }

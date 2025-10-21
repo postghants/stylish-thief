@@ -18,7 +18,6 @@ public class DropkickerStateDriver : EnemyStateDriver
         StateMachineBuilder builder = new(root);
         machine = builder.Build();
 
-
         ctx.activeZone.OnPlayerEnter.AddListener(OnPlayerEnterZone);
         ctx.activeZone.OnPlayerExit.AddListener(OnPlayerExitZone);
         ctx.playerInZone = ctx.activeZone.IsPlayerInZone();
@@ -38,7 +37,7 @@ public class DropkickerStateDriver : EnemyStateDriver
         ctx.rb.Move(ctx.rb.velocity * Time.deltaTime, false);
         if (!ctx.activeZone.IsPointInZone(transform.position))
         {
-            var colliders = Physics.OverlapBox(transform.position, ctx.rb.environmentCollider.bounds.extents);
+            Collider[] colliders = Physics.OverlapBox(transform.position, ctx.rb.environmentCollider.bounds.extents);
             foreach (var collider in colliders)
             {
                 if(collider.TryGetComponent(out PatrolZone zone))
@@ -74,10 +73,9 @@ public class DropkickerStateDriver : EnemyStateDriver
 }
 
 [Serializable]
-public class DropkickerContext : EnemyContext
+public class DropkickerContext : JumperContext
 {
     [Header("References")]
-    public ActorPhysics rb;
     public NavMeshAgent agent;
     public Animator animator;
     public Collider grabHitbox;
@@ -87,6 +85,11 @@ public class DropkickerContext : EnemyContext
     public float acceleration;
     public float walkSpeed;
     public float walkAccel;
+
+    [Header("Dropkick")]
+    public float dropkickDistance;
+    public JumpData dropkickData;
+    public float dropkickSpeed;
     
     [Header("Internal")]
     public bool playerInZone;

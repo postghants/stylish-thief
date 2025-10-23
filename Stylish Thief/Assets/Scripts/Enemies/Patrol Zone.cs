@@ -6,8 +6,8 @@ public class PatrolZone : MonoBehaviour
 {
     [SerializeField] private int playerInZone = 0;
 
-    [HideInInspector] public UnityEvent OnPlayerEnter;
-    [HideInInspector] public UnityEvent OnPlayerExit;
+    public UnityEvent OnPlayerEnter;
+    public UnityEvent OnPlayerExit;
 
     private Collider[] colliders;
 

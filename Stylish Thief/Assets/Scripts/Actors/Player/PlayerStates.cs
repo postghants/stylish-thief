@@ -109,6 +109,7 @@ namespace HSM
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
                 ctx.currentlyJumping = true;
+                ctx.anim.SetBool("Sliding", false);
                 machine.ChangeState(machine.Root.Leaf(), ((PlayerRoot)machine.Root).airborne.stunnedAirborne);
             }
         }
@@ -127,6 +128,7 @@ namespace HSM
             if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
             {
                 ctx.slideTimer = 0;
+                ctx.anim.SetBool("Sliding", false);
                 return Parent;
             }
             return null;
@@ -154,6 +156,8 @@ namespace HSM
             ctx.currentMoveMult = ctx.slideMoveMult;
             ctx.playerMat.color = ctx.slidingColor;
 
+            ctx.anim.SetBool("Sliding", true);
+
             ctx.rb.onCollision += OnCollision;
         }
         protected override void OnExit()
@@ -168,6 +172,7 @@ namespace HSM
             if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
             {
                 ctx.slideTimer = 0;
+                ctx.anim.SetBool("Sliding", false);
                 return Parent;
             }
             return null;
@@ -194,6 +199,8 @@ namespace HSM
             ctx.grabTimer = 0.001f;
             ctx.currentFriction = ctx.grabFriction;
             ctx.playerMat.color = ctx.grabColor;
+
+            ctx.anim.SetTrigger("Grab");
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
@@ -265,6 +272,11 @@ namespace HSM
             this.ctx = ctx;
             Parent = parent;
         }
+
+        protected override void OnEnter()
+        {
+            ctx.anim.SetInteger("GroundSpeed", 0);
+        }
         protected override State GetTransition(float deltaTime)
         {
             if (ctx.rb.velocity != Vector3.zero)
@@ -291,6 +303,15 @@ namespace HSM
             {
                 float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
                 ctx.rb.velocity *= 1 - (ctx.turnDeceleration.Evaluate(angle / 180) * ctx.turnDecelerationMult * deltaTime);
+            }
+
+            if (ctx.rb.velocity.magnitude > ctx.animRunSpeed)
+            {
+                ctx.anim.SetInteger("GroundSpeed", 2);
+            }
+            else
+            {
+                ctx.anim.SetInteger("GroundSpeed", 1);
             }
         }
 

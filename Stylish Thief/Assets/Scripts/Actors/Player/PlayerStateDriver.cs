@@ -60,8 +60,15 @@ public class PlayerStateDriver : Actor, IDamageable
 
         // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
+        ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
         Jump.JumpBuffer(ctx);
         Jump.SetPhysics(ctx);
+
+        // Face model forward
+        if (ctx.rb.velocity.sqrMagnitude > 0)
+        {
+            ctx.anim.transform.LookAt(ctx.anim.transform.position + new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z));
+        }
 
         machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(root.Leaf());
@@ -193,6 +200,7 @@ public class PlayerContext
 
     [Header("References")]
     public ActorPhysics rb;
+    public Animator anim;
     [HideInInspector] public Transform cam;
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
@@ -208,6 +216,9 @@ public class PlayerContext
     public Color grabColor;
     public Color slidingColor;
     public Color stunnedColor;
+
+    [Header("Animation variables")]
+    public float animRunSpeed;
 
     [Header("Internal NO TOUCHY")]
     public float currentHealth;

@@ -25696,7 +25696,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 2, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
@@ -25726,15 +25726,15 @@ MonoBehaviour:
   Radius: 10
   Orbits:
     Top:
-      Radius: 0.91
-      Height: 9.48
+      Radius: 2.01
+      Height: 13.79
     Center:
-      Radius: 10.59
-      Height: 1.64
+      Radius: 9.79
+      Height: 6.02
     Bottom:
       Radius: 2.5
-      Height: -0.3
-    SplineCurvature: 0.5
+      Height: 1.65
+    SplineCurvature: 1
   RecenteringTarget: 2
   HorizontalAxis:
     Value: 0
@@ -25817,8 +25817,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578421362}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07674576, y: -1.7580663e-15, z: -5.3143853e-17, w: 0.99705076}
-  m_LocalPosition: {x: -13.5, y: 2.6399999, z: -45.59}
+  m_LocalRotation: {x: 0.19358528, y: -0.0000000142905545, z: 0.0000000028197817, w: 0.9810835}
+  m_LocalPosition: {x: -13.5, y: 7.02, z: -44.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31834,8 +31834,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 796416069}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07674578, y: -1.7726599e-15, z: 1.3644657e-16, w: 0.9970507}
-  m_LocalPosition: {x: -13.5, y: 2.6399999, z: -45.59}
+  m_LocalRotation: {x: 0.19358528, y: -0.000000014290555, z: 0.0000000028197817, w: 0.98108345}
+  m_LocalPosition: {x: -13.5, y: 7.02, z: -44.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -94222,6 +94222,7 @@ GameObject:
   - component: {fileID: 1387591891}
   - component: {fileID: 1387591890}
   - component: {fileID: 1387591889}
+  - component: {fileID: 1387591895}
   m_Layer: 0
   m_Name: Musical Trigger
   m_TagString: Untagged
@@ -94360,6 +94361,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1387591895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387591888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60db274893e65ba45b1cc13549d123c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventTrigger
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1390359007
 GameObject:
   m_ObjectHideFlags: 0
@@ -126627,6 +126649,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 490313573011915397, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 490313573011915397, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 490313573011915397, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 538448283502635419, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.5

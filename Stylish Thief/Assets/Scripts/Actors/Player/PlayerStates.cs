@@ -530,9 +530,9 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
-            if (ctx.desiredJump)
+            if (ctx.desiredJump && Leaf() != airborne.grabbing)
             {
-                if (ctx.slideTimer > 0)
+                if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
                 {
                     ctx.currentJumpData = ctx.slideJumpData;
                 }

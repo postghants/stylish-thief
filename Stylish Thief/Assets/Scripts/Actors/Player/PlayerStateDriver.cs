@@ -273,6 +273,7 @@ public class PlayerContext
     public float regenTimer;
     public float currentFriction;
     public float currentMoveMult;
+    public float currentJumpMoveMult = 1;
     public JumpData currentJumpData;
     public bool isStunned;
 
@@ -292,4 +293,6 @@ public class JumpData
     [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
     [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
     [Tooltip("Gravity multiplier while moving up after letting go of jump")] public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
+    [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
+    [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;
 }

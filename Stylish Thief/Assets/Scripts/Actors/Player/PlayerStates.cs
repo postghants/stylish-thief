@@ -434,7 +434,7 @@ namespace HSM
             ctx.coyoteTimeCounter += deltaTime;
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.airAccel * deltaTime * ctx.moveDirection;
+                ctx.rb.velocity += ctx.airAccel * deltaTime * ctx.moveDirection * ctx.currentJumpMoveMult;
             }
 
             if (ctx.useGravity)

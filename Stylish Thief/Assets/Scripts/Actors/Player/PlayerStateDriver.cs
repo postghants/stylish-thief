@@ -1,6 +1,8 @@
 using HSM;
 using System;
 using System.Collections;
+using System.Threading;
+using Unity.Cinemachine;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +17,8 @@ public class PlayerStateDriver : Actor, IDamageable
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction grabAction;
+    private InputAction panLeftAction;
+    private InputAction panRightAction;
 
     private void Awake()
     {
@@ -22,10 +26,14 @@ public class PlayerStateDriver : Actor, IDamageable
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         grabAction = InputSystem.actions.FindAction("Grab");
+        panLeftAction = InputSystem.actions.FindAction("BumperLeft");
+        panRightAction = InputSystem.actions.FindAction("BumperRight");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         grabAction.started += OnGrabStart;
         grabAction.canceled += OnGrabStop;
+        panLeftAction.started += OnPanLeft;
+        panRightAction.started += OnPanRight;
         ctx.cam = Camera.main.transform;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.currentHealth = ctx.maxHealth;
@@ -103,6 +111,28 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.pressingGrab = false;
     }
 
+    public void OnPanLeft(InputAction.CallbackContext c)
+    {
+        StartCoroutine(PanCamera(ctx.panAngle, ctx.panTime));
+    }
+    public void OnPanRight(InputAction.CallbackContext c)
+    {
+        StartCoroutine(PanCamera(-ctx.panAngle, ctx.panTime));
+    }
+
+    private IEnumerator PanCamera(float angle, float time)
+    {
+        float timer = 0;
+        if(time == 0) { time = Time.deltaTime; }
+        while (timer < time)
+        {
+            ctx.orbitalFollow.HorizontalAxis.Value += angle * Time.deltaTime / time;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+
     private IEnumerator GrabTimer()
     {
         ctx.desiredGrab = true;
@@ -130,7 +160,7 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.currentHealth -= damage;
         ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
         ctx.regenTimer = 0;
-        if(ctx.currentHealth <= 0)
+        if (ctx.currentHealth <= 0)
         {
             Die();
         }
@@ -142,7 +172,6 @@ public class PlayerStateDriver : Actor, IDamageable
         jumpAction.canceled -= OnJumpStop;
         grabAction.started -= OnGrabStart;
         grabAction.canceled -= OnGrabStop;
-
     }
 }
 
@@ -181,7 +210,7 @@ public class PlayerContext
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
     [Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
     [Tooltip("Friction applied during grab state")] public float grabFriction;
-    [Tooltip("Time until player can move after grab")]public float grabEndLag;
+    [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Slide")]
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
@@ -193,15 +222,20 @@ public class PlayerContext
     public JumpData slideJumpData;
 
     [Header("Stunned")]
-    [Tooltip("Multiplier applied to speed when entering stun")]public float stunDeceleration;
+    [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
-    [Tooltip("Speed added to Y velocity when entering stun")]public float stunUpwardSpeed;
-    [Tooltip("Duration of stun state")]public float stunDuration;
+    [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
+    [Tooltip("Duration of stun state")] public float stunDuration;
+
+    [Header("Camera Move")]
+    [Tooltip("Total pan time")] public float panTime = 0.2f;
+    [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
     [Header("References")]
     public ActorPhysics rb;
     public Animator anim;
     [HideInInspector] public Transform cam;
+    public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
     public ParticleSystem landParticles;

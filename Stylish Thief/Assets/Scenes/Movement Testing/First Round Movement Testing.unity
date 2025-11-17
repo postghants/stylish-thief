@@ -25726,13 +25726,13 @@ MonoBehaviour:
   Radius: 10
   Orbits:
     Top:
-      Radius: 2.01
+      Radius: 3.64
       Height: 13.79
     Center:
       Radius: 9.79
       Height: 6.02
     Bottom:
-      Radius: 2.5
+      Radius: 3.64
       Height: 1.65
     SplineCurvature: 1
   RecenteringTarget: 2
@@ -25817,7 +25817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578421362}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19358528, y: -0.0000000142905545, z: 0.0000000028197817, w: 0.9810835}
+  m_LocalRotation: {x: 0.19358528, y: 0.000000014619284, z: -0.0000000028846459, w: 0.98108345}
   m_LocalPosition: {x: -13.5, y: 7.02, z: -44.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -31834,7 +31834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 796416069}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19358528, y: -0.000000014290555, z: 0.0000000028197817, w: 0.98108345}
+  m_LocalRotation: {x: 0.19358528, y: 0.000000014619283, z: -0.0000000028846454, w: 0.98108345}
   m_LocalPosition: {x: -13.5, y: 7.02, z: -44.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -126831,6 +126831,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7895177472267553196, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991119175841532378, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991119175841532378, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991119175841532378, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991119175841532378, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -1,0 +1,24 @@
+using UnityEngine;
+
+public class RickCheckpoint : MonoBehaviour
+{
+    RickDeathManager manager;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        manager = GetComponentInParent<RickDeathManager>();
+    }
+
+    // Update is called once per fuck
+    void Update()
+    {
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            manager.currentCheckpoint = gameObject;
+        }
+    }
+}

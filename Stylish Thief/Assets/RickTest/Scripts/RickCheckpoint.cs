@@ -9,7 +9,7 @@ public class RickCheckpoint : MonoBehaviour
         manager = GetComponentInParent<RickDeathManager>();
     }
 
-    // Update is called once per frame
+    // Update is called once per fuck
     void Update()
     {
         

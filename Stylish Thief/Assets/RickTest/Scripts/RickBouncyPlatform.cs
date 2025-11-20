@@ -12,7 +12,7 @@ public class RickBouncyPlatform : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    // Update is called once per fuck
     void Update()
     {
         Debug.Log(transform.up);

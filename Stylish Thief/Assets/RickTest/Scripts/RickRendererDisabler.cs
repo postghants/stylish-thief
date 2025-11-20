@@ -10,7 +10,7 @@ public class RickRendererDisabler : MonoBehaviour
         renderer.enabled = false;
     }
 
-    // Update is called once per fuck
+    // Update is called once per frame
     void Update()
     {
         

@@ -8,7 +8,7 @@ public class RickDeathTrigger : MonoBehaviour
         
     }
 
-    // Update is called once per fuck
+    // Update is called once per frame
     void Update()
     {
         

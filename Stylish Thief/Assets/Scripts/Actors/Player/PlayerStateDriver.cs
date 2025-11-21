@@ -10,9 +10,8 @@ using UnityEngine.InputSystem;
 public class PlayerStateDriver : Actor, IDamageable
 {
     public PlayerContext ctx;
-
-    private PlayerRoot root;
-    private StateMachine machine;
+    public PlayerRoot Root;
+    public StateMachine Machine;
 
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -23,31 +22,19 @@ public class PlayerStateDriver : Actor, IDamageable
     private void Awake()
     {
         // Set input references
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-        grabAction = InputSystem.actions.FindAction("Grab");
-        panLeftAction = InputSystem.actions.FindAction("BumperLeft");
-        panRightAction = InputSystem.actions.FindAction("BumperRight");
-        jumpAction.started += OnJumpStart;
-        jumpAction.canceled += OnJumpStop;
-        grabAction.started += OnGrabStart;
-        grabAction.canceled += OnGrabStop;
-        panLeftAction.started += OnPanLeft;
-        panRightAction.started += OnPanRight;
+        InitializeControls();
         ctx.cam = Camera.main.transform;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.currentHealth = ctx.maxHealth;
 
 
         // Initialize state machine
-        root = new(null, ctx);
-        StateMachineBuilder builder = new(root);
-        machine = builder.Build();
+        Root = new(null, ctx);
+        StateMachineBuilder builder = new(Root);
+        Machine = builder.Build();
 
         // Instantiate player UI
         ctx.healthBar = Instantiate(ctx.playerUIPrefab).GetComponentInChildren<HealthBar>();
-
-
     }
 
     private void Update()
@@ -78,16 +65,42 @@ public class PlayerStateDriver : Actor, IDamageable
             ctx.anim.transform.LookAt(ctx.anim.transform.position + new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z));
         }
 
-        machine.Update(Time.deltaTime * ctx.timeScale);
-        Debug.Log(root.Leaf());
+        Machine.Update(Time.deltaTime * ctx.timeScale);
+        Debug.Log(Root.Leaf());
     }
 
     public void TakeKnockback(Vector3 knockback)
     {
         ctx.rb.velocity += knockback;
-        machine.ChangeState(root.Leaf(), root.airborne.stunnedAirborne);
+        Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
     }
 
+    private int disableControlCounter;
+    public void DisableControls()
+    {
+        disableControlCounter++;
+        if (disableControlCounter == 1)
+        {
+            moveAction.Disable();
+            jumpAction.Disable();
+            grabAction.Disable();
+            panLeftAction.Disable();
+            panRightAction.Disable();
+        }
+    }
+
+    public void EnableControls()
+    {
+        disableControlCounter--;
+        if (disableControlCounter == 0)
+        {
+            moveAction.Enable();
+            jumpAction.Enable();
+            grabAction.Enable();
+            panLeftAction.Enable();
+            panRightAction.Enable();
+        }
+    }
 
     public void OnJumpStart(InputAction.CallbackContext c)
     {
@@ -132,7 +145,6 @@ public class PlayerStateDriver : Actor, IDamageable
         }
     }
 
-
     private IEnumerator GrabTimer()
     {
         ctx.desiredGrab = true;
@@ -141,12 +153,27 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.desiredGrab = false;
     }
 
+    private void InitializeControls()
+    {
+        moveAction = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump");
+        grabAction = InputSystem.actions.FindAction("Grab");
+        panLeftAction = InputSystem.actions.FindAction("BumperLeft");
+        panRightAction = InputSystem.actions.FindAction("BumperRight");
+        jumpAction.started += OnJumpStart;
+        jumpAction.canceled += OnJumpStop;
+        grabAction.started += OnGrabStart;
+        grabAction.canceled += OnGrabStop;
+        panLeftAction.started += OnPanLeft;
+        panRightAction.started += OnPanRight;
+    }
+
     private void OnGUI()
     {
         Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
         GUI.Label(new Rect(0, 10, 200, 30), $"XZ speed: {horizontalVel.magnitude}");
         GUI.Label(new Rect(0, 30, 200, 30), $"Y speed: {ctx.rb.velocity.y}");
-        GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {machine.Root.Leaf()}");
+        GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {Machine.Root.Leaf()}");
     }
 
     private void Die()
@@ -155,6 +182,7 @@ public class PlayerStateDriver : Actor, IDamageable
         enabled = false;
     }
 
+    //IDamageable
     public void TakeDamage(float damage)
     {
         ctx.currentHealth -= damage;

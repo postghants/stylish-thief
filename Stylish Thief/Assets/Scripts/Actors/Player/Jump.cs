@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Contains movement math stuff
@@ -20,6 +21,7 @@ public class Jump
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
             CalculateJump(ctx);
             ctx.currentVelocity.y += ctx.jumpSpeed; //Swaps Y speed for the newly calculated one in CalculateJump()
+            ctx.rb.StartCoroutine(SetMovementMult(ctx));
         }
         if (ctx.jumpBuffer == 0)
         {
@@ -112,5 +114,18 @@ public class Jump
         //Set the character's Rigidbody's velocity
         //But clamp the Y variable within the bounds of the speed limit, for the terminal velocity assist option
         //rb.velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -speedLimit, 100));
+    }
+
+    private static IEnumerator SetMovementMult(PlayerContext ctx)
+    {
+        float timer = 0;
+        ctx.currentJumpMoveMult = ctx.currentJumpData.jumpMovementMult;
+        while(timer < ctx.currentJumpData.jumpMovementMultTime)
+        {
+            timer += Time.deltaTime;
+            if(ctx.rb.isGrounded) { break; }
+            yield return null;
+        }
+        ctx.currentJumpMoveMult = 1;
     }
 }

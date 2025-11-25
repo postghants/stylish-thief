@@ -2,6 +2,17 @@ using UnityEngine;
 
 namespace HSM
 {
+    // Locks the player out of doing anything at all. Cannot be transitioned out of without an external ChangeState.
+    public class PlayerFrozen : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerFrozen(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
     // Entered when you hit the ground when stunned. Transitions to its parent when done.
     public class PlayerStunned : State
     {
@@ -434,7 +445,7 @@ namespace HSM
             ctx.coyoteTimeCounter += deltaTime;
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.airAccel * deltaTime * ctx.moveDirection;
+                ctx.rb.velocity += ctx.airAccel * deltaTime * ctx.moveDirection * ctx.currentJumpMoveMult;
             }
 
             if (ctx.useGravity)
@@ -485,11 +496,13 @@ namespace HSM
         readonly PlayerContext ctx;
         public readonly PlayerGrounded grounded;
         public readonly PlayerAirborne airborne;
+        public readonly PlayerFrozen frozen;
 
         public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
         {
             grounded = new PlayerGrounded(m, this, ctx);
             airborne = new PlayerAirborne(m, this, ctx);
+            frozen = new PlayerFrozen(m, this, ctx);
             this.ctx = ctx;
         }
 

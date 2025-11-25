@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 101212844540363710}
   - component: {fileID: 589714658151904205}
   - component: {fileID: 5801253374345301096}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Bouncy Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,5 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   launchForce: 999
-  overRideLaunchDirection: 0
-  forcedLaunchDirection: {x: 0, y: 0, z: 0}
+  minimumHeight: 0
+  oneToOne: 0
+  fullSpeedReplacement: 0

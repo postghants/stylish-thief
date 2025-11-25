@@ -19,15 +19,15 @@ public class RickBouncyPlatform : MonoBehaviour
             if (oneToOne)
             {
                 
-                if (player.ctx.rb.velocity.y > -minimumHeight)
+                if (player.ctx.rb.velocity.y > -minimumHeight * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10))
                 {
                     player.ctx.rb.velocity = transform.up * minimumHeight;
                     player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne);
                 }
                 else
                 {
-                    //player.ctx.rb.velocity = new Vector3(player.ctx.rb.velocity.x, -player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10), player.ctx.rb.velocity.z);
-                    player.ctx.rb.velocity = transform.up * (-player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10));
+                    player.ctx.rb.velocity = new Vector3(player.ctx.rb.velocity.x, -player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10), player.ctx.rb.velocity.z);
+                    //player.ctx.rb.velocity = transform.up * (-player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10));
                     player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne);
                 }
             }

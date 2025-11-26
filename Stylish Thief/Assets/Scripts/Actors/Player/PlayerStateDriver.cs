@@ -75,6 +75,12 @@ public class PlayerStateDriver : Actor, IDamageable
         Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
     }
 
+    public void SetVelocity(Vector3 newVel)
+    {
+        ctx.rb.velocity = newVel;
+        if (newVel.y > 0) { ctx.currentlyJumping = false; }
+    }
+
     private int disableControlCounter;
     public void DisableControls()
     {
@@ -136,7 +142,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private IEnumerator PanCamera(float angle, float time)
     {
         float timer = 0;
-        if(time == 0) { time = Time.deltaTime; }
+        if (time == 0) { time = Time.deltaTime; }
         while (timer < time)
         {
             ctx.orbitalFollow.HorizontalAxis.Value += angle * Time.deltaTime / time;
@@ -265,6 +271,7 @@ public class PlayerContext
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public ScoreManager scoreManager;
     public Material playerMat;
     public ParticleSystem landParticles;
 

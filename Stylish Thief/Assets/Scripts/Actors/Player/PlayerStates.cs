@@ -556,7 +556,6 @@ namespace HSM
                 Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
 
                 ctx.rb.velocity = ctx.currentVelocity; //Applies new Y speed as well as the X that was read earlier
-                ctx.currentlyJumping = true; //Tells the code we're jumping now. Used for variable height
             }
             Jump.CalculateGravity(ctx);
 

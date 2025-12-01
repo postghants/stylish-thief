@@ -25,12 +25,9 @@ public class EnemyJump
 
     public static void PerformJump(JumperContext ctx)
     {
-        if (ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) //If grounded or if you still have coyote time
-        {
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
             CalculateJump(ctx);
             ctx.currentVelocity.y += ctx.jumpSpeed; //Swaps Y speed for the newly calculated one in CalculateJump()
-        }
     }
 
     public static void CalculateJump(JumperContext ctx)
@@ -57,7 +54,7 @@ public class EnemyJump
             if (ctx.rb.isGrounded)
             {
                 //Don't change it if Kit is stood on something (such as a moving platform)
-                ctx.gravMultiplier = 1;
+                ctx.gravMultiplier = ctx.currentJumpData.upwardMovementMultiplier;
             }
             else
             {

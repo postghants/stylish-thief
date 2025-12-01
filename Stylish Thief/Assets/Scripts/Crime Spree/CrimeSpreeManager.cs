@@ -11,6 +11,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [SerializeField] private float maxChaseTime;
     [SerializeField] private int valuablesToSpawn;
     [SerializeField] private float uiLingerTime;
+    [SerializeField] private float multPerCombo;
+
 
     [Header("References")]
     [SerializeField] private List<Transform> valuableLocations;
@@ -22,6 +24,9 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public int AggressionLevel = 0;
     public float Score;
     public float ChaseTimer = 0;
+    public int ComboCount;
+    public float Multiplier = 1;
+
 
     private void Start()
     {
@@ -42,7 +47,6 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         }
         ChaseTimer -= Time.deltaTime;
 
-
         if (ChaseTimer < 0) { EndSpree(); }
     }
 
@@ -54,6 +58,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public void EndSpree()
     {
         ChaseTimer = 0;
+        ComboCount = 0;
+        Multiplier = 1;
         chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
         StartCoroutine(UILinger());
     }
@@ -74,9 +80,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         }
 
         ChaseTimer = maxChaseTime;
-        AddScore(collected.Value);
+        AddScore(collected.Value * Multiplier);
+        AddComboCount();
 
-        if(collected.transform.parent == null) { return; }
+        if (collected.transform.parent == null) { return; }
 
         int spawnCount = valuablesToSpawn;
         List<Transform> taken = new() { collected.transform.parent };
@@ -92,6 +99,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         }
     }
 
+    public void DoCrime(float score)
+    {
+        if (ChaseTimer == 0) { return; }
+        ChaseTimer = maxChaseTime;
+        AddScore(score * Multiplier);
+        AddComboCount();
+    }
+
 
     public void AddScore(float _score)
     {
@@ -102,6 +117,16 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public void RemoveScore(float _score)
     {
         Score -= _score;
+        chaseUI.scoreText.text = Score.ToString("C");
     }
+
+    public void AddComboCount()
+    {
+        ComboCount++;
+        Multiplier += multPerCombo;
+        chaseUI.comboText.text = "COMBO " + ComboCount.ToString();
+        chaseUI.multText.text = Multiplier.ToString("0.0") + "x";
+    }
+
 
 }

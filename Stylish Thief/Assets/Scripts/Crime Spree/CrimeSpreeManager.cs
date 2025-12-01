@@ -26,11 +26,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public float ChaseTimer = 0;
     public int ComboCount;
     public float Multiplier = 1;
+    public List<Valuable> Valuables;
 
 
     private void Start()
     {
         PlayerStateDriver player = FindAnyObjectByType<PlayerStateDriver>();
+
+        SpawnNewValuables();
     }
 
     private void Update()
@@ -85,18 +88,9 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
         if (collected.transform.parent == null) { return; }
 
-        int spawnCount = valuablesToSpawn;
         List<Transform> taken = new() { collected.transform.parent };
 
-        while (spawnCount > 0)
-        {
-            Transform loc = valuableLocations[Random.Range(0, valuableLocations.Count)];
-            if (taken.Contains(loc)) { continue; }
-
-            taken.Add(loc);
-            Instantiate(valuablePrefab, loc);
-            spawnCount--;
-        }
+        SpawnNewValuables(taken, valuablesToSpawn);
     }
 
     public void DoCrime(float score)
@@ -128,5 +122,29 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         chaseUI.multText.text = Multiplier.ToString("0.0") + "x";
     }
 
+    public void SpawnNewValuables(List<Transform> taken, int spawnCount)
+    {
+        foreach (Valuable v in Valuables)
+        {
+            Destroy(v.gameObject);
+        }
+        Valuables.Clear();
+
+        if (valuableLocations.Count < spawnCount + 1) { return; }
+        while (spawnCount > 0)
+        {
+            Transform loc = valuableLocations[Random.Range(0, valuableLocations.Count)];
+            if (taken.Contains(loc)) { continue; }
+
+            taken.Add(loc);
+            Valuables.Add(Instantiate(valuablePrefab, loc).GetComponent<Valuable>());
+            spawnCount--;
+        }
+    }
+
+    public void SpawnNewValuables()
+    {
+        SpawnNewValuables(new(), valuablesToSpawn);
+    }
 
 }

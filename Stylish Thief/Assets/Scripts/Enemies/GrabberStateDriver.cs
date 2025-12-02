@@ -97,6 +97,9 @@ public class GrabberContext : EnemyContext
     [Header("Grab hitbox")]
     public float hitboxOffset;
     public float grabDamage;
+    public float grabKbHorizontal;
+    public float grabKbVertical;
+    [Tooltip("Adds x times the grabber's velocity to the knockback")] public float grabKbVelocityMult;
 
     [Header("Internal")]
     public float grabTimer = 0;

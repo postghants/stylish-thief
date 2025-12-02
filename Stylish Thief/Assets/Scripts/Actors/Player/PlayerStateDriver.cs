@@ -19,7 +19,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private InputAction panLeftAction;
     private InputAction panRightAction;
 
-    private void Awake()
+    private void Start()
     {
         // Set input references
         InitializeControls();
@@ -34,7 +34,9 @@ public class PlayerStateDriver : Actor, IDamageable
         Machine = builder.Build();
 
         // Instantiate player UI
-        ctx.healthBar = Instantiate(ctx.playerUIPrefab).GetComponentInChildren<HealthBar>();
+        GameObject ui = Instantiate(ctx.playerUIPrefab);
+        ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
+        CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
     }
 
     private void Update()
@@ -271,7 +273,6 @@ public class PlayerContext
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
-    [HideInInspector] public ScoreManager scoreManager;
     public Material playerMat;
     public ParticleSystem landParticles;
 

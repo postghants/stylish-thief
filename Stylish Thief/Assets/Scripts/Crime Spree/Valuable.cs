@@ -4,9 +4,9 @@ public class Valuable : MonoBehaviour, IGrabbable
 {
     public float Value;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        PlayerStateDriver player = collision.gameObject.GetComponentInParent<PlayerStateDriver>();
+        PlayerStateDriver player = other.GetComponentInParent<PlayerStateDriver>();
         if (player != null)
         {
             Collect(player.ctx);
@@ -15,8 +15,7 @@ public class Valuable : MonoBehaviour, IGrabbable
 
     private void Collect(PlayerContext ctx)
     {
-        ctx.scoreManager.AddScore(Value);
-
+        if (CrimeSpreeManager.instance != null) CrimeSpreeManager.instance.CollectedValuable(this);
     }
 
 }

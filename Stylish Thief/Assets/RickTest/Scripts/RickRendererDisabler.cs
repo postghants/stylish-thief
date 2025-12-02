@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class RickRendererDisabler : MonoBehaviour
 {
-    MeshRenderer renderer;
+    MeshRenderer meshRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        renderer = GetComponent<MeshRenderer>();
-        renderer.enabled = false;
+        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.enabled = false;
     }
 
     // Update is called once per frame

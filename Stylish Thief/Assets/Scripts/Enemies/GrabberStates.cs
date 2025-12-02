@@ -54,7 +54,7 @@ public class GrabberGrabbing : State
     {
         Debug.Log("Player Hit!");
         ctx.player.TakeDamage(ctx.grabDamage);
-        ctx.player.TakeKnockback(ctx.rb.velocity * 5 + Vector3.up * 10);
+        ctx.player.TakeKnockback(ctx.rb.velocity * ctx.grabKbVelocityMult + ctx.rb.velocity.normalized * ctx.grabKbHorizontal + Vector3.up * ctx.grabKbVertical);
     }
 
     protected override State GetTransition(float deltaTime)

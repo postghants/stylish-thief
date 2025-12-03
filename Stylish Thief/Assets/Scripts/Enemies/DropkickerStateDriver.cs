@@ -34,7 +34,6 @@ public class DropkickerStateDriver : EnemyStateDriver
         machine.Update(Time.deltaTime);
         ctx.currentState = root.Leaf().ToString();
 
-        ctx.rb.Move(ctx.rb.velocity * Time.deltaTime, false);
         if (!ctx.activeZone.IsPointInZone(transform.position))
         {
             Collider[] colliders = Physics.OverlapBox(transform.position, ctx.rb.environmentCollider.bounds.extents);
@@ -90,6 +89,7 @@ public class DropkickerContext : JumperContext
     public float dropkickDistance;
     public JumpData dropkickData;
     public float dropkickSpeed;
+    public float dropkickTime = 4;
     
     [Header("Internal")]
     public bool playerInZone;

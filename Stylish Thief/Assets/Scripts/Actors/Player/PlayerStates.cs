@@ -26,6 +26,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
+            ctx.stunTimer = 0;
             ctx.currentMoveMult = 0;
             ctx.currentlyJumping = false;
             ctx.playerMat.color = ctx.stunnedColor;
@@ -71,6 +72,11 @@ namespace HSM
             ctx.currentMoveMult = 1;
             ctx.playerMat.color = ctx.baseColor;
         }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            ctx.stunTimer += deltaTime; 
+        }
     }
 
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
@@ -94,6 +100,7 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
+            if (Leaf() != this) { return; }
             Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -158,6 +165,7 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
+            if (Leaf() != this) { return; }
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -481,7 +489,11 @@ namespace HSM
                 }
                 if (Leaf() == stunnedAirborne)
                 {
-                    return ((PlayerRoot)Parent).grounded.stunned;
+                    if (ctx.stunTimer > 0.1)
+                    {
+                        return ((PlayerRoot)Parent).grounded.stunned;
+                    }
+                    return null;
                 }
                 return ((PlayerRoot)Parent).grounded;
 

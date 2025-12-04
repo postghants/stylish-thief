@@ -212,7 +212,11 @@ MonoBehaviour:
       timeToJumpApex: 0.3
       upwardMovementMultiplier: 1
       downwardMovementMultiplier: 3
+      hangtimeMovementMultiplier: 0
       jumpCutOff: 5
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      jumpApexHangtime: 0.05
     coyoteTime: 0.1
     jumpBuffer: 0.1
     grabSpeed: 22
@@ -230,14 +234,21 @@ MonoBehaviour:
       timeToJumpApex: 0.38
       upwardMovementMultiplier: 1
       downwardMovementMultiplier: 3
+      hangtimeMovementMultiplier: 0
       jumpCutOff: 5
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      jumpApexHangtime: 0.1
     stunDeceleration: 0.8
     stunMinSpeed: 1.5
     stunUpwardSpeed: 4
     stunDuration: 0.4
+    panTime: 0.2
+    panAngle: 90
     rb: {fileID: 5516163521354773594}
     anim: {fileID: 319182198754694984}
     cam: {fileID: 0}
+    orbitalFollow: {fileID: 0}
     healthBar: {fileID: 0}
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
     landParticles: {fileID: 3213596670418064546}
@@ -265,14 +276,20 @@ MonoBehaviour:
     stunTimer: 0
     slideTimer: 0
     regenTimer: 0
+    jumpApexTimer: 0
     currentFriction: 0
     currentMoveMult: 0
+    currentJumpMoveMult: 1
     currentJumpData:
       jumpHeight: 0
       timeToJumpApex: 0
       upwardMovementMultiplier: 1
       downwardMovementMultiplier: 0
+      hangtimeMovementMultiplier: 0
       jumpCutOff: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      jumpApexHangtime: 0
     isStunned: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0

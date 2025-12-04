@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Contains movement math stuff
@@ -15,7 +16,7 @@ public class Jump
     {
         if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime)) //If grounded or if you still have coyote time
         {
-            ctx.landParticles.Play(); 
+            ctx.landParticles.Play();
             ctx.currentlyJumping = true;
             ctx.desiredJump = false;
             ctx.jumpBufferCounter = 0;
@@ -93,12 +94,22 @@ public class Jump
         //Else if going down...
         else if (ctx.rb.velocity.y < -0.01f)
         {
+            if (ctx.currentlyJumping && ctx.pressingJump)
+            {
+                ctx.jumpApexTimer += Time.deltaTime;
+                if(ctx.jumpApexTimer <= ctx.currentJumpData.jumpApexHangtime)
+                {
+                    ctx.gravMultiplier = ctx.currentJumpData.hangtimeMovementMultiplier;
+                    return;
+                }
+            }
 
             if (ctx.rb.isGrounded)
             //Don't change it if Kit is stood on something (such as a moving platform)
             {
                 ctx.gravMultiplier = 1;
                 ctx.rb.velocity.y = 0f;
+                ctx.jumpApexTimer = 0f;
             }
             else
             {
@@ -128,10 +139,10 @@ public class Jump
     {
         float timer = 0;
         ctx.currentJumpMoveMult = ctx.currentJumpData.jumpMovementMult;
-        while(timer < ctx.currentJumpData.jumpMovementMultTime)
+        while (timer < ctx.currentJumpData.jumpMovementMultTime)
         {
             timer += Time.deltaTime;
-            if(ctx.rb.isGrounded) { break; }
+            if (ctx.rb.isGrounded) { break; }
             yield return null;
         }
         ctx.currentJumpMoveMult = 1;

@@ -39,13 +39,20 @@ public class DropkickerStateDriver : EnemyStateDriver
             Collider[] colliders = Physics.OverlapBox(transform.position, ctx.rb.environmentCollider.bounds.extents);
             foreach (var collider in colliders)
             {
-                if(collider.TryGetComponent(out PatrolZone zone))
+                if (collider.TryGetComponent(out PatrolZone zone))
                 {
                     SwitchActiveZone(zone);
                 }
             }
             transform.position = ctx.activeZone.ClosestPoint(transform.position);
         }
+    }
+
+    public void OnPlayerHit()
+    {
+        Vector3 kb = ctx.rb.velocity * ctx.grabKbHorizontal;
+        kb.y = ctx.grabKbVertical;
+        ctx.player.TakeKnockback(kb);
     }
 
     private void OnPlayerEnterZone()
@@ -89,8 +96,14 @@ public class DropkickerContext : JumperContext
     public float dropkickDistance;
     public JumpData dropkickData;
     public float dropkickSpeed;
-    public float dropkickTime = 4;
-    
+    public float recoveryTime = 4;
+
+    public float hitboxDelay;
+    public float hitboxActiveTime;
+    public float grabDamage;
+    public float grabKbHorizontal;
+    public float grabKbVertical;
+
     [Header("Internal")]
     public bool playerInZone;
     public string currentState;

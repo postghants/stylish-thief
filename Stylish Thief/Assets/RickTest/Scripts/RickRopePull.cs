@@ -9,6 +9,9 @@ public class RickRopePull : MonoBehaviour
     public GameObject endPoint;
     PlayerStateDriver player;
 
+    public float failsafeTimer;
+    public float failsafeTime;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +24,13 @@ public class RickRopePull : MonoBehaviour
         if (pulling)
         {
             player.SetVelocity(transform.forward * startSpeed);
+            failsafeTime += Time.deltaTime;
+            if (failsafeTime > failsafeTimer)
+            {
+                failsafeTime = 0;
+                player.transform.position = endPoint.transform.position;
+                StopPulling();
+            }
         }
     }
     private void OnTriggerEnter(Collider other)

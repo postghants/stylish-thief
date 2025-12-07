@@ -94,10 +94,10 @@ public class Jump
         //Else if going down...
         else if (ctx.rb.velocity.y < -0.01f)
         {
+            ctx.jumpApexTimer += Time.deltaTime;
             if (ctx.currentlyJumping && ctx.pressingJump)
             {
-                ctx.jumpApexTimer += Time.deltaTime;
-                if(ctx.jumpApexTimer <= ctx.currentJumpData.jumpApexHangtime)
+                if (ctx.jumpApexTimer <= ctx.currentJumpData.jumpApexHangtime)
                 {
                     ctx.gravMultiplier = ctx.currentJumpData.hangtimeMovementMultiplier;
                     return;

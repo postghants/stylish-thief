@@ -83,9 +83,11 @@ MonoBehaviour:
       timeToJumpApex: 0
       upwardMovementMultiplier: 1
       downwardMovementMultiplier: 0
+      hangtimeMovementMultiplier: 0
       jumpCutOff: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
+      jumpApexHangtime: 0
     currentVelocity: {x: 0, y: 0, z: 0}
     agent: {fileID: 2743807397984841202}
     animator: {fileID: 2610861060624784576}
@@ -100,11 +102,18 @@ MonoBehaviour:
       timeToJumpApex: 1
       upwardMovementMultiplier: 2
       downwardMovementMultiplier: 3.04
+      hangtimeMovementMultiplier: 0
       jumpCutOff: 1.5
       jumpMovementMult: 1
       jumpMovementMultTime: 1
+      jumpApexHangtime: 0
     dropkickSpeed: 35
-    dropkickTime: 3.92
+    recoveryTime: 4
+    hitboxDelay: 0.1
+    hitboxActiveTime: 1
+    grabDamage: 0
+    grabKbHorizontal: 1.13
+    grabKbVertical: 20
     playerInZone: 0
     currentState: 
 --- !u!114 &651421415921766090
@@ -189,7 +198,7 @@ Transform:
   m_GameObject: {fileID: 6028908635302692823}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.415, y: -0.006, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.05, y: 2.05, z: 2.05}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -290,8 +299,8 @@ MonoBehaviour:
   OnTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GrabberStateDriver, Assembly-CSharp
+      - m_Target: {fileID: 1095714919482590193}
+        m_TargetAssemblyTypeName: DropkickerStateDriver, Assembly-CSharp
         m_MethodName: OnPlayerHit
         m_Mode: 1
         m_Arguments:
@@ -315,7 +324,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.2570295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
       propertyPath: m_LocalPosition.y
@@ -323,7 +332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.278445
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
       propertyPath: m_LocalRotation.w

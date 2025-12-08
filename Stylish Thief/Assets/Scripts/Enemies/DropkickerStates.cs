@@ -5,6 +5,7 @@ public class DropkickerKicking : State
 {
     readonly DropkickerContext ctx;
     private float timer = 0;
+    private float recoveryTimer = 0;
     public DropkickerKicking(StateMachine m, State parent, DropkickerContext ctx) : base(m)
     {
         this.ctx = ctx;
@@ -30,10 +31,14 @@ public class DropkickerKicking : State
 
     protected override void OnExit()
     {
+        timer = 0;
+        recoveryTimer = 0;
+
         ctx.animator.SetTrigger("GetUp");
         ctx.agent.enabled = true;
         ctx.rb.velocity = Vector3.zero;
         ctx.rb.isGrounded = false;
+        ctx.grabHitbox.gameObject.SetActive(false);
     }
 
     protected override void OnUpdate(float deltaTime)
@@ -43,8 +48,21 @@ public class DropkickerKicking : State
         ctx.rb.velocity += ctx.baseGrav * ctx.gravMultiplier * Time.deltaTime * ctx.rb.gravity;
         ctx.rb.Move(ctx.rb.velocity * Time.deltaTime, false);
 
+        if(timer > ctx.hitboxDelay)
+        {
+            if (timer < ctx.hitboxDelay + ctx.hitboxActiveTime)
+            {
+                ctx.grabHitbox.gameObject.SetActive(true);
+            }
+            else
+            {
+                ctx.grabHitbox.gameObject.SetActive(false);
+            }
+        }
+
         if (ctx.rb.isGrounded)
         {
+            recoveryTimer += deltaTime;
             ctx.rb.velocity = Vector3.zero;
         }
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
@@ -53,9 +71,12 @@ public class DropkickerKicking : State
     protected override State GetTransition(float deltaTime)
     {
         timer += deltaTime;
-        if(timer > ctx.dropkickTime)
+        if(recoveryTimer > ctx.recoveryTime - 0.6)
         {
-            timer = 0;
+            ctx.animator.SetTrigger("GetUp");
+        }
+        if(recoveryTimer > ctx.recoveryTime)
+        {
             return ((DropkickerRoot)Parent).chasing;
         }
         return null;

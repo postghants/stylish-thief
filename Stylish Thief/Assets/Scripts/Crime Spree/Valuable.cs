@@ -16,6 +16,14 @@ public class Valuable : MonoBehaviour, IGrabbable
     private void Collect(PlayerContext ctx)
     {
         if (CrimeSpreeManager.instance != null) CrimeSpreeManager.instance.CollectedValuable(this);
-    }
 
+        if (transform.parent != null && transform.parent.TryGetComponent(out ValuableParent parent))
+        {
+            foreach(EnemySpawn spawner in parent.spawners)
+            {
+                spawner.SpawnRandomEnemy();
+            }
+        }
+
+    }
 }

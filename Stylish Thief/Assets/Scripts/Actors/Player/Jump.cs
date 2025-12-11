@@ -14,7 +14,7 @@ public class Jump
 
     public static void PerformJump(PlayerContext ctx)
     {
-        if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime)) //If grounded or if you still have coyote time
+        if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
         {
             ctx.landParticles.Play();
             ctx.currentlyJumping = true;
@@ -64,6 +64,7 @@ public class Jump
         //If Kit is going up...
         if (ctx.rb.velocity.y > 0.01f)
         {
+            ctx.jumpApexTimer = 0f;
             if (ctx.rb.isGrounded)
             {
                 //Don't change it if Kit is stood on something (such as a moving platform)

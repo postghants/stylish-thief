@@ -6,6 +6,7 @@ public class DropkickerKicking : State
     readonly DropkickerContext ctx;
     private float timer = 0;
     private float recoveryTimer = 0;
+    private bool playedRecovery = false;
     public DropkickerKicking(StateMachine m, State parent, DropkickerContext ctx) : base(m)
     {
         this.ctx = ctx;
@@ -13,7 +14,9 @@ public class DropkickerKicking : State
     }
     protected override void OnEnter()
     {
-        ctx.animator.SetTrigger("Kick");
+        timer = 0;
+        recoveryTimer = 0;
+        ctx.animator.Play("DropkickBlockout");
         ctx.agent.enabled = false;
         ctx.currentJumpData = ctx.dropkickData;
         EnemyJump.PerformJump(ctx);
@@ -33,8 +36,7 @@ public class DropkickerKicking : State
     {
         timer = 0;
         recoveryTimer = 0;
-
-        ctx.animator.SetTrigger("GetUp");
+        playedRecovery = false;
         ctx.agent.enabled = true;
         ctx.rb.velocity = Vector3.zero;
         ctx.rb.isGrounded = false;
@@ -43,12 +45,12 @@ public class DropkickerKicking : State
 
     protected override void OnUpdate(float deltaTime)
     {
-        EnemyJump.SetPhysics(ctx); 
+        EnemyJump.SetPhysics(ctx);
         EnemyJump.CalculateGravity(ctx);
         ctx.rb.velocity += ctx.baseGrav * ctx.gravMultiplier * Time.deltaTime * ctx.rb.gravity;
         ctx.rb.Move(ctx.rb.velocity * Time.deltaTime, false);
 
-        if(timer > ctx.hitboxDelay)
+        if (timer > ctx.hitboxDelay)
         {
             if (timer < ctx.hitboxDelay + ctx.hitboxActiveTime)
             {
@@ -71,11 +73,12 @@ public class DropkickerKicking : State
     protected override State GetTransition(float deltaTime)
     {
         timer += deltaTime;
-        if(recoveryTimer > ctx.recoveryTime - 0.6)
+        if (recoveryTimer > ctx.recoveryTime - 0.6 && !playedRecovery)
         {
             ctx.animator.SetTrigger("GetUp");
+            playedRecovery = true;
         }
-        if(recoveryTimer > ctx.recoveryTime)
+        if (recoveryTimer > ctx.recoveryTime)
         {
             return ((DropkickerRoot)Parent).chasing;
         }

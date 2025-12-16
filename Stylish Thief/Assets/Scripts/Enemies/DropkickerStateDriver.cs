@@ -91,6 +91,7 @@ public class DropkickerContext : JumperContext
     public float acceleration;
     public float walkSpeed;
     public float walkAccel;
+    public float chaseDistance;
 
     [Header("Dropkick")]
     public float dropkickDistance;

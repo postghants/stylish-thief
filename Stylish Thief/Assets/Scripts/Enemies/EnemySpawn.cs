@@ -7,18 +7,38 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] private PatrolZone patrolZone;
     [SerializeField] private bool spawnOnlyOnce;
     [SerializeField] private bool spawnOnStart;
+    [SerializeField] private bool spawnOnEnterPatrolZone;
     private PlayerStateDriver player;
 
     [SerializeField] private List<EnemySpawnInfo> enemySpawnInfo;
 
     private bool hasSpawned;
+    public LayerMask patrolZoneLayer;
 
     private void Start()
     {
+        if(patrolZone == null)
+        {
+            Collider[] zones = Physics.OverlapSphere(transform.position, 0.1f, patrolZoneLayer, QueryTriggerInteraction.Collide);
+            if(zones.Length > 0 )
+            {
+            patrolZone = zones[0].GetComponent<PatrolZone>();
+            }
+            else
+            {
+                Debug.Log($"{name} couldn't find patrol zone!");
+                Destroy(gameObject);
+                return;
+            }
+        }
         player = FindAnyObjectByType<PlayerStateDriver>();
         if (spawnOnStart)
         {
             SpawnRandomEnemy();
+        }
+        if(spawnOnEnterPatrolZone)
+        {
+            patrolZone.OnPlayerEnter.AddListener(SpawnRandomEnemy);
         }
     }
 

@@ -83,6 +83,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
         ChaseTimer = maxChaseTime;
         AddScore(collected.Value * Multiplier, "Grand Theft");
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
         AddComboCount();
 
         if (collected.transform.parent == null) { return; }
@@ -104,7 +106,9 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         if (ChaseTimer == 0) { return; }
         AddScore(score * Multiplier, crimeName);
         AddComboCount();
-        chaseUI.crimeReact.GrowAndShrink();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
     }
 
     public void AddScore(float _score, string crimeName)
@@ -112,6 +116,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         Score += _score;
         chaseUI.scoreText.text = Score.ToString("C");
         chaseUI.crimeText.text = crimeName;
+        chaseUI.rewardText.text = _score.ToString();
     }
 
     public void RemoveScore(float _score)
@@ -130,6 +135,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     public void SpawnNewValuables(List<Transform> taken, int spawnCount)
     {
+        valuableLocations.RemoveAll(null);
         foreach (Valuable v in Valuables)
         {
             Destroy(v.gameObject);

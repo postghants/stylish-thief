@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RickBouncyPlatform : MonoBehaviour
 {
+    public float score;
+    public string crime;
     public float launchForce;
     public float minimumHeight;
     public bool oneToOne;
@@ -13,6 +15,7 @@ public class RickBouncyPlatform : MonoBehaviour
     {
         if (other.gameObject.layer == 6)
         {
+            CrimeSpreeManager.instance.DoMinorCrime(score, crime);
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             player.ctx.hasGrabbed = false;
             directionalForce = transform.up * launchForce;

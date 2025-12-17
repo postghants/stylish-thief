@@ -142,6 +142,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         }
         Valuables.Clear();
 
+        if(spawnCount >= valuableLocations.Count) { spawnCount = valuableLocations.Count - 1; }
+
         if (valuableLocations.Count < spawnCount + 1) { return; }
         while (spawnCount > 0)
         {

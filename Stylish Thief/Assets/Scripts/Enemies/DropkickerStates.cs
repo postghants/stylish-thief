@@ -113,11 +113,11 @@ public class DropkickerChasing : State
 
     protected override State GetTransition(float deltaTime)
     {
-        if (Vector3.Distance(ctx.rb.transform.position, ctx.player.transform.position) <= ctx.dropkickDistance)
+        if (ctx.playerInZone && Vector3.Distance(ctx.rb.transform.position, ctx.player.transform.position) <= ctx.dropkickDistance)
         {
             return ((DropkickerRoot)Parent).kicking;
         }
-        if (!ctx.playerInZone)
+        if (!ctx.playerInZone && Vector3.Distance(ctx.rb.transform.position, ctx.player.transform.position) > ctx.chaseDistance)
         {
             return ((DropkickerRoot)Parent).idle;
         }

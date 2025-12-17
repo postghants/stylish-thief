@@ -255,6 +255,7 @@ public class PlayerContext
     [Tooltip("Maximum horizontal impact angle for a bonk")] public float maxSlideBonkAngle;
 
     [Header("Slide Jump")]
+    public bool disableSlideJump;
     public JumpData slideJumpData;
 
     [Header("Stunned")]

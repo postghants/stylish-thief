@@ -559,6 +559,10 @@ namespace HSM
             {
                 if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
                 {
+                    if(ctx.disableSlideJump)
+                    {
+                        return null;
+                    }
                     ctx.currentJumpData = ctx.slideJumpData;
                 }
                 else

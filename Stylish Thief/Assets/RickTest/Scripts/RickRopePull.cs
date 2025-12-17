@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RickRopePull : MonoBehaviour
 {
+    public float score;
+    public string crime;
     public float endSpeed;
     public float startSpeed;
     public Vector3 offset;
@@ -72,6 +74,7 @@ public class RickRopePull : MonoBehaviour
         player.ctx.hasGrabbed = false;
         player.SetVelocity(transform.forward * endSpeed);
         player = null;
+        CrimeSpreeManager.instance.DoMinorCrime(score, crime);
     }
 }
 /* RICK'S LITTLE CHEAT SHEET

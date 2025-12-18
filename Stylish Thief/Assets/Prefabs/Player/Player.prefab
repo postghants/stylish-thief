@@ -208,15 +208,24 @@ MonoBehaviour:
     airAccel: 15
     airFriction: 0.039
     baseJumpData:
-      jumpHeight: 5
-      timeToJumpApex: 0.3
-      upwardMovementMultiplier: 1
-      downwardMovementMultiplier: 3
-      hangtimeMovementMultiplier: 0
-      jumpCutOff: 5
+      jumpCutOff: 60
+      standardGravMult: 30
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpApexHangtime: 0.05
+      jumpImpulse: 15
+      jumpStates:
+      - name: Start
+        gravMult: 0
+        duration: 0.1
+      - name: Leadup to hangtime
+        gravMult: 30
+        duration: 0.5
+      - name: Hangtime
+        gravMult: 0
+        duration: 0.2
+      - name: Descending
+        gravMult: 30
+        duration: 0.6
     coyoteTime: 0.1
     jumpBuffer: 0.1
     grabSpeed: 22
@@ -225,20 +234,19 @@ MonoBehaviour:
     grabDeceleration: 0.45
     grabFriction: 0.02
     grabEndLag: 0
+    enableAirborneSlide: 0
     minSlideTime: 1
     slideFriction: 0.013
     slideMoveMult: 0.2
     maxSlideBonkAngle: 90
+    disableSlideJump: 0
     slideJumpData:
-      jumpHeight: 9
-      timeToJumpApex: 0.38
-      upwardMovementMultiplier: 1
-      downwardMovementMultiplier: 3
-      hangtimeMovementMultiplier: 0
       jumpCutOff: 5
+      standardGravMult: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpApexHangtime: 0.1
+      jumpImpulse: 0
+      jumpStates: []
     stunDeceleration: 0.8
     stunMinSpeed: 1.5
     stunUpwardSpeed: 4
@@ -276,20 +284,17 @@ MonoBehaviour:
     stunTimer: 0
     slideTimer: 0
     regenTimer: 0
-    jumpApexTimer: 0
+    jumpTimer: 0
     currentFriction: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
     currentJumpData:
-      jumpHeight: 0
-      timeToJumpApex: 0
-      upwardMovementMultiplier: 1
-      downwardMovementMultiplier: 0
-      hangtimeMovementMultiplier: 0
       jumpCutOff: 0
+      standardGravMult: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpApexHangtime: 0
+      jumpImpulse: 0
+      jumpStates: []
     isStunned: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0

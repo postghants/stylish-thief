@@ -249,6 +249,7 @@ public class PlayerContext
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Slide")]
+    public bool enableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;

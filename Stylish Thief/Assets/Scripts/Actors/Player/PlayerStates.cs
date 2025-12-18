@@ -255,8 +255,9 @@ namespace HSM
             ctx.grabTimer += deltaTime;
             if (ctx.grabTimer > ctx.grabDuration)
             {
-                if (ctx.pressingGrab && !isDecelerating)
+                if (ctx.pressingGrab && !isDecelerating && (ctx.enableAirborneSlide || ctx.rb.isGrounded))
                 {
+                    if(!ctx.enableAirborneSlide && ctx.isStunned)
                     ctx.grabTimer = 0;
                     return ((PlayerAirborne)Parent).slidingAirborne;
                 }

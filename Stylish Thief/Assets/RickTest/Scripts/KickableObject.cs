@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class KickableObject : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class KickableObject : MonoBehaviour
     PlayerStateDriver player;
     bool kicked;
     public float givenScore;
+    public string crime;
     public float force;
     public float upForce;
     public float rotationalForce;
@@ -39,7 +42,7 @@ public class KickableObject : MonoBehaviour
             rb.angularVelocity = Random.insideUnitSphere * rotationalForce;
             if (!kicked)
             {
-                CrimeSpreeManager.instance.AddScore(givenScore);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
             }
             kicked = true;
             Destroy(gameObject, 5f);

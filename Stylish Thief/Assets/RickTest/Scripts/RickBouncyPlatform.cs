@@ -5,6 +5,7 @@ public class RickBouncyPlatform : MonoBehaviour
     public float score;
     public string crime;
     public float launchForce;
+    public float oneToOneConstant = 1.5f;
     public float minimumHeight;
     public bool oneToOne;
     public bool fullSpeedReplacement;
@@ -42,7 +43,7 @@ public class RickBouncyPlatform : MonoBehaviour
                 else
                 {
                     //player.ctx.rb.velocity = new Vector3(player.ctx.rb.velocity.x, -player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10), player.ctx.rb.velocity.z);
-                    player.SetVelocity(transform.up * (-player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10)));
+                    player.SetVelocity(transform.up * (-player.ctx.rb.velocity.y * oneToOneConstant));
                 }
             }
             else if (fullSpeedReplacement)

@@ -10,7 +10,7 @@ public class JumperContext : EnemyContext
     public float baseGrav;
     public float gravMultiplier;
     public float jumpSpeed;
-    public JumpData currentJumpData;
+    public DropkickerJumpData currentJumpData;
     public Vector3 currentVelocity;
 }
 

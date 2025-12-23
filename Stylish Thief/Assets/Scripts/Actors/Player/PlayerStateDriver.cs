@@ -1,9 +1,8 @@
 using HSM;
 using System;
 using System.Collections;
-using System.Threading;
+using System.Collections.Generic;
 using Unity.Cinemachine;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -249,6 +248,7 @@ public class PlayerContext
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Slide")]
+    public bool enableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
@@ -308,7 +308,7 @@ public class PlayerContext
     public float stunTimer;
     public float slideTimer;
     public float regenTimer;
-    public float jumpApexTimer;
+    public float jumpTimer;
     public float currentFriction;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
@@ -326,14 +326,26 @@ public class PlayerContext
 [Serializable]
 public class JumpData
 {
-    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
-    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
-    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
-    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
-    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
+//    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
+//    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
+//    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
+//    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
+//    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
+//    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
+
     [Tooltip("Gravity multiplier while moving up after letting go of jump")] public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
+    public float standardGravMult;
     [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
     [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;
-    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
-    
+
+    public float jumpImpulse;
+    public List<JumpState> jumpStates;
+}
+
+[Serializable]
+public class JumpState
+{
+    [SerializeField] public string name;
+    [SerializeField] public float gravMult;
+    [SerializeField] public float duration;
 }

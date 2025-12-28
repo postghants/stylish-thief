@@ -156,10 +156,10 @@ public class ActorPhysics : MonoBehaviour
                     leftover.x = horizontalLeftover.x; leftover.z = horizontalLeftover.z;
 
                 }
-                if (!stairFound)
-                {
-                    velocity.x = leftover.x / Time.deltaTime; velocity.z = leftover.z / Time.deltaTime;
-                }
+                //if (!stairFound)
+                //{
+                //    velocity.x = leftover.x / Time.deltaTime; velocity.z = leftover.z / Time.deltaTime;
+                //}
             }
             if (hit.point != Vector3.zero)
             {

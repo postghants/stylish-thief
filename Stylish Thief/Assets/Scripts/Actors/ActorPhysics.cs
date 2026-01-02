@@ -185,24 +185,43 @@ public class ActorPhysics : MonoBehaviour
         Bounds bounds = environmentCollider.bounds;
         bounds.Expand(-2 * skinWidth);
 
+        bool snapDown = false;
         float dist = groundCheckDist;
         if (isGrounded && velocity.y == 0 /*&& currentGroundAngle > 0.1f*/)
         {
             dist += velocity.magnitude * groundCheckSpeedMult;
+            snapDown = true;
         }
         var hits = Physics.BoxCastAll(pos, bounds.extents, Vector3.down, Quaternion.identity, dist, groundMask, QueryTriggerInteraction.Ignore);
 
+        List<RaycastHit> validHits = new();
         foreach (var hit in hits)
         {
-            if (hit.distance == 0) // if collider is already overlapping
-            {
-
-            }
-
             if (Vector3.Angle(Vector3.up, hit.normal) < maxSlopeAngle)
             {
-                return true;
+                if (snapDown)
+                {
+                    validHits.Add(hit);
+                }
+                else
+                {
+                    return true;
+                }
             }
+        }
+        if(snapDown)
+        {
+            if(validHits.Count == 0) { return false; }
+            RaycastHit best = validHits[0];
+            foreach(var hit in validHits)
+            {
+                if(best.distance > hit.distance)
+                {
+                    best = hit;
+                }
+            }
+            transform.Translate(0, -(best.distance - skinWidth), 0);
+            return true;
         }
         return false;
     }

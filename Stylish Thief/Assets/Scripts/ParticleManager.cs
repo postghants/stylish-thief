@@ -4,68 +4,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using ParticleManagement;
 
-    public class ParticleManager : MonoBehaviour
+public class ParticleManager : MonoBehaviour
+{
+    public List<ParticleSystemGroup> groups = new();
+
+    private void Start()
     {
-        public List<ParticleSystemGroup> groups = new();
+        foreach (ParticleSystemGroup group in groups) { group.Init(); }
+    }
 
-        private void Start()
+    public void StartGroup(int index)
+    {
+        if (index >= groups.Count) { return; }
+        foreach (ParticleSystemData data in groups[index].systems)
         {
-            foreach (ParticleSystemGroup group in groups) { group.Init(); }
-        }
-
-        public void StartGroup(int index)
-        {
-            if (index >= groups.Count) { return; }
-            foreach (ParticleSystemData data in groups[index].systems)
+            if (data.system == null) { continue; }
+            if (data.delay > 0)
             {
-                if (data.system == null) { continue; }
-                if (data.delay > 0)
-                {
-                    CoroutineBox box = new();
-                    box.c = StartCoroutine(DelayStart(data, box));
-                    groups[index].activeDelayedRoutines.Add(box);
-                }
-                else
-                {
-                    data.system.Play();
-                }
+                CoroutineBox box = new();
+                box.c = StartCoroutine(DelayStart(data, box));
+                groups[index].activeDelayedRoutines.Add(box);
+            }
+            else
+            {
+                data.system.Play();
             }
         }
+    }
 
     public void StartGroup(string name)
     {
-        foreach(ParticleSystemGroup group in groups)
+        foreach (ParticleSystemGroup group in groups)
         {
-            if(group.name == name)
+            if (group.name == name)
             {
                 StartGroup(groups.IndexOf(group));
             }
         }
     }
 
-        public void StopGroup(int index)
+    public void StopGroup(int index)
+    {
+        if (index >= groups.Count) { return; }
+        foreach (ParticleSystemData data in groups[index].systems)
         {
-            if (index >= groups.Count) { return; }
-            foreach (ParticleSystemData data in groups[index].systems)
-            {
-                if(data.system == null) { continue; }
-                data.system.Stop();
-            }
-            foreach (CoroutineBox box in groups[index].activeDelayedRoutines)
-            {
-                StopCoroutine(box.c);
-            }
-            groups[index].activeDelayedRoutines.Clear();
+            if (data.system == null) { continue; }
+            data.system.Stop();
         }
-
-        private IEnumerator DelayStart(ParticleSystemData data, CoroutineBox box)
+        foreach (CoroutineBox box in groups[index].activeDelayedRoutines)
         {
-            yield return new WaitForSeconds(data.delay);
-            data.system.Play();
-            data.group.activeDelayedRoutines.Remove(box);
+            StopCoroutine(box.c);
         }
-
+        groups[index].activeDelayedRoutines.Clear();
     }
+
+    public void StopGroup(string name)
+    {
+        foreach (ParticleSystemGroup group in groups)
+        {
+            if (group.name == name)
+            {
+                StopGroup(groups.IndexOf(group));
+            }
+        }
+    }
+
+    private IEnumerator DelayStart(ParticleSystemData data, CoroutineBox box)
+    {
+        yield return new WaitForSeconds(data.delay);
+        data.system.Play();
+        data.group.activeDelayedRoutines.Remove(box);
+    }
+
+}
 
 namespace ParticleManagement
 {

@@ -556,7 +556,7 @@ namespace HSM
             ctx.rb.Move(deltaTime * ctx.rb.velocity, doGravityPass);
         }
 
-        protected override State GetInitialState() => grounded;
+        protected override State GetInitialState() => airborne;
         protected override State GetTransition(float deltaTime)
         {
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with

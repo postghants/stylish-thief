@@ -275,7 +275,7 @@ public class PlayerContext
     public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
-    public ParticleSystem landParticles;
+    public ParticleManager particleManager;
 
     [Header("Prefabs")]
     public GameObject playerUIPrefab;

@@ -15,7 +15,8 @@ public class Jump
     {
         if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
         {
-            ctx.landParticles.Play();
+
+            ctx.particleManager.StartGroup("Jump");
             ctx.currentlyJumping = true;
             ctx.desiredJump = false;
             ctx.jumpBufferCounter = 0;

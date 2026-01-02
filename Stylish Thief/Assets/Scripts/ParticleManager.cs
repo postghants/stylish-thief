@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ParticleManagement;
 
-namespace ParticleManagement
-{
     public class ParticleManager : MonoBehaviour
     {
         public List<ParticleSystemGroup> groups = new();
@@ -33,6 +32,17 @@ namespace ParticleManagement
             }
         }
 
+    public void StartGroup(string name)
+    {
+        foreach(ParticleSystemGroup group in groups)
+        {
+            if(group.name == name)
+            {
+                StartGroup(groups.IndexOf(group));
+            }
+        }
+    }
+
         public void StopGroup(int index)
         {
             if (index >= groups.Count) { return; }
@@ -57,6 +67,8 @@ namespace ParticleManagement
 
     }
 
+namespace ParticleManagement
+{
 
     [Serializable]
     public class ParticleSystemGroup

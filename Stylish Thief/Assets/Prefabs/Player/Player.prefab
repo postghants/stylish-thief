@@ -50,6 +50,11 @@ MonoBehaviour:
     - name: Dust
       system: {fileID: 3213596670418064546}
       delay: 0
+  - name: Land
+    systems:
+    - name: Dust
+      system: {fileID: 3213596670418064546}
+      delay: 0
 --- !u!1 &3368787417710993652
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +315,7 @@ MonoBehaviour:
     orbitalFollow: {fileID: 0}
     healthBar: {fileID: 0}
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
-    landParticles: {fileID: 3213596670418064546}
+    particleManager: {fileID: 7529127243591585783}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
     baseColor: {r: 1, g: 0.2783019, b: 0.3992617, a: 0}

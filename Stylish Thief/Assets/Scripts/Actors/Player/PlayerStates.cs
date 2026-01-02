@@ -375,7 +375,7 @@ namespace HSM
             ctx.currentFriction = ctx.groundFriction;
             ctx.currentMoveMult = 1;
             ctx.playerMat.color = ctx.baseColor;
-            ctx.landParticles.Play();
+            ctx.particleManager.StartGroup("Land");
             // Do animations or whatever
         }
 

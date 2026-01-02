@@ -100,7 +100,7 @@ public class ActorPhysics : MonoBehaviour
                     new Vector3(hit.normal.x, 0, hit.normal.z).normalized,
                     -new Vector3(velInit.x, 0, velInit.z).normalized);
 
-                bool stairFound = false;
+                //bool stairFound = false;
                 if (isGrounded && velocity.y == 0 && !gravityPass)
                 {
                     // STAIR CHECK STAIR CHECK OH YEAH!!!
@@ -136,7 +136,7 @@ public class ActorPhysics : MonoBehaviour
 
                                     }
                                     snapToSurface.y += maxStairHeight;
-                                    stairFound = true;
+                                    //stairFound = true;
                                 }
 
                                 break;

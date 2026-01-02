@@ -114,15 +114,19 @@ namespace HSM
             Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
             if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                Vector3 newVel = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
-                if (newVel == Vector3.zero)
-                {
-                    newVel = hit.normal * ctx.stunMinSpeed;
-                }
-                if (newVel.magnitude < ctx.stunMinSpeed)
-                {
-                    newVel = newVel.normalized * ctx.stunMinSpeed;
-                }
+                // velocity reflection code. busted! don't try at home
+                //Vector3 newVel = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                //if (newVel == Vector3.zero)
+                //{
+                //    newVel = hit.normal * ctx.stunMinSpeed;
+                //}
+                //if (newVel.magnitude < ctx.stunMinSpeed)
+                //{
+                //    newVel = newVel.normalized * ctx.stunMinSpeed;
+                //}
+
+                Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
+
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;

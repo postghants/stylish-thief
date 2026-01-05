@@ -64,6 +64,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.playerMat.color = ctx.stunnedColor;
+            ctx.particleManager.StartGroup("Stun");
             ctx.currentMoveMult = 0;
         }
 
@@ -75,7 +76,7 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            ctx.stunTimer += deltaTime; 
+            ctx.stunTimer += deltaTime;
         }
     }
 
@@ -261,8 +262,8 @@ namespace HSM
             {
                 if (ctx.pressingGrab && !isDecelerating && (ctx.enableAirborneSlide || ctx.rb.isGrounded))
                 {
-                    if(!ctx.enableAirborneSlide && ctx.isStunned)
-                    ctx.grabTimer = 0;
+                    if (!ctx.enableAirborneSlide && ctx.isStunned)
+                        ctx.grabTimer = 0;
                     return ((PlayerAirborne)Parent).slidingAirborne;
                 }
                 if (!isDecelerating)
@@ -321,6 +322,16 @@ namespace HSM
             Parent = parent;
         }
 
+        protected override void OnEnter()
+        {
+            ctx.particleManager.StartGroup("Run");
+        }
+
+        protected override void OnExit()
+        {
+            ctx.particleManager.StopGroup("Run");
+        }
+
         protected override void OnUpdate(float deltaTime)
         {
             if (ctx.moveInputValue != Vector2.zero)
@@ -375,7 +386,6 @@ namespace HSM
             ctx.currentFriction = ctx.groundFriction;
             ctx.currentMoveMult = 1;
             ctx.playerMat.color = ctx.baseColor;
-            ctx.particleManager.StartGroup("Land");
             // Do animations or whatever
         }
 
@@ -500,6 +510,8 @@ namespace HSM
                     }
                     return null;
                 }
+
+                ctx.particleManager.StartGroup("Land");
                 return ((PlayerRoot)Parent).grounded;
 
             }
@@ -564,7 +576,7 @@ namespace HSM
             {
                 if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
                 {
-                    if(ctx.disableSlideJump)
+                    if (ctx.disableSlideJump)
                     {
                         return null;
                     }

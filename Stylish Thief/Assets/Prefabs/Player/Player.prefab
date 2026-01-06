@@ -10141,47 +10141,77 @@ MonoBehaviour:
     regenRate: 10
     regenDelay: 1.5
     timeScale: 1
-    acceleration: 40
-    groundFriction: 0.08
-    groundDeceleration: 0.3
-    groundSpeedCapMult: 0.1
-    maxSpeed: 8
-    turnDecelerationMult: 10
-    turnDeceleration:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.6549124
-        value: 0.051286466
-        inSlope: 0.2660134
-        outSlope: 0.2660134
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.279899
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.5680313
-        inSlope: 1.2319243
-        outSlope: 1.2319243
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.06333327
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    airAccel: 15
-    airFriction: 0.039
+    groundMoveData:
+      acceleration: 40
+      friction: 0
+      deceleration: 0.3
+      maxSpeed: 8
+      speedCapMult: 1
+      turnDecelerationMult: 10
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.6549124
+          value: 0.051286466
+          inSlope: 0.2660134
+          outSlope: 0.2660134
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.279899
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0.5680313
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.06333327
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    airMoveData:
+      acceleration: 15
+      friction: 0.039
+      deceleration: 0
+      maxSpeed: 10
+      speedCapMult: 1
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     baseJumpData:
       jumpCutOff: 60
       standardGravMult: 30
@@ -10263,6 +10293,19 @@ MonoBehaviour:
     currentFriction: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
+    currentMoveData:
+      acceleration: 0
+      friction: 0
+      deceleration: 0
+      maxSpeed: 0
+      speedCapMult: 0.9
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     currentJumpData:
       jumpCutOff: 0
       standardGravMult: 0
@@ -10298,7 +10341,7 @@ MonoBehaviour:
   maxBounces: 5
   skinWidth: 0.015
   groundCheckDist: 0.1
-  groundCheckSpeedMult: 0.21
+  groundCheckSpeedMult: 0.09
   maxSlopeAngle: 55
   maxStairHeight: 0.15
   minStairWidth: 0.1
@@ -10594,7 +10637,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.05
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -15147,7 +15190,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b2581c62c8a17a4da8b607c021d9cd4, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

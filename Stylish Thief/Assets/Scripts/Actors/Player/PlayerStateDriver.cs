@@ -1,4 +1,5 @@
 using HSM;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -225,17 +226,19 @@ public class PlayerContext
     public float timeScale = 1;
 
     [Header("Grounded Movement")]
-    [Tooltip("Acceleration in units/s^2")] public float acceleration;
-    [Tooltip("Friction applied when on the ground.")] public float groundFriction;
-    [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
-    [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
-    [Tooltip("Maximum grounded speed.")] public float maxSpeed;
-    [Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
-    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
+    public MoveData groundMoveData;
+    //[Tooltip("Acceleration in units/s^2")] public float acceleration;
+    //[Tooltip("Friction applied when on the ground.")] public float groundFriction;
+    //[Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
+    //[Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
+    //[Tooltip("Maximum grounded speed.")] public float maxSpeed;
+    //[Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
+    //[Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
     [Header("Air Movement")]
-    [Tooltip("Acceleration when airborne.")] public float airAccel;
-    [Tooltip("Friction applied when airborne.")] public float airFriction;
+    public MoveData airMoveData;
+    //[Tooltip("Acceleration when airborne.")] public float airAccel;
+    //[Tooltip("Friction applied when airborne.")] public float airFriction;
 
     [Header("Jump")]
     public JumpData baseJumpData;
@@ -315,6 +318,7 @@ public class PlayerContext
     public float currentFriction;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
+    public MoveData currentMoveData;
     public JumpData currentJumpData;
     public bool isStunned;
 
@@ -324,6 +328,18 @@ public class PlayerContext
     public bool pressingJump;
     public bool desiredGrab;
     public bool pressingGrab;
+}
+
+[Serializable]
+public class MoveData
+{
+    [Tooltip("Acceleration in units per second squared.")] public float acceleration;
+    [Tooltip("Friction applied on any horizontal velocity.")] public float friction;
+    [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
+    [Tooltip("Maximum speed.")] public float maxSpeed;
+    [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float speedCapMult = 0.9f;
+    [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
+    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }
 
 [Serializable]

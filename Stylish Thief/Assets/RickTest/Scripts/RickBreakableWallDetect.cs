@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class RickBreakableWallDetect : MonoBehaviour
 {
@@ -24,6 +22,8 @@ public class RickBreakableWallDetect : MonoBehaviour
     {
         if (other.gameObject.layer == 6)
         {
+            player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
+
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
             {
                 coll.enabled = false;

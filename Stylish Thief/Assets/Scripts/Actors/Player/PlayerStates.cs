@@ -64,6 +64,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.playerMat.color = ctx.stunnedColor;
+            ctx.particleManager.StartGroup("Stun");
             ctx.currentMoveMult = 0;
         }
 
@@ -75,7 +76,7 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            ctx.stunTimer += deltaTime; 
+            ctx.stunTimer += deltaTime;
         }
     }
 
@@ -114,15 +115,19 @@ namespace HSM
             Vector3 horizontalVel = impactVelocity; horizontalVel.y = 0;
             if (Vector3.Angle(horizontalVel, hit.normal) > ctx.maxSlideBonkAngle)
             {
-                Vector3 newVel = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
-                if (newVel == Vector3.zero)
-                {
-                    newVel = hit.normal * ctx.stunMinSpeed;
-                }
-                if (newVel.magnitude < ctx.stunMinSpeed)
-                {
-                    newVel = newVel.normalized * ctx.stunMinSpeed;
-                }
+                // velocity reflection code. busted! don't try at home
+                //Vector3 newVel = Vector3.Reflect(horizontalVel, hit.normal) * ctx.stunDeceleration;
+                //if (newVel == Vector3.zero)
+                //{
+                //    newVel = hit.normal * ctx.stunMinSpeed;
+                //}
+                //if (newVel.magnitude < ctx.stunMinSpeed)
+                //{
+                //    newVel = newVel.normalized * ctx.stunMinSpeed;
+                //}
+
+                Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
+
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
@@ -257,8 +262,8 @@ namespace HSM
             {
                 if (ctx.pressingGrab && !isDecelerating && (ctx.enableAirborneSlide || ctx.rb.isGrounded))
                 {
-                    if(!ctx.enableAirborneSlide && ctx.isStunned)
-                    ctx.grabTimer = 0;
+                    if (!ctx.enableAirborneSlide && ctx.isStunned)
+                        ctx.grabTimer = 0;
                     return ((PlayerAirborne)Parent).slidingAirborne;
                 }
                 if (!isDecelerating)
@@ -317,6 +322,16 @@ namespace HSM
             Parent = parent;
         }
 
+        protected override void OnEnter()
+        {
+            ctx.particleManager.StartGroup("Run");
+        }
+
+        protected override void OnExit()
+        {
+            ctx.particleManager.StopGroup("Run");
+        }
+
         protected override void OnUpdate(float deltaTime)
         {
             if (ctx.moveInputValue != Vector2.zero)
@@ -371,7 +386,6 @@ namespace HSM
             ctx.currentFriction = ctx.groundFriction;
             ctx.currentMoveMult = 1;
             ctx.playerMat.color = ctx.baseColor;
-            ctx.landParticles.Play();
             // Do animations or whatever
         }
 
@@ -496,6 +510,8 @@ namespace HSM
                     }
                     return null;
                 }
+
+                ctx.particleManager.StartGroup("Land");
                 return ((PlayerRoot)Parent).grounded;
 
             }
@@ -552,7 +568,7 @@ namespace HSM
             ctx.rb.Move(deltaTime * ctx.rb.velocity, doGravityPass);
         }
 
-        protected override State GetInitialState() => grounded;
+        protected override State GetInitialState() => airborne;
         protected override State GetTransition(float deltaTime)
         {
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
@@ -560,7 +576,7 @@ namespace HSM
             {
                 if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
                 {
-                    if(ctx.disableSlideJump)
+                    if (ctx.disableSlideJump)
                     {
                         return null;
                     }

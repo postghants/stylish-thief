@@ -193,7 +193,10 @@ public class PlayerStateDriver : Actor, IDamageable
     public void TakeDamage(float damage)
     {
         ctx.currentHealth -= damage;
-        ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        if (ctx.healthBar != null)
+        {
+            ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        }
         ctx.regenTimer = 0;
         if (ctx.currentHealth <= 0)
         {
@@ -275,7 +278,7 @@ public class PlayerContext
     public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
-    public ParticleSystem landParticles;
+    public ParticleManager particleManager;
 
     [Header("Prefabs")]
     public GameObject playerUIPrefab;

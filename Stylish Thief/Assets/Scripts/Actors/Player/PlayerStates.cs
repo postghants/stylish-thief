@@ -227,6 +227,25 @@ namespace HSM
 
             ctx.anim.Play("grab");
 
+            var grabbables = Physics.OverlapSphere(ctx.rb.transform.position, ctx.maxGrabTargetDistanceHorizontal);
+            float bestAngle = 360;
+            foreach (var grabbable in grabbables)
+            {
+                if (grabbable.TryGetComponent(out IGrabbable i))
+                {
+                    float angle = Vector3.Angle(ctx.facing, grabbable.transform.position - ctx.rb.transform.position);
+                    float yDist = grabbable.transform.position.y - ctx.rb.transform.position.y;
+                    Vector3 horizontalDist = new Vector3(grabbable.transform.position.x, 0, grabbable.transform.position.z) - new Vector3(ctx.rb.transform.position.x, 0, ctx.rb.transform.position.z);
+                    if (angle < ctx.maxGrabTargetAngle
+                       && yDist > ctx.maxGrabTargetDistanceDown && yDist < ctx.maxGrabTargetDistanceUp
+                       && horizontalDist.magnitude < ctx.maxGrabTargetDistanceHorizontal)
+                    {
+                        bestAngle = angle;
+                        ctx.facing = horizontalDist;
+                    }
+                }
+            }
+
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;

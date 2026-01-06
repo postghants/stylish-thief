@@ -10239,6 +10239,10 @@ MonoBehaviour:
     grabDeceleration: 0.45
     grabFriction: 0.02
     grabEndLag: 0
+    maxGrabTargetAngle: 30
+    maxGrabTargetDistanceHorizontal: 4
+    maxGrabTargetDistanceUp: 0.3
+    maxGrabTargetDistanceDown: -1
     enableAirborneSlide: 0
     minSlideTime: 1
     slideFriction: 0.013
@@ -10341,7 +10345,7 @@ MonoBehaviour:
   maxBounces: 5
   skinWidth: 0.015
   groundCheckDist: 0.1
-  groundCheckSpeedMult: 0.09
+  groundCheckSpeedMult: 0.12
   maxSlopeAngle: 55
   maxStairHeight: 0.15
   minStairWidth: 0.1

@@ -253,6 +253,12 @@ public class PlayerContext
     [Tooltip("Friction applied during grab state")] public float grabFriction;
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
+    [Header("Grab Targeting")]
+    public float maxGrabTargetAngle;
+    public float maxGrabTargetDistanceHorizontal;
+    public float maxGrabTargetDistanceUp;
+    public float maxGrabTargetDistanceDown;
+
     [Header("Slide")]
     public bool enableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;

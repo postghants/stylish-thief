@@ -65,6 +65,7 @@ namespace HSM
         {
             ctx.playerMat.color = ctx.stunnedColor;
             ctx.particleManager.StartGroup("Stun");
+            ctx.anim.SetBool("Sliding", false);
             ctx.currentMoveMult = 0;
         }
 
@@ -224,7 +225,7 @@ namespace HSM
             ctx.currentFriction = ctx.grabFriction;
             ctx.playerMat.color = ctx.grabColor;
 
-            ctx.anim.SetTrigger("Grab");
+            ctx.anim.Play("grab");
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }

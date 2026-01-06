@@ -1,9 +1,5 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-
 
 //Physics behaviour specifically made for actors.
 public class ActorPhysics : MonoBehaviour

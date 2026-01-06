@@ -259,6 +259,11 @@ public class PlayerContext
     public float maxGrabTargetDistanceUp;
     public float maxGrabTargetDistanceDown;
 
+    [Header("Ledge Grab")]
+    public float ledgeCheckDistance;
+    public float maxLedgeHeight;
+    public float vaultSpeed;
+
     [Header("Slide")]
     public bool enableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;

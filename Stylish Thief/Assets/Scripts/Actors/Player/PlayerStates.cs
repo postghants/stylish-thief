@@ -236,7 +236,7 @@ namespace HSM
                     float angle = Vector3.Angle(ctx.facing, grabbable.transform.position - ctx.rb.transform.position);
                     float yDist = grabbable.transform.position.y - ctx.rb.transform.position.y;
                     Vector3 horizontalDist = new Vector3(grabbable.transform.position.x, 0, grabbable.transform.position.z) - new Vector3(ctx.rb.transform.position.x, 0, ctx.rb.transform.position.z);
-                    if (angle < ctx.maxGrabTargetAngle
+                    if (angle < ctx.maxGrabTargetAngle && angle < bestAngle
                        && yDist > ctx.maxGrabTargetDistanceDown && yDist < ctx.maxGrabTargetDistanceUp
                        && horizontalDist.magnitude < ctx.maxGrabTargetDistanceHorizontal)
                     {
@@ -262,6 +262,34 @@ namespace HSM
         protected override void OnUpdate(float deltaTime)
         {
 
+            //Find ledge for vaulting
+            Vector3 origin = ctx.rb.transform.position;
+            origin.y -= ctx.rb.environmentCollider.bounds.extents.y;
+            if (Physics.Raycast(origin, ctx.rb.velocity, out RaycastHit checkHit, ctx.ledgeCheckDistance, ctx.rb.groundMask))
+            {
+                if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
+                {
+                    origin = checkHit.point;
+                    origin.y += ctx.maxLedgeHeight;
+                    if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask).Length == 0)
+                    {
+                        if (Physics.Raycast(origin, Vector3.down, out RaycastHit heightHit, ctx.maxLedgeHeight, ctx.rb.groundMask))
+                        {
+                            origin = heightHit.point;
+                            origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                            ctx.rb.transform.position = origin;
+                            if (ctx.pressingGrab)
+                            {
+                                ctx.rb.velocity += ctx.rb.velocity.normalized * ctx.vaultSpeed;
+                            }
+                            else
+                            {
+                                Machine.ChangeState(this, ((PlayerRoot)Parent.Parent).grounded);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         protected override void OnExit()

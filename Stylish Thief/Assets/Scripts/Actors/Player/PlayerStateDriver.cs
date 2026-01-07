@@ -262,7 +262,10 @@ public class PlayerContext
     [Header("Ledge Grab")]
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
-    public float vaultSpeed;
+    public float vaultSpeedMult;
+    public float vaultSpeedBoost;
+    public float vaultDuration;
+    public float vaultVerticalBoost;
 
     [Header("Slide")]
     public bool enableAirborneSlide;
@@ -339,6 +342,7 @@ public class PlayerContext
     public bool pressingJump;
     public bool desiredGrab;
     public bool pressingGrab;
+
 }
 
 [Serializable]

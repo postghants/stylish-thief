@@ -204,6 +204,52 @@ namespace HSM
         }
     }
 
+    public class PlayerVaulting : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+        private Vector3 startVel;
+        public PlayerVaulting(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            base.OnEnter(); 
+            startVel = ctx.rb.velocity;
+            ctx.rb.velocity *= ctx.vaultSpeedMult;
+            ctx.anim.Play("Vault");
+        }
+
+        protected override void OnExit()
+        {
+            if(ctx.pressingGrab)
+            {
+                ctx.rb.velocity += startVel.normalized * ctx.vaultSpeedBoost;
+                ctx.rb.velocity.y += ctx.vaultVerticalBoost;
+                ctx.anim.Play("GrabEndAerial");
+            }
+            else
+            {
+                ctx.anim.Play("GrabEndGround");
+            }
+            timer = 0;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            timer += deltaTime;
+            if(timer >= ctx.vaultDuration)
+            {
+                return Parent;
+            }
+            return null;
+        }
+
+    }
+
     // Performing a grab.
     public class PlayerGrabbing : State
     {
@@ -265,27 +311,21 @@ namespace HSM
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
             origin.y -= ctx.rb.environmentCollider.bounds.extents.y;
-            if (Physics.Raycast(origin, ctx.rb.velocity, out RaycastHit checkHit, ctx.ledgeCheckDistance, ctx.rb.groundMask))
+            if (Physics.Raycast(origin, ctx.rb.velocity, out RaycastHit checkHit, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
             {
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
                 {
                     origin = checkHit.point;
                     origin.y += ctx.maxLedgeHeight;
-                    if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask).Length == 0)
+                    if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                     {
-                        if (Physics.Raycast(origin, Vector3.down, out RaycastHit heightHit, ctx.maxLedgeHeight, ctx.rb.groundMask))
+                        if (Physics.Raycast(origin, Vector3.down, out RaycastHit heightHit, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
                         {
                             origin = heightHit.point;
                             origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
                             ctx.rb.transform.position = origin;
-                            if (ctx.pressingGrab)
-                            {
-                                ctx.rb.velocity += ctx.rb.velocity.normalized * ctx.vaultSpeed;
-                            }
-                            else
-                            {
-                                Machine.ChangeState(this, ((PlayerRoot)Parent.Parent).grounded);
-                            }
+
+                            Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
                         }
                     }
                 }
@@ -494,6 +534,7 @@ namespace HSM
         public readonly PlayerGrabbing grabbing;
         public readonly PlayerSlidingAirborne slidingAirborne;
         public readonly PlayerStunnedAirborne stunnedAirborne;
+        public readonly PlayerVaulting vaulting;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -504,6 +545,7 @@ namespace HSM
             grabbing = new(m, this, ctx);
             slidingAirborne = new(m, this, ctx);
             stunnedAirborne = new(m, this, ctx);
+            vaulting = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -541,7 +583,7 @@ namespace HSM
                 {
                     return grabbing;
                 }
-                if (ctx.grabTimer > 0)
+                if (ctx.grabTimer > 0 || Leaf() == vaulting)
                 {
                     return null;
                 }
@@ -600,7 +642,7 @@ namespace HSM
                 ctx.regenTimer += deltaTime;
             }
 
-            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction;
+            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction * deltaTime;
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
             if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))

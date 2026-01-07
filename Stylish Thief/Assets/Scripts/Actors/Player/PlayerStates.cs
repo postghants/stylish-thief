@@ -388,6 +388,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
+            if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2"))
             ctx.anim.Play("Idle");
         }
         protected override State GetTransition(float deltaTime)

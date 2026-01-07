@@ -1,9 +1,9 @@
 using HSM;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
-using System.Threading;
+using System.Collections.Generic;
 using Unity.Cinemachine;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -194,7 +194,10 @@ public class PlayerStateDriver : Actor, IDamageable
     public void TakeDamage(float damage)
     {
         ctx.currentHealth -= damage;
-        ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        if (ctx.healthBar != null)
+        {
+            ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        }
         ctx.regenTimer = 0;
         if (ctx.currentHealth <= 0)
         {
@@ -223,17 +226,19 @@ public class PlayerContext
     public float timeScale = 1;
 
     [Header("Grounded Movement")]
-    [Tooltip("Acceleration in units/s^2")] public float acceleration;
-    [Tooltip("Friction applied when on the ground.")] public float groundFriction;
-    [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
-    [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
-    [Tooltip("Maximum grounded speed.")] public float maxSpeed;
-    [Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
-    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
+    public MoveData groundMoveData;
+    //[Tooltip("Acceleration in units/s^2")] public float acceleration;
+    //[Tooltip("Friction applied when on the ground.")] public float groundFriction;
+    //[Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
+    //[Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
+    //[Tooltip("Maximum grounded speed.")] public float maxSpeed;
+    //[Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
+    //[Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
     [Header("Air Movement")]
-    [Tooltip("Acceleration when airborne.")] public float airAccel;
-    [Tooltip("Friction applied when airborne.")] public float airFriction;
+    public MoveData airMoveData;
+    //[Tooltip("Acceleration when airborne.")] public float airAccel;
+    //[Tooltip("Friction applied when airborne.")] public float airFriction;
 
     [Header("Jump")]
     public JumpData baseJumpData;
@@ -248,7 +253,19 @@ public class PlayerContext
     [Tooltip("Friction applied during grab state")] public float grabFriction;
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
+    [Header("Grab Targeting")]
+    public float maxGrabTargetAngle;
+    public float maxGrabTargetDistanceHorizontal;
+    public float maxGrabTargetDistanceUp;
+    public float maxGrabTargetDistanceDown;
+
+    [Header("Ledge Grab")]
+    public float ledgeCheckDistance;
+    public float maxLedgeHeight;
+    public float vaultSpeed;
+
     [Header("Slide")]
+    public bool enableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
@@ -275,7 +292,7 @@ public class PlayerContext
     public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
-    public ParticleSystem landParticles;
+    public ParticleManager particleManager;
 
     [Header("Prefabs")]
     public GameObject playerUIPrefab;
@@ -308,10 +325,11 @@ public class PlayerContext
     public float stunTimer;
     public float slideTimer;
     public float regenTimer;
-    public float jumpApexTimer;
+    public float jumpTimer;
     public float currentFriction;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
+    public MoveData currentMoveData;
     public JumpData currentJumpData;
     public bool isStunned;
 
@@ -324,16 +342,40 @@ public class PlayerContext
 }
 
 [Serializable]
+public class MoveData
+{
+    [Tooltip("Acceleration in units per second squared.")] public float acceleration;
+    [Tooltip("Friction applied on any horizontal velocity.")] public float friction;
+    [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
+    [Tooltip("Maximum speed.")] public float maxSpeed;
+    [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float speedCapMult = 0.9f;
+    [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
+    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
+}
+
+[Serializable]
 public class JumpData
 {
-    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
-    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
-    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
-    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
-    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
+//    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
+//    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
+//    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
+//    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
+//    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
+//    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
+
     [Tooltip("Gravity multiplier while moving up after letting go of jump")] public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
+    public float standardGravMult;
     [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
     [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;
-    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
-    
+
+    public float jumpImpulse;
+    public List<JumpState> jumpStates;
+}
+
+[Serializable]
+public class JumpState
+{
+    [SerializeField] public string name;
+    [SerializeField] public float gravMult;
+    [SerializeField] public float duration;
 }

@@ -217,7 +217,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            base.OnEnter(); 
+            base.OnEnter();
             startVel = ctx.rb.velocity;
             ctx.rb.velocity *= ctx.vaultSpeedMult;
             ctx.anim.Play("Vault");
@@ -225,7 +225,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            if(ctx.pressingGrab)
+            if (ctx.pressingGrab)
             {
                 ctx.rb.velocity += startVel.normalized * ctx.vaultSpeedBoost;
                 ctx.rb.velocity.y += ctx.vaultVerticalBoost;
@@ -241,9 +241,12 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if(timer >= ctx.vaultDuration)
+            if (timer >= ctx.vaultDuration)
             {
-                return Parent;
+                if (ctx.pressingGrab || timer >= ctx.vaultMaxDuration)
+                {
+                    return Parent;
+                }
             }
             return null;
         }
@@ -388,9 +391,12 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2"))
-            ctx.anim.Play("Idle");
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2"))
+            {
+                ctx.anim.Play("Idle");
+            }
         }
+
         protected override State GetTransition(float deltaTime)
         {
             if (ctx.rb.velocity != Vector3.zero)
@@ -551,7 +557,7 @@ namespace HSM
         protected override void OnUpdate(float deltaTime)
         {
             ctx.coyoteTimeCounter += deltaTime;
-            if (ctx.moveInputValue != Vector2.zero)
+            if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
             {
                 ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
             }

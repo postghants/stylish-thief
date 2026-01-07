@@ -265,6 +265,7 @@ public class PlayerContext
     public float vaultSpeedMult;
     public float vaultSpeedBoost;
     public float vaultDuration;
+    public float vaultMaxDuration;
     public float vaultVerticalBoost;
 
     [Header("Slide")]

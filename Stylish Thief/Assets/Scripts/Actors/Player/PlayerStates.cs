@@ -388,7 +388,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.anim.SetInteger("GroundSpeed", 0);
+            ctx.anim.Play("Idle");
         }
         protected override State GetTransition(float deltaTime)
         {
@@ -424,17 +424,9 @@ namespace HSM
         {
             if (ctx.moveInputValue != Vector2.zero)
             {
+                ctx.anim.Play("Run 2");
                 float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
                 ctx.rb.velocity *= 1 - (ctx.currentMoveData.turnDeceleration.Evaluate(angle / 180) * ctx.currentMoveData.turnDecelerationMult * deltaTime);
-            }
-
-            if (ctx.rb.velocity.magnitude > ctx.animRunSpeed)
-            {
-                ctx.anim.SetInteger("GroundSpeed", 2);
-            }
-            else
-            {
-                ctx.anim.SetInteger("GroundSpeed", 1);
             }
         }
 

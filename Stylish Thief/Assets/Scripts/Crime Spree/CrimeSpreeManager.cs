@@ -135,6 +135,13 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     public void SpawnNewValuables(List<Transform> taken, int spawnCount)
     {
+        foreach(var l in valuableLocations)
+        {
+            if(l == null) valuableLocations.Remove(l);
+        }
+
+        if(valuableLocations.Count == 0) { return; }
+
         foreach (Valuable v in Valuables)
         {
             Destroy(v.gameObject);

@@ -44,12 +44,19 @@ public class Jump
     }
     public static void CalculateGravity(PlayerContext ctx)
     {
-        //We change the character's gravity based on her Y direction
-        if (ctx.pressingJump && ctx.currentlyJumping && !ctx.rb.isGrounded)
+        // Change the character's gravity depending on the jump time
+        if (ctx.currentlyJumping && !ctx.rb.isGrounded)
         {
             ctx.jumpTimer += Time.deltaTime;
 
             float totalTime = 0;
+
+            // Cut off the first state if jump is let go
+            if (ctx.jumpTimer < ctx.currentJumpData.jumpStates[0].duration && !ctx.pressingJump)
+            {
+                ctx.jumpTimer = ctx.currentJumpData.jumpStates[0].duration;
+            }
+
             foreach (JumpState state in ctx.currentJumpData.jumpStates)
             {
                 totalTime += state.duration;
@@ -61,17 +68,17 @@ public class Jump
             }
         }
 
-        if (!ctx.pressingJump && !ctx.rb.isGrounded)
-        {
-            if (ctx.rb.velocity.y <= 0)
-            {
-                ctx.gravMultiplier = ctx.currentJumpData.standardGravMult;
-            }
-            else
-            {
-                ctx.gravMultiplier = ctx.currentJumpData.jumpCutOff;
-            }
-        }
+        //if (!ctx.pressingJump && !ctx.rb.isGrounded)
+        //{
+        //    if (ctx.rb.velocity.y <= 0)
+        //    {
+        //        ctx.gravMultiplier = ctx.currentJumpData.standardGravMult;
+        //    }
+        //    else
+        //    {
+        //        ctx.gravMultiplier = ctx.currentJumpData.jumpCutOff;
+        //    }
+        //}
 
         if (ctx.rb.isGrounded)
         {
@@ -83,6 +90,14 @@ public class Jump
                 ctx.currentlyJumping = false;
             }
 
+        }
+        else
+        {
+            if (!ctx.currentlyJumping)
+            {
+                ctx.jumpTimer = ctx.currentJumpData.timerValueOnFall;
+                ctx.currentlyJumping = true;
+            }
         }
     }
 

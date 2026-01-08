@@ -10183,10 +10183,10 @@ MonoBehaviour:
         m_RotationOrder: 4
     airMoveData:
       acceleration: 15
-      friction: 0.039
+      friction: 0.03
       deceleration: 0
       maxSpeed: 10
-      speedCapMult: 1
+      speedCapMult: 0.2
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -10213,8 +10213,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     baseJumpData:
-      jumpCutOff: 60
-      standardGravMult: 30
+      timerValueOnFall: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       jumpImpulse: 15
@@ -10248,6 +10247,7 @@ MonoBehaviour:
     vaultSpeedMult: 0.2
     vaultSpeedBoost: 38.4
     vaultDuration: 0.2
+    vaultMaxDuration: 0
     vaultVerticalBoost: 10.16
     enableAirborneSlide: 0
     minSlideTime: 1
@@ -10256,8 +10256,7 @@ MonoBehaviour:
     maxSlideBonkAngle: 90
     disableSlideJump: 1
     slideJumpData:
-      jumpCutOff: 5
-      standardGravMult: 1
+      timerValueOnFall: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       jumpImpulse: 0
@@ -10317,8 +10316,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     currentJumpData:
-      jumpCutOff: 0
-      standardGravMult: 0
+      timerValueOnFall: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       jumpImpulse: 0

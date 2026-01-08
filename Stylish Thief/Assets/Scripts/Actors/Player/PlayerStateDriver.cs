@@ -361,15 +361,14 @@ public class MoveData
 [Serializable]
 public class JumpData
 {
-//    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
-//    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
-//    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
-//    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
-//    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
-//    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
+    //    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
+    //    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
+    //    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
+    //    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
+    //    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
+    //    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
 
-    [Tooltip("Gravity multiplier while moving up after letting go of jump")] public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
-    public float standardGravMult;
+    public float timerValueOnFall;
     [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
     [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;
 

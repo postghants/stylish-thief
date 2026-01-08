@@ -313,8 +313,8 @@ namespace HSM
 
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
-            origin.y -= ctx.rb.environmentCollider.bounds.extents.y;
-            if (Physics.Raycast(origin, ctx.rb.velocity, out RaycastHit checkHit, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+            
+            if (Physics.BoxCast(origin, ctx.rb.environmentCollider.bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
             {
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
                 {
@@ -557,9 +557,16 @@ namespace HSM
         protected override void OnUpdate(float deltaTime)
         {
             ctx.coyoteTimeCounter += deltaTime;
+
             if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
             {
-                ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+                float mult = 1;
+                if (new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude > ctx.currentMoveData.maxSpeed)
+                {
+                    mult = ctx.currentMoveData.speedCapMult;
+                }
+                ctx.rb.velocity += ctx.currentJumpData.jumpMovementMult * ctx.currentMoveData.acceleration * deltaTime * mult * ctx.moveDirection; 
+                
             }
 
             if (ctx.useGravity)

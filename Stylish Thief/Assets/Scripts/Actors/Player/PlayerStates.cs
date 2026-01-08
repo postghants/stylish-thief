@@ -299,8 +299,6 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
-
-            ctx.rb.onCollision += OnCollision;
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -310,6 +308,10 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
+            if(ctx.grabTimer == 0.001f + deltaTime * 2)
+            {
+                ctx.rb.onCollision += OnCollision;
+            }
 
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
@@ -322,7 +324,7 @@ namespace HSM
                     origin.y += ctx.maxLedgeHeight;
                     if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                     {
-                        if (Physics.Raycast(origin, Vector3.down, out RaycastHit heightHit, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+                        if (Physics.BoxCast(origin, ctx.rb.environmentCollider.bounds.extents, Vector3.down,  out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
                         {
                             origin = heightHit.point;
                             origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
@@ -338,7 +340,11 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.grabTimer = 0;
+            try
+            {
             ctx.rb.onCollision -= OnCollision;
+            }
+            catch { }
             ctx.useGravity = true;
             isDecelerating = false;
             initialVelocity = Vector2.zero;

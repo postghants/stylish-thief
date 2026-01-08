@@ -68,17 +68,11 @@ public class Jump
             }
         }
 
-        //if (!ctx.pressingJump && !ctx.rb.isGrounded)
-        //{
-        //    if (ctx.rb.velocity.y <= 0)
-        //    {
-        //        ctx.gravMultiplier = ctx.currentJumpData.standardGravMult;
-        //    }
-        //    else
-        //    {
-        //        ctx.gravMultiplier = ctx.currentJumpData.jumpCutOff;
-        //    }
-        //}
+        // Check for jump cutoff
+        if (!ctx.pressingJump && ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y > 0)
+        {
+                ctx.gravMultiplier = ctx.currentJumpData.jumpCutoff;
+        }
 
         if (ctx.rb.isGrounded)
         {
@@ -95,8 +89,11 @@ public class Jump
         {
             if (!ctx.currentlyJumping)
             {
-                ctx.jumpTimer = ctx.currentJumpData.timerValueOnFall;
-                ctx.currentlyJumping = true;
+                if (ctx.rb.velocity.y < 0)
+                {
+                    ctx.jumpTimer = ctx.currentJumpData.timerValueOnFall;
+                    ctx.currentlyJumping = true;
+                }
             }
         }
     }

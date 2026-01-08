@@ -367,7 +367,7 @@ public class JumpData
     //    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
     //    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
     //    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
-
+    public float jumpCutoff;
     public float timerValueOnFall;
     [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
     [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;

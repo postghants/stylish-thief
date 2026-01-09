@@ -77,17 +77,20 @@ MonoBehaviour:
     currentlyJumping: 0
     baseGrav: 1
     gravMultiplier: 1
-    jumpSpeed: 0
+    jumpSpeed: 0.31
     currentJumpData:
-      jumpHeight: 5
-      timeToJumpApex: 0
-      upwardMovementMultiplier: 1
-      downwardMovementMultiplier: 0
-      hangtimeMovementMultiplier: 0
-      jumpCutOff: 0
+      jumpCutoff: 2
+      timerValueOnFall: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpApexHangtime: 0
+      jumpImpulse: 0
+      jumpStates: []
+      jumpHeight: 15
+      timeToJumpApex: 1
+      upwardMovementMultiplier: 1
+      downwardMovementMultiplier: 1
+      hangtimeMovementMultiplier: 0.12
+      jumpApexHangtime: 0.2
     currentVelocity: {x: 0, y: 0, z: 0}
     agent: {fileID: 2743807397984841202}
     animator: {fileID: 2610861060624784576}
@@ -99,15 +102,18 @@ MonoBehaviour:
     chaseDistance: 10
     dropkickDistance: 20
     dropkickData:
-      jumpHeight: 1.69
-      timeToJumpApex: 1
-      upwardMovementMultiplier: 2
-      downwardMovementMultiplier: 3.04
-      hangtimeMovementMultiplier: 0
-      jumpCutOff: 1.5
+      jumpCutoff: 0
+      timerValueOnFall: 0
       jumpMovementMult: 1
-      jumpMovementMultTime: 1
-      jumpApexHangtime: 0
+      jumpMovementMultTime: 0
+      jumpImpulse: 0
+      jumpStates: []
+      jumpHeight: 4.6
+      timeToJumpApex: 1
+      upwardMovementMultiplier: 1.87
+      downwardMovementMultiplier: 2
+      hangtimeMovementMultiplier: 0
+      jumpApexHangtime: 0.2
     dropkickSpeed: 35
     recoveryTime: 4
     hitboxDelay: 0.1

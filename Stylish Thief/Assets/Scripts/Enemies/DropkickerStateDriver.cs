@@ -110,6 +110,7 @@ public class DropkickerContext : JumperContext
     public string currentState;
 }
 
+[Serializable]
 public class DropkickerJumpData : JumpData
 {
 

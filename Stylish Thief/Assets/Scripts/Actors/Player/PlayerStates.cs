@@ -315,8 +315,10 @@ namespace HSM
 
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
-            
-            if (Physics.BoxCast(origin, ctx.rb.environmentCollider.bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+            Bounds bounds = ctx.rb.environmentCollider.bounds;
+            bounds.Expand(-ctx.rb.skinWidth * 2);
+
+            if (Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
             {
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
                 {
@@ -324,7 +326,7 @@ namespace HSM
                     origin.y += ctx.maxLedgeHeight;
                     if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                     {
-                        if (Physics.BoxCast(origin, ctx.rb.environmentCollider.bounds.extents, Vector3.down,  out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down,  out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
                         {
                             origin = heightHit.point;
                             origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;

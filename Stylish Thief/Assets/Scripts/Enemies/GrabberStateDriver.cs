@@ -56,6 +56,7 @@ public class GrabberStateDriver : EnemyStateDriver
     public void OnPlayerHit()
     {
         ctx.hitEvent?.Invoke();
+        ctx.player.TakeDamage(ctx.grabDamage);
     }
 
     public override void SwitchActiveZone(PatrolZone zone)

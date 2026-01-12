@@ -98,7 +98,6 @@ namespace HSM
             ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
-            Debug.Log("Added collision event");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -148,7 +147,6 @@ namespace HSM
             ctx.currentMoveMult = 1;
             ctx.currentFriction = ctx.currentMoveData.friction;
             ctx.rb.onCollision -= OnCollision;
-            Debug.Log("Removed collision event");
             ctx.hasGrabbed = false;
             ctx.playerMat.color = ctx.baseColor;
         }
@@ -194,13 +192,11 @@ namespace HSM
             ctx.anim.SetBool("Sliding", true);
 
             ctx.rb.onCollision += OnCollision;
-            Debug.Log("Added collision event");
         }
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
             ctx.rb.onCollision -= OnCollision;
-            Debug.Log("Removed collision event");
         }
 
         protected override State GetTransition(float deltaTime)
@@ -324,7 +320,6 @@ namespace HSM
                 ctx.rb.onCollision -= OnCollision;
                 return;
             }
-            Debug.Log("Ouch");
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -351,6 +346,7 @@ namespace HSM
                             ctx.rb.transform.position = origin;
 
                             Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                            return;
                         }
                     }
                 }
@@ -360,7 +356,6 @@ namespace HSM
             {
                 addedCollisionEvent = true;
                 ctx.rb.onCollision += OnCollision;
-                Debug.Log("Added collision event");
             }
         }
 
@@ -370,7 +365,6 @@ namespace HSM
             try
             {
                 ctx.rb.onCollision -= OnCollision;
-                Debug.Log("Removed collision event");
             }
             catch { }
             ctx.useGravity = true;

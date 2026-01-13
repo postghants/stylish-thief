@@ -113,10 +113,11 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     public void AddScore(float _score, string crimeName)
     {
+        _score = Mathf.Round(_score);
         Score += _score;
         chaseUI.scoreText.text = Score.ToString("C");
         chaseUI.crimeText.text = crimeName;
-        chaseUI.rewardText.text = _score.ToString();
+        chaseUI.rewardText.text = _score.ToString("C");
     }
 
     public void RemoveScore(float _score)

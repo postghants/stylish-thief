@@ -102,7 +102,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != this) { return; }
+            if (Leaf() != this)
+            {
+                ctx.rb.onCollision -= OnCollision;
+                return;
+            }
             Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -171,7 +175,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != this) { return; }
+            if (Leaf() != this)
+            {
+                ctx.rb.onCollision -= OnCollision;
+                return;
+            }
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -230,6 +238,7 @@ namespace HSM
                 ctx.rb.velocity += startVel.normalized * ctx.vaultSpeedBoost;
                 ctx.rb.velocity.y += ctx.vaultVerticalBoost;
                 ctx.anim.Play("GrabEndAerial");
+                ctx.particleManager.StartGroup("Vault");
             }
             else
             {
@@ -306,6 +315,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
+            if (Leaf() != ((PlayerAirborne)Parent).grabbing)
+            {
+                ctx.rb.onCollision -= OnCollision;
+                return;
+            }
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -325,13 +339,14 @@ namespace HSM
                     origin.y += ctx.maxLedgeHeight;
                     if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                     {
-                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down,  out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
                         {
                             origin = heightHit.point;
                             origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
                             ctx.rb.transform.position = origin;
 
                             Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                            return;
                         }
                     }
                 }
@@ -349,7 +364,7 @@ namespace HSM
             ctx.grabTimer = 0;
             try
             {
-            ctx.rb.onCollision -= OnCollision;
+                ctx.rb.onCollision -= OnCollision;
             }
             catch { }
             ctx.useGravity = true;
@@ -578,8 +593,8 @@ namespace HSM
                 {
                     mult = ctx.currentMoveData.speedCapMult;
                 }
-                ctx.rb.velocity += ctx.currentJumpData.jumpMovementMult * ctx.currentMoveData.acceleration * deltaTime * mult * ctx.moveDirection; 
-                
+                ctx.rb.velocity += ctx.currentJumpData.jumpMovementMult * ctx.currentMoveData.acceleration * deltaTime * mult * ctx.moveDirection;
+
             }
 
             if (ctx.useGravity)

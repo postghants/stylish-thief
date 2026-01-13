@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _MK_ARTISTIC_DRAWN
   - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
   - _MK_LIGHT_CEL
   - _MK_RECEIVE_SHADOWS
@@ -73,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DrawnMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2879acffa042d39438fd354b2f655f92, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -199,7 +200,7 @@ Material:
     - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
     - _Anisotropy: 0
-    - _Artistic: 0
+    - _Artistic: 1
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 0
     - _ArtisticShadowFilter: 0
@@ -226,8 +227,8 @@ Material:
     - _DissolveBorderSize: 0.25
     - _DissolveMapScale: 1
     - _DrawnClampMax: 1
-    - _DrawnClampMin: 0
-    - _DrawnMapScale: 1
+    - _DrawnClampMin: 0.55
+    - _DrawnMapScale: 40
     - _DstBlend: 0
     - _EnvironmentReflections: 2
     - _FresnelHighlights: 1
@@ -247,7 +248,7 @@ Material:
     - _Light: 1
     - _LightBands: 4
     - _LightBandsScale: 0.5
-    - _LightThreshold: 0.5
+    - _LightThreshold: 0.53
     - _LightTransmission: 0
     - _LightTransmissionDistortion: 0.25
     - _LightTransmissionIntensity: 1

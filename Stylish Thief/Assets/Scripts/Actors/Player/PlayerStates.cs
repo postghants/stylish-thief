@@ -102,11 +102,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != this)
-            {
-                ctx.rb.onCollision -= OnCollision;
-                return;
-            }
+            //if (Leaf() != this)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
             Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -175,11 +175,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != this)
-            {
-                ctx.rb.onCollision -= OnCollision;
-                return;
-            }
+            //if (Leaf() != this)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -315,11 +315,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != ((PlayerAirborne)Parent).grabbing)
-            {
-                ctx.rb.onCollision -= OnCollision;
-                return;
-            }
+            //if (Leaf() != ((PlayerAirborne)Parent).grabbing)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 

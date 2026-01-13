@@ -89,11 +89,8 @@ public class Jump
         {
             if (!ctx.currentlyJumping)
             {
-                if (ctx.rb.velocity.y < 0)
-                {
                     ctx.jumpTimer = ctx.currentJumpData.timerValueOnFall;
                     ctx.currentlyJumping = true;
-                }
             }
         }
     }

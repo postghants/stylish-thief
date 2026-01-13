@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4112998439884974717}
   - component: {fileID: 6556351053450197771}
-  - component: {fileID: 6962502349412923376}
   m_Layer: 0
   m_Name: CrimeSpreeManager
   m_TagString: Untagged
@@ -49,6 +48,10 @@ MonoBehaviour:
   valuablesToSpawn: 3
   uiLingerTime: 4
   multPerCombo: 0.1
+  doCountdown: 1
+  startTimer: 5
+  frozen: 0
+  startTime: 0
   valuableLocations:
   - {fileID: 0}
   - {fileID: 0}
@@ -64,15 +67,3 @@ MonoBehaviour:
   ComboCount: 0
   Multiplier: 1
   Valuables: []
---- !u!114 &6962502349412923376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2998560083519652860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62939672a826c30418dcc61dbae0d61a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'

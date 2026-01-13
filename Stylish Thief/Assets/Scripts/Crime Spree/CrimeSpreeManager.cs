@@ -13,6 +13,13 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [SerializeField] private float uiLingerTime;
     [SerializeField] private float multPerCombo;
 
+    [Header("Countdown stuff")]
+    public bool doCountdown;
+    public float startTimer;
+    [Header("Countdown internal")]
+    public bool frozen;
+    public float startTime = 0;
+    PlayerStateDriver playerInstance;
 
     [Header("References")]
     [SerializeField] private List<Transform> valuableLocations;
@@ -31,25 +38,55 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     private void Start()
     {
         PlayerStateDriver player = FindAnyObjectByType<PlayerStateDriver>();
-
+        playerInstance = player;
         SpawnNewValuables();
+        
     }
 
     private void Update()
     {
-        if (ChaseTimer == 0) { return; }
-
-        if (ChaseTimer >= 60)
+        Countdown();
+        if (!frozen)
         {
-            chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss':'f");
-        }
-        else
-        {
-            chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
-        }
-        ChaseTimer -= Time.deltaTime;
+            if (ChaseTimer == 0) { return; }
 
-        if (ChaseTimer < 0) { EndSpree(); }
+            if (ChaseTimer >= 60)
+            {
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss':'f");
+            }
+            else
+            {
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
+            }
+            ChaseTimer -= Time.deltaTime;
+
+            if (ChaseTimer < 0) { EndSpree(); }
+        }
+    }
+    public void Countdown()
+    {
+        if (doCountdown)
+        {
+            if (startTime < startTimer)
+            {
+                StartSpree();
+                startTime += Time.deltaTime;
+                //Debug.Log(startTime);
+                chaseUI.countDownText.text = Mathf.Round(5 - startTime).ToString();
+                playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.frozen);
+                frozen = true;
+            }
+            else
+            {
+                if (frozen)
+                {
+                    playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.grounded);
+                    Debug.Log("GO");
+                    ChaseTimer = maxChaseTime;
+                }
+                frozen = false;
+            }
+        }
     }
 
     public void StartSpree()

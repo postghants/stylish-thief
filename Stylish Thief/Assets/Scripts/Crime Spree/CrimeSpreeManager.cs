@@ -16,6 +16,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [Header("Countdown stuff")]
     public bool doCountdown;
     public float startTimer;
+    public GameObject patrolZones;
     [Header("Countdown internal")]
     public bool frozen;
     public float startTime = 0;
@@ -40,7 +41,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         PlayerStateDriver player = FindAnyObjectByType<PlayerStateDriver>();
         playerInstance = player;
         SpawnNewValuables();
-        
+        patrolZones.SetActive(false);
     }
 
     private void Update()
@@ -52,11 +53,11 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
             if (ChaseTimer >= 60)
             {
-                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss':'f");
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss");
             }
             else
             {
-                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss");
             }
             ChaseTimer -= Time.deltaTime;
 
@@ -83,6 +84,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                     playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.grounded);
                     Debug.Log("GO");
                     ChaseTimer = maxChaseTime;
+                    chaseUI.countDownReact.DoReaction(false, 1, 2);
+                    chaseUI.joystickImage.DoReaction(false, 1, 2);
+                    chaseUI.joystickPrompt.DoReaction(false, 1, 2);
+                    patrolZones.SetActive(true);
                 }
                 frozen = false;
             }
@@ -99,7 +104,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         ChaseTimer = 0;
         ComboCount = 0;
         Multiplier = 1;
-        chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
+        chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
         StartCoroutine(UILinger());
     }
 

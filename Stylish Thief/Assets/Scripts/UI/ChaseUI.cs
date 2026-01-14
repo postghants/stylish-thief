@@ -16,4 +16,6 @@ public class ChaseUI : MonoBehaviour
     public TMP_Text comboText;
     public RickChangeReact countDownReact;
     public TMP_Text countDownText;
+    public RickChangeReact joystickPrompt;
+    public RickChangeReact joystickImage;
 }

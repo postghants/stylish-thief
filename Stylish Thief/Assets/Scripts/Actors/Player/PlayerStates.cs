@@ -102,11 +102,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != this)
-            {
-                ctx.rb.onCollision -= OnCollision;
-                return;
-            }
+            //if (Leaf() != this)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
             Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -175,11 +175,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != this)
-            {
-                ctx.rb.onCollision -= OnCollision;
-                return;
-            }
+            //if (Leaf() != this)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -315,11 +315,11 @@ namespace HSM
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
-            if (Leaf() != ((PlayerAirborne)Parent).grabbing)
-            {
-                ctx.rb.onCollision -= OnCollision;
-                return;
-            }
+            //if (Leaf() != ((PlayerAirborne)Parent).grabbing)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
             PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
         }
 
@@ -663,6 +663,7 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
+            if(Leaf() == frozen) { return; }
             if (ctx.regenTimer >= ctx.regenDelay)
             {
                 if (ctx.currentHealth < ctx.maxHealth)
@@ -697,6 +698,8 @@ namespace HSM
         protected override State GetInitialState() => airborne;
         protected override State GetTransition(float deltaTime)
         {
+
+            if (Leaf() == frozen) { return null; }
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump && Leaf() != airborne.grabbing)
             {

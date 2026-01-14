@@ -663,6 +663,7 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
+            if(Leaf() == frozen) { return; }
             if (ctx.regenTimer >= ctx.regenDelay)
             {
                 if (ctx.currentHealth < ctx.maxHealth)
@@ -697,6 +698,8 @@ namespace HSM
         protected override State GetInitialState() => airborne;
         protected override State GetTransition(float deltaTime)
         {
+
+            if (Leaf() == frozen) { return null; }
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump && Leaf() != airborne.grabbing)
             {

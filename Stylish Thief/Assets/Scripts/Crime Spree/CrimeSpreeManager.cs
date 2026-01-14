@@ -92,6 +92,12 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 frozen = false;
             }
         }
+        else
+        {
+            chaseUI.countDownText.enabled = false;
+            chaseUI.joystickImage.gameObject.SetActive(false);
+            chaseUI.joystickPrompt.gameObject.SetActive(false);
+        }
     }
 
     public void StartSpree()

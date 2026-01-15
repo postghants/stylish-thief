@@ -20019,6 +20019,7 @@ GameObject:
   - component: {fileID: 4199111852456702283}
   - component: {fileID: 5039265793413682498}
   - component: {fileID: 5516163521354773594}
+  - component: {fileID: 3810772174708573252}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -20286,6 +20287,24 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
+--- !u!114 &3810772174708573252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4668033689235908336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioBankLoader
+  LoadEvent: 1
+  UnloadEvent: 2
+  Banks:
+  - Master
+  CollisionTag: 
+  PreloadSamples: 0
 --- !u!1 &5133514560630397958
 GameObject:
   m_ObjectHideFlags: 0
@@ -40012,6 +40031,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 4199111852456702283}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -40148,10 +40179,10 @@ MonoBehaviour:
     Path: event:/right_footstep
   onJumpEvent:
     Guid:
-      Data1: -1563919511
-      Data2: 1275496044
-      Data3: -277863260
-      Data4: -1824561757
+      Data1: -526397677
+      Data2: 1311755693
+      Data3: 890144933
+      Data4: -1429861228
     Path: event:/jump
 --- !u!4 &8991119175841532378 stripped
 Transform:

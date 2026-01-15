@@ -66,7 +66,7 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
---- !u!114 &-4592567951691115650
+--- !u!114 &-3902772963728671673
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,15 +76,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
+  m_Name: bank:/Master.bank
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
-  Path: Assets/FMODBanks/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 639040795919548676
-  FileSizes:
-  - Name: 
-    Value: 960
+  Path: Assets/FMODBanks/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639040875170473034
+  FileSizes: []
   Exists: 1
 --- !u!114 &-1542717023739630830
 MonoBehaviour:
@@ -129,13 +127,13 @@ MonoBehaviour:
     Data3: 980144034
     Data4: 902832051
   Banks:
-  - {fileID: 5614288757303133642}
+  - {fileID: -3902772963728671673}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
+  MinDistance: 0
+  MaxDistance: 80
   Length: 0
 --- !u!114 &-1064034880265980024
 MonoBehaviour:
@@ -156,7 +154,7 @@ MonoBehaviour:
     Data3: -2004526454
     Data4: 85551167
   Banks:
-  - {fileID: 5614288757303133642}
+  - {fileID: -3902772963728671673}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -184,13 +182,13 @@ MonoBehaviour:
     Data3: -1180372035
     Data4: -27207080
   Banks:
-  - {fileID: 5614288757303133642}
+  - {fileID: -3902772963728671673}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
+  MinDistance: 0
+  MaxDistance: 80
   Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -205,8 +203,8 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EventCache
   EditorBanks:
-  - {fileID: -4592567951691115650}
-  - {fileID: 5614288757303133642}
+  - {fileID: 6078507220849727595}
+  - {fileID: -3902772963728671673}
   EditorEvents:
   - {fileID: -1064034880265980024}
   - {fileID: -955295101252930709}
@@ -215,11 +213,11 @@ MonoBehaviour:
   EditorParameters:
   - {fileID: -1542717023739630830}
   MasterBanks:
-  - {fileID: 5614288757303133642}
+  - {fileID: -3902772963728671673}
   StringsBanks:
-  - {fileID: -4592567951691115650}
+  - {fileID: 6078507220849727595}
   cacheVersion: 131848
-  cacheTime: 639040795926174782
+  cacheTime: 639040875170524085
   SerializableEventsDict:
   - key: event:/Music_System
     index: 0
@@ -257,24 +255,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 306315
---- !u!114 &5614288757303133642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
-  Path: Assets/FMODBanks/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 639040795926174782
-  FileSizes: []
-  Exists: 1
 --- !u!114 &5968218711657244279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +274,26 @@ MonoBehaviour:
   FileSizes:
   - Name: 
     Value: 1012
+  Exists: 1
+--- !u!114 &6078507220849727595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/FMODBanks/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639040875170524085
+  FileSizes:
+  - Name: 
+    Value: 960
   Exists: 1
 --- !u!114 &8019752887001015970
 MonoBehaviour:
@@ -333,16 +333,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
   Path: event:/jump
   Guid:
-    Data1: -1563919511
-    Data2: 1275496044
-    Data3: -277863260
-    Data4: -1824561757
+    Data1: -526397677
+    Data2: 1311755693
+    Data3: 890144933
+    Data4: -1429861228
   Banks:
-  - {fileID: 5614288757303133642}
+  - {fileID: -3902772963728671673}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
+  MinDistance: 0
+  MaxDistance: 80
   Length: 0

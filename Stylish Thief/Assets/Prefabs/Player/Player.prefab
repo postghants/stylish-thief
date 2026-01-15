@@ -40132,9 +40132,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ae27712a18af64e9200492f2bddce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  OnFootstep:
-    m_PersistentCalls:
-      m_Calls: []
+  footstepLeftEvent:
+    Guid:
+      Data1: -960653007
+      Data2: 1247220039
+      Data3: 980144034
+      Data4: 902832051
+    Path: event:/left_footstep
+  footstepRightEvent:
+    Guid:
+      Data1: -960488152
+      Data2: 1090313440
+      Data3: -1180372035
+      Data4: -27207080
+    Path: event:/right_footstep
+  onJumpEvent:
+    Guid:
+      Data1: -1563919511
+      Data2: 1275496044
+      Data3: -277863260
+      Data4: -1824561757
+    Path: event:/jump
 --- !u!4 &8991119175841532378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}

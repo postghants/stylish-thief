@@ -13,6 +13,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [SerializeField] private float uiLingerTime;
     [SerializeField] private float multPerCombo;
 
+    [Header("Countdown stuff")]
+    public bool doCountdown;
+    public float startTimer;
+    public GameObject patrolZones;
+    [Header("Countdown internal")]
+    public bool frozen;
+    public float startTime = 0;
+    PlayerStateDriver playerInstance;
 
     [Header("References")]
     [SerializeField] private List<Transform> valuableLocations;
@@ -31,25 +39,65 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     private void Start()
     {
         PlayerStateDriver player = FindAnyObjectByType<PlayerStateDriver>();
-
+        playerInstance = player;
         SpawnNewValuables();
+        patrolZones.SetActive(false);
     }
 
     private void Update()
     {
-        if (ChaseTimer == 0) { return; }
-
-        if (ChaseTimer >= 60)
+        Countdown();
+        if (!frozen)
         {
-            chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss':'f");
+            if (ChaseTimer == 0) { return; }
+
+            if (ChaseTimer >= 60)
+            {
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss");
+            }
+            else
+            {
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss");
+            }
+            ChaseTimer -= Time.deltaTime;
+
+            if (ChaseTimer < 0) { EndSpree(); }
+        }
+    }
+    public void Countdown()
+    {
+        if (doCountdown)
+        {
+            if (startTime < startTimer)
+            {
+                StartSpree();
+                startTime += Time.deltaTime;
+                //Debug.Log(startTime);
+                chaseUI.countDownText.text = Mathf.Round(5 - startTime).ToString();
+                playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.frozen);
+                frozen = true;
+            }
+            else
+            {
+                if (frozen)
+                {
+                    playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.grounded);
+                    Debug.Log("GO");
+                    ChaseTimer = maxChaseTime;
+                    chaseUI.countDownReact.DoReaction(false, 1, 2);
+                    chaseUI.joystickImage.DoReaction(false, 1, 2);
+                    chaseUI.joystickPrompt.DoReaction(false, 1, 2);
+                    patrolZones.SetActive(true);
+                }
+                frozen = false;
+            }
         }
         else
         {
-            chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
+            chaseUI.countDownText.enabled = false;
+            chaseUI.joystickImage.gameObject.SetActive(false);
+            chaseUI.joystickPrompt.gameObject.SetActive(false);
         }
-        ChaseTimer -= Time.deltaTime;
-
-        if (ChaseTimer < 0) { EndSpree(); }
     }
 
     public void StartSpree()
@@ -62,7 +110,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         ChaseTimer = 0;
         ComboCount = 0;
         Multiplier = 1;
-        chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss':'fff");
+        chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
         StartCoroutine(UILinger());
     }
 

@@ -1,8 +1,10 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class RickChangeReact : MonoBehaviour
 {
+    public bool isText;
     [Header("Growing and shrinking")]
     public float growthLimit;
     public float growSpeed;
@@ -21,87 +23,175 @@ public class RickChangeReact : MonoBehaviour
     Color startColor;
 
 
-    RectTransform textBox;
+    RectTransform rect;
     TMP_Text text;
+    Image image;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        text = GetComponent<TMP_Text>();
-        textBox = GetComponent<RectTransform>();
-        startColor = text.color;
+        if (isText)
+        {
+            text = GetComponent<TMP_Text>();
+            rect = GetComponent<RectTransform>();
+            startColor = text.color;
+        }
+        else
+        {
+            image = GetComponent<Image>();
+            rect = GetComponent<RectTransform>();
+            startColor = image.color;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (growAndShrinking)
+        if (isText)
         {
-            if (!grown)
+            if (growAndShrinking)
             {
-                textBox.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growSpeed;
-                if (textBox.localScale.x > growthLimit)
+                if (!grown)
                 {
-                    grown = true;
+                    rect.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growSpeed;
+                    if (rect.localScale.x > growthLimit)
+                    {
+                        grown = true;
+                    }
+                }
+                else
+                {
+                    rect.localScale -= new Vector3(1, 1, 1) * Time.deltaTime * shrinkSpeed;
+                    if (rect.localScale.x < 1)
+                    {
+                        rect.localScale = new Vector3(1, 1, 1);
+                        growAndShrinking = false;
+                        grown = false;
+                    }
                 }
             }
-            else
+            if (countingDown)
             {
-                textBox.localScale -= new Vector3(1, 1, 1) * Time.deltaTime * shrinkSpeed;
-                if (textBox.localScale.x < 1)
+                if (maxTime <= currentTime)
                 {
-                    textBox.localScale = new Vector3(1, 1, 1);
-                    growAndShrinking = false;
-                    grown = false;
+                    currentTime = 0;
+                    text.enabled = false;
+                }
+                else
+                {
+                    currentTime += Time.deltaTime;
                 }
             }
-        }
-        if (countingDown)
-        {
-            if (maxTime <= currentTime)
+            if (fading)
             {
-                currentTime = 0;
-                text.enabled = false;
-            }
-            else
-            {
-                currentTime += Time.deltaTime;
+                text.color = new Vector4(text.color.r, text.color.g, text.color.b, text.color.a) - new Vector4(0, 0, 0, 1) * Time.deltaTime * fadeRate;
             }
         }
-        if (fading)
+        else
         {
-            text.color = new Vector4 (text.color.r, text.color.g, text.color.b, text.color.a) - new Vector4(0, 0, 0, 1) * Time.deltaTime * fadeRate;
+            if (growAndShrinking)
+            {
+                if (!grown)
+                {
+                    rect.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growSpeed;
+                    if (rect.localScale.x > growthLimit)
+                    {
+                        grown = true;
+                    }
+                }
+                else
+                {
+                    rect.localScale -= new Vector3(1, 1, 1) * Time.deltaTime * shrinkSpeed;
+                    if (rect.localScale.x < 1)
+                    {
+                        rect.localScale = new Vector3(1, 1, 1);
+                        growAndShrinking = false;
+                        grown = false;
+                    }
+                }
+            }
+            if (countingDown)
+            {
+                if (maxTime <= currentTime)
+                {
+                    currentTime = 0;
+                    image.enabled = false;
+                }
+                else
+                {
+                    currentTime += Time.deltaTime;
+                }
+            }
+            if (fading)
+            {
+                image.color = new Vector4(image.color.r, image.color.g, image.color.b, image.color.a) - new Vector4(0, 0, 0, 1) * Time.deltaTime * fadeRate;
+            }
         }
     }
     public void DoReaction(bool growAndShrink, float hideAfterSeconds, float fadeSpeed)
     {
-        text.enabled = true;
-        if (growAndShrink)
+        if (isText)
         {
-            if (!growAndShrinking)
+            text.enabled = true;
+            if (growAndShrink)
             {
-                growAndShrinking = true;
+                if (!growAndShrinking)
+                {
+                    growAndShrinking = true;
+                }
+                else
+                {
+                    growAndShrinking = true;
+                    grown = false;
+                    rect.localScale = new Vector3(1, 1, 1);
+                }
             }
-            else
+
+            if (hideAfterSeconds > 0)
             {
-                growAndShrinking = true;
-                grown = false;
-                textBox.localScale = new Vector3(1, 1, 1);
+                maxTime = hideAfterSeconds;
+                currentTime = 0;
+                countingDown = true;
+            }
+
+            if (fadeSpeed > 0)
+            {
+                text.color = startColor;
+                fading = true;
+                fadeRate = fadeSpeed;
             }
         }
-
-        if (hideAfterSeconds > 0)
+        else
         {
-            maxTime = hideAfterSeconds;
-            currentTime = 0;
-            countingDown = true;
-        }
+            image.enabled = true;
+            if (growAndShrink)
+            {
+                if (!growAndShrinking)
+                {
+                    growAndShrinking = true;
+                }
+                else
+                {
+                    growAndShrinking = true;
+                    grown = false;
+                    rect.localScale = new Vector3(1, 1, 1);
+                }
+            }
 
-        if (fadeSpeed > 0)
-        {
-            text.color = startColor;
-            fading = true;
-            fadeRate = fadeSpeed;
+            if (hideAfterSeconds > 0)
+            {
+                maxTime = hideAfterSeconds;
+                currentTime = 0;
+                countingDown = true;
+            }
+
+            if (fadeSpeed > 0)
+            {
+                image.color = startColor;
+                fading = true;
+                fadeRate = fadeSpeed;
+            }
         }
+        
     }
     
 }

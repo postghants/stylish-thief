@@ -311,6 +311,9 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
+
+
+            ctx.particleManager.StartGroup("Grab");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -361,6 +364,7 @@ namespace HSM
 
         protected override void OnExit()
         {
+            ctx.particleManager.StopGroup("Grab");
             ctx.grabTimer = 0;
             try
             {

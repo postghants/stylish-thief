@@ -1,12 +1,31 @@
 using UnityEngine;
-using UnityEngine.Events;
+using FMODUnity;
 
 public class PlayerAnimEventHandler : MonoBehaviour
 {
-    public UnityEvent OnFootstep;
 
-    public void Footstep()
+    [SerializeField] EventReference footstepLeftEvent;
+    [SerializeField] EventReference footstepRightEvent;
+    [SerializeField] EventReference onJumpEvent;
+    [SerializeField] EventReference onGrabEvent;
+
+    public void FootstepLeft()
     {
-        OnFootstep?.Invoke();
+        RuntimeManager.PlayOneShotAttached(footstepLeftEvent, gameObject);
+    }
+
+    public void FootstepRight()
+    {
+        RuntimeManager.PlayOneShotAttached(footstepRightEvent, gameObject);
+    }
+
+    public void Jump()
+    {
+        RuntimeManager.PlayOneShotAttached(onJumpEvent, gameObject);
+    }
+
+    public void Grab()
+    {
+        RuntimeManager.PlayOneShotAttached(onGrabEvent, gameObject);
     }
 }

@@ -7,6 +7,7 @@ public class PlayerAnimEventHandler : MonoBehaviour
     [SerializeField] EventReference footstepLeftEvent;
     [SerializeField] EventReference footstepRightEvent;
     [SerializeField] EventReference onJumpEvent;
+    [SerializeField] EventReference onGrabEvent;
 
     public void FootstepLeft()
     {
@@ -18,8 +19,13 @@ public class PlayerAnimEventHandler : MonoBehaviour
         RuntimeManager.PlayOneShotAttached(footstepRightEvent, gameObject);
     }
 
-    public void OnJump()
+    public void Jump()
     {
         RuntimeManager.PlayOneShotAttached(onJumpEvent, gameObject);
+    }
+
+    public void Grab()
+    {
+        RuntimeManager.PlayOneShotAttached(onGrabEvent, gameObject);
     }
 }

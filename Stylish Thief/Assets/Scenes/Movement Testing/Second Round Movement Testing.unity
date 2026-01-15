@@ -28982,11 +28982,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -39782905
-      Data2: 1249631474
-      Data3: -40089708
-      Data4: 1343231638
-    Path: event:/modular_score_test
+      Data1: 889331988
+      Data2: 1104990209
+      Data3: -2004526454
+      Data4: 85551167
+    Path: event:/Music_System
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
@@ -119164,7 +119164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6957520713535590723, guid: 738f06ce835321245b57e6665f580c89, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.5
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 6957520713535590723, guid: 738f06ce835321245b57e6665f580c89, type: 3}
       propertyPath: m_LocalPosition.y
@@ -119172,7 +119172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6957520713535590723, guid: 738f06ce835321245b57e6665f580c89, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -46.5
+      value: -91.5
       objectReference: {fileID: 0}
     - target: {fileID: 6957520713535590723, guid: 738f06ce835321245b57e6665f580c89, type: 3}
       propertyPath: m_LocalRotation.w
@@ -150446,6 +150446,7 @@ GameObject:
   - component: {fileID: 2119073483}
   - component: {fileID: 2119073482}
   - component: {fileID: 2119073481}
+  - component: {fileID: 2119073488}
   m_Layer: 0
   m_Name: Musical Trigger
   m_TagString: Untagged
@@ -150486,6 +150487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a474691edf0ef547b02657db3571650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  musicalState: 2
 --- !u!54 &2119073483
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150599,12 +150601,24 @@ Transform:
   m_GameObject: {fileID: 2119073480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -104.5, y: 63.5, z: 52}
-  m_LocalScale: {x: 90, y: 45, z: 90}
+  m_LocalPosition: {x: 142.75, y: 1.4999989, z: 13.249992}
+  m_LocalScale: {x: 313.4928, y: 8.002451, z: 205.49171}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2119073488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119073480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c66ff2fcc8e94324fb36895ffa0d9028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RickRendererDisabler
 --- !u!1 &2120233605
 GameObject:
   m_ObjectHideFlags: 0

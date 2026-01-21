@@ -78,6 +78,7 @@ public class GrabberContext : EnemyContext
     public ActorPhysics rb;
     public NavMeshAgent agent;
     public Animator animator;
+    public Transform rotationTf;
     public Collider grabHitbox;
 
     [Header("Movement")]

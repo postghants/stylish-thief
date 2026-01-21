@@ -311,6 +311,9 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
+
+
+            ctx.particleManager.StartGroup("Grab");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -361,6 +364,7 @@ namespace HSM
 
         protected override void OnExit()
         {
+            ctx.particleManager.StopGroup("Grab");
             ctx.grabTimer = 0;
             try
             {
@@ -419,7 +423,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2"))
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("JumpUp"))
             {
                 ctx.anim.Play("Idle");
             }
@@ -550,6 +554,19 @@ namespace HSM
         {
             this.ctx = ctx;
             Parent = parent;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("JumpUp"))
+            if(ctx.rb.velocity.y > 0)
+            {
+                ctx.anim.Play("JumpUp");
+            }
+            else
+            {
+                ctx.anim.Play("Fall");
+            }
         }
     }
 

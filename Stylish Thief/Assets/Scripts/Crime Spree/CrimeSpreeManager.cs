@@ -61,7 +61,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
             }
             ChaseTimer -= Time.deltaTime;
 
-            if (ChaseTimer < 0) { EndSpree(); }
+            if (ChaseTimer < 0) { EndSpree(); Debug.Log("End Spree!!!!!!!"); }
         }
     }
     public void Countdown()
@@ -112,6 +112,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         Multiplier = 1;
         chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
         StartCoroutine(UILinger());
+        playerInstance.TakeDamage(99999);
     }
 
     private IEnumerator UILinger()

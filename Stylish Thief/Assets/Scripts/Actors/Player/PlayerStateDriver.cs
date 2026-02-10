@@ -1,8 +1,6 @@
 using HSM;
-using JetBrains.Annotations;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,7 +34,13 @@ public class PlayerStateDriver : Actor, IDamageable
         // Instantiate player UI
         GameObject ui = Instantiate(ctx.playerUIPrefab);
         ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
-        CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+        if (CrimeSpreeManager.instance != null)
+        {
+            CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+        }
+
+        ctx.currentJumpData = ctx.baseJumpData;
+        ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
 
     private void Update()
@@ -250,7 +254,6 @@ public class PlayerContext
     [Tooltip("Time before grab ends")] public float grabDuration;
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
     [Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
-    [Tooltip("Friction applied during grab state")] public float grabFriction;
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Grab Targeting")]
@@ -330,7 +333,7 @@ public class PlayerContext
     public float slideTimer;
     public float regenTimer;
     public float jumpTimer;
-    public float currentFriction;
+    public float jumpApexTimer;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
     public MoveData currentMoveData;
@@ -350,10 +353,8 @@ public class PlayerContext
 public class MoveData
 {
     [Tooltip("Acceleration in units per second squared.")] public float acceleration;
-    [Tooltip("Friction applied on any horizontal velocity.")] public float friction;
     [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
     [Tooltip("Maximum speed.")] public float maxSpeed;
-    [Tooltip("Additional multiplier applied only when trying to move over the max speed.")] public float speedCapMult = 0.9f;
     [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
     [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }
@@ -361,25 +362,26 @@ public class MoveData
 [Serializable]
 public class JumpData
 {
-    //    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
-    //    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
-    //    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
-    //    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
-    //    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
-    //    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
-    public float jumpCutoff;
-    public float timerValueOnFall;
-    [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
-    [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;
-
     public float jumpImpulse;
-    public List<JumpState> jumpStates;
-}
+    public bool cuttable;
+    public float maxMaxSpeedTime;
+    public float minMaxSpeedTime;
+    public bool cutJump;
+    public float cutSpeed;
+    public float upwardDeceleration;
+    public float upwardDecelApexThreshold;
+    public float upwardDecelApex;
+    public float hangtimeDuration;
 
-[Serializable]
-public class JumpState
-{
-    [SerializeField] public string name;
-    [SerializeField] public float gravMult;
-    [SerializeField] public float duration;
+    [Header("Extra")]
+    public bool setSpeed;
+    public float setSpeedSpeed;
+    public float horizontalBoost;
+    public float jumpMovementMult;
+    public float jumpMovementMultTime;
+
+    [Header("Falling")]
+    public float downwardAccel;
+    public float maxFallSpeed;
+    public float fastFallSpeed;
 }

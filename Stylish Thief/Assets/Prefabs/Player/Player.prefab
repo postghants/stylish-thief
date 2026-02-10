@@ -19997,10 +19997,8 @@ MonoBehaviour:
     timeScale: 1
     groundMoveData:
       acceleration: 40
-      friction: 0
       deceleration: 0.3
       maxSpeed: 8
-      speedCapMult: 1
       turnDecelerationMult: 10
       turnDeceleration:
         serializedVersion: 2
@@ -20037,10 +20035,8 @@ MonoBehaviour:
         m_RotationOrder: 4
     airMoveData:
       acceleration: 15
-      friction: 0.03
       deceleration: 0
       maxSpeed: 10
-      speedCapMult: 0.2
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20067,31 +20063,30 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     baseJumpData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
+      jumpImpulse: 15
+      cuttable: 1
+      maxMaxSpeedTime: 0.2
+      minMaxSpeedTime: 0
+      cutJump: 1
+      cutSpeed: 10
+      upwardDeceleration: 10
+      upwardDecelApexThreshold: 2
+      upwardDecelApex: 5
+      hangtimeDuration: 2
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpImpulse: 15
-      jumpStates:
-      - name: Start
-        gravMult: 0
-        duration: 0.1
-      - name: Leadup to hangtime
-        gravMult: 30
-        duration: 0.5
-      - name: Hangtime
-        gravMult: 0
-        duration: 0.2
-      - name: Descending
-        gravMult: 30
-        duration: 0.6
+      downwardAccel: 30
+      maxFallSpeed: 30
+      fastFallSpeed: 28
     coyoteTime: 0.1
     jumpBuffer: 0.1
     grabSpeed: 22
     grabDuration: 0.2
     grabEndSpeed: 0
     grabDeceleration: 0.45
-    grabFriction: 0.02
     grabEndLag: 0
     maxGrabTargetAngle: 30
     maxGrabTargetDistanceHorizontal: 4
@@ -20111,12 +20106,24 @@ MonoBehaviour:
     maxSlideBonkAngle: 90
     disableSlideJump: 1
     slideJumpData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpImpulse: 0
-      jumpStates: []
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     stunDeceleration: 0.8
     stunMinSpeed: 1.5
     stunUpwardSpeed: 4
@@ -20155,15 +20162,13 @@ MonoBehaviour:
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0
-    currentFriction: 0
+    jumpApexTimer: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
     currentMoveData:
       acceleration: 0
-      friction: 0
       deceleration: 0
       maxSpeed: 0
-      speedCapMult: 0.9
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20172,12 +20177,24 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     currentJumpData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpImpulse: 0
-      jumpStates: []
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     isStunned: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0

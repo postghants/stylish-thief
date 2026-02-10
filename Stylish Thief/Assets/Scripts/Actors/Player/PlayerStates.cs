@@ -93,7 +93,6 @@ namespace HSM
         }
         protected override void OnEnter()
         {
-            ctx.currentFriction = ctx.slideFriction;
             ctx.currentMoveMult = ctx.slideMoveMult;
             ctx.playerMat.color = ctx.slidingColor;
 
@@ -145,7 +144,6 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
-            ctx.currentFriction = ctx.currentMoveData.friction;
             ctx.rb.onCollision -= OnCollision;
             ctx.hasGrabbed = false;
             ctx.playerMat.color = ctx.baseColor;
@@ -185,7 +183,6 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.currentFriction = ctx.slideFriction;
             ctx.currentMoveMult = ctx.slideMoveMult;
             ctx.playerMat.color = ctx.slidingColor;
 
@@ -281,7 +278,6 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
-            ctx.currentFriction = ctx.grabFriction;
             ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
 
@@ -503,7 +499,6 @@ namespace HSM
         {
             ctx.hasGrabbed = false;
             ctx.currentMoveData = ctx.groundMoveData;
-            ctx.currentFriction = ctx.currentMoveData.friction;
             ctx.currentMoveMult = 1;
             ctx.playerMat.color = ctx.baseColor;
             // Do animations or whatever
@@ -595,7 +590,6 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveData = ctx.airMoveData;
-            ctx.currentFriction = ctx.currentMoveData.friction;
             ctx.playerMat.color = ctx.airColor;
         }
 
@@ -605,18 +599,24 @@ namespace HSM
 
             if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
             {
-                float mult = 1;
-                if (new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude > ctx.currentMoveData.maxSpeed)
+
+                ctx.rb.velocity += ctx.currentJumpData.jumpMovementMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+                Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
                 {
-                    mult = ctx.currentMoveData.speedCapMult;
+                    horizontalVel = Vector3.ClampMagnitude(horizontalVel, ctx.currentMoveData.maxSpeed);
+                    ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
                 }
-                ctx.rb.velocity += ctx.currentJumpData.jumpMovementMult * ctx.currentMoveData.acceleration * deltaTime * mult * ctx.moveDirection;
 
             }
 
             if (ctx.useGravity)
             {
                 ctx.rb.velocity.y += deltaTime * -ctx.baseGrav;
+                if(ctx.rb.velocity.y < -ctx.currentJumpData.maxFallSpeed)
+                {
+                    ctx.rb.velocity.y = -ctx.currentJumpData.maxFallSpeed;
+                }
             }
         }
 
@@ -694,13 +694,10 @@ namespace HSM
                 ctx.regenTimer += deltaTime;
             }
 
-            ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.currentFriction * deltaTime * 50;
-
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
             if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))
             {
                 horizontalVel *= ctx.currentMoveData.maxSpeed / horizontalVel.magnitude;
-                horizontalVel *= ctx.currentMoveData.speedCapMult;
                 ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             }
 

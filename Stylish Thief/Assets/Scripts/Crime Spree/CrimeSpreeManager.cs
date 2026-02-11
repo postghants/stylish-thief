@@ -128,6 +128,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         if (ChaseTimer == 0)
         {
             StartSpree();
+            patrolZones.SetActive(true);
         }
 
         ChaseTimer = maxChaseTime;

@@ -21,6 +21,11 @@ public class Jump
             ctx.desiredJump = false;
             ctx.jumpBufferCounter = 0;
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
+            if (ctx.currentJumpData.setSpeed)
+            {
+                ctx.currentVelocity = ctx.currentVelocity.normalized * ctx.currentJumpData.setSpeedSpeed;
+            }
+            ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
             ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
             ctx.rb.StartCoroutine(SetMovementMult(ctx));
         }
@@ -44,39 +49,82 @@ public class Jump
     }
     public static void CalculateGravity(PlayerContext ctx)
     {
-        // Change the character's gravity depending on the jump time
-        if (ctx.currentlyJumping && !ctx.rb.isGrounded)
+        // Change the character's gravity while jumping up
+        if (ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y > 0)
         {
             ctx.jumpTimer += Time.deltaTime;
 
-            float totalTime = 0;
-
-            // Cut off the first state if jump is let go
-            if (ctx.jumpTimer < ctx.currentJumpData.jumpStates[0].duration && !ctx.pressingJump)
+            if (ctx.jumpTimer < ctx.currentJumpData.maxMaxSpeedTime)
             {
-                ctx.jumpTimer = ctx.currentJumpData.jumpStates[0].duration;
+                ctx.gravMultiplier = 0;
             }
-
-            foreach (JumpState state in ctx.currentJumpData.jumpStates)
+            else
             {
-                totalTime += state.duration;
-                if (totalTime > ctx.jumpTimer || state == ctx.currentJumpData.jumpStates.Last())
+                if (ctx.rb.velocity.y >= ctx.currentJumpData.upwardDecelApexThreshold)
                 {
-                    ctx.gravMultiplier = state.gravMult;
-                    break;
+                    ctx.gravMultiplier = ctx.currentJumpData.upwardDeceleration;
+                }
+                else
+                {
+                    ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
+
+                    if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
+                    {
+                        Debug.Log("Starting hangtime?");
+                        ctx.rb.velocity.y = 0;
+                    }
                 }
             }
         }
 
-        // Check for jump cutoff
-        if (!ctx.pressingJump && ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y > 0)
+        if (ctx.rb.velocity.y < 0)
         {
-                ctx.gravMultiplier = ctx.currentJumpData.jumpCutoff;
+            if(ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
+            {
+                ctx.rb.velocity.y = 0;
+            }
+            ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+        }
+
+        //Check for hangtime
+        if (ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y == 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration)
+        {
+            if (ctx.pressingJump)
+            {
+                Debug.Log("Doing hangtime??");
+                ctx.gravMultiplier = 0;
+                ctx.jumpApexTimer += Time.deltaTime;
+
+                if (ctx.jumpApexTimer >= ctx.currentJumpData.hangtimeDuration)
+                {
+                    ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+                }
+            }
+            else
+            {
+                ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+            }
+        }
+
+        
+
+        // Check for jump cutoff
+        if (!ctx.pressingJump && ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y > 0 && ctx.currentJumpData.cuttable)
+        {
+            if (ctx.jumpTimer > ctx.currentJumpData.minMaxSpeedTime && ctx.jumpTimer < ctx.currentJumpData.maxMaxSpeedTime)
+            {
+                if (ctx.currentJumpData.cutJump)
+                {
+                    ctx.rb.velocity.y -= ctx.currentJumpData.cutSpeed;
+                }
+                ctx.jumpTimer = ctx.currentJumpData.maxMaxSpeedTime;
+            }
         }
 
         if (ctx.rb.isGrounded)
         {
             ctx.jumpTimer = 0;
+            ctx.jumpApexTimer = 0;
             if (ctx.rb.velocity.y < 0)
             {
                 ctx.gravMultiplier = 1;
@@ -89,8 +137,7 @@ public class Jump
         {
             if (!ctx.currentlyJumping)
             {
-                    ctx.jumpTimer = ctx.currentJumpData.timerValueOnFall;
-                    ctx.currentlyJumping = true;
+                ctx.currentlyJumping = true;
             }
         }
     }

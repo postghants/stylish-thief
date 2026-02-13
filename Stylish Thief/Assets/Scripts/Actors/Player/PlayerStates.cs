@@ -508,7 +508,16 @@ namespace HSM
         {
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.rb.velocity += ctx.currentMoveData.acceleration * ctx.currentMoveMult * deltaTime * ctx.moveDirection;
+                Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+
+                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                if (newHorizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
+                {
+                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.currentMoveData.maxSpeed, Mathf.Infinity);
+                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
+                }
             }
             else if (Leaf() != sliding)
             {
@@ -599,7 +608,16 @@ namespace HSM
 
             if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
             {
+                Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
                 ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+
+                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                if (newHorizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
+                {
+                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.currentMoveData.maxSpeed, Mathf.Infinity);
+                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
+                }
             }
 
             if (ctx.useGravity)
@@ -689,7 +707,7 @@ namespace HSM
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
             if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
             {
-                horizontalVel *= ctx.currentMoveData.maxSpeed / horizontalVel.magnitude;
+                horizontalVel = horizontalVel.normalized * (horizontalVel.magnitude - ctx.currentMoveData.maxSpeedDeceleration);
                 ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             }
 

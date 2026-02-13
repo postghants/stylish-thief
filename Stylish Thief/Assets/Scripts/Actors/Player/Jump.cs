@@ -70,7 +70,6 @@ public class Jump
 
                     if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
                     {
-                        Debug.Log("Starting hangtime?");
                         ctx.rb.velocity.y = 0;
                     }
                 }
@@ -91,7 +90,6 @@ public class Jump
         {
             if (ctx.pressingJump)
             {
-                Debug.Log("Doing hangtime??");
                 ctx.gravMultiplier = 0;
                 ctx.jumpApexTimer += Time.deltaTime;
 
@@ -135,10 +133,10 @@ public class Jump
         }
         else
         {
-            if (!ctx.currentlyJumping)
-            {
-                ctx.currentlyJumping = true;
-            }
+            //if (!ctx.currentlyJumping)
+            //{
+            //    ctx.currentlyJumping = true;
+            //}
         }
     }
 

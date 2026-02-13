@@ -599,15 +599,7 @@ namespace HSM
 
             if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
             {
-
-                ctx.rb.velocity += ctx.currentJumpData.jumpMovementMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
-                Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
-                {
-                    horizontalVel = Vector3.ClampMagnitude(horizontalVel, ctx.currentMoveData.maxSpeed);
-                    ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
-                }
-
+                ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
             }
 
             if (ctx.useGravity)
@@ -695,12 +687,11 @@ namespace HSM
             }
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-            if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed && (Leaf() == grounded || Leaf() == grounded.moving || Leaf() == grounded.idle))
+            if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
             {
                 horizontalVel *= ctx.currentMoveData.maxSpeed / horizontalVel.magnitude;
                 ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             }
-
 
             if (ctx.rb.velocity.sqrMagnitude < 0.001f) { ctx.rb.velocity = Vector3.zero; }
 

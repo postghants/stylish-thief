@@ -4861,7 +4861,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &5324122660894015967
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4907,6 +4907,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4938,7 +4939,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &1586452659134307811
 GameObject:
   m_ObjectHideFlags: 0
@@ -9742,7 +9742,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &4270835116697786940
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9789,6 +9789,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9820,7 +9821,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &1709254682019126636
 GameObject:
   m_ObjectHideFlags: 0
@@ -14781,7 +14781,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &9023337567185671340
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -14828,6 +14828,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -14859,7 +14860,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &2471695356113930594
 GameObject:
   m_ObjectHideFlags: 0
@@ -19748,7 +19748,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &1851734205029097253
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -19794,6 +19794,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -19825,7 +19826,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &3368787417710993652
 GameObject:
   m_ObjectHideFlags: 0
@@ -19915,6 +19915,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7895177472267553196
 BoxCollider:
@@ -19999,6 +20000,8 @@ MonoBehaviour:
       acceleration: 40
       deceleration: 0.3
       maxSpeed: 8
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 2
       turnDecelerationMult: 10
       turnDeceleration:
         serializedVersion: 2
@@ -20037,6 +20040,8 @@ MonoBehaviour:
       acceleration: 15
       deceleration: 0
       maxSpeed: 10
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 2
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20169,6 +20174,8 @@ MonoBehaviour:
       acceleration: 0
       deceleration: 0
       maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -25106,7 +25113,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &8272470897504754140
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -25152,6 +25159,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -25183,7 +25191,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &5280516639514894057
 GameObject:
   m_ObjectHideFlags: 0
@@ -30000,7 +30007,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &635025288350268460
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -30046,6 +30053,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -30077,7 +30085,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &6920411876884935970
 GameObject:
   m_ObjectHideFlags: 0
@@ -35003,7 +35010,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &925875102463825718
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -35049,6 +35056,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -35080,7 +35088,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &7965516890956919899
 GameObject:
   m_ObjectHideFlags: 0
@@ -39871,7 +39878,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &1984564337245620459
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -39917,6 +39924,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -39948,7 +39956,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1001 &8884588579750260273
 PrefabInstance:
   m_ObjectHideFlags: 0

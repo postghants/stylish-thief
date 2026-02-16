@@ -460,8 +460,6 @@ namespace HSM
             if (ctx.moveInputValue != Vector2.zero)
             {
                 ctx.anim.Play("Run 2");
-                float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
-                ctx.rb.velocity *= 1 - (ctx.currentMoveData.turnDeceleration.Evaluate(angle / 180) * ctx.currentMoveData.turnDecelerationMult * deltaTime);
             }
         }
 
@@ -508,13 +506,20 @@ namespace HSM
         {
             if (ctx.moveInputValue != Vector2.zero)
             {
+                float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
+                ctx.rb.velocity *= 1 - (ctx.currentMoveData.turnDeceleration.Evaluate(angle / 180) * ctx.currentMoveData.turnDecelerationMult * deltaTime);
+
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
-                ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+                ctx.rb.velocity += acceleration;
 
                 Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
                 if (newHorizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
                 {
+                    Vector3 turnSpeed = (ctx.currentMoveData.turnSpeedMult - 1) * acceleration;
+                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+
                     newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.currentMoveData.maxSpeed, Mathf.Infinity);
                     ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
@@ -562,15 +567,15 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("JumpUp"))
-            if(ctx.rb.velocity.y > 0)
-            {
-                ctx.anim.Play("JumpUp");
-            }
-            else
-            {
-                ctx.anim.Play("Fall");
-            }
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("JumpUp"))
+                if (ctx.rb.velocity.y > 0)
+                {
+                    ctx.anim.Play("JumpUp");
+                }
+                else
+                {
+                    ctx.anim.Play("Fall");
+                }
         }
     }
 
@@ -608,22 +613,32 @@ namespace HSM
 
             if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
             {
-                Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                ctx.rb.velocity += ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
-
-                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                if (newHorizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
+                if (ctx.moveInputValue != Vector2.zero)
                 {
-                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.currentMoveData.maxSpeed, Mathf.Infinity);
-                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
+                    float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
+                    ctx.rb.velocity *= 1 - (ctx.currentMoveData.turnDeceleration.Evaluate(angle / 180) * ctx.currentMoveData.turnDecelerationMult * deltaTime);
+
+                    Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                    Vector3 acceleration = ctx.currentJumpMoveMult * ctx.currentMoveData.acceleration * deltaTime * ctx.moveDirection;
+                    ctx.rb.velocity += acceleration;
+
+                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                    if (newHorizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
+                    {
+                        Vector3 turnSpeed = (ctx.currentMoveData.turnSpeedMult - 1) * acceleration;
+                        newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+
+                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.currentMoveData.maxSpeed, Mathf.Infinity);
+                        ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
+                    }
                 }
             }
 
             if (ctx.useGravity)
             {
                 ctx.rb.velocity.y += deltaTime * -ctx.baseGrav;
-                if(ctx.rb.velocity.y < -ctx.currentJumpData.maxFallSpeed)
+                if (ctx.rb.velocity.y < -ctx.currentJumpData.maxFallSpeed)
                 {
                     ctx.rb.velocity.y = -ctx.currentJumpData.maxFallSpeed;
                 }
@@ -690,7 +705,7 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            if(Leaf() == frozen) { return; }
+            if (Leaf() == frozen) { return; }
             if (ctx.regenTimer >= ctx.regenDelay)
             {
                 if (ctx.currentHealth < ctx.maxHealth)

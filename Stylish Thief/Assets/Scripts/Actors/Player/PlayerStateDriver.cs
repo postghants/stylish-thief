@@ -356,6 +356,7 @@ public class MoveData
     [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
     [Tooltip("Maximum speed.")] public float maxSpeed;
     public float maxSpeedDeceleration;
+    public float turnSpeedMult;
     [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
     [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }

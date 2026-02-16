@@ -15,6 +15,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     [Header("Countdown stuff")]
     public bool doCountdown;
+    public bool spawnOnValuableGrab;
     public float startTimer;
     public GameObject patrolZones;
     [Header("Countdown internal")]
@@ -128,7 +129,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         if (ChaseTimer == 0)
         {
             StartSpree();
-            patrolZones.SetActive(true);
+            if (spawnOnValuableGrab)
+            {
+                patrolZones.SetActive(true);
+            }
         }
 
         ChaseTimer = maxChaseTime;

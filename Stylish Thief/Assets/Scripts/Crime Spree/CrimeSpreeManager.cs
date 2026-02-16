@@ -42,7 +42,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         PlayerStateDriver player = FindAnyObjectByType<PlayerStateDriver>();
         playerInstance = player;
         SpawnNewValuables();
-        patrolZones.SetActive(false);
+        if (patrolZones != null)
+        {
+            patrolZones.SetActive(false);
+        }
     }
 
     private void Update()

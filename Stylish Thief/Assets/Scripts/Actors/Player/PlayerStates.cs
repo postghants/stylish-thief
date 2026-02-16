@@ -720,9 +720,9 @@ namespace HSM
             }
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-            if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed)
+            if (horizontalVel.magnitude > ctx.currentMoveData.maxSpeed + 0.01f)
             {
-                horizontalVel = horizontalVel.normalized * (horizontalVel.magnitude - ctx.currentMoveData.maxSpeedDeceleration);
+                horizontalVel = horizontalVel.normalized * (horizontalVel.magnitude - ctx.currentMoveData.maxSpeedDeceleration * deltaTime);
                 ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             }
 

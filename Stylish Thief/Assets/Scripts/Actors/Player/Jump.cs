@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // Contains movement math stuff
@@ -20,6 +18,7 @@ public class Jump
             ctx.currentlyJumping = true;
             ctx.desiredJump = false;
             ctx.jumpBufferCounter = 0;
+            ctx.landingSpeed = 0;
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
             if (ctx.currentJumpData.setSpeed)
             {
@@ -127,6 +126,10 @@ public class Jump
             ctx.jumpApexTimer = 0;
             if (ctx.rb.velocity.y < 0)
             {
+                if (ctx.rb.velocity.y < -1)
+                {
+                    ctx.landingSpeed = ctx.rb.velocity.y;
+                }
                 ctx.gravMultiplier = 1;
                 ctx.rb.velocity.y = 0f;
                 ctx.currentlyJumping = false;

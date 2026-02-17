@@ -289,6 +289,10 @@ public class PlayerContext
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
 
+    [Header("Harsh Landing")]
+    public float harshLandingDuration;
+    public MoveData harshLandingData;
+
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;
     [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
@@ -326,6 +330,7 @@ public class PlayerContext
     public float baseGrav;
     public float gravMultiplier;
     public float jumpSpeed;
+    public float landingSpeed;
     public Vector3 currentVelocity;
     public bool useGravity = true;
     public bool hasGrabbed;

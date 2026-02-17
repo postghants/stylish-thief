@@ -405,6 +405,34 @@ namespace HSM
         }
     }
 
+    public class PlayerHarshLanded : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+        public PlayerHarshLanded(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            timer = 0;
+            ctx.currentMoveData = ctx.harshLandingData;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            timer += deltaTime;
+            if (timer >= ctx.harshLandingDuration)
+            {
+                ctx.currentMoveData = ctx.groundMoveData;
+                return ((PlayerGrounded)Parent).moving;
+            }
+            return null;
+        }
+    }
+
     // On the ground and standing still.
     public class PlayerIdle : State
     {
@@ -479,6 +507,7 @@ namespace HSM
         public readonly PlayerMoving moving;
         public readonly PlayerIdle idle;
         public readonly PlayerStunned stunned;
+        public readonly PlayerHarshLanded harshLanded;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -489,6 +518,7 @@ namespace HSM
             sliding = new(m, this, ctx);
             idle = new(m, this, ctx);
             stunned = new(m, this, ctx);
+            harshLanded = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -679,6 +709,13 @@ namespace HSM
                 }
 
                 ctx.particleManager.StartGroup("Land");
+
+                if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
+                {
+                    Debug.Log("Harsh landing");
+                    return ((PlayerRoot)Parent).grounded.harshLanded;
+                }
+
                 return ((PlayerRoot)Parent).grounded;
 
             }

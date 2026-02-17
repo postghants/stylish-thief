@@ -224,16 +224,17 @@ namespace HSM
         {
             base.OnEnter();
             startVel = ctx.rb.velocity;
-            ctx.rb.velocity *= ctx.vaultSpeedMult;
+            ctx.rb.velocity = Vector3.zero;
             ctx.anim.Play("Vault");
         }
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab)
+            if (ctx.pressingGrab && !ctx.disableVaultJump)
             {
-                ctx.rb.velocity += startVel.normalized * ctx.vaultSpeedBoost;
-                ctx.rb.velocity.y += ctx.vaultVerticalBoost;
+                ctx.rb.velocity = startVel;
+                ctx.currentJumpData = ctx.vaultJump;
+                Jump.PerformJump(ctx);
                 ctx.anim.Play("GrabEndAerial");
                 ctx.particleManager.StartGroup("Vault");
             }
@@ -247,12 +248,9 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if (timer >= ctx.vaultDuration)
+            if (ctx.pressingGrab || timer >= ctx.vaultMaxDuration)
             {
-                if (ctx.pressingGrab || timer >= ctx.vaultMaxDuration)
-                {
-                    return Parent;
-                }
+                return Parent;
             }
             return null;
         }
@@ -330,7 +328,7 @@ namespace HSM
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-ctx.rb.skinWidth * 2);
 
-            if (Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
             {
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
                 {
@@ -379,9 +377,9 @@ namespace HSM
             ctx.grabTimer += deltaTime;
             if (ctx.grabTimer > ctx.grabDuration)
             {
-                if (ctx.pressingGrab && !isDecelerating && (ctx.enableAirborneSlide || ctx.rb.isGrounded))
+                if (ctx.pressingGrab && !isDecelerating && !ctx.disableSlide && (!ctx.disableAirborneSlide || ctx.rb.isGrounded))
                 {
-                    if (!ctx.enableAirborneSlide && ctx.isStunned)
+                    if (ctx.disableAirborneSlide && ctx.isStunned)
                         ctx.grabTimer = 0;
                     return ((PlayerAirborne)Parent).slidingAirborne;
                 }
@@ -755,8 +753,6 @@ namespace HSM
                     ctx.currentJumpData = ctx.baseJumpData;
                 }
                 Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
-
-                ctx.rb.velocity = ctx.currentVelocity; //Applies new Y speed as well as the X that was read earlier
             }
             Jump.CalculateGravity(ctx);
 

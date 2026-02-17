@@ -262,17 +262,18 @@ public class PlayerContext
     public float maxGrabTargetDistanceUp;
     public float maxGrabTargetDistanceDown;
 
-    [Header("Ledge Grab")]
+    [Header("Vault")]
+    public bool disableVault;
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
-    public float vaultSpeedMult;
-    public float vaultSpeedBoost;
-    public float vaultDuration;
     public float vaultMaxDuration;
-    public float vaultVerticalBoost;
+
+    public bool disableVaultJump;
+    public JumpData vaultJump;
 
     [Header("Slide")]
-    public bool enableAirborneSlide;
+    public bool disableSlide;
+    public bool disableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;

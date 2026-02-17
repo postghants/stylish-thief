@@ -15,7 +15,7 @@ public class Jump
     {
         if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
         {
-
+            Debug.Log("Jumpin");
             ctx.particleManager.StartGroup("Jump");
             ctx.currentlyJumping = true;
             ctx.desiredJump = false;
@@ -23,7 +23,7 @@ public class Jump
             ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
             if (ctx.currentJumpData.setSpeed)
             {
-                ctx.currentVelocity = ctx.currentVelocity.normalized * ctx.currentJumpData.setSpeedSpeed;
+                ctx.currentVelocity = ctx.facing * ctx.currentJumpData.setSpeedSpeed;
             }
             ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
             ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
@@ -33,6 +33,8 @@ public class Jump
         {
             ctx.desiredJump = false;
         }
+
+        ctx.rb.velocity = ctx.currentVelocity; //Applies new Y speed as well as the X that was read earlier
     }
 
     public static void JumpBuffer(PlayerContext ctx)

@@ -20097,14 +20097,32 @@ MonoBehaviour:
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
+    disableVault: 0
     ledgeCheckDistance: 1
     maxLedgeHeight: 1.5
-    vaultSpeedMult: 0.2
-    vaultSpeedBoost: 38.4
-    vaultDuration: 0.2
     vaultMaxDuration: 0
-    vaultVerticalBoost: 10.16
-    enableAirborneSlide: 0
+    disableVaultJump: 0
+    vaultJump:
+      jumpImpulse: 15
+      cuttable: 0
+      maxMaxSpeedTime: 0.2
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 10
+      upwardDeceleration: 10
+      upwardDecelApexThreshold: 2
+      upwardDecelApex: 5
+      hangtimeDuration: 2
+      setSpeed: 1
+      setSpeedSpeed: 20
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 1
+      downwardAccel: 30
+      maxFallSpeed: 30
+      fastFallSpeed: 28
+    disableSlide: 0
+    disableAirborneSlide: 0
     minSlideTime: 1
     slideFriction: 0.013
     slideMoveMult: 0.2

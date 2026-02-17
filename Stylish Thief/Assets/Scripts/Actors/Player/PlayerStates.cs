@@ -418,6 +418,7 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            ctx.player.TakeDamage(ctx.harshLandingDamage);
             ctx.currentMoveData = ctx.harshLandingData;
         }
 

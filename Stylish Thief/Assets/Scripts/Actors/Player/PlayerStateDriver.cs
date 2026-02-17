@@ -39,6 +39,7 @@ public class PlayerStateDriver : Actor, IDamageable
             CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
         }
 
+        ctx.player = this;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
@@ -291,6 +292,7 @@ public class PlayerContext
 
     [Header("Harsh Landing")]
     public float harshLandingDuration;
+    public float harshLandingDamage;
     public MoveData harshLandingData;
 
     [Header("Camera Move")]
@@ -298,6 +300,7 @@ public class PlayerContext
     [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
     [Header("References")]
+    [HideInInspector] public PlayerStateDriver player;
     public ActorPhysics rb;
     public Animator anim;
     [HideInInspector] public Transform cam;

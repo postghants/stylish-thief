@@ -295,6 +295,10 @@ public class PlayerContext
     public float harshLandingDamage;
     public MoveData harshLandingData;
 
+    [Header("Roll")]
+    public bool disableRoll;
+    public float rollTiming;
+
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;
     [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
@@ -343,6 +347,7 @@ public class PlayerContext
     public float regenTimer;
     public float jumpTimer;
     public float jumpApexTimer;
+    public float blockJump;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
     public MoveData currentMoveData;

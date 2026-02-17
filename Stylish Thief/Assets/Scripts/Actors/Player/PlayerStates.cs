@@ -418,6 +418,13 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            ctx.blockJump++;
+
+            if(!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
+            {
+                //implement roll here :>
+            }
+
             ctx.player.TakeDamage(ctx.harshLandingDamage);
             ctx.currentMoveData = ctx.harshLandingData;
         }
@@ -427,6 +434,7 @@ namespace HSM
             timer += deltaTime;
             if (timer >= ctx.harshLandingDuration)
             {
+                ctx.blockJump--;
                 ctx.currentMoveData = ctx.groundMoveData;
                 return ((PlayerGrounded)Parent).moving;
             }
@@ -776,7 +784,7 @@ namespace HSM
 
             if (Leaf() == frozen) { return null; }
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
-            if (ctx.desiredJump && Leaf() != airborne.grabbing)
+            if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
             {
                 if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
                 {

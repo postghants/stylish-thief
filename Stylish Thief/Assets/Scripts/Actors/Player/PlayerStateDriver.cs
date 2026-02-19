@@ -298,6 +298,11 @@ public class PlayerContext
     [Header("Roll")]
     public bool disableRoll;
     public float rollTiming;
+    [Tooltip("Speed added when entering roll")] public float rollSpeed;
+    [Tooltip("Time before roll ends")] public float rollDuration;
+    [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
+    [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
+    [Tooltip("Time until player can move after roll")] public float rollEndLag;
 
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;
@@ -342,6 +347,7 @@ public class PlayerContext
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float rollTimer;
     public float stunTimer;
     public float slideTimer;
     public float regenTimer;

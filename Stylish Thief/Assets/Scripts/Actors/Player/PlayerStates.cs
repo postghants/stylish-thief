@@ -209,6 +209,7 @@ namespace HSM
         }
     }
 
+    // Holds the player still while vaulting before exiting into jump or ground
     public class PlayerVaulting : State
     {
         readonly PlayerContext ctx;
@@ -235,12 +236,12 @@ namespace HSM
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
                 Jump.PerformJump(ctx);
-                ctx.anim.Play("GrabEndAerial");
+                ctx.anim.Play("grabEndAerial");
                 ctx.particleManager.StartGroup("Vault");
             }
             else
             {
-                ctx.anim.Play("GrabEndGround");
+                ctx.anim.Play("grabEndGround");
             }
             timer = 0;
         }
@@ -307,7 +308,7 @@ namespace HSM
             ctx.rb.velocity.y = 0;
 
 
-            ctx.particleManager.StartGroup("Grab");
+            ctx.particleManager.StartGroup("grab");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -358,7 +359,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            ctx.particleManager.StopGroup("Grab");
+            ctx.particleManager.StopGroup("grab");
             ctx.grabTimer = 0;
             try
             {
@@ -405,6 +406,101 @@ namespace HSM
         }
     }
 
+    public class PlayerRolling : State
+    {
+        readonly PlayerContext ctx;
+        private bool isDecelerating;
+        private Vector2 initialVelocity;
+        private Vector2 targetVelocity;
+        private bool addedCollisionEvent = false;
+        public PlayerRolling(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.currentMoveData = ctx.airMoveData;
+            ctx.useGravity = false;
+            ctx.rollTimer = 0.001f;
+            addedCollisionEvent = false;
+
+            ctx.anim.Play("grabEndAerial");
+
+            Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
+            if (horizontalVel.sqrMagnitude < ctx.rollSpeed * ctx.rollSpeed) { horizontalVel = horizontalVel.normalized * ctx.rollSpeed; }
+            ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            ctx.rb.velocity.y = 0;
+        }
+
+        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
+        {
+            //if (Leaf() != ((PlayerAirborne)Parent).rollbing)
+            //{
+            //    ctx.rb.onCollision -= OnCollision;
+            //    return;
+            //}
+            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (!addedCollisionEvent)
+            {
+                addedCollisionEvent = true;
+                ctx.rb.onCollision += OnCollision;
+            }
+        }
+
+        protected override void OnExit()
+        {
+            ctx.blockJump--;
+            ctx.rollTimer = 0;
+            try
+            {
+                ctx.rb.onCollision -= OnCollision;
+            }
+            catch { }
+            ctx.useGravity = true;
+            isDecelerating = false;
+            initialVelocity = Vector2.zero;
+            targetVelocity = Vector2.zero;
+            ctx.playerMat.color = ctx.airColor;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            ctx.rollTimer += deltaTime;
+
+            if (ctx.pressingJump)
+            {
+                // do roll jump
+            }
+            if (ctx.rollTimer > ctx.rollDuration)
+            {
+                if (!isDecelerating)
+                {
+                    isDecelerating = true;
+                    Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                    initialVelocity = horizontalVel;
+                    targetVelocity = horizontalVel.normalized * ctx.rollEndSpeed;
+                }
+                if (ctx.rollTimer <= ctx.rollDuration + ctx.rollDeceleration)
+                {
+                    var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.rollTimer - ctx.rollDuration) / ctx.rollDeceleration);
+                    ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
+                }
+                if (ctx.rollTimer > ctx.rollDuration + ctx.rollDeceleration + ctx.rollEndLag)
+                {
+                    ctx.rollTimer = 0;
+                    return Parent;
+                }
+            }
+            return null;
+        }
+    }
+
     public class PlayerHarshLanded : State
     {
         readonly PlayerContext ctx;
@@ -418,11 +514,13 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            ctx.landingSpeed = 0;
             ctx.blockJump++;
 
             if(!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
             {
-                //implement roll here :>
+                Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
+                return;
             }
 
             ctx.player.TakeDamage(ctx.harshLandingDamage);
@@ -517,6 +615,7 @@ namespace HSM
         public readonly PlayerIdle idle;
         public readonly PlayerStunned stunned;
         public readonly PlayerHarshLanded harshLanded;
+        public readonly PlayerRolling rolling;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -528,6 +627,7 @@ namespace HSM
             idle = new(m, this, ctx);
             stunned = new(m, this, ctx);
             harshLanded = new(m, this, ctx);
+            rolling = new(m, this, ctx);
         }
 
         protected override void OnEnter()

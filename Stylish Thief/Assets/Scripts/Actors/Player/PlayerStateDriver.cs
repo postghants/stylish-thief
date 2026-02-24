@@ -39,6 +39,7 @@ public class PlayerStateDriver : Actor, IDamageable
             CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
         }
 
+        ctx.player = this;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
@@ -262,17 +263,18 @@ public class PlayerContext
     public float maxGrabTargetDistanceUp;
     public float maxGrabTargetDistanceDown;
 
-    [Header("Ledge Grab")]
+    [Header("Vault")]
+    public bool disableVault;
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
-    public float vaultSpeedMult;
-    public float vaultSpeedBoost;
-    public float vaultDuration;
     public float vaultMaxDuration;
-    public float vaultVerticalBoost;
+
+    public bool disableVaultJump;
+    public JumpData vaultJump;
 
     [Header("Slide")]
-    public bool enableAirborneSlide;
+    public bool disableSlide;
+    public bool disableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
@@ -288,11 +290,26 @@ public class PlayerContext
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
 
+    [Header("Harsh Landing")]
+    public float harshLandingDuration;
+    public float harshLandingDamage;
+    public MoveData harshLandingData;
+
+    [Header("Roll")]
+    public bool disableRoll;
+    public float rollTiming;
+    [Tooltip("Speed added when entering roll")] public float rollSpeed;
+    [Tooltip("Time before roll ends")] public float rollDuration;
+    [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
+    [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
+    [Tooltip("Time until player can move after roll")] public float rollEndLag;
+
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;
     [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
     [Header("References")]
+    [HideInInspector] public PlayerStateDriver player;
     public ActorPhysics rb;
     public Animator anim;
     [HideInInspector] public Transform cam;
@@ -325,15 +342,18 @@ public class PlayerContext
     public float baseGrav;
     public float gravMultiplier;
     public float jumpSpeed;
+    public float landingSpeed;
     public Vector3 currentVelocity;
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float rollTimer;
     public float stunTimer;
     public float slideTimer;
     public float regenTimer;
     public float jumpTimer;
     public float jumpApexTimer;
+    public float blockJump;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
     public MoveData currentMoveData;

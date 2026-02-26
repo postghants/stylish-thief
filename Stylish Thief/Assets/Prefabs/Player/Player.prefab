@@ -19838,6 +19838,7 @@ GameObject:
   - component: {fileID: 43589339852579617}
   - component: {fileID: 3719497346401164761}
   - component: {fileID: 7895177472267553196}
+  - component: {fileID: 8310960475660877445}
   m_Layer: 6
   m_Name: Hitbox
   m_TagString: Untagged
@@ -19938,6 +19939,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8310960475660877445
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368787417710993652}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4668033689235908336
 GameObject:
   m_ObjectHideFlags: 0
@@ -19997,11 +20025,11 @@ MonoBehaviour:
     regenDelay: 1.5
     timeScale: 1
     groundMoveData:
-      acceleration: 40
-      deceleration: 0.3
-      maxSpeed: 8
-      maxSpeedDeceleration: 0
-      turnSpeedMult: 2
+      acceleration: 25
+      deceleration: 0.36
+      maxSpeed: 15
+      maxSpeedDeceleration: 15
+      turnSpeedMult: 6
       turnDecelerationMult: 10
       turnDeceleration:
         serializedVersion: 2
@@ -20037,10 +20065,10 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     airMoveData:
-      acceleration: 15
-      deceleration: 0
-      maxSpeed: 10
-      maxSpeedDeceleration: 0
+      acceleration: 25
+      deceleration: 0.36
+      maxSpeed: 15
+      maxSpeedDeceleration: 12
       turnSpeedMult: 2
       turnDecelerationMult: 1
       turnDeceleration:
@@ -20051,56 +20079,65 @@ MonoBehaviour:
           value: 0
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.6549124
+          value: 0.051286466
+          inSlope: 0.2660134
+          outSlope: 0.2660134
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.279899
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
+          value: 0.5680313
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.06333327
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     baseJumpData:
-      jumpImpulse: 15
+      jumpImpulse: 10
       cuttable: 1
       maxMaxSpeedTime: 0.2
-      minMaxSpeedTime: 0
+      minMaxSpeedTime: 0.001
       cutJump: 1
-      cutSpeed: 10
-      upwardDeceleration: 10
-      upwardDecelApexThreshold: 2
-      upwardDecelApex: 5
-      hangtimeDuration: 2
+      cutSpeed: 4
+      upwardDeceleration: 30
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 10
+      hangtimeDuration: 0.2
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       downwardAccel: 30
-      maxFallSpeed: 30
+      maxFallSpeed: 730.6
       fastFallSpeed: 28
-    coyoteTime: 0.1
-    jumpBuffer: 0.1
-    grabSpeed: 22
-    grabDuration: 0.2
-    grabEndSpeed: 0
-    grabDeceleration: 0.45
+    coyoteTime: 24.54
+    jumpBuffer: 0.2
+    grabSpeed: 17
+    grabDuration: 0.4
+    grabEndSpeed: 17
+    grabDeceleration: 0
     grabEndLag: 0
-    maxGrabTargetAngle: 30
+    maxGrabTargetAngle: 40
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    disableVault: 0
-    ledgeCheckDistance: 1
-    maxLedgeHeight: 1.5
-    vaultMaxDuration: 0
+    disableVault: 1
+    ledgeCheckDistance: 4.38
+    maxLedgeHeight: 81.47
+    vaultMaxDuration: 34.8
     disableVaultJump: 0
     vaultJump:
       jumpImpulse: 15
@@ -20121,11 +20158,11 @@ MonoBehaviour:
       downwardAccel: 30
       maxFallSpeed: 30
       fastFallSpeed: 28
-    disableSlide: 0
-    disableAirborneSlide: 0
+    disableSlide: 1
+    disableAirborneSlide: 1
     minSlideTime: 1
-    slideFriction: 0.013
-    slideMoveMult: 0.2
+    slideFriction: 0
+    slideMoveMult: 0
     maxSlideBonkAngle: 90
     disableSlideJump: 1
     slideJumpData:
@@ -20142,17 +20179,40 @@ MonoBehaviour:
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
-      jumpMovementMult: 1
-      jumpMovementMultTime: 0
+      jumpMovementMult: 0.5
+      jumpMovementMultTime: 10
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
-    stunDeceleration: 0.8
-    stunMinSpeed: 1.5
-    stunUpwardSpeed: 4
-    stunDuration: 0.4
+    stunDeceleration: 1
+    stunMinSpeed: 1
+    stunUpwardSpeed: 1
+    stunDuration: 0.1
+    harshLandingDuration: 0.1
+    harshLandingDamage: -45
+    harshLandingData:
+      acceleration: 0
+      deceleration: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    disableRoll: 1
+    rollTiming: 0
+    rollSpeed: 0
+    rollDuration: 0
+    rollEndSpeed: 0
+    rollDeceleration: 0
+    rollEndLag: 0
     panTime: 0.2
-    panAngle: 90
+    panAngle: -45
+    player: {fileID: 0}
     rb: {fileID: 5516163521354773594}
     anim: {fileID: 319182198754694984}
     cam: {fileID: 0}
@@ -20175,17 +20235,20 @@ MonoBehaviour:
     jumpBufferCounter: 0
     currentlyJumping: 0
     baseGrav: 0
-    gravMultiplier: 1
-    jumpSpeed: 0
+    gravMultiplier: 0
+    jumpSpeed: 1
+    landingSpeed: 0
     currentVelocity: {x: 0, y: 0, z: 0}
-    useGravity: 1
+    useGravity: 0
     hasGrabbed: 0
     grabTimer: 0
+    rollTimer: 0
     stunTimer: 0
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0
     jumpApexTimer: 0
+    blockJump: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
     currentMoveData:
@@ -20252,11 +20315,12 @@ MonoBehaviour:
   maxSlopeAngle: 55
   maxStairHeight: 0.15
   minStairWidth: 0.1
-  gravity: {x: 0, y: -9.81, z: 0}
+  gravity: {x: 0, y: -1, z: 0}
   environmentCollider: {fileID: 7895177472267553196}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
+  landingSpeed: 0
 --- !u!1 &5133514560630397958
 GameObject:
   m_ObjectHideFlags: 0
@@ -30178,7 +30242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
-  m_Material: {fileID: 2100000, guid: 6bfeb1a1ad997ca499ffe072153f503a, type: 2}
+  m_Material: {fileID: 2100000, guid: ed3fa370ece76864caa311bca4016394, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 0
@@ -39982,6 +40046,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4199111852456702283}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

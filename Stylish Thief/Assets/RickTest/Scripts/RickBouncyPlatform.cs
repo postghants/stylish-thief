@@ -14,12 +14,12 @@ public class RickBouncyPlatform : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        directionalForce = transform.up * launchForce;
         if (other.gameObject.layer == 6)
         {
             CrimeSpreeManager.instance.DoMinorCrime(score, crime);
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            player.ctx.hasGrabbed = false;
-            directionalForce = transform.up * launchForce;
+            
             /*if (oneToOne)
             {
                 
@@ -54,6 +54,9 @@ public class RickBouncyPlatform : MonoBehaviour
             {
                 player.SetVelocity(player.ctx.rb.velocity - new Vector3(0, player.ctx.rb.velocity.y, 0) + directionalForce);
             }
+            player.transform.position = player.transform.position + new Vector3(0, .01f, 0);
+            player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
+            player.ctx.hasGrabbed = false;
         }
     }
 

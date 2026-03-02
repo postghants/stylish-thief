@@ -517,7 +517,7 @@ namespace HSM
             ctx.landingSpeed = 0;
             ctx.blockJump++;
 
-            if(!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
+            if (!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
             {
                 Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
                 return;
@@ -527,9 +527,22 @@ namespace HSM
             ctx.currentMoveData = ctx.harshLandingData;
         }
 
+        protected override void OnExit()
+        {
+            if (Leaf() != ((PlayerGrounded)Parent).rolling && ctx.blockJump > 0)
+            {
+                ctx.blockJump--;
+            }
+        }
+
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
+            if (ctx.pressingJump)
+            {
+                ctx.currentJumpData = ctx.rollJump;
+                Jump.PerformJump(ctx);
+            }
             if (timer >= ctx.harshLandingDuration)
             {
                 ctx.blockJump--;

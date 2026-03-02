@@ -303,6 +303,7 @@ public class PlayerContext
     [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
     [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
     [Tooltip("Time until player can move after roll")] public float rollEndLag;
+    public JumpData rollJump;
 
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;

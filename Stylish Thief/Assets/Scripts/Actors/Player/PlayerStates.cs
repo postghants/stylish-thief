@@ -474,7 +474,7 @@ namespace HSM
         {
             ctx.rollTimer += deltaTime;
 
-            if (ctx.pressingJump)
+            if (ctx.pressingJump && !ctx.disableRollJump)
             {
                 ctx.currentJumpData = ctx.rollJump;
                 Jump.PerformJump(ctx);
@@ -847,6 +847,16 @@ namespace HSM
         }
     }
 
+    public class PlayerFixedSpeed : State
+    {
+        readonly PlayerContext ctx;
+        public PlayerFixedSpeed(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
+
     // Root class. Does important physics stuff at the end of every update cycle.
     public class PlayerRoot : State
     {
@@ -854,6 +864,7 @@ namespace HSM
         public readonly PlayerGrounded grounded;
         public readonly PlayerAirborne airborne;
         public readonly PlayerFrozen frozen;
+        public readonly PlayerFixedSpeed fixedSpeed;
 
         public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
         {

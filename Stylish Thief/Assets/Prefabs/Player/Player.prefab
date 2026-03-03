@@ -20026,7 +20026,7 @@ MonoBehaviour:
     timeScale: 1
     groundMoveData:
       acceleration: 25
-      deceleration: 0.36
+      deceleration: 8
       maxSpeed: 15
       maxSpeedDeceleration: 15
       turnSpeedMult: 6
@@ -20066,10 +20066,10 @@ MonoBehaviour:
         m_RotationOrder: 4
     airMoveData:
       acceleration: 25
-      deceleration: 0.36
+      deceleration: 8
       maxSpeed: 15
       maxSpeedDeceleration: 12
-      turnSpeedMult: 2
+      turnSpeedMult: 9999999
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20210,6 +20210,26 @@ MonoBehaviour:
     rollEndSpeed: 0
     rollDeceleration: 0
     rollEndLag: 0
+    disableRollJump: 0
+    rollJump:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -20251,7 +20271,7 @@ MonoBehaviour:
     blockJump: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
-    currentMoveData:
+    cmd:
       acceleration: 0
       deceleration: 0
       maxSpeed: 0
@@ -20289,6 +20309,7 @@ MonoBehaviour:
     pressingJump: 0
     desiredGrab: 0
     pressingGrab: 0
+    pressingPound: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0

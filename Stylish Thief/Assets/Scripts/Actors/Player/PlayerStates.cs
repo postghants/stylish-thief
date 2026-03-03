@@ -308,7 +308,7 @@ namespace HSM
             ctx.rb.velocity.y = 0;
 
 
-            ctx.particleManager.StartGroup("grab");
+            ctx.particleManager.StartGroup("Grab");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -359,7 +359,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            ctx.particleManager.StopGroup("grab");
+            ctx.particleManager.StopGroup("Grab");
             ctx.grabTimer = 0;
             try
             {
@@ -427,7 +427,7 @@ namespace HSM
             addedCollisionEvent = false;
             ctx.blockJump = 1;
 
-            ctx.anim.Play("grabEndAerial");
+            ctx.anim.Play("GrabEndAerial");
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.rollSpeed * ctx.rollSpeed) { horizontalVel = horizontalVel.normalized * ctx.rollSpeed; }
@@ -658,7 +658,7 @@ namespace HSM
                 currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
                 ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
 
-                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
+                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
                 ctx.rb.velocity += acceleration;
 
                 Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
@@ -765,11 +765,10 @@ namespace HSM
 
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
-
                 currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
                 ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
 
-                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
+                Vector3 acceleration = ctx.currentMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
                 ctx.rb.velocity += acceleration;
 
                 Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;

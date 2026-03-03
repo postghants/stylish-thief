@@ -137,6 +137,15 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.pressingGrab = false;
     }
 
+    public void OnPoundStart(InputAction.CallbackContext c)
+    {
+        ctx.pressingPound = true;
+    }
+    public void OnPoundStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingPound = false;
+    }
+
     public void OnPanLeft(InputAction.CallbackContext c)
     {
         StartCoroutine(PanCamera(ctx.panAngle, ctx.panTime));
@@ -303,6 +312,7 @@ public class PlayerContext
     [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
     [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
     [Tooltip("Time until player can move after roll")] public float rollEndLag;
+    public bool disableRollJump;
     public JumpData rollJump;
 
     [Header("Camera Move")]
@@ -367,6 +377,7 @@ public class PlayerContext
     public bool pressingJump;
     public bool desiredGrab;
     public bool pressingGrab;
+    public bool pressingPound;
 
 }
 

@@ -26,6 +26,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
+            ctx.isStunned = true;
             ctx.stunTimer = 0;
             ctx.currentMoveMult = 0;
             ctx.currentlyJumping = false;
@@ -63,6 +64,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
+            ctx.isStunned = true;
             ctx.playerMat.color = ctx.stunnedColor;
             ctx.particleManager.StartGroup("Stun");
             ctx.anim.SetBool("Sliding", false);
@@ -73,6 +75,7 @@ namespace HSM
         {
             ctx.currentMoveMult = 1;
             ctx.playerMat.color = ctx.baseColor;
+            ctx.isStunned = false;
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -111,7 +114,7 @@ namespace HSM
 
         public static void Collision(RaycastHit hit, Vector3 impactVelocity, PlayerContext ctx, StateMachine machine)
         {
-            if (ctx.isStunned) { return; }
+            if (ctx.isStunned || ctx.disableStun) { return; }
             if (hit.normal.y > 0.1)
             {
                 return;
@@ -308,7 +311,7 @@ namespace HSM
             ctx.rb.velocity.y = 0;
 
 
-            ctx.particleManager.StartGroup("grab");
+            ctx.particleManager.StartGroup("Grab");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -359,7 +362,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            ctx.particleManager.StopGroup("grab");
+            ctx.particleManager.StopGroup("Grab");
             ctx.grabTimer = 0;
             try
             {
@@ -425,9 +428,10 @@ namespace HSM
             ctx.useGravity = false;
             ctx.rollTimer = 0.001f;
             addedCollisionEvent = false;
+            ctx.pressingJump = false;
             ctx.blockJump = 1;
 
-            ctx.anim.Play("grabEndAerial");
+            ctx.anim.Play("GrabEndAerial");
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.rollSpeed * ctx.rollSpeed) { horizontalVel = horizontalVel.normalized * ctx.rollSpeed; }
@@ -518,7 +522,7 @@ namespace HSM
             timer = 0;
             ctx.landingSpeed = 0;
             ctx.blockJump++;
-            ctx.pressingJump = false;
+            ctx.isStunned = true;
 
             if (!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
             {
@@ -533,6 +537,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.blockJump = 0;
+            ctx.isStunned = true;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -658,7 +663,7 @@ namespace HSM
                 currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
                 ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
 
-                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
+                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
                 ctx.rb.velocity += acceleration;
 
                 Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
@@ -686,7 +691,7 @@ namespace HSM
         }
         protected override State GetTransition(float deltaTime)
         {
-            if (ctx.desiredGrab && !ctx.hasGrabbed)
+            if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.isStunned && !ctx.disableGrab)
             {
                 return ((PlayerRoot)Parent).airborne.grabbing;
             }
@@ -736,6 +741,7 @@ namespace HSM
         public readonly PlayerSlidingAirborne slidingAirborne;
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
+        public readonly PlayerPrePound prePound;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -747,6 +753,7 @@ namespace HSM
             slidingAirborne = new(m, this, ctx);
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
+            prePound = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -765,11 +772,10 @@ namespace HSM
 
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
-
                 currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
                 ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
 
-                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
+                Vector3 acceleration = ctx.currentMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
                 ctx.rb.velocity += acceleration;
 
                 Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
@@ -808,10 +814,15 @@ namespace HSM
         {
             if (!ctx.isStunned)
             {
-                if (ctx.desiredGrab && !ctx.hasGrabbed)
+                if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.disableGrab)
                 {
                     return grabbing;
                 }
+                if (ctx.pressingPound && !ctx.disablePound && Leaf() != prePound)
+                {
+                    return prePound;
+                }
+
                 if (ctx.grabTimer > 0 || Leaf() == vaulting)
                 {
                     return null;
@@ -836,7 +847,6 @@ namespace HSM
 
                 if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
                 {
-                    Debug.Log("Harsh landing");
                     return ((PlayerRoot)Parent).grounded.harshLanded;
                 }
 
@@ -847,13 +857,80 @@ namespace HSM
         }
     }
 
+    public class PlayerPrePound : State
+    {
+        private PlayerContext ctx;
+        private float timer;
+        public PlayerPrePound(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            timer = 0;
+
+            ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
+
+            ctx.cmd = ctx.prePoundMove;
+            ctx.gravMultiplier = ctx.prePoundGrav;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            timer += deltaTime;
+
+            if(timer >= ctx.prePoundDuration)
+            {
+                return ((PlayerRoot)Parent.Parent).fixedSpeed.pound;
+            }
+
+            return null;
+        }
+    }
+
+    public class PlayerPound : State
+    {
+        private PlayerContext ctx;
+        public PlayerPound(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.airMoveData;
+            ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
+            ctx.rb.velocity.y = -ctx.poundSpeedDown;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.rb.isGrounded)
+            {
+                //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
+                //{
+                    return ((PlayerRoot)Parent.Parent).grounded.rolling;
+                //}
+                //implement land state later
+                //return ((PlayerRoot)Parent.Parent).grounded;
+            }
+            return null;
+        }
+    }
+
     public class PlayerFixedSpeed : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerPound pound;
         public PlayerFixedSpeed(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
+
+            pound = new(m, this, ctx);
         }
     }
 
@@ -868,9 +945,10 @@ namespace HSM
 
         public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
         {
-            grounded = new PlayerGrounded(m, this, ctx);
-            airborne = new PlayerAirborne(m, this, ctx);
-            frozen = new PlayerFrozen(m, this, ctx);
+            grounded = new(m, this, ctx);
+            airborne = new(m, this, ctx);
+            frozen = new(m, this, ctx);
+            fixedSpeed = new(m, this, ctx);
             this.ctx = ctx;
         }
 
@@ -891,9 +969,9 @@ namespace HSM
             }
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-            if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f)
+            if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
             {
-                horizontalVel = horizontalVel.normalized * (horizontalVel.magnitude - ctx.cmd.maxSpeedDeceleration * deltaTime);
+                horizontalVel -= horizontalVel * ctx.cmd.maxSpeedDeceleration * deltaTime;
                 ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             }
 
@@ -920,7 +998,7 @@ namespace HSM
                     }
                     ctx.currentJumpData = ctx.slideJumpData;
                 }
-                else
+                else if(!ctx.disableJump)
                 {
                     ctx.currentJumpData = ctx.baseJumpData;
                 }

@@ -14,6 +14,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction grabAction;
+    private InputAction poundAction;
     private InputAction panLeftAction;
     private InputAction panRightAction;
 
@@ -97,6 +98,7 @@ public class PlayerStateDriver : Actor, IDamageable
             moveAction.Disable();
             jumpAction.Disable();
             grabAction.Disable();
+            poundAction.Disable();
             panLeftAction.Disable();
             panRightAction.Disable();
         }
@@ -110,6 +112,7 @@ public class PlayerStateDriver : Actor, IDamageable
             moveAction.Enable();
             jumpAction.Enable();
             grabAction.Enable();
+            poundAction.Enable();
             panLeftAction.Enable();
             panRightAction.Enable();
         }
@@ -180,12 +183,15 @@ public class PlayerStateDriver : Actor, IDamageable
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         grabAction = InputSystem.actions.FindAction("Grab");
+        poundAction = InputSystem.actions.FindAction("Pound");
         panLeftAction = InputSystem.actions.FindAction("BumperLeft");
         panRightAction = InputSystem.actions.FindAction("BumperRight");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         grabAction.started += OnGrabStart;
         grabAction.canceled += OnGrabStop;
+        poundAction.started += OnPoundStart;
+        poundAction.canceled += OnPoundStop;
         panLeftAction.started += OnPanLeft;
         panRightAction.started += OnPanRight;
     }
@@ -256,10 +262,12 @@ public class PlayerContext
 
     [Header("Jump")]
     public JumpData baseJumpData;
+    public bool disableJump;
     public float coyoteTime;
     [Tooltip("Jump input buffer time")] public float jumpBuffer;
 
     [Header("Grab")]
+    public bool disableGrab;
     [Tooltip("Speed added when entering grab")] public float grabSpeed;
     [Tooltip("Time before grab ends")] public float grabDuration;
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
@@ -294,6 +302,7 @@ public class PlayerContext
     public JumpData slideJumpData;
 
     [Header("Stunned")]
+    public bool disableStun;
     [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
@@ -314,6 +323,17 @@ public class PlayerContext
     [Tooltip("Time until player can move after roll")] public float rollEndLag;
     public bool disableRollJump;
     public JumpData rollJump;
+
+    [Header("Bag Throw")]
+    public bool disablePound;
+    public float prePoundUpBoost;
+    public float prePoundDuration;
+    public float prePoundGrav;
+    public MoveData prePoundMove;
+    public float poundSpeedDown;
+    public float poundSpeedFw;
+    public float poundLandDelay;
+    public float poundLandSpeed;
 
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;

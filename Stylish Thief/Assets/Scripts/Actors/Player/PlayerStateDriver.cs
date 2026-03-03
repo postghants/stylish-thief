@@ -262,10 +262,12 @@ public class PlayerContext
 
     [Header("Jump")]
     public JumpData baseJumpData;
+    public bool disableJump;
     public float coyoteTime;
     [Tooltip("Jump input buffer time")] public float jumpBuffer;
 
     [Header("Grab")]
+    public bool disableGrab;
     [Tooltip("Speed added when entering grab")] public float grabSpeed;
     [Tooltip("Time before grab ends")] public float grabDuration;
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
@@ -300,6 +302,7 @@ public class PlayerContext
     public JumpData slideJumpData;
 
     [Header("Stunned")]
+    public bool disableStun;
     [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
@@ -322,6 +325,7 @@ public class PlayerContext
     public JumpData rollJump;
 
     [Header("Bag Throw")]
+    public bool disablePound;
     public float prePoundUpBoost;
     public float prePoundDuration;
     public float prePoundGrav;

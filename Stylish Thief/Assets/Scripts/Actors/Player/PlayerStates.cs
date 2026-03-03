@@ -114,7 +114,7 @@ namespace HSM
 
         public static void Collision(RaycastHit hit, Vector3 impactVelocity, PlayerContext ctx, StateMachine machine)
         {
-            if (ctx.isStunned) { return; }
+            if (ctx.isStunned || ctx.disableStun) { return; }
             if (hit.normal.y > 0.1)
             {
                 return;
@@ -691,7 +691,7 @@ namespace HSM
         }
         protected override State GetTransition(float deltaTime)
         {
-            if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.isStunned)
+            if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.isStunned && !ctx.disableGrab)
             {
                 return ((PlayerRoot)Parent).airborne.grabbing;
             }
@@ -814,11 +814,11 @@ namespace HSM
         {
             if (!ctx.isStunned)
             {
-                if (ctx.desiredGrab && !ctx.hasGrabbed)
+                if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.disableGrab)
                 {
                     return grabbing;
                 }
-                if (ctx.pressingPound && Leaf() != prePound)
+                if (ctx.pressingPound && !ctx.disablePound && Leaf() != prePound)
                 {
                     return prePound;
                 }
@@ -998,7 +998,7 @@ namespace HSM
                     }
                     ctx.currentJumpData = ctx.slideJumpData;
                 }
-                else
+                else if(!ctx.disableJump)
                 {
                     ctx.currentJumpData = ctx.baseJumpData;
                 }

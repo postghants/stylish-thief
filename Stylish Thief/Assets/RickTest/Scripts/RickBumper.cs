@@ -34,6 +34,8 @@ public class RickBumper : MonoBehaviour
             {
                 player.gameObject.GetComponent<ActorPhysics>().gravity = Vector3.zero;
                 player.DisableControls();
+                player.ctx.cmd.deceleration = 0;
+                player.ctx.cmd.maxSpeedDeceleration = 0;
             }
             player.transform.position = transform.position;
             player.SetVelocity(transform.forward * startSpeed);

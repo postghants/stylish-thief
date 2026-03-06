@@ -8,9 +8,4 @@ public abstract class EnemyStateDriver : Actor
     public abstract void SwitchActiveZone(PatrolZone zone);
 }
 
-[Serializable]
-public class EnemyContext
-{
-    public PatrolZone activeZone;
-    public PlayerStateDriver player;
-}
+

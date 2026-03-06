@@ -20122,9 +20122,11 @@ MonoBehaviour:
       jumpMovementMultTime: 0
       downwardAccel: 30
       maxFallSpeed: 730.6
-      fastFallSpeed: 28
+      fastFallSpeed: 35
+    disableJump: 0
     coyoteTime: 24.54
     jumpBuffer: 0.2
+    disableGrab: 0
     grabSpeed: 17
     grabDuration: 0.4
     grabEndSpeed: 17
@@ -20184,13 +20186,76 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
+    disableStun: 0
     stunDeceleration: 1
     stunMinSpeed: 1
     stunUpwardSpeed: 1
     stunDuration: 0.1
-    harshLandingDuration: 0.1
+    harshLandingDuration: 1
     harshLandingDamage: -45
     harshLandingData:
+      acceleration: 0
+      deceleration: 999999
+      maxSpeed: 0.01
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      turnDecelerationMult: 15
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    disableRoll: 0
+    rollTiming: 0.1
+    rollSpeed: 25
+    rollDuration: 0.5
+    rollEndSpeed: 20
+    rollDeceleration: 1
+    rollEndLag: 0
+    disableRollJump: 0
+    rollJump:
+      jumpImpulse: 10
+      cuttable: 0
+      maxMaxSpeedTime: 0.2
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 30
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 10
+      hangtimeDuration: 0.2
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 30
+      maxFallSpeed: 730.6
+      fastFallSpeed: 35
+    disablePound: 0
+    prePoundUpBoost: 0
+    prePoundDuration: 0
+    prePoundGrav: 0
+    prePoundMove:
       acceleration: 0
       deceleration: 0
       maxSpeed: 0
@@ -20203,33 +20268,10 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    disableRoll: 1
-    rollTiming: 0
-    rollSpeed: 0
-    rollDuration: 0
-    rollEndSpeed: 0
-    rollDeceleration: 0
-    rollEndLag: 0
-    disableRollJump: 0
-    rollJump:
-      jumpImpulse: 0
-      cuttable: 0
-      maxMaxSpeedTime: 0
-      minMaxSpeedTime: 0
-      cutJump: 0
-      cutSpeed: 0
-      upwardDeceleration: 0
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 0
-      hangtimeDuration: 0
-      setSpeed: 0
-      setSpeedSpeed: 0
-      horizontalBoost: 0
-      jumpMovementMult: 0
-      jumpMovementMultTime: 0
-      downwardAccel: 0
-      maxFallSpeed: 0
-      fastFallSpeed: 0
+    poundSpeedDown: 0
+    poundSpeedFw: 0
+    poundLandDelay: 0
+    poundLandSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}

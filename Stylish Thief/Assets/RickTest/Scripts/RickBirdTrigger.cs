@@ -32,7 +32,9 @@ public class RickBirdTrigger : MonoBehaviour
             {
                 timer = 0;
                 count = false;
-                birdInstance = Instantiate(birdPrefab, transform.position, Quaternion.identity);
+                birdInstance = Instantiate(birdPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+                birdInstance.transform.parent = transform;
+                birds = birdInstance.GetComponent<RickBird>();
             }
         }
     }

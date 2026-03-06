@@ -537,7 +537,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.blockJump = 0;
-            ctx.isStunned = true;
+            ctx.isStunned = false;
         }
 
         protected override State GetTransition(float deltaTime)

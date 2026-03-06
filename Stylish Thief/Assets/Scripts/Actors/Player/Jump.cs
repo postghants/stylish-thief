@@ -51,29 +51,36 @@ public class Jump
     public static void CalculateGravity(PlayerContext ctx)
     {
         // Change the character's gravity while jumping up
-        if (ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y > 0)
+        if (!ctx.rb.isGrounded && ctx.rb.velocity.y > 0)
         {
-            ctx.jumpTimer += Time.deltaTime;
+            if (ctx.currentlyJumping)
+            {
+                ctx.jumpTimer += Time.deltaTime;
 
-            if (ctx.jumpTimer < ctx.currentJumpData.maxMaxSpeedTime)
-            {
-                ctx.gravMultiplier = 0;
-            }
-            else
-            {
-                if (ctx.rb.velocity.y >= ctx.currentJumpData.upwardDecelApexThreshold)
+                if (ctx.jumpTimer < ctx.currentJumpData.maxMaxSpeedTime)
                 {
-                    ctx.gravMultiplier = ctx.currentJumpData.upwardDeceleration;
+                    ctx.gravMultiplier = 0;
                 }
                 else
                 {
-                    ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
-
-                    if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
+                    if (ctx.rb.velocity.y >= ctx.currentJumpData.upwardDecelApexThreshold)
                     {
-                        ctx.rb.velocity.y = 0;
+                        ctx.gravMultiplier = ctx.currentJumpData.upwardDeceleration;
+                    }
+                    else
+                    {
+                        ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
+
+                        if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
+                        {
+                            ctx.rb.velocity.y = 0;
+                        }
                     }
                 }
+            }
+            else
+            {
+                ctx.gravMultiplier = ctx.currentJumpData.upwardDeceleration;
             }
         }
 

@@ -87,6 +87,10 @@ public class PlayerStateDriver : Actor, IDamageable
     {
         ctx.rb.velocity = newVel;
         if (newVel.y > 0) { ctx.currentlyJumping = false; }
+        if (Root.Leaf().IsChildOf(Root.fixedSpeed))
+        {
+            Machine.ChangeState(Root.Leaf(), Root.airborne);
+        }
     }
 
     private int disableControlCounter;

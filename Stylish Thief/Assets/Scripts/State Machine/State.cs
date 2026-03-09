@@ -1,0 +1,75 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace HSM
+{
+    public abstract class State
+    {
+        public StateMachine Machine;
+        public State Parent;
+        public State ActiveChild;
+        public State(StateMachine machine, State parent = null)
+        {
+            Machine = machine;
+            Parent = parent;
+        }
+
+        protected virtual State GetInitialState() => null;
+        protected virtual State GetTransition(float deltaTime) => null;
+
+        // Lifecycle hooks
+        protected virtual void OnEnter() { }
+        protected virtual void OnExit() { }
+        protected virtual void OnUpdate(float deltaTime) { }
+
+        internal void Enter()
+        {
+            if (Parent != null) { Parent.ActiveChild = this; }
+            OnEnter();
+            GetInitialState()?.Enter();
+        }
+
+        internal void Exit()
+        {
+            if (ActiveChild != null) { ActiveChild.Exit(); }
+            if (Parent != null) { Parent.ActiveChild = null; }
+            ActiveChild = null;
+            OnExit();
+        }
+
+        internal void Update(float deltaTime)
+        {
+            State t = GetTransition(deltaTime);
+            if (t != null)
+            {
+                Machine.Sequencer.RequestTransition(this, t);
+                return;
+            }
+            ActiveChild?.Update(deltaTime);
+            OnUpdate(deltaTime);
+        }
+
+        // Returns the deepest currently-active child state
+        public State Leaf()
+        {
+            State s = this;
+            while (s.ActiveChild != null) s = s.ActiveChild;
+            return s;
+        }
+
+        public bool IsChildOf(State state)
+        {
+            for (State s = this; s != null; s = s.Parent)
+            {
+                if (s == state) return true;
+            }
+            return false;
+        }
+
+        // Yields this state and then each ancestor up to the root state
+        public IEnumerable<State> PathToRoot()
+        {
+            for (State s = this; s != null; s = s.Parent) yield return s;
+        }
+    }
+}

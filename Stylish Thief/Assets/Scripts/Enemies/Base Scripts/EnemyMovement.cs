@@ -5,13 +5,13 @@ using UnityEngine;
 public abstract class EnemyMovement : MonoBehaviour
 {
     [HideInInspector] public EnemyController ctr;
-    public List<string> animationCodeNames;
+    [HideInInspector] public List<string> animationCodeNames = new();
 
     public abstract void OnUpdate(float deltaTime);
     public abstract void OnEnter();
     public abstract void OnExit();
 
-    private void Reset()
+    protected virtual void Reset()
     {
         if (TryGetComponent(out EnemyController controller))
         {

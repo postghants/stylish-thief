@@ -57,6 +57,15 @@ namespace HSM
             return s;
         }
 
+        public bool IsChildOf(State state)
+        {
+            for (State s = this; s != null; s = s.Parent)
+            {
+                if (s == state) return true;
+            }
+            return false;
+        }
+
         // Yields this state and then each ancestor up to the root state
         public IEnumerable<State> PathToRoot()
         {

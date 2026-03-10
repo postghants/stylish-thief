@@ -17,7 +17,7 @@ public class RickBouncyPlatform : MonoBehaviour
         directionalForce = transform.up * launchForce;
         if (other.gameObject.layer == 6)
         {
-            CrimeSpreeManager.instance.DoMinorCrime(score, crime);
+            CrimeSpreeManager.instance?.DoMinorCrime(score, crime);
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             
             /*if (oneToOne)

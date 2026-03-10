@@ -133,6 +133,8 @@ namespace HSM
                 //    newVel = newVel.normalized * ctx.stunMinSpeed;
                 //}
 
+
+
                 Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
 
                 //tom toevoeging
@@ -540,7 +542,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.blockJump = 0;
-            ctx.isStunned = true;
+            ctx.isStunned = false;
         }
 
         protected override State GetTransition(float deltaTime)

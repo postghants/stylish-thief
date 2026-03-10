@@ -1,8 +1,6 @@
 using HSM;
-using JetBrains.Annotations;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,6 +14,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction grabAction;
+    private InputAction poundAction;
     private InputAction panLeftAction;
     private InputAction panRightAction;
 
@@ -36,7 +35,14 @@ public class PlayerStateDriver : Actor, IDamageable
         // Instantiate player UI
         GameObject ui = Instantiate(ctx.playerUIPrefab);
         ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
-        CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+        if (CrimeSpreeManager.instance != null)
+        {
+            CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+        }
+
+        ctx.player = this;
+        ctx.currentJumpData = ctx.baseJumpData;
+        ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
 
     private void Update()
@@ -81,6 +87,10 @@ public class PlayerStateDriver : Actor, IDamageable
     {
         ctx.rb.velocity = newVel;
         if (newVel.y > 0) { ctx.currentlyJumping = false; }
+        if (Root.Leaf().IsChildOf(Root.fixedSpeed))
+        {
+            Machine.ChangeState(Root.Leaf(), Root.airborne);
+        }
     }
 
     private int disableControlCounter;
@@ -92,6 +102,7 @@ public class PlayerStateDriver : Actor, IDamageable
             moveAction.Disable();
             jumpAction.Disable();
             grabAction.Disable();
+            poundAction.Disable();
             panLeftAction.Disable();
             panRightAction.Disable();
         }
@@ -105,6 +116,7 @@ public class PlayerStateDriver : Actor, IDamageable
             moveAction.Enable();
             jumpAction.Enable();
             grabAction.Enable();
+            poundAction.Enable();
             panLeftAction.Enable();
             panRightAction.Enable();
         }
@@ -130,6 +142,15 @@ public class PlayerStateDriver : Actor, IDamageable
     public void OnGrabStop(InputAction.CallbackContext c)
     {
         ctx.pressingGrab = false;
+    }
+
+    public void OnPoundStart(InputAction.CallbackContext c)
+    {
+        ctx.pressingPound = true;
+    }
+    public void OnPoundStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingPound = false;
     }
 
     public void OnPanLeft(InputAction.CallbackContext c)
@@ -166,12 +187,15 @@ public class PlayerStateDriver : Actor, IDamageable
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         grabAction = InputSystem.actions.FindAction("Grab");
+        poundAction = InputSystem.actions.FindAction("Pound");
         panLeftAction = InputSystem.actions.FindAction("BumperLeft");
         panRightAction = InputSystem.actions.FindAction("BumperRight");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         grabAction.started += OnGrabStart;
         grabAction.canceled += OnGrabStop;
+        poundAction.started += OnPoundStart;
+        poundAction.canceled += OnPoundStop;
         panLeftAction.started += OnPanLeft;
         panRightAction.started += OnPanRight;
     }
@@ -242,15 +266,16 @@ public class PlayerContext
 
     [Header("Jump")]
     public JumpData baseJumpData;
+    public bool disableJump;
     public float coyoteTime;
     [Tooltip("Jump input buffer time")] public float jumpBuffer;
 
     [Header("Grab")]
+    public bool disableGrab;
     [Tooltip("Speed added when entering grab")] public float grabSpeed;
     [Tooltip("Time before grab ends")] public float grabDuration;
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
     [Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
-    [Tooltip("Friction applied during grab state")] public float grabFriction;
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Grab Targeting")]
@@ -259,17 +284,18 @@ public class PlayerContext
     public float maxGrabTargetDistanceUp;
     public float maxGrabTargetDistanceDown;
 
-    [Header("Ledge Grab")]
+    [Header("Vault")]
+    public bool disableVault;
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
-    public float vaultSpeedMult;
-    public float vaultSpeedBoost;
-    public float vaultDuration;
     public float vaultMaxDuration;
-    public float vaultVerticalBoost;
+
+    public bool disableVaultJump;
+    public JumpData vaultJump;
 
     [Header("Slide")]
-    public bool enableAirborneSlide;
+    public bool disableSlide;
+    public bool disableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
@@ -280,16 +306,45 @@ public class PlayerContext
     public JumpData slideJumpData;
 
     [Header("Stunned")]
+    public bool disableStun;
     [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
+
+    [Header("Harsh Landing")]
+    public float harshLandingDuration;
+    public float harshLandingDamage;
+    public MoveData harshLandingData;
+
+    [Header("Roll")]
+    public bool disableRoll;
+    public float rollTiming;
+    [Tooltip("Speed added when entering roll")] public float rollSpeed;
+    [Tooltip("Time before roll ends")] public float rollDuration;
+    [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
+    [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
+    [Tooltip("Time until player can move after roll")] public float rollEndLag;
+    public bool disableRollJump;
+    public JumpData rollJump;
+
+    [Header("Bag Throw")]
+    public bool disablePound;
+    public float prePoundUpBoost;
+    public float prePoundDuration;
+    public float prePoundGrav;
+    public MoveData prePoundMove;
+    public float poundSpeedDown;
+    public float poundSpeedFw;
+    public float poundLandDelay;
+    public float poundLandSpeed;
 
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;
     [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
     [Header("References")]
+    [HideInInspector] public PlayerStateDriver player;
     public ActorPhysics rb;
     public Animator anim;
     [HideInInspector] public Transform cam;
@@ -322,18 +377,21 @@ public class PlayerContext
     public float baseGrav;
     public float gravMultiplier;
     public float jumpSpeed;
+    public float landingSpeed;
     public Vector3 currentVelocity;
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float rollTimer;
     public float stunTimer;
     public float slideTimer;
     public float regenTimer;
     public float jumpTimer;
-    public float currentFriction;
+    public float jumpApexTimer;
+    public float blockJump;
     public float currentMoveMult;
     public float currentJumpMoveMult = 1;
-    public MoveData currentMoveData;
+    public MoveData cmd;
     public JumpData currentJumpData;
     public bool isStunned;
 
@@ -343,6 +401,7 @@ public class PlayerContext
     public bool pressingJump;
     public bool desiredGrab;
     public bool pressingGrab;
+    public bool pressingPound;
 
 }
 
@@ -350,10 +409,10 @@ public class PlayerContext
 public class MoveData
 {
     [Tooltip("Acceleration in units per second squared.")] public float acceleration;
-    [Tooltip("Friction applied on any horizontal velocity.")] public float friction;
     [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
     [Tooltip("Maximum speed.")] public float maxSpeed;
-    [Tooltip("Additional multiplier applied only when trying to move over the max speed.")] public float speedCapMult = 0.9f;
+    public float maxSpeedDeceleration;
+    public float turnSpeedMult;
     [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
     [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }
@@ -361,25 +420,26 @@ public class MoveData
 [Serializable]
 public class JumpData
 {
-    //    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
-    //    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
-    //    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
-    //    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
-    //    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
-    //    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
-    public float jumpCutoff;
-    public float timerValueOnFall;
-    [Tooltip("Horizontal movement multiplier")] public float jumpMovementMult = 1;
-    [Tooltip("Duration of movement multiplier")] public float jumpMovementMultTime = 0;
-
     public float jumpImpulse;
-    public List<JumpState> jumpStates;
-}
+    public bool cuttable;
+    public float maxMaxSpeedTime;
+    public float minMaxSpeedTime;
+    public bool cutJump;
+    public float cutSpeed;
+    public float upwardDeceleration;
+    public float upwardDecelApexThreshold;
+    public float upwardDecelApex;
+    public float hangtimeDuration;
 
-[Serializable]
-public class JumpState
-{
-    [SerializeField] public string name;
-    [SerializeField] public float gravMult;
-    [SerializeField] public float duration;
+    [Header("Extra")]
+    public bool setSpeed;
+    public float setSpeedSpeed;
+    public float horizontalBoost;
+    public float jumpMovementMult;
+    public float jumpMovementMultTime;
+
+    [Header("Falling")]
+    public float downwardAccel;
+    public float maxFallSpeed;
+    public float fastFallSpeed;
 }

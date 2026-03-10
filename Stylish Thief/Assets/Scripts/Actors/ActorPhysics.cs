@@ -26,6 +26,7 @@ public class ActorPhysics : MonoBehaviour
     public Vector3 velocity;
     public bool isGrounded;
     public float currentGroundAngle;
+    public float landingSpeed;
 
     public delegate void OnCollision(RaycastHit hit, Vector3 impactVelocity);
     public OnCollision onCollision;

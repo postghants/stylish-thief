@@ -4861,7 +4861,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &5324122660894015967
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4907,6 +4907,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4938,7 +4939,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &1586452659134307811
 GameObject:
   m_ObjectHideFlags: 0
@@ -9742,7 +9742,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &4270835116697786940
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9789,6 +9789,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9820,7 +9821,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &1709254682019126636
 GameObject:
   m_ObjectHideFlags: 0
@@ -14781,7 +14781,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &9023337567185671340
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -14828,6 +14828,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -14859,7 +14860,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &2471695356113930594
 GameObject:
   m_ObjectHideFlags: 0
@@ -19748,7 +19748,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &1851734205029097253
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -19794,6 +19794,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -19825,7 +19826,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &3368787417710993652
 GameObject:
   m_ObjectHideFlags: 0
@@ -19838,6 +19838,7 @@ GameObject:
   - component: {fileID: 43589339852579617}
   - component: {fileID: 3719497346401164761}
   - component: {fileID: 7895177472267553196}
+  - component: {fileID: 8310960475660877445}
   m_Layer: 6
   m_Name: Hitbox
   m_TagString: Untagged
@@ -19915,6 +19916,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7895177472267553196
 BoxCollider:
@@ -19937,6 +19939,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8310960475660877445
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368787417710993652}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4668033689235908336
 GameObject:
   m_ObjectHideFlags: 0
@@ -19948,7 +19977,6 @@ GameObject:
   - component: {fileID: 4199111852456702283}
   - component: {fileID: 5039265793413682498}
   - component: {fileID: 5516163521354773594}
-  - component: {fileID: 3810772174708573252}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -19997,11 +20025,11 @@ MonoBehaviour:
     regenDelay: 1.5
     timeScale: 1
     groundMoveData:
-      acceleration: 40
-      friction: 0
-      deceleration: 0.3
-      maxSpeed: 8
-      speedCapMult: 1
+      acceleration: 25
+      deceleration: 8
+      maxSpeed: 15
+      maxSpeedDeceleration: 15
+      turnSpeedMult: 6
       turnDecelerationMult: 10
       turnDeceleration:
         serializedVersion: 2
@@ -20037,11 +20065,11 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     airMoveData:
-      acceleration: 15
-      friction: 0.03
-      deceleration: 0
-      maxSpeed: 10
-      speedCapMult: 0.2
+      acceleration: 25
+      deceleration: 8
+      maxSpeed: 15
+      maxSpeedDeceleration: 12
+      turnSpeedMult: 9999999
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20051,79 +20079,202 @@ MonoBehaviour:
           value: 0
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.6549124
+          value: 0.051286466
+          inSlope: 0.2660134
+          outSlope: 0.2660134
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.279899
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
+          value: 0.5680313
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.06333327
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     baseJumpData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
+      jumpImpulse: 10
+      cuttable: 1
+      maxMaxSpeedTime: 0.2
+      minMaxSpeedTime: 0.001
+      cutJump: 1
+      cutSpeed: 4
+      upwardDeceleration: 30
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 10
+      hangtimeDuration: 0.2
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpImpulse: 15
-      jumpStates:
-      - name: Start
-        gravMult: 0
-        duration: 0.1
-      - name: Leadup to hangtime
-        gravMult: 30
-        duration: 0.5
-      - name: Hangtime
-        gravMult: 0
-        duration: 0.2
-      - name: Descending
-        gravMult: 30
-        duration: 0.6
+      downwardAccel: 30
+      maxFallSpeed: 730.6
+      fastFallSpeed: 35
+    disableJump: 0
     coyoteTime: 0.1
     jumpBuffer: 0.1
-    grabSpeed: 22
-    grabDuration: 0.2
-    grabEndSpeed: 0
-    grabDeceleration: 0.45
-    grabFriction: 0.02
+    disableGrab: 0
+    grabSpeed: 17
+    grabDuration: 0.4
+    grabEndSpeed: 17
+    grabDeceleration: 0
     grabEndLag: 0
-    maxGrabTargetAngle: 30
+    maxGrabTargetAngle: 40
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    ledgeCheckDistance: 1
-    maxLedgeHeight: 1.5
-    vaultSpeedMult: 0.2
-    vaultSpeedBoost: 38.4
-    vaultDuration: 0.2
-    vaultMaxDuration: 0
-    vaultVerticalBoost: 10.16
-    enableAirborneSlide: 0
+    disableVault: 1
+    ledgeCheckDistance: 4.38
+    maxLedgeHeight: 81.47
+    vaultMaxDuration: 34.8
+    disableVaultJump: 0
+    vaultJump:
+      jumpImpulse: 15
+      cuttable: 0
+      maxMaxSpeedTime: 0.2
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 10
+      upwardDeceleration: 10
+      upwardDecelApexThreshold: 2
+      upwardDecelApex: 5
+      hangtimeDuration: 2
+      setSpeed: 1
+      setSpeedSpeed: 20
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 1
+      downwardAccel: 30
+      maxFallSpeed: 30
+      fastFallSpeed: 28
+    disableSlide: 1
+    disableAirborneSlide: 1
     minSlideTime: 1
-    slideFriction: 0.013
-    slideMoveMult: 0.2
+    slideFriction: 0
+    slideMoveMult: 0
     maxSlideBonkAngle: 90
     disableSlideJump: 1
     slideJumpData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0.5
+      jumpMovementMultTime: 10
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
+    disableStun: 0
+    stunDeceleration: 1
+    stunMinSpeed: 1
+    stunUpwardSpeed: 1
+    stunDuration: 0.1
+    harshLandingDuration: 1
+    harshLandingDamage: -45
+    harshLandingData:
+      acceleration: 0
+      deceleration: 999999
+      maxSpeed: 0.01
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      turnDecelerationMult: 15
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    disableRoll: 0
+    rollTiming: 0.1
+    rollSpeed: 25
+    rollDuration: 0.5
+    rollEndSpeed: 20
+    rollDeceleration: 1
+    rollEndLag: 0
+    disableRollJump: 0
+    rollJump:
+      jumpImpulse: 10
+      cuttable: 0
+      maxMaxSpeedTime: 0.2
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 30
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 10
+      hangtimeDuration: 0.2
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpImpulse: 0
-      jumpStates: []
-    stunDeceleration: 0.8
-    stunMinSpeed: 1.5
-    stunUpwardSpeed: 4
-    stunDuration: 0.4
+      downwardAccel: 30
+      maxFallSpeed: 730.6
+      fastFallSpeed: 35
+    disablePound: 0
+    prePoundUpBoost: 0
+    prePoundDuration: 0
+    prePoundGrav: 0
+    prePoundMove:
+      acceleration: 0
+      deceleration: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    poundSpeedDown: 0
+    poundSpeedFw: 0
+    poundLandDelay: 0
+    poundLandSpeed: 0
     panTime: 0.2
-    panAngle: 90
+    panAngle: -45
+    player: {fileID: 0}
     rb: {fileID: 5516163521354773594}
     anim: {fileID: 319182198754694984}
     cam: {fileID: 0}
@@ -20146,25 +20297,28 @@ MonoBehaviour:
     jumpBufferCounter: 0
     currentlyJumping: 0
     baseGrav: 0
-    gravMultiplier: 1
-    jumpSpeed: 0
+    gravMultiplier: 0
+    jumpSpeed: 1
+    landingSpeed: 0
     currentVelocity: {x: 0, y: 0, z: 0}
-    useGravity: 1
+    useGravity: 0
     hasGrabbed: 0
     grabTimer: 0
+    rollTimer: 0
     stunTimer: 0
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0
-    currentFriction: 0
+    jumpApexTimer: 0
+    blockJump: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
-    currentMoveData:
+    cmd:
       acceleration: 0
-      friction: 0
       deceleration: 0
       maxSpeed: 0
-      speedCapMult: 0.9
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20173,18 +20327,31 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     currentJumpData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      jumpImpulse: 0
-      jumpStates: []
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     isStunned: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0
     desiredGrab: 0
     pressingGrab: 0
+    pressingPound: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20211,29 +20378,12 @@ MonoBehaviour:
   maxSlopeAngle: 55
   maxStairHeight: 0.15
   minStairWidth: 0.1
-  gravity: {x: 0, y: -9.81, z: 0}
+  gravity: {x: 0, y: -1, z: 0}
   environmentCollider: {fileID: 7895177472267553196}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
---- !u!114 &3810772174708573252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4668033689235908336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioBankLoader
-  LoadEvent: 1
-  UnloadEvent: 2
-  Banks:
-  - Master
-  CollisionTag: 
-  PreloadSamples: 0
+  landingSpeed: 0
 --- !u!1 &5133514560630397958
 GameObject:
   m_ObjectHideFlags: 0
@@ -25108,7 +25258,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &8272470897504754140
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -25154,6 +25304,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -25185,7 +25336,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &5280516639514894057
 GameObject:
   m_ObjectHideFlags: 0
@@ -30002,7 +30152,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &635025288350268460
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -30048,6 +30198,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -30079,7 +30230,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &6920411876884935970
 GameObject:
   m_ObjectHideFlags: 0
@@ -30155,7 +30305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
-  m_Material: {fileID: 2100000, guid: 6bfeb1a1ad997ca499ffe072153f503a, type: 2}
+  m_Material: {fileID: 2100000, guid: ed3fa370ece76864caa311bca4016394, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 0
@@ -35005,7 +35155,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &925875102463825718
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -35051,6 +35201,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -35082,7 +35233,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &7965516890956919899
 GameObject:
   m_ObjectHideFlags: 0
@@ -39873,7 +40023,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &1984564337245620459
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -39919,6 +40069,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -39950,7 +40101,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1001 &8884588579750260273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40115,11 +40265,11 @@ MonoBehaviour:
     Path: event:/jump
   onGrabEvent:
     Guid:
-      Data1: -526397677
-      Data2: 1311755693
-      Data3: 890144933
-      Data4: -1429861228
-    Path: event:/jump
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!4 &8991119175841532378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}

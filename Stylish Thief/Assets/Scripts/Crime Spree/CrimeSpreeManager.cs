@@ -15,6 +15,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     [Header("Countdown stuff")]
     public bool doCountdown;
+    public bool spawnOnValuableGrab;
     public float startTimer;
     public GameObject patrolZones;
     [Header("Countdown internal")]
@@ -41,7 +42,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         PlayerStateDriver player = FindAnyObjectByType<PlayerStateDriver>();
         playerInstance = player;
         SpawnNewValuables();
-        patrolZones.SetActive(false);
+        if (patrolZones != null)
+        {
+            patrolZones.SetActive(false);
+        }
     }
 
     private void Update()
@@ -128,6 +132,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         if (ChaseTimer == 0)
         {
             StartSpree();
+            if (spawnOnValuableGrab)
+            {
+                patrolZones.SetActive(true);
+            }
         }
 
         ChaseTimer = maxChaseTime;

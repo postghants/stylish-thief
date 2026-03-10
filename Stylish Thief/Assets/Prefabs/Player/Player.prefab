@@ -20123,8 +20123,10 @@ MonoBehaviour:
       downwardAccel: 30
       maxFallSpeed: 730.6
       fastFallSpeed: 28
+    disableJump: 0
     coyoteTime: 24.54
     jumpBuffer: 0.2
+    disableGrab: 0
     grabSpeed: 17
     grabDuration: 0.4
     grabEndSpeed: 17
@@ -20184,6 +20186,7 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
+    disableStun: 0
     stunDeceleration: 1
     stunMinSpeed: 1
     stunUpwardSpeed: 1
@@ -20230,6 +20233,27 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
+    disablePound: 0
+    prePoundUpBoost: 0
+    prePoundDuration: 0
+    prePoundGrav: 0
+    prePoundMove:
+      acceleration: 0
+      deceleration: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    poundSpeedDown: 0
+    poundSpeedFw: 0
+    poundLandDelay: 0
+    poundLandSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -40223,11 +40247,18 @@ MonoBehaviour:
     Path: event:/jump
   onGrabEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1362505161
+      Data2: 1341944431
+      Data3: 1157851535
+      Data4: 1809422228
+    Path: event:/grab
+  onBumpEvent:
+    Guid:
+      Data1: 737487761
+      Data2: 1219444782
+      Data3: -1462997096
+      Data4: 909930509
+    Path: event:/bump
 --- !u!4 &8991119175841532378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}

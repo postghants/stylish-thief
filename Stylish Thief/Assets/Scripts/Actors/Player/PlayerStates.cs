@@ -135,6 +135,9 @@ namespace HSM
 
                 Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
 
+                //tom toevoeging
+                
+
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;

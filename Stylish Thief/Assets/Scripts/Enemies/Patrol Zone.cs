@@ -11,7 +11,7 @@ public class PatrolZone : MonoBehaviour
 
     private Collider[] colliders;
 
-    private void Start()
+    public void OnStart()
     {
         colliders = GetComponents<Collider>();
     }
@@ -60,16 +60,16 @@ public class PatrolZone : MonoBehaviour
     public Vector3 ClosestPoint(Vector3 point)
     {
         List<Vector3> points = new List<Vector3>();
-        foreach(Collider collider in colliders)
+        foreach (Collider collider in colliders)
         {
             points.Add(collider.ClosestPoint(point));
         }
         Vector3 closestPoint = Vector3.zero;
         float smallestDistance = Mathf.Infinity;
-        foreach(Vector3 closest in points)
+        foreach (Vector3 closest in points)
         {
             float distance = Vector3.Distance(point, closest);
-            if(distance < smallestDistance)
+            if (distance < smallestDistance)
             {
                 smallestDistance = distance;
                 closestPoint = closest;
@@ -91,5 +91,13 @@ public class PatrolZone : MonoBehaviour
                 Random.Range(minY, -minY),
                 Random.Range(minZ, -minZ)
         ) + bounds.center;
+    }
+
+    private void Reset()
+    {
+        if (PatrolZoneManager.instance != null)
+        {
+            PatrolZoneManager.instance.zones.Add(this);
+        }
     }
 }

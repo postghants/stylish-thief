@@ -41,7 +41,7 @@ public class RickBumperEnd : MonoBehaviour
                 player.ctx.cmd.maxSpeedDeceleration = prefabPlayer.ctx.airMoveData.maxSpeedDeceleration;
                 //player.SetVelocity(transform.forward * endSpeed);
                 player.ctx.hasGrabbed = false;
-                player.EnableControls();
+                //player.EnableControls();
             }
         }
     }

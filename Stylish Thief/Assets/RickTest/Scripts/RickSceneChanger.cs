@@ -20,4 +20,9 @@ public class RickSceneChanger : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(sceneID);
     }
+    public void ResetScene()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

@@ -352,6 +352,7 @@ public class PlayerContext
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
     public ParticleManager particleManager;
+    public PlayerAnimEventHandler playerAnimEventHandler;
 
     [Header("Prefabs")]
     public GameObject playerUIPrefab;

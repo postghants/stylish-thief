@@ -133,6 +133,8 @@ namespace HSM
                 //    newVel = newVel.normalized * ctx.stunMinSpeed;
                 //}
 
+
+
                 Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
 
                 ctx.rb.velocity = newVel;

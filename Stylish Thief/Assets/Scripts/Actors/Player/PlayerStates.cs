@@ -133,12 +133,10 @@ namespace HSM
                 //    newVel = newVel.normalized * ctx.stunMinSpeed;
                 //}
 
-
-
                 Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
 
                 //tom toevoeging
-                
+                ctx.playerAnimEventHandler.Bump();
 
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
@@ -542,7 +540,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.blockJump = 0;
-            ctx.isStunned = false;
+            ctx.isStunned = true;
         }
 
         protected override State GetTransition(float deltaTime)

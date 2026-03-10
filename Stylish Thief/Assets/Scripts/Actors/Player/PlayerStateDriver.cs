@@ -1,53 +1,48 @@
 using HSM;
 using System;
 using System.Collections;
-using System.Threading;
 using Unity.Cinemachine;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerStateDriver : Actor, IDamageable
 {
     public PlayerContext ctx;
-
-    private PlayerRoot root;
-    private StateMachine machine;
+    public PlayerRoot Root;
+    public StateMachine Machine;
 
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction grabAction;
+    private InputAction poundAction;
     private InputAction panLeftAction;
     private InputAction panRightAction;
 
-    private void Awake()
+    private void Start()
     {
         // Set input references
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-        grabAction = InputSystem.actions.FindAction("Grab");
-        panLeftAction = InputSystem.actions.FindAction("BumperLeft");
-        panRightAction = InputSystem.actions.FindAction("BumperRight");
-        jumpAction.started += OnJumpStart;
-        jumpAction.canceled += OnJumpStop;
-        grabAction.started += OnGrabStart;
-        grabAction.canceled += OnGrabStop;
-        panLeftAction.started += OnPanLeft;
-        panRightAction.started += OnPanRight;
+        InitializeControls();
         ctx.cam = Camera.main.transform;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.currentHealth = ctx.maxHealth;
 
 
         // Initialize state machine
-        root = new(null, ctx);
-        StateMachineBuilder builder = new(root);
-        machine = builder.Build();
+        Root = new(null, ctx);
+        StateMachineBuilder builder = new(Root);
+        Machine = builder.Build();
 
         // Instantiate player UI
-        ctx.healthBar = Instantiate(ctx.playerUIPrefab).GetComponentInChildren<HealthBar>();
+        GameObject ui = Instantiate(ctx.playerUIPrefab);
+        ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
+        if (CrimeSpreeManager.instance != null)
+        {
+            CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+        }
 
-
+        ctx.player = this;
+        ctx.currentJumpData = ctx.baseJumpData;
+        ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
 
     private void Update()
@@ -78,16 +73,54 @@ public class PlayerStateDriver : Actor, IDamageable
             ctx.anim.transform.LookAt(ctx.anim.transform.position + new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z));
         }
 
-        machine.Update(Time.deltaTime * ctx.timeScale);
-        Debug.Log(root.Leaf());
+        Machine.Update(Time.deltaTime * ctx.timeScale);
+        Debug.Log(Root.Leaf());
     }
 
     public void TakeKnockback(Vector3 knockback)
     {
         ctx.rb.velocity += knockback;
-        machine.ChangeState(root.Leaf(), root.airborne.stunnedAirborne);
+        Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
     }
 
+    public void SetVelocity(Vector3 newVel)
+    {
+        ctx.rb.velocity = newVel;
+        if (newVel.y > 0) { ctx.currentlyJumping = false; }
+        if (Root.Leaf().IsChildOf(Root.fixedSpeed))
+        {
+            Machine.ChangeState(Root.Leaf(), Root.airborne);
+        }
+    }
+
+    private int disableControlCounter;
+    public void DisableControls()
+    {
+        disableControlCounter++;
+        if (disableControlCounter == 1)
+        {
+            moveAction.Disable();
+            jumpAction.Disable();
+            grabAction.Disable();
+            poundAction.Disable();
+            panLeftAction.Disable();
+            panRightAction.Disable();
+        }
+    }
+
+    public void EnableControls()
+    {
+        disableControlCounter--;
+        if (disableControlCounter == 0)
+        {
+            moveAction.Enable();
+            jumpAction.Enable();
+            grabAction.Enable();
+            poundAction.Enable();
+            panLeftAction.Enable();
+            panRightAction.Enable();
+        }
+    }
 
     public void OnJumpStart(InputAction.CallbackContext c)
     {
@@ -111,6 +144,15 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.pressingGrab = false;
     }
 
+    public void OnPoundStart(InputAction.CallbackContext c)
+    {
+        ctx.pressingPound = true;
+    }
+    public void OnPoundStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingPound = false;
+    }
+
     public void OnPanLeft(InputAction.CallbackContext c)
     {
         StartCoroutine(PanCamera(ctx.panAngle, ctx.panTime));
@@ -123,7 +165,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private IEnumerator PanCamera(float angle, float time)
     {
         float timer = 0;
-        if(time == 0) { time = Time.deltaTime; }
+        if (time == 0) { time = Time.deltaTime; }
         while (timer < time)
         {
             ctx.orbitalFollow.HorizontalAxis.Value += angle * Time.deltaTime / time;
@@ -131,7 +173,6 @@ public class PlayerStateDriver : Actor, IDamageable
             yield return null;
         }
     }
-
 
     private IEnumerator GrabTimer()
     {
@@ -141,12 +182,30 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.desiredGrab = false;
     }
 
+    private void InitializeControls()
+    {
+        moveAction = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump");
+        grabAction = InputSystem.actions.FindAction("Grab");
+        poundAction = InputSystem.actions.FindAction("Pound");
+        panLeftAction = InputSystem.actions.FindAction("BumperLeft");
+        panRightAction = InputSystem.actions.FindAction("BumperRight");
+        jumpAction.started += OnJumpStart;
+        jumpAction.canceled += OnJumpStop;
+        grabAction.started += OnGrabStart;
+        grabAction.canceled += OnGrabStop;
+        poundAction.started += OnPoundStart;
+        poundAction.canceled += OnPoundStop;
+        panLeftAction.started += OnPanLeft;
+        panRightAction.started += OnPanRight;
+    }
+
     private void OnGUI()
     {
         Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
         GUI.Label(new Rect(0, 10, 200, 30), $"XZ speed: {horizontalVel.magnitude}");
         GUI.Label(new Rect(0, 30, 200, 30), $"Y speed: {ctx.rb.velocity.y}");
-        GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {machine.Root.Leaf()}");
+        GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {Machine.Root.Leaf()}");
     }
 
     private void Die()
@@ -155,10 +214,14 @@ public class PlayerStateDriver : Actor, IDamageable
         enabled = false;
     }
 
+    //IDamageable
     public void TakeDamage(float damage)
     {
         ctx.currentHealth -= damage;
-        ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        if (ctx.healthBar != null)
+        {
+            ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+        }
         ctx.regenTimer = 0;
         if (ctx.currentHealth <= 0)
         {
@@ -187,58 +250,108 @@ public class PlayerContext
     public float timeScale = 1;
 
     [Header("Grounded Movement")]
-    [Tooltip("Acceleration in units/s^2")] public float acceleration;
-    [Tooltip("Friction applied when on the ground.")] public float groundFriction;
-    [Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
-    [Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
-    [Tooltip("Maximum grounded speed.")] public float maxSpeed;
-    [Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
-    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
+    public MoveData groundMoveData;
+    //[Tooltip("Acceleration in units/s^2")] public float acceleration;
+    //[Tooltip("Friction applied when on the ground.")] public float groundFriction;
+    //[Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
+    //[Tooltip("Additional multiplier applied only when moving over the max speed.")] public float groundSpeedCapMult = 0.9f;
+    //[Tooltip("Maximum grounded speed.")] public float maxSpeed;
+    //[Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
+    //[Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
     [Header("Air Movement")]
-    [Tooltip("Acceleration when airborne.")] public float airAccel;
-    [Tooltip("Friction applied when airborne.")] public float airFriction;
+    public MoveData airMoveData;
+    //[Tooltip("Acceleration when airborne.")] public float airAccel;
+    //[Tooltip("Friction applied when airborne.")] public float airFriction;
 
     [Header("Jump")]
     public JumpData baseJumpData;
+    public bool disableJump;
     public float coyoteTime;
     [Tooltip("Jump input buffer time")] public float jumpBuffer;
 
     [Header("Grab")]
+    public bool disableGrab;
     [Tooltip("Speed added when entering grab")] public float grabSpeed;
     [Tooltip("Time before grab ends")] public float grabDuration;
     [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
     [Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
-    [Tooltip("Friction applied during grab state")] public float grabFriction;
     [Tooltip("Time until player can move after grab")] public float grabEndLag;
 
+    [Header("Grab Targeting")]
+    public float maxGrabTargetAngle;
+    public float maxGrabTargetDistanceHorizontal;
+    public float maxGrabTargetDistanceUp;
+    public float maxGrabTargetDistanceDown;
+
+    [Header("Vault")]
+    public bool disableVault;
+    public float ledgeCheckDistance;
+    public float maxLedgeHeight;
+    public float vaultMaxDuration;
+
+    public bool disableVaultJump;
+    public JumpData vaultJump;
+
     [Header("Slide")]
+    public bool disableSlide;
+    public bool disableAirborneSlide;
     [Tooltip("Minimum duration of slide state")] public float minSlideTime;
     [Tooltip("Friction applied when sliding")] public float slideFriction;
     [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
     [Tooltip("Maximum horizontal impact angle for a bonk")] public float maxSlideBonkAngle;
 
     [Header("Slide Jump")]
+    public bool disableSlideJump;
     public JumpData slideJumpData;
 
     [Header("Stunned")]
+    public bool disableStun;
     [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
+
+    [Header("Harsh Landing")]
+    public float harshLandingDuration;
+    public float harshLandingDamage;
+    public MoveData harshLandingData;
+
+    [Header("Roll")]
+    public bool disableRoll;
+    public float rollTiming;
+    [Tooltip("Speed added when entering roll")] public float rollSpeed;
+    [Tooltip("Time before roll ends")] public float rollDuration;
+    [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
+    [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
+    [Tooltip("Time until player can move after roll")] public float rollEndLag;
+    public bool disableRollJump;
+    public JumpData rollJump;
+
+    [Header("Bag Throw")]
+    public bool disablePound;
+    public float prePoundUpBoost;
+    public float prePoundDuration;
+    public float prePoundGrav;
+    public MoveData prePoundMove;
+    public float poundSpeedDown;
+    public float poundSpeedFw;
+    public float poundLandDelay;
+    public float poundLandSpeed;
 
     [Header("Camera Move")]
     [Tooltip("Total pan time")] public float panTime = 0.2f;
     [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
     [Header("References")]
+    [HideInInspector] public PlayerStateDriver player;
     public ActorPhysics rb;
     public Animator anim;
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
-    public ParticleSystem landParticles;
+    public ParticleManager particleManager;
 
     [Header("Prefabs")]
     public GameObject playerUIPrefab;
@@ -264,15 +377,21 @@ public class PlayerContext
     public float baseGrav;
     public float gravMultiplier;
     public float jumpSpeed;
+    public float landingSpeed;
     public Vector3 currentVelocity;
     public bool useGravity = true;
     public bool hasGrabbed;
     public float grabTimer;
+    public float rollTimer;
     public float stunTimer;
     public float slideTimer;
     public float regenTimer;
-    public float currentFriction;
+    public float jumpTimer;
+    public float jumpApexTimer;
+    public float blockJump;
     public float currentMoveMult;
+    public float currentJumpMoveMult = 1;
+    public MoveData cmd;
     public JumpData currentJumpData;
     public bool isStunned;
 
@@ -282,14 +401,45 @@ public class PlayerContext
     public bool pressingJump;
     public bool desiredGrab;
     public bool pressingGrab;
+    public bool pressingPound;
+
+}
+
+[Serializable]
+public class MoveData
+{
+    [Tooltip("Acceleration in units per second squared.")] public float acceleration;
+    [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
+    [Tooltip("Maximum speed.")] public float maxSpeed;
+    public float maxSpeedDeceleration;
+    public float turnSpeedMult;
+    [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
+    [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }
 
 [Serializable]
 public class JumpData
 {
-    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
-    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
-    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
-    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
-    [Tooltip("Gravity multiplier while moving up after letting go of jump")] public float jumpCutOff; //THIS IS A GRAVITY MULTIPLIER
+    public float jumpImpulse;
+    public bool cuttable;
+    public float maxMaxSpeedTime;
+    public float minMaxSpeedTime;
+    public bool cutJump;
+    public float cutSpeed;
+    public float upwardDeceleration;
+    public float upwardDecelApexThreshold;
+    public float upwardDecelApex;
+    public float hangtimeDuration;
+
+    [Header("Extra")]
+    public bool setSpeed;
+    public float setSpeedSpeed;
+    public float horizontalBoost;
+    public float jumpMovementMult;
+    public float jumpMovementMultTime;
+
+    [Header("Falling")]
+    public float downwardAccel;
+    public float maxFallSpeed;
+    public float fastFallSpeed;
 }

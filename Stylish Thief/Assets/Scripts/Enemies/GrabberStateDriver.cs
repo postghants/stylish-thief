@@ -56,6 +56,7 @@ public class GrabberStateDriver : EnemyStateDriver
     public void OnPlayerHit()
     {
         ctx.hitEvent?.Invoke();
+        ctx.player.TakeDamage(ctx.grabDamage);
     }
 
     public override void SwitchActiveZone(PatrolZone zone)
@@ -77,6 +78,7 @@ public class GrabberContext : EnemyContext
     public ActorPhysics rb;
     public NavMeshAgent agent;
     public Animator animator;
+    public Transform rotationTf;
     public Collider grabHitbox;
 
     [Header("Movement")]
@@ -97,6 +99,9 @@ public class GrabberContext : EnemyContext
     [Header("Grab hitbox")]
     public float hitboxOffset;
     public float grabDamage;
+    public float grabKbHorizontal;
+    public float grabKbVertical;
+    [Tooltip("Adds x times the grabber's velocity to the knockback")] public float grabKbVelocityMult;
 
     [Header("Internal")]
     public float grabTimer = 0;

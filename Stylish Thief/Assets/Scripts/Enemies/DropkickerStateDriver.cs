@@ -34,19 +34,25 @@ public class DropkickerStateDriver : EnemyStateDriver
         machine.Update(Time.deltaTime);
         ctx.currentState = root.Leaf().ToString();
 
-        ctx.rb.Move(ctx.rb.velocity * Time.deltaTime, false);
         if (!ctx.activeZone.IsPointInZone(transform.position))
         {
             Collider[] colliders = Physics.OverlapBox(transform.position, ctx.rb.environmentCollider.bounds.extents);
             foreach (var collider in colliders)
             {
-                if(collider.TryGetComponent(out PatrolZone zone))
+                if (collider.TryGetComponent(out PatrolZone zone))
                 {
                     SwitchActiveZone(zone);
                 }
             }
             transform.position = ctx.activeZone.ClosestPoint(transform.position);
         }
+    }
+
+    public void OnPlayerHit()
+    {
+        Vector3 kb = ctx.rb.velocity * ctx.grabKbHorizontal;
+        kb.y = ctx.grabKbVertical;
+        ctx.player.TakeKnockback(kb);
     }
 
     private void OnPlayerEnterZone()
@@ -85,13 +91,33 @@ public class DropkickerContext : JumperContext
     public float acceleration;
     public float walkSpeed;
     public float walkAccel;
+    public float chaseDistance;
 
     [Header("Dropkick")]
     public float dropkickDistance;
-    public JumpData dropkickData;
+    public DropkickerJumpData dropkickData;
     public float dropkickSpeed;
-    
+    public float recoveryTime = 4;
+
+    public float hitboxDelay;
+    public float hitboxActiveTime;
+    public float grabDamage;
+    public float grabKbHorizontal;
+    public float grabKbVertical;
+
     [Header("Internal")]
     public bool playerInZone;
     public string currentState;
+}
+
+[Serializable]
+public class DropkickerJumpData : JumpData
+{
+
+    [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5
+    [Tooltip("Expected time to jump apex")] public float timeToJumpApex; //Typically between 0.2 and 2.5
+    [Tooltip("Gravity multiplier while moving up")] public float upwardMovementMultiplier = 1;
+    [Tooltip("Gravity multiplier while moving down")] public float downwardMovementMultiplier; //Typically between 1 and 10
+    [Tooltip("Gravity multiplier during hangtime")] public float hangtimeMovementMultiplier;
+    [Tooltip("Duration of hangtime at jump apex")] public float jumpApexHangtime;
 }

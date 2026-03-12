@@ -34307,7 +34307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: valuablesToSpawn
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: spawnOnValuableGrab
@@ -93450,7 +93450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 709696599992259148, guid: 0c03c83fc7dea104f87c79b92238594c, type: 3}
       propertyPath: offset.y
-      value: -10
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 709696599992259148, guid: 0c03c83fc7dea104f87c79b92238594c, type: 3}
       propertyPath: startSpeed
@@ -146935,12 +146935,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 566103194}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.airMoveData.deceleration
-      value: 8
+      propertyPath: ctx.baseJumpData.maxFallSpeed
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.airMoveData.maxSpeedDeceleration
-      value: 0
+      propertyPath: ctx.baseJumpData.fastFallSpeed
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

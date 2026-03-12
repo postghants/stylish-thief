@@ -20065,10 +20065,10 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     airMoveData:
-      acceleration: 25
+      acceleration: 5
       deceleration: 8
       maxSpeed: 15
-      maxSpeedDeceleration: 12
+      maxSpeedDeceleration: 0
       turnSpeedMult: 9999999
       turnDecelerationMult: 1
       turnDeceleration:
@@ -20105,22 +20105,22 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     baseJumpData:
-      jumpImpulse: 10
+      jumpImpulse: 15
       cuttable: 1
-      maxMaxSpeedTime: 0.2
+      maxMaxSpeedTime: 0.1
       minMaxSpeedTime: 0.001
       cutJump: 1
-      cutSpeed: 4
-      upwardDeceleration: 30
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 10
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
       hangtimeDuration: 0.2
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      downwardAccel: 30
+      downwardAccel: 60
       maxFallSpeed: 730.6
       fastFallSpeed: 35
     disableJump: 0
@@ -20195,7 +20195,7 @@ MonoBehaviour:
     harshLandingDamage: -45
     harshLandingData:
       acceleration: 0
-      deceleration: 999999
+      deceleration: 25
       maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -20249,8 +20249,8 @@ MonoBehaviour:
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       downwardAccel: 30
-      maxFallSpeed: 730.6
-      fastFallSpeed: 35
+      maxFallSpeed: 55
+      fastFallSpeed: 50
     disablePound: 0
     prePoundUpBoost: 0
     prePoundDuration: 0

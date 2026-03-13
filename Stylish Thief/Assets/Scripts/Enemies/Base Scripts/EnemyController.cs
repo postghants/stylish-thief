@@ -17,28 +17,51 @@ public abstract class EnemyController : Actor
         targeting.OnStart();
     }
 
+    public virtual void Initialize(PatrolZone zone, PlayerStateDriver player)
+    {
+        ctx.activeZone = zone;
+        ctx.player = player;
+    }
+
     protected virtual void Update()
     {
+        targeting.OnUpdate(Time.deltaTime);
         if (currentAttack != null)
         {
             currentAttack.OnUpdate(Time.deltaTime);
         }
-        else
+        else if (currentMovement != null)
         {
             currentMovement.OnUpdate(Time.deltaTime);
         }
     }
 
+    public virtual void SetMovement(EnemyMovement movement)
+    {
+        currentMovement.OnExit();
+        Debug.Log("Setting movement to " + movement);
+        movement.OnEnter();
+        currentMovement = movement;
+    }
+
+    public virtual void Attack(EnemyAttack attack)
+    {
+        currentAttack = attack;
+        attack.OnEnter();
+    }
+
     public virtual void ExitAttack(EnemyAttack attack)
     {
+        currentAttack.OnExit();
+        currentAttack = null;
         targeting.OnExitAttack(attack);
     }
 
     public virtual void PlayAnimation(string animationName)
     {
-        foreach(var animation in animations)
+        foreach (var animation in animations)
         {
-            if(animation.codeName == animationName)
+            if (animation.codeName == animationName)
             {
                 anim.Play(animation.animationStateName);
             }
@@ -84,6 +107,7 @@ public class EnemyContext
     public PlayerStateDriver player;
 }
 
+[Serializable]
 public class AnimationNameTitlePair
 {
     public string animationStateName;

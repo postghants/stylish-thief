@@ -20282,6 +20282,7 @@ MonoBehaviour:
     healthBar: {fileID: 0}
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
     particleManager: {fileID: 7529127243591585783}
+    playerAnimEventHandler: {fileID: 4503946560878176487}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
     baseColor: {r: 1, g: 0.2783019, b: 0.3992617, a: 0}
@@ -40265,11 +40266,18 @@ MonoBehaviour:
     Path: event:/jump
   onGrabEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1362505161
+      Data2: 1341944431
+      Data3: 1157851535
+      Data4: 1809422228
+    Path: event:/grab
+  onBumpEvent:
+    Guid:
+      Data1: 737487761
+      Data2: 1219444782
+      Data3: -1462997096
+      Data4: 909930509
+    Path: event:/bump
 --- !u!4 &8991119175841532378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d40800a1c7c67f4dab1c3e3150344cf, type: 3}

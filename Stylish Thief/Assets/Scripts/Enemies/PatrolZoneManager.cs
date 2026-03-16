@@ -1,8 +1,6 @@
 using PZP;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
 public class PatrolZoneManager : MonoBehaviour
 {
@@ -43,7 +41,7 @@ public class PatrolZoneManager : MonoBehaviour
                 if (distance > maxPathDistance) { continue; }
                 float distanceWeighted = weighted.magnitude;
 
-                pairs.Add(new(zone1, zone2, Vector3.Distance(closest1, closest2), distanceWeighted));
+                pairs.Add(new(zone1, zone2, distance, distanceWeighted));
                 zone1.connections.Add(new(zone2, distance, distanceWeighted));
                 zone2.connections.Add(new(zone1, distance, distanceWeighted));
                 Debug.Log("Added patrol zone connection " + zone1.zone.gameObject + " " + zone2.zone.gameObject);
@@ -79,6 +77,7 @@ public class PatrolZoneManager : MonoBehaviour
             }
             foreach (NodeConnection connection in current.connections)
             {
+                if(connection.distanceWeighted > maxStepSize) continue;
                 float neighborCost = cost[current] + connection.distanceWeighted;
                 if ((!cost.ContainsKey(connection.other) || neighborCost < cost[connection.other]))
                 {
@@ -86,7 +85,7 @@ public class PatrolZoneManager : MonoBehaviour
                     {
                         cost[connection.other] = neighborCost;
                     }
-                    frontier.Enqueue(connection.other, neighborCost + Heuristic(endNode.zone.transform.position, connection.other.zone.transform.position));
+                    frontier.Enqueue(connection.other, neighborCost + Heuristic(connection));
                     if (!came_from.TryAdd(connection.other, current))
                     {
                         came_from[connection.other] = current;
@@ -114,12 +113,10 @@ public class PatrolZoneManager : MonoBehaviour
         return path;
     }
 
-    public float Heuristic(Vector3 start, Vector3 end)
+    public float Heuristic(NodeConnection connection)
     {
-        return Vector3.Distance(start, end);
+        return connection.distanceWeighted;
     }
-
-
 
     private void Reset()
     {

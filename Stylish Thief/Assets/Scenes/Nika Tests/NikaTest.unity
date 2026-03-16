@@ -1563,7 +1563,7 @@ MonoBehaviour:
   spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
-  - enemy: {fileID: 0}
+  - enemy: {fileID: 941804433808702746, guid: 6f93ef68e342121428d117e1ffd5ad51, type: 3}
     weight: 10
   patrolZoneLayer:
     serializedVersion: 2
@@ -1812,7 +1812,7 @@ GameObject:
   - component: {fileID: 1120298760}
   - component: {fileID: 1120298759}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: PatrolZoneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1833,8 +1833,12 @@ MonoBehaviour:
   verticalWeight: 1
   maxPathDistance: 40
   zones:
-  - {fileID: 714902637}
+  - {fileID: 1738052001}
+  - {fileID: 1662892606}
   - {fileID: 692064197}
+  - {fileID: 507221484}
+  - {fileID: 1333722088}
+  - {fileID: 714902637}
 --- !u!4 &1120298760
 Transform:
   m_ObjectHideFlags: 0

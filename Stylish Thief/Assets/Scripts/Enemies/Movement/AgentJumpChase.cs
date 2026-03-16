@@ -35,6 +35,14 @@ public class AgentJumpChase : EnemyMovement
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<ActorPhysics>();
+        if(ctr == null)
+        {
+            if (TryGetComponent(out EnemyController controller))
+            {
+                ctr = controller;
+                ctr.AddAnimationNames(animationCodeNames);
+            }
+        }
     }
 
     public override void OnEnter()
@@ -73,7 +81,7 @@ public class AgentJumpChase : EnemyMovement
 
     private void Chase()
     {
-        if(patrolZonePath.Count == 0) { return; }
+        if(patrolZonePath != null && patrolZonePath.Count == 0) { return; }
         Vector3 closestPoint = patrolZonePath[0].ClosestPoint(transform.position);
         if (Vector3.Distance(transform.position, closestPoint) < maxJumpDist)
         {
@@ -120,5 +128,10 @@ public class AgentJumpChase : EnemyMovement
     private float GetJumpY(float time)
     {
         return jumpStartPos.y + (jumpEndPos.y - jumpStartPos.y) * (time) + jumpArc * time * (time - 1);
+    }
+    protected override void Reset()
+    {
+        //animationCodeNames.Add("Run");
+        base.Reset();
     }
 }

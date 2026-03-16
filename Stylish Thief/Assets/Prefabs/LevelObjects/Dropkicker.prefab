@@ -10,9 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 995442536084637368}
   - component: {fileID: 7940465829630446242}
-  - component: {fileID: 1095714919482590193}
   - component: {fileID: 651421415921766090}
   - component: {fileID: 2743807397984841202}
+  - component: {fileID: 941804433808702746}
+  - component: {fileID: 1433264015749678258}
+  - component: {fileID: 6715516238971834497}
+  - component: {fileID: 4123141111609464818}
+  - component: {fileID: 7947910776915777321}
   m_Layer: 7
   m_Name: Dropkicker
   m_TagString: Untagged
@@ -34,7 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3393606266844294343}
-  - {fileID: 6332029566426018356}
+  - {fileID: 1897221708054848152}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7940465829630446242
@@ -58,71 +62,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1095714919482590193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387965435330739776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c379124a8de16e44481f20238013bd6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropkickerStateDriver
-  ctx:
-    activeZone: {fileID: 0}
-    player: {fileID: 0}
-    rb: {fileID: 651421415921766090}
-    currentlyJumping: 0
-    baseGrav: 1
-    gravMultiplier: 1
-    jumpSpeed: 0.31
-    currentJumpData:
-      jumpCutoff: 2
-      timerValueOnFall: 0
-      jumpMovementMult: 1
-      jumpMovementMultTime: 0
-      jumpImpulse: 0
-      jumpStates: []
-      jumpHeight: 15
-      timeToJumpApex: 1
-      upwardMovementMultiplier: 1
-      downwardMovementMultiplier: 1
-      hangtimeMovementMultiplier: 0.12
-      jumpApexHangtime: 0.2
-    currentVelocity: {x: 0, y: 0, z: 0}
-    agent: {fileID: 2743807397984841202}
-    animator: {fileID: 2610861060624784576}
-    grabHitbox: {fileID: 8911614486229242761}
-    maxSpeed: 7.6
-    acceleration: 14.1
-    walkSpeed: 6
-    walkAccel: 8
-    chaseDistance: 999
-    dropkickDistance: 20
-    dropkickData:
-      jumpCutoff: 0
-      timerValueOnFall: 0
-      jumpMovementMult: 1
-      jumpMovementMultTime: 0
-      jumpImpulse: 0
-      jumpStates: []
-      jumpHeight: 4.6
-      timeToJumpApex: 1
-      upwardMovementMultiplier: 1.87
-      downwardMovementMultiplier: 2
-      hangtimeMovementMultiplier: 0
-      jumpApexHangtime: 0.2
-    dropkickSpeed: 35
-    recoveryTime: 4
-    hitboxDelay: 0.1
-    hitboxActiveTime: 1
-    grabDamage: 25
-    grabKbHorizontal: 1.13
-    grabKbVertical: 20
-    playerInZone: 0
-    currentState: 
 --- !u!114 &651421415921766090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +93,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
+  landingSpeed: 0
 --- !u!195 &2743807397984841202
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -176,6 +116,139 @@ NavMeshAgent:
   m_BaseOffset: 0.49999997
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &941804433808702746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387965435330739776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a4174d15739e74b8118f2550888ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropkickerController
+  ctx:
+    activeZone: {fileID: 0}
+    player: {fileID: 0}
+  targeting: {fileID: 1433264015749678258}
+  currentMovement: {fileID: 0}
+  currentAttack: {fileID: 0}
+  animations:
+  - animationStateName: 
+    codeName: Walk
+  - animationStateName: 
+    codeName: Idle
+  anim: {fileID: 7701932483693231848}
+--- !u!114 &1433264015749678258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387965435330739776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9688a90e03142343b908dd921dabf60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DistanceTargeting
+  ctr: {fileID: 941804433808702746}
+  idle: {fileID: 4123141111609464818}
+  chase: {fileID: 6715516238971834497}
+  attack: {fileID: 7947910776915777321}
+  chaseDistance: 50
+  loseDistance: 80
+  attackDistance: 30
+--- !u!114 &6715516238971834497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387965435330739776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a1d96c01c9dbd4d80d23da2c44cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgentJumpChase
+  ctr: {fileID: 941804433808702746}
+  animationCodeNames: []
+  maxSpeed: 10
+  acceleration: 20
+  maxJumpDist: 30
+  jumpSpeed: 10
+  jumpArc: 0.05
+  rotationTf: {fileID: 1897221708054848152}
+  jumpTimer: 0
+--- !u!114 &4123141111609464818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387965435330739776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5fb409a423e314e9b1b7c965d05a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomWalking
+  ctr: {fileID: 941804433808702746}
+  animationCodeNames:
+  - Walk
+  - Idle
+  walkSpeed: 4
+  walkAccel: 7
+  minDestinationPauseTime: 0
+  maxDestinationPauseTime: 0
+  rotationTf: {fileID: 1897221708054848152}
+--- !u!114 &7947910776915777321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387965435330739776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf143a187e470c5489e92163a0556e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpAttack
+  ctr: {fileID: 0}
+  animationCodeNames: []
+  dropkickData:
+    jumpImpulse: 0
+    cuttable: 0
+    maxMaxSpeedTime: 0
+    minMaxSpeedTime: 0
+    cutJump: 0
+    cutSpeed: 0
+    upwardDeceleration: 0
+    upwardDecelApexThreshold: 0
+    upwardDecelApex: 0
+    hangtimeDuration: 0
+    setSpeed: 0
+    setSpeedSpeed: 0
+    horizontalBoost: 0
+    jumpMovementMult: 1
+    jumpMovementMultTime: 0
+    downwardAccel: 0
+    maxFallSpeed: 0
+    fastFallSpeed: 0
+    jumpHeight: 4.6
+    timeToJumpApex: 1
+    upwardMovementMultiplier: 1.87
+    downwardMovementMultiplier: 2
+    hangtimeMovementMultiplier: 0
+    jumpApexHangtime: 0.2
+  dropkickSpeed: 35
+  recoveryTime: 4
+  hitboxDelay: 0.1
+  hitboxActiveTime: 1
+  grabDamage: 50
+  grabKbHorizontal: 12
+  grabKbVertical: 20
+  rotationTf: {fileID: 1897221708054848152}
+  grabHitbox: {fileID: 8911614486229242761}
 --- !u!1 &6028908635302692823
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +339,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &8911614486229242761
 SphereCollider:
@@ -306,7 +380,7 @@ MonoBehaviour:
   OnTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1095714919482590193}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DropkickerStateDriver, Assembly-CSharp
         m_MethodName: OnPlayerHit
         m_Mode: 1
@@ -321,7 +395,7 @@ MonoBehaviour:
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!1001 &5788632036393260511
+--- !u!1001 &2152422010229720435
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -329,76 +403,71 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 995442536084637368}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.48
+      value: -0.5
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - target: {fileID: 919132149155446097, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       propertyPath: m_Name
-      value: Dropkicker
+      value: Dropkicker_Animation
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb410686b91873d4d8792a85892c8739, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2610861060624784576}
-  m_SourcePrefab: {fileID: 100100000, guid: cb410686b91873d4d8792a85892c8739, type: 3}
---- !u!4 &6332029566426018356 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cb410686b91873d4d8792a85892c8739, type: 3}
-  m_PrefabInstance: {fileID: 5788632036393260511}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6671014101384669326 stripped
+      addedObject: {fileID: 7701932483693231848}
+  m_SourcePrefab: {fileID: 100100000, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
+--- !u!1 &1233873855294257186 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cb410686b91873d4d8792a85892c8739, type: 3}
-  m_PrefabInstance: {fileID: 5788632036393260511}
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
+  m_PrefabInstance: {fileID: 2152422010229720435}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &2610861060624784576
+--- !u!95 &7701932483693231848
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6671014101384669326}
+  m_GameObject: {fileID: 1233873855294257186}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 07649aff3359ce14b9c734717068abd4, type: 2}
@@ -413,3 +482,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &1897221708054848152 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d67ee33ea689274f89c21b90c1d6fa6, type: 3}
+  m_PrefabInstance: {fileID: 2152422010229720435}
+  m_PrefabAsset: {fileID: 0}

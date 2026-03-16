@@ -135,10 +135,18 @@ MonoBehaviour:
   currentMovement: {fileID: 0}
   currentAttack: {fileID: 0}
   animations:
-  - animationStateName: 
+  - animationStateName: RunNormal
     codeName: Walk
   - animationStateName: 
     codeName: Idle
+  - animationStateName: RunFast
+    codeName: Run
+  - animationStateName: Jump
+    codeName: Jump
+  - animationStateName: Dropkick
+    codeName: JumpAttack
+  - animationStateName: GetUp
+    codeName: JumpAttackRecoverTrigger
   anim: {fileID: 7701932483693231848}
 --- !u!114 &1433264015749678258
 MonoBehaviour:
@@ -157,7 +165,7 @@ MonoBehaviour:
   chase: {fileID: 6715516238971834497}
   attack: {fileID: 7947910776915777321}
   chaseDistance: 50
-  loseDistance: 80
+  loseDistance: 9999
   attackDistance: 30
 --- !u!114 &6715516238971834497
 MonoBehaviour:
@@ -175,9 +183,9 @@ MonoBehaviour:
   animationCodeNames: []
   maxSpeed: 10
   acceleration: 20
-  maxJumpDist: 30
-  jumpSpeed: 10
-  jumpArc: 0.05
+  maxJumpDist: 40
+  jumpSpeed: 40
+  jumpArc: -20
   rotationTf: {fileID: 1897221708054848152}
   jumpTimer: 0
 --- !u!114 &4123141111609464818
@@ -213,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf143a187e470c5489e92163a0556e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpAttack
-  ctr: {fileID: 0}
+  ctr: {fileID: 941804433808702746}
   animationCodeNames: []
   dropkickData:
     jumpImpulse: 0
@@ -240,13 +248,47 @@ MonoBehaviour:
     downwardMovementMultiplier: 2
     hangtimeMovementMultiplier: 0
     jumpApexHangtime: 0.2
+  jumperContext:
+    activeZone: {fileID: 0}
+    player: {fileID: 0}
+    rb: {fileID: 0}
+    currentlyJumping: 0
+    baseGrav: 0
+    gravMultiplier: 0
+    jumpSpeed: 0
+    currentJumpData:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
+      jumpHeight: 0
+      timeToJumpApex: 0
+      upwardMovementMultiplier: 1
+      downwardMovementMultiplier: 0
+      hangtimeMovementMultiplier: 0
+      jumpApexHangtime: 0
+    currentVelocity: {x: 0, y: 0, z: 0}
   dropkickSpeed: 35
   recoveryTime: 4
   hitboxDelay: 0.1
   hitboxActiveTime: 1
   grabDamage: 50
-  grabKbHorizontal: 12
-  grabKbVertical: 20
+  grabKbHorizontal: 18
+  grabKbVertical: 5
   rotationTf: {fileID: 1897221708054848152}
   grabHitbox: {fileID: 8911614486229242761}
 --- !u!1 &6028908635302692823
@@ -380,9 +422,9 @@ MonoBehaviour:
   OnTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DropkickerStateDriver, Assembly-CSharp
-        m_MethodName: OnPlayerHit
+      - m_Target: {fileID: 7947910776915777321}
+        m_TargetAssemblyTypeName: JumpAttack, Assembly-CSharp
+        m_MethodName: OnHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

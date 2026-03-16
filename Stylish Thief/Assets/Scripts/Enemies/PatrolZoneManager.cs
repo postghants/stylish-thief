@@ -19,7 +19,17 @@ public class PatrolZoneManager : MonoBehaviour
     {
         if (zones.Count <= 1) { return; }
 
-        foreach(PatrolZone zone in zones)
+        if (instance == null || instance == this)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
+
+        foreach (PatrolZone zone in zones)
         {
             zone.OnStart();
             nodes.Add(new(zone));
@@ -120,16 +130,6 @@ public class PatrolZoneManager : MonoBehaviour
 
     private void Reset()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-            return;
-        }
-
         zones.AddRange(FindObjectsByType<PatrolZone>(FindObjectsSortMode.None));
     }
 }

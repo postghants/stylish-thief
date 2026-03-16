@@ -68,6 +68,17 @@ public abstract class EnemyController : Actor
         }
     }
 
+    public virtual void SetAnimationTrigger(string triggerName)
+    {
+        foreach (var animation in animations)
+        {
+            if (animation.codeName == triggerName)
+            {
+                anim.SetTrigger(animation.animationStateName);
+            }
+        }
+    }
+
     private void Reset()
     {
         List<string> names = new();

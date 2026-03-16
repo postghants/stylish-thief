@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class PatrolZone : MonoBehaviour
@@ -74,6 +75,11 @@ public class PatrolZone : MonoBehaviour
                 smallestDistance = distance;
                 closestPoint = closest;
             }
+        }
+        
+        if (NavMesh.SamplePosition(closestPoint, out NavMeshHit hit, 6, NavMesh.AllAreas))
+        {
+            return hit.position;
         }
         return closestPoint;
     }

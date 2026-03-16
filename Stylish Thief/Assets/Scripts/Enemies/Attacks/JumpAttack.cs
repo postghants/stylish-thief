@@ -45,7 +45,7 @@ public class JumpAttack : EnemyAttack
     {
         timer = 0;
         recoveryTimer = 0;
-        //ctx.animator.Play("DropkickBlockout");
+        ctr.PlayAnimation("JumpAttack");
         agent.enabled = false;
         jumperContext.currentJumpData = dropkickData;
         EnemyJump.PerformJump(jumperContext);
@@ -67,7 +67,7 @@ public class JumpAttack : EnemyAttack
         timer += deltaTime;
         if (recoveryTimer > recoveryTime - 0.6 && !playedRecovery)
         {
-            //ctx.animator.SetTrigger("GetUp");
+            ctr.SetAnimationTrigger("JumpAttackRecoverTrigger");
             playedRecovery = true;
         }
         if (recoveryTimer > recoveryTime)
@@ -92,12 +92,20 @@ public class JumpAttack : EnemyAttack
             }
         }
 
+        rb.isGrounded = rb.IsGrounded();
         if (rb.isGrounded)
         {
             recoveryTimer += deltaTime;
             rb.velocity = Vector3.zero;
         }
-        rb.isGrounded = rb.IsGrounded();
+    }
+
+    public void OnHit()
+    {
+        Vector3 kb = rb.velocity * grabKbHorizontal;
+        kb.y = grabKbVertical;
+        ctr.ctx.player.TakeKnockback(kb);
+        ctr.ctx.player.TakeDamage(grabDamage);
     }
 
     public override void OnExit()
@@ -113,7 +121,8 @@ public class JumpAttack : EnemyAttack
 
     protected override void Reset()
     {
-        //animationCodeNames.Add("Run");
+        animationCodeNames.Add("JumpAttack");
+        animationCodeNames.Add("JumpAttackRecoverTrigger");
         base.Reset();
     }
 }

@@ -35,7 +35,7 @@ public class AgentJumpChase : EnemyMovement
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<ActorPhysics>();
-        if(ctr == null)
+        if (ctr == null)
         {
             if (TryGetComponent(out EnemyController controller))
             {
@@ -56,6 +56,13 @@ public class AgentJumpChase : EnemyMovement
     public override void OnUpdate(float deltaTime)
     {
         var playerZone = ctr.ctx.player.ctx.rb.CurrentZone();
+
+        if (isJumping)
+        {
+            Jumping(deltaTime);
+            return;
+        }
+
         // If player is in the same patrol zone
         if (ctr.ctx.activeZone == playerZone)
         {
@@ -68,9 +75,12 @@ public class AgentJumpChase : EnemyMovement
         {
             if (playerZone != null)
             {
-                patrolZonePath = PatrolZoneManager.instance.FindShortestPath(ctr.ctx.activeZone, playerZone, maxJumpDist);
+                if (patrolZonePath == null || patrolZonePath.Count == 0 || playerZone != patrolZonePath[^1])
+                {
+                    patrolZonePath = PatrolZoneManager.instance.FindShortestPath(ctr.ctx.activeZone, playerZone, maxJumpDist);
+                }
+                ChaseOutsideZone();
             }
-            Chase();
         }
     }
 
@@ -79,19 +89,20 @@ public class AgentJumpChase : EnemyMovement
 
     }
 
-    private void Chase()
+    private void ChaseOutsideZone()
     {
-        if(patrolZonePath != null && patrolZonePath.Count == 0) { return; }
+        if ((patrolZonePath != null && patrolZonePath.Count == 0)) { return; }
+
         Vector3 closestPoint = patrolZonePath[0].ClosestPoint(transform.position);
+        agent.SetDestination(ctr.ctx.activeZone.ClosestPoint(closestPoint));
+        Vector3 lookPos = closestPoint;
+        lookPos.y = agent.transform.position.y;
+        rotationTf.transform.LookAt(lookPos);
+
         if (Vector3.Distance(transform.position, closestPoint) < maxJumpDist)
         {
             JumpTo(transform.position, closestPoint);
-            ctr.ctx.activeZone = patrolZonePath[0];
-            patrolZonePath.RemoveAt(0);
-            patrolZonePath.TrimExcess();
         }
-
-        agent.SetDestination(ctr.ctx.activeZone.ClosestPoint(closestPoint));
 
     }
 
@@ -99,11 +110,17 @@ public class AgentJumpChase : EnemyMovement
     {
         if (Vector3.Distance(start, end) == 0) { return; }
         isJumping = true;
+        jumpTimer = 0;
         jumpStartPos = start;
-        jumpEndPos = end;
+        jumpEndPos = end + (end - start).normalized * 0.5f;
         start.y = 0;
         end.y = 0;
         jumpDistance = Vector3.Distance(start, end);
+
+        Vector3 lookPos = end;
+        lookPos.y = agent.transform.position.y;
+        rotationTf.transform.LookAt(lookPos);
+        ctr.PlayAnimation("Jump");
 
     }
 
@@ -121,6 +138,10 @@ public class AgentJumpChase : EnemyMovement
         if (jumpProgress == 1)
         {
             isJumping = false;
+            ctr.ctx.activeZone = patrolZonePath[0];
+            patrolZonePath.RemoveAt(0);
+            patrolZonePath.TrimExcess();
+            agent.Warp(transform.position);
         }
     }
 
@@ -131,7 +152,8 @@ public class AgentJumpChase : EnemyMovement
     }
     protected override void Reset()
     {
-        //animationCodeNames.Add("Run");
+        animationCodeNames.Add("Run");
+        animationCodeNames.Add("Jump");
         base.Reset();
     }
 }

@@ -20069,37 +20069,28 @@ MonoBehaviour:
       deceleration: 8
       maxSpeed: 15
       maxSpeedDeceleration: 0
-      turnSpeedMult: 9999999
-      turnDecelerationMult: 1
+      turnSpeedMult: 15
+      turnDecelerationMult: 15
       turnDeceleration:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.6549124
-          value: 0.051286466
-          inSlope: 0.2660134
-          outSlope: 0.2660134
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.279899
-          outWeight: 0.33333334
-        - serializedVersion: 3
           time: 1
-          value: 0.5680313
-          inSlope: 1.2319243
-          outSlope: 1.2319243
-          tangentMode: 0
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 34
           weightedMode: 0
-          inWeight: 0.06333327
+          inWeight: 0
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -20110,7 +20101,7 @@ MonoBehaviour:
       maxMaxSpeedTime: 0.1
       minMaxSpeedTime: 0.001
       cutJump: 1
-      cutSpeed: 0
+      cutSpeed: 8888
       upwardDeceleration: 60
       upwardDecelApexThreshold: 5
       upwardDecelApex: 30

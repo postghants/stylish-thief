@@ -200,6 +200,8 @@ public class PlayerStateDriver : Actor, IDamageable
         panRightAction.started += OnPanRight;
     }
 
+
+#if UNITY_EDITOR
     private void OnGUI()
     {
         Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
@@ -207,6 +209,7 @@ public class PlayerStateDriver : Actor, IDamageable
         GUI.Label(new Rect(0, 30, 200, 30), $"Y speed: {ctx.rb.velocity.y}");
         GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {Machine.Root.Leaf()}");
     }
+#endif
 
     private void Die()
     {
@@ -307,6 +310,7 @@ public class PlayerContext
 
     [Header("Stunned")]
     public bool disableStun;
+    public bool useStunDeceleration = true;
     [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;

@@ -133,7 +133,11 @@ namespace HSM
                 //    newVel = newVel.normalized * ctx.stunMinSpeed;
                 //}
 
-                Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
+                Vector3 newVel = ctx.rb.velocity.magnitude * hit.normal;
+                if (ctx.useStunDeceleration)
+                {
+                    newVel *= ctx.stunDeceleration;
+                }
 
                 //tom toevoeging
                 ctx.playerAnimEventHandler.Bump();

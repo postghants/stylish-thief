@@ -673,6 +673,7 @@ namespace HSM
                 Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
                 newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
 
                 if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
                 {
@@ -785,6 +786,7 @@ namespace HSM
                 Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
                 newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
 
                 if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
                 {

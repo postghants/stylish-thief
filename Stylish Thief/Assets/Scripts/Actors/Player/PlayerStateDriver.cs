@@ -70,7 +70,7 @@ public class PlayerStateDriver : Actor, IDamageable
         // Face model forward
         if (ctx.rb.velocity.sqrMagnitude > 0)
         {
-            ctx.anim.transform.LookAt(ctx.anim.transform.position + new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z));
+            ctx.anim.transform.LookAt(ctx.anim.transform.position + (new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z) + ctx.anim.transform.forward * ctx.cmd.modelTurnDelay));
         }
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
@@ -414,6 +414,7 @@ public class MoveData
     [Tooltip("Maximum speed.")] public float maxSpeed;
     public float maxSpeedDeceleration;
     public float turnSpeedMult;
+    public float modelTurnDelay;
     [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
     [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }

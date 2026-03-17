@@ -426,6 +426,8 @@ public class JumpData
     public float maxMaxSpeedTime;
     public float minMaxSpeedTime;
     public bool cutJump;
+    public bool useCutoffGravMult;
+    public float cutoffGravMult;
     public float cutSpeed;
     public float upwardDeceleration;
     public float upwardDecelApexThreshold;

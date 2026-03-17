@@ -86,7 +86,7 @@ public class Jump
 
         if (ctx.rb.velocity.y < 0)
         {
-            if(ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
+            if (ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
             {
                 ctx.rb.velocity.y = 0;
             }
@@ -112,18 +112,27 @@ public class Jump
             }
         }
 
-        
+
 
         // Check for jump cutoff
         if (!ctx.pressingJump && ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y > 0 && ctx.currentJumpData.cuttable)
         {
-            if (ctx.jumpTimer > ctx.currentJumpData.minMaxSpeedTime && ctx.jumpTimer < ctx.currentJumpData.maxMaxSpeedTime)
+
+            if (ctx.currentJumpData.useCutoffGravMult)
             {
-                if (ctx.currentJumpData.cutJump)
+                ctx.gravMultiplier = ctx.currentJumpData.cutoffGravMult;
+            }
+            else
+            {
+                if (ctx.jumpTimer > ctx.currentJumpData.minMaxSpeedTime)
                 {
-                    ctx.rb.velocity.y -= ctx.currentJumpData.cutSpeed;
+                    if (ctx.currentJumpData.cutJump && ctx.jumpApexTimer == 0)
+                    {
+                        ctx.rb.velocity.y -= ctx.currentJumpData.cutSpeed;
+                        ctx.jumpApexTimer += Time.deltaTime;
+                    }
+                    ctx.jumpTimer = ctx.currentJumpData.maxMaxSpeedTime;
                 }
-                ctx.jumpTimer = ctx.currentJumpData.maxMaxSpeedTime;
             }
         }
 

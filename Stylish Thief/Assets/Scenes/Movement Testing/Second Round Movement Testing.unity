@@ -4344,6 +4344,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+--- !u!114 &56478987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7529127243591585783, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+  m_PrefabInstance: {fileID: 1821517620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f0be58195c85a4b94f733c305ab1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleManagement.ParticleManager
 --- !u!1001 &56815611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83435,6 +83446,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+--- !u!114 &989340936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5516163521354773594, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+  m_PrefabInstance: {fileID: 1821517620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9b71df21fa6e642bf3992cb151673e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomBoxRigidbody
 --- !u!43 &994388046
 Mesh:
   m_ObjectHideFlags: 0
@@ -129217,6 +129239,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8825130884370118586, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
   m_PrefabInstance: {fileID: 920894511}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1579751864 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+  m_PrefabInstance: {fileID: 1821517620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ae27712a18af64e9200492f2bddce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!95 &1579751865 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 319182198754694984, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+  m_PrefabInstance: {fileID: 1821517620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1579790685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8825130884370118586, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
@@ -147026,13 +147064,29 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.rb
+      value: 
+      objectReference: {fileID: 989340936}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.anim
+      value: 
+      objectReference: {fileID: 1579751865}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.orbitalFollow
       value: 
       objectReference: {fileID: 566103194}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.particleManager
+      value: 
+      objectReference: {fileID: 56478987}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.baseJumpData.cutSpeed
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.playerAnimEventHandler
+      value: 
+      objectReference: {fileID: 1579751864}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

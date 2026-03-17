@@ -110,6 +110,7 @@ public class AgentJumpChase : EnemyMovement
     {
         if (Vector3.Distance(start, end) == 0) { return; }
         isJumping = true;
+        disableTransition = true;
         jumpTimer = 0;
         jumpStartPos = start;
         jumpEndPos = end + (end - start).normalized * 0.5f;
@@ -138,6 +139,7 @@ public class AgentJumpChase : EnemyMovement
         if (jumpProgress == 1)
         {
             isJumping = false;
+            disableTransition = false;
             ctr.ctx.activeZone = patrolZonePath[0];
             patrolZonePath.RemoveAt(0);
             patrolZonePath.TrimExcess();

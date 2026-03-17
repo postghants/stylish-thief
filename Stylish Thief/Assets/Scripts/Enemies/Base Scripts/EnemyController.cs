@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 // Holds and updates other enemy components
@@ -37,7 +38,8 @@ public abstract class EnemyController : Actor
     }
 
     public virtual void SetMovement(EnemyMovement movement)
-    {
+    { 
+        if(currentMovement.disableTransition) { return; }
         currentMovement.OnExit();
         Debug.Log("Setting movement to " + movement);
         movement.OnEnter();
@@ -46,6 +48,7 @@ public abstract class EnemyController : Actor
 
     public virtual void Attack(EnemyAttack attack)
     {
+        if (currentMovement.disableTransition) { return; }
         currentAttack = attack;
         attack.OnEnter();
     }

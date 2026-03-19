@@ -33,6 +33,7 @@ public class KickableObject : MonoBehaviour
         {
             //Detect player
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
+            coll.size = new Vector3(1, 1, 1);
             coll.isTrigger = false;
             rb.constraints = RigidbodyConstraints.None;
             gameObject.layer = 22;

@@ -166,7 +166,7 @@ MonoBehaviour:
   attack: {fileID: 7947910776915777321}
   chaseDistance: 50
   loseDistance: 9999
-  attackDistance: 30
+  attackDistance: 15
 --- !u!114 &6715516238971834497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgentJumpChase
   ctr: {fileID: 941804433808702746}
   animationCodeNames: []
-  maxSpeed: 10
+  maxSpeed: 20
   acceleration: 20
   maxJumpDist: 40
   jumpSpeed: 40
@@ -204,7 +204,7 @@ MonoBehaviour:
   animationCodeNames:
   - Walk
   - Idle
-  walkSpeed: 4
+  walkSpeed: 6
   walkAccel: 7
   minDestinationPauseTime: 0
   maxDestinationPauseTime: 0
@@ -224,24 +224,6 @@ MonoBehaviour:
   ctr: {fileID: 941804433808702746}
   animationCodeNames: []
   dropkickData:
-    jumpImpulse: 0
-    cuttable: 0
-    maxMaxSpeedTime: 0
-    minMaxSpeedTime: 0
-    cutJump: 0
-    cutSpeed: 0
-    upwardDeceleration: 0
-    upwardDecelApexThreshold: 0
-    upwardDecelApex: 0
-    hangtimeDuration: 0
-    setSpeed: 0
-    setSpeedSpeed: 0
-    horizontalBoost: 0
-    jumpMovementMult: 1
-    jumpMovementMultTime: 0
-    downwardAccel: 0
-    maxFallSpeed: 0
-    fastFallSpeed: 0
     jumpHeight: 4.6
     timeToJumpApex: 1
     upwardMovementMultiplier: 1.87
@@ -257,24 +239,6 @@ MonoBehaviour:
     gravMultiplier: 0
     jumpSpeed: 0
     currentJumpData:
-      jumpImpulse: 0
-      cuttable: 0
-      maxMaxSpeedTime: 0
-      minMaxSpeedTime: 0
-      cutJump: 0
-      cutSpeed: 0
-      upwardDeceleration: 0
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 0
-      hangtimeDuration: 0
-      setSpeed: 0
-      setSpeedSpeed: 0
-      horizontalBoost: 0
-      jumpMovementMult: 0
-      jumpMovementMultTime: 0
-      downwardAccel: 0
-      maxFallSpeed: 0
-      fastFallSpeed: 0
       jumpHeight: 0
       timeToJumpApex: 0
       upwardMovementMultiplier: 1
@@ -283,7 +247,7 @@ MonoBehaviour:
       jumpApexHangtime: 0
     currentVelocity: {x: 0, y: 0, z: 0}
   dropkickSpeed: 35
-  recoveryTime: 4
+  recoveryTime: 1
   hitboxDelay: 0.1
   hitboxActiveTime: 1
   grabDamage: 50
@@ -341,7 +305,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6028908635302692823}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

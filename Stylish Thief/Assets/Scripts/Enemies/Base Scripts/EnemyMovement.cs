@@ -6,6 +6,7 @@ public abstract class EnemyMovement : MonoBehaviour
 {
     [HideInInspector] public EnemyController ctr;
     [HideInInspector] public List<string> animationCodeNames = new();
+    [HideInInspector] public bool disableTransition = false;
 
     public abstract void OnUpdate(float deltaTime);
     public abstract void OnEnter();

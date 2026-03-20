@@ -59,7 +59,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -110,6 +110,9 @@ MonoBehaviour:
   upForce: 0.5
   rotationalForce: 15
   gravity: -16
+  centerAfterHit: {x: 0, y: 0, z: 0}
+  sizeAfterHit: {x: 1, y: 1, z: 1}
+  visualPositionAfterHit: {x: 0, y: 0, z: 0}
 --- !u!1 &5256515982368569607
 GameObject:
   m_ObjectHideFlags: 0

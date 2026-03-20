@@ -20025,12 +20025,13 @@ MonoBehaviour:
     regenDelay: 1.5
     timeScale: 1
     groundMoveData:
-      acceleration: 25
+      acceleration: 40
       deceleration: 8
       maxSpeed: 15
       maxSpeedDeceleration: 15
-      turnSpeedMult: 6
-      turnDecelerationMult: 10
+      turnSpeedMult: 10
+      modelTurnDelay: 0
+      turnDecelerationMult: 0
       turnDeceleration:
         serializedVersion: 2
         m_Curve:
@@ -20065,32 +20066,42 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     airMoveData:
-      acceleration: 5
-      deceleration: 8
+      acceleration: 35
+      deceleration: 4
       maxSpeed: 15
       maxSpeedDeceleration: 0
-      turnSpeedMult: 15
-      turnDecelerationMult: 15
+      turnSpeedMult: 3
+      modelTurnDelay: 0
+      turnDecelerationMult: 14
       turnDeceleration:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          time: 0.31741244
+          value: 0.059404656
+          inSlope: 0.6135431
+          outSlope: 0.6135431
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.5136485
+          outWeight: 0.19364356
+        - serializedVersion: 3
+          time: 1
+          value: 0.9996414
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.06333327
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -20099,8 +20110,10 @@ MonoBehaviour:
       jumpImpulse: 15
       cuttable: 1
       maxMaxSpeedTime: 0.1
-      minMaxSpeedTime: 0.001
-      cutJump: 1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 1
+      cutoffGravMult: 90
       cutSpeed: 0
       upwardDeceleration: 60
       upwardDecelApexThreshold: 5
@@ -20138,6 +20151,8 @@ MonoBehaviour:
       maxMaxSpeedTime: 0.03
       minMaxSpeedTime: 0.001
       cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
       cutSpeed: 0
       upwardDeceleration: 90
       upwardDecelApexThreshold: 0
@@ -20146,8 +20161,8 @@ MonoBehaviour:
       setSpeed: 1
       setSpeedSpeed: 27
       horizontalBoost: 0
-      jumpMovementMult: 0
-      jumpMovementMultTime: 100
+      jumpMovementMult: 0.1
+      jumpMovementMultTime: 0.2
       downwardAccel: 60
       maxFallSpeed: 55
       fastFallSpeed: 50
@@ -20164,6 +20179,8 @@ MonoBehaviour:
       maxMaxSpeedTime: 0
       minMaxSpeedTime: 0
       cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
       cutSpeed: 0
       upwardDeceleration: 0
       upwardDecelApexThreshold: 0
@@ -20178,6 +20195,7 @@ MonoBehaviour:
       maxFallSpeed: 0
       fastFallSpeed: 0
     disableStun: 0
+    useStunDeceleration: 1
     stunDeceleration: 1
     stunMinSpeed: 1
     stunUpwardSpeed: 1
@@ -20190,6 +20208,7 @@ MonoBehaviour:
       maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
+      modelTurnDelay: 0
       turnDecelerationMult: 15
       turnDeceleration:
         serializedVersion: 2
@@ -20229,6 +20248,8 @@ MonoBehaviour:
       maxMaxSpeedTime: 0.2
       minMaxSpeedTime: 0
       cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
       cutSpeed: 0
       upwardDeceleration: 30
       upwardDecelApexThreshold: 0
@@ -20252,6 +20273,7 @@ MonoBehaviour:
       maxSpeed: 15
       maxSpeedDeceleration: 15
       turnSpeedMult: 9999
+      modelTurnDelay: 0
       turnDecelerationMult: 10
       turnDeceleration:
         serializedVersion: 2
@@ -20338,6 +20360,7 @@ MonoBehaviour:
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
+      modelTurnDelay: 0
       turnDecelerationMult: 1
       turnDeceleration:
         serializedVersion: 2
@@ -20351,6 +20374,8 @@ MonoBehaviour:
       maxMaxSpeedTime: 0
       minMaxSpeedTime: 0
       cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
       cutSpeed: 0
       upwardDeceleration: 0
       upwardDecelApexThreshold: 0

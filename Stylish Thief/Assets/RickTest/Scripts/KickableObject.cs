@@ -14,12 +14,16 @@ public class KickableObject : MonoBehaviour
     public float upForce;
     public float rotationalForce;
     public float gravity;
+    public Vector3 centerAfterHit;
+    public Vector3 sizeAfterHit;
+    public Vector3 visualPositionAfterHit;
     //public float scaleMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<BoxCollider>();
+        coll.isTrigger = true;
     }
 
     // Update is called once per frame
@@ -33,7 +37,9 @@ public class KickableObject : MonoBehaviour
         {
             //Detect player
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            coll.size = new Vector3(1, 1, 1);
+            coll.center = centerAfterHit;
+            coll.size = sizeAfterHit;
+            //GetComponentInChildren<Transform>().localPosition = visualPositionAfterHit;
             coll.isTrigger = false;
             rb.constraints = RigidbodyConstraints.None;
             gameObject.layer = 22;

@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -14,6 +15,11 @@ public class KickableObject : MonoBehaviour
     public float upForce;
     public float rotationalForce;
     public float gravity;
+    public float killTime;
+
+    //tom fmod EventReference
+    [SerializeField] EventReference kickCanEvent;
+
     //public float scaleMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,12 +46,16 @@ public class KickableObject : MonoBehaviour
             targetDir = -targetDir - new Vector3(0, -targetDir.y, 0) + new Vector3(0, upForce, 0);
             rb.linearVelocity = targetDir.normalized * force;
             rb.angularVelocity = Random.insideUnitSphere * rotationalForce;
+
+            //tom audio event
+            RuntimeManager.PlayOneShotAttached(kickCanEvent, gameObject);
+
             if (!kicked)
             {
                 CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
             }
             kicked = true;
-            Destroy(gameObject, 5f);
+            Destroy(gameObject, killTime);
         }
     }
 }

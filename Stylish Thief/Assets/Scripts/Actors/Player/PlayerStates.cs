@@ -666,24 +666,29 @@ namespace HSM
                 float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
 
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
-                ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
-
                 Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
-                ctx.rb.velocity += acceleration;
 
-                Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
-                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
-                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
-
-                if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                if (acceleration.sqrMagnitude > 0)
                 {
-                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
+
+                    ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+
+                    ctx.rb.velocity += acceleration;
+
+
+                    Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
+                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                    newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
+
+                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    {
+                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    }
+                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
-                ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
             }
             else
             {
@@ -774,29 +779,34 @@ namespace HSM
         {
             ctx.coyoteTimeCounter += deltaTime;
 
-            if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
+            if (ctx.moveInputValue != Vector2.zero)
             {
                 float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
 
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
 
-                currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
-                ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
-
-                Vector3 acceleration = ctx.currentMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
-                ctx.rb.velocity += acceleration;
-
-                Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
-                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
-                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
-
-                if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                if (acceleration.sqrMagnitude > 0)
                 {
-                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
+
+                    ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+
+                    ctx.rb.velocity += acceleration;
+
+
+                    Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
+                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                    newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
+
+                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    {
+                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    }
+                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
-                ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
             }
             else
             {
@@ -890,7 +900,7 @@ namespace HSM
         {
             timer += deltaTime;
 
-            if(timer >= ctx.prePoundDuration)
+            if (timer >= ctx.prePoundDuration)
             {
                 return ((PlayerRoot)Parent.Parent).fixedSpeed.pound;
             }
@@ -921,7 +931,7 @@ namespace HSM
             {
                 //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
                 //{
-                    return ((PlayerRoot)Parent.Parent).grounded.rolling;
+                return ((PlayerRoot)Parent.Parent).grounded.rolling;
                 //}
                 //implement land state later
                 //return ((PlayerRoot)Parent.Parent).grounded;
@@ -1007,7 +1017,7 @@ namespace HSM
                     }
                     ctx.currentJumpData = ctx.slideJumpData;
                 }
-                else if(!ctx.disableJump)
+                else if (!ctx.disableJump)
                 {
                     ctx.currentJumpData = ctx.baseJumpData;
                 }

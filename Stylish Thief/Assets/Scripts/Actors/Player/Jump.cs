@@ -13,7 +13,6 @@ public class Jump
     {
         if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
         {
-            Debug.Log("Jumpin");
             ctx.particleManager.StartGroup("Jump");
             ctx.currentlyJumping = true;
             ctx.desiredJump = false;
@@ -168,7 +167,7 @@ public class Jump
         while (timer < ctx.currentJumpData.jumpMovementMultTime)
         {
             timer += Time.deltaTime;
-            if (ctx.rb.isGrounded) { break; }
+            if (!ctx.currentlyJumping) { break; }
             yield return null;
         }
         ctx.currentJumpMoveMult = 1;

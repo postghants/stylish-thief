@@ -22,8 +22,11 @@ public class RickBarSwing : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            player.Machine.ChangeState(player.Root.Leaf(), player.Root.frozen);
-            player.SetVelocity(Vector3.forward * forwardVelocity + new Vector3(0, upVelocity, 0));
+            //player.Machine.ChangeState(player.Root.Leaf(), player.Root.frozen);
+            //player.SetVelocity(Vector3.forward * forwardVelocity + new Vector3(0, upVelocity, 0));
+
+            player.SetVelocity(Vector3.forward * forwardVelocity);
+            player.Machine.ChangeState(player.Root.Leaf(), player.Root.fixedSpeed);
         }
     }
 }

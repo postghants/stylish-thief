@@ -48633,7 +48633,7 @@ PrefabInstance:
     - target: {fileID: 5221893773402827618, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 9b1f25587cca0714ea24ee323c44b6eb, type: 2}
+      objectReference: {fileID: 23800000, guid: c9cc7dc01f609cd41a002ee5fb22d7ef, type: 2}
     - target: {fileID: 5555338973611318472, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       propertyPath: m_Size.x
       value: 150
@@ -148189,46 +148189,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onBumpEvent.Path
-      value: event:/bump
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onGrabEvent.Path
-      value: event:/grab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onBumpEvent.Guid.Data1
-      value: 737487761
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onBumpEvent.Guid.Data2
-      value: 1219444782
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onBumpEvent.Guid.Data3
-      value: -1462997096
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onBumpEvent.Guid.Data4
-      value: 909930509
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onGrabEvent.Guid.Data1
-      value: 1362505161
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onGrabEvent.Guid.Data2
-      value: 1341944431
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onGrabEvent.Guid.Data3
-      value: 1157851535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4503946560878176487, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: onGrabEvent.Guid.Data4
-      value: 1809422228
-      objectReference: {fileID: 0}
     - target: {fileID: 4668033689235908336, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_Name
       value: Player
@@ -171601,8 +171561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6dc4e7433bf5d429bd9e5a0bb10555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  forwardVelocity: 0
-  upVelocity: 0
+  forwardVelocity: 305.8
+  upVelocity: 98.89
 --- !u!136 &2138665316
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7786340376008176476}
   - component: {fileID: 9048153686906372131}
   - component: {fileID: 6070613700938812023}
+  - component: {fileID: 4083808138971622530}
   m_Layer: 0
   m_Name: Kickable Object
   m_TagString: Untagged
@@ -113,6 +114,44 @@ MonoBehaviour:
   centerAfterHit: {x: 0, y: 0, z: 0}
   sizeAfterHit: {x: 1, y: 1, z: 1}
   visualPositionAfterHit: {x: 0, y: 0, z: 0}
+  kickCanEvent:
+    Guid:
+      Data1: 74498629
+      Data2: 1302472494
+      Data3: 185712276
+      Data4: 1850235603
+    Path: event:/Can_Kick
+--- !u!114 &4083808138971622530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4259167836769667273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1476313087
+      Data2: 1116692985
+      Data3: -2132087630
+      Data4: 1933202830
+    Path: event:/Can_Impact
+  Event: 
+  EventPlayTrigger: 7
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 50
 --- !u!1 &5256515982368569607
 GameObject:
   m_ObjectHideFlags: 0

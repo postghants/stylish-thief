@@ -45,6 +45,26 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: kickCanEvent.Path
+      value: event:/Can_Kick
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: kickCanEvent.Guid.Data1
+      value: 74498629
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: kickCanEvent.Guid.Data2
+      value: 1302472494
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: kickCanEvent.Guid.Data3
+      value: 185712276
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: kickCanEvent.Guid.Data4
+      value: 1850235603
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: visualPositionAfterHit.y
       value: 0
       objectReference: {fileID: 0}
@@ -127,5 +147,44 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7042240068348606456}
   m_SourcePrefab: {fileID: 100100000, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+--- !u!1 &6751430408462996581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+  m_PrefabInstance: {fileID: 7397862481774369964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7042240068348606456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751430408462996581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1476313087
+      Data2: 1116692985
+      Data3: -2132087630
+      Data4: 1933202830
+    Path: event:/Can_Impact
+  Event: 
+  EventPlayTrigger: 7
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 50

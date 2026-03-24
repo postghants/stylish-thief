@@ -43,7 +43,6 @@ public class Jump
             if (ctx.jumpBufferCounter > ctx.jumpBuffer)
             {
                 ctx.desiredJump = false;
-                ctx.jumpBufferCounter = 0;
             }
         }
     }

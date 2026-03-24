@@ -504,6 +504,7 @@ namespace HSM
                 if (ctx.rollTimer > ctx.rollDuration + ctx.rollDeceleration + ctx.rollEndLag)
                 {
                     ctx.rollTimer = 0;
+                    ctx.anim.SetTrigger("EndRoll");
                     return Parent;
                 }
             }
@@ -515,6 +516,7 @@ namespace HSM
     {
         readonly PlayerContext ctx;
         private float timer;
+        private bool isVeryBad;
         public PlayerHarshLanded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -534,8 +536,21 @@ namespace HSM
                 return;
             }
 
-            ctx.player.TakeDamage(ctx.harshLandingDamage);
-            ctx.cmd = ctx.harshLandingData;
+            if (ctx.jumpBufferCounter > ctx.rollTiming)
+            {
+                ctx.player.TakeDamage(ctx.veryBadLandingDamage);
+                ctx.cmd = ctx.veryBadLandingData;
+                isVeryBad = true;
+                ctx.anim.SetTrigger("StartVeryBadLanding");
+            }
+            else
+            {
+                ctx.player.TakeDamage(ctx.harshLandingDamage);
+                ctx.cmd = ctx.harshLandingData;
+                isVeryBad = false;
+                ctx.anim.SetTrigger("StartBadLanding");
+            }
+
         }
 
         protected override void OnExit()
@@ -547,7 +562,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if (timer >= ctx.harshLandingDuration)
+            if (!isVeryBad && timer >= ctx.harshLandingDuration || isVeryBad && timer >= ctx.veryBadLandingDuration)
             {
                 ctx.blockJump--;
                 ctx.cmd = ctx.groundMoveData;
@@ -890,6 +905,8 @@ namespace HSM
 
             ctx.cmd = ctx.prePoundMove;
             ctx.gravMultiplier = ctx.prePoundGrav;
+
+            ctx.anim.SetTrigger("StartBagThrow");
         }
 
         protected override State GetTransition(float deltaTime)

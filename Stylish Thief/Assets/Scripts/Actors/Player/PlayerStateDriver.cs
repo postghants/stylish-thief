@@ -125,6 +125,7 @@ public class PlayerStateDriver : Actor, IDamageable
     public void OnJumpStart(InputAction.CallbackContext c)
     {
         ctx.desiredJump = true;
+        ctx.jumpBufferCounter = 0;
         ctx.pressingJump = true;
     }
 
@@ -320,6 +321,11 @@ public class PlayerContext
     public float harshLandingDuration;
     public float harshLandingDamage;
     public MoveData harshLandingData;
+
+    [Header("Very Bad Landing")]
+    public float veryBadLandingDuration;
+    public float veryBadLandingDamage;
+    public MoveData veryBadLandingData;
 
     [Header("Roll")]
     public bool disableRoll;

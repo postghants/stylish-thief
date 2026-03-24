@@ -69,7 +69,7 @@ public class Jump
                     {
                         ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
 
-                        if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards"))
+                        if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Liftoff"))
                         {
                         ctx.anim.SetTrigger("UpwardsToStall");
                         }

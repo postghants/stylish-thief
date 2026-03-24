@@ -614,7 +614,7 @@ namespace HSM
         {
             ctx.particleManager.StartGroup("Run");
 
-            if (!ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+            if (!ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run") && ctx.rb.velocity.y == 0)
             {
                 ctx.anim.SetTrigger("StartWalk");
             }

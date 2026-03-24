@@ -90,6 +90,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &4884752630388495343
 SphereCollider:
@@ -130,9 +131,9 @@ MonoBehaviour:
   OnTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 708725008641531498}
-        m_TargetAssemblyTypeName: GrabberStateDriver, Assembly-CSharp
-        m_MethodName: OnPlayerHit
+      - m_Target: {fileID: 6085588675129154461}
+        m_TargetAssemblyTypeName: LungeAttack, Assembly-CSharp
+        m_MethodName: OnHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -187,9 +188,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2598910159958383276}
   - component: {fileID: 509911380520217218}
-  - component: {fileID: 708725008641531498}
   - component: {fileID: 8360400723562445329}
   - component: {fileID: 938343239814350128}
+  - component: {fileID: 3923573153263325364}
+  - component: {fileID: 3733895822402104053}
+  - component: {fileID: 5909812969008663623}
+  - component: {fileID: 1738979226368235924}
+  - component: {fileID: 6085588675129154461}
   m_Layer: 7
   m_Name: Grabber
   m_TagString: Untagged
@@ -235,46 +240,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &708725008641531498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9055143789314409824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc6a7cef6326394baed1d2a67b23b05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GrabberStateDriver
-  ctx:
-    activeZone: {fileID: 0}
-    player: {fileID: 0}
-    rb: {fileID: 8360400723562445329}
-    agent: {fileID: 938343239814350128}
-    animator: {fileID: 5399083283047185292}
-    rotationTf: {fileID: 2686362541020823045}
-    grabHitbox: {fileID: 4884752630388495343}
-    maxSpeed: 25
-    acceleration: 99
-    walkSpeed: 2
-    walkAccel: 3
-    grabTriggerDistance: 6.35
-    grabSpeed: 20
-    grabDuration: 0.14
-    grabEndSpeed: 6
-    grabDeceleration: 1
-    grabFriction: 0.01
-    grabEndLag: 0.5
-    hitboxOffset: 0.3
-    grabDamage: 25
-    grabKbHorizontal: 15
-    grabKbVertical: 5
-    grabKbVelocityMult: 1
-    grabTimer: 0
-    hasGrabbed: 0
-    playerInZone: 0
-    currentState: 
 --- !u!114 &8360400723562445329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +271,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
+  landingSpeed: 0
 --- !u!195 &938343239814350128
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -328,6 +294,120 @@ NavMeshAgent:
   m_BaseOffset: 0.49999997
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3923573153263325364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055143789314409824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9688a90e03142343b908dd921dabf60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DistanceTargeting
+  ctr: {fileID: 3733895822402104053}
+  idle: {fileID: 5909812969008663623}
+  chase: {fileID: 1738979226368235924}
+  attack: {fileID: 6085588675129154461}
+  chaseDistance: 40
+  loseDistance: 50
+  attackDistance: 6.5
+--- !u!114 &3733895822402104053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055143789314409824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9348bc3216c402a47aa87a19c8b2f4ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabberController
+  ctx:
+    activeZone: {fileID: 0}
+    player: {fileID: 0}
+  targeting: {fileID: 3923573153263325364}
+  currentMovement: {fileID: 0}
+  currentAttack: {fileID: 0}
+  animations:
+  - animationStateName: WalkSmooth
+    codeName: Walk
+  - animationStateName: 
+    codeName: Idle
+  - animationStateName: RunSmooth
+    codeName: Run
+  - animationStateName: Grab
+    codeName: Grab
+  anim: {fileID: 5399083283047185292}
+--- !u!114 &5909812969008663623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055143789314409824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5fb409a423e314e9b1b7c965d05a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomWalking
+  ctr: {fileID: 3733895822402104053}
+  animationCodeNames:
+  - Walk
+  - Idle
+  walkSpeed: 2
+  walkAccel: 3
+  minDestinationPauseTime: 0
+  maxDestinationPauseTime: 0
+  rotationTf: {fileID: 2686362541020823045}
+--- !u!114 &1738979226368235924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055143789314409824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8ea945853689c4caea80e06d186657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgentChasePlayer
+  ctr: {fileID: 3733895822402104053}
+  animationCodeNames:
+  - Run
+  maxSpeed: 25
+  acceleration: 99
+  rotationTf: {fileID: 2686362541020823045}
+--- !u!114 &6085588675129154461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055143789314409824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd1608a36ab6dfd409ee4cbcaa265ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LungeAttack
+  ctr: {fileID: 3733895822402104053}
+  animationCodeNames:
+  - Grab
+  grabSpeed: 20
+  grabDuration: 0.14
+  grabEndSpeed: 6
+  grabDeceleration: 1
+  grabFriction: 0.01
+  grabEndLag: 0.5
+  hitboxOffset: 0.3
+  grabDamage: 25
+  grabKbHorizontal: 15
+  grabKbVertical: 5
+  grabKbVelocityMult: 1
+  rotationTf: {fileID: 2686362541020823045}
+  grabHitbox: {fileID: 123480018281121381}
 --- !u!1001 &7585030739595505196
 PrefabInstance:
   m_ObjectHideFlags: 0

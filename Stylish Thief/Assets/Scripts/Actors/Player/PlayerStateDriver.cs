@@ -70,7 +70,7 @@ public class PlayerStateDriver : Actor, IDamageable
         // Face model forward
         if (ctx.rb.velocity.sqrMagnitude > 0)
         {
-            ctx.anim.transform.LookAt(ctx.anim.transform.position + new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z));
+            ctx.anim.transform.LookAt(ctx.anim.transform.position + (new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z) + ctx.anim.transform.forward * ctx.cmd.modelTurnDelay));
         }
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
@@ -125,6 +125,7 @@ public class PlayerStateDriver : Actor, IDamageable
     public void OnJumpStart(InputAction.CallbackContext c)
     {
         ctx.desiredJump = true;
+        ctx.jumpBufferCounter = 0;
         ctx.pressingJump = true;
     }
 
@@ -200,6 +201,8 @@ public class PlayerStateDriver : Actor, IDamageable
         panRightAction.started += OnPanRight;
     }
 
+
+#if UNITY_EDITOR
     private void OnGUI()
     {
         Vector2 horizontalVel = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
@@ -207,6 +210,7 @@ public class PlayerStateDriver : Actor, IDamageable
         GUI.Label(new Rect(0, 30, 200, 30), $"Y speed: {ctx.rb.velocity.y}");
         GUI.Label(new Rect(0, 50, 250, 30), $"Player state: {Machine.Root.Leaf()}");
     }
+#endif
 
     private void Die()
     {
@@ -307,6 +311,7 @@ public class PlayerContext
 
     [Header("Stunned")]
     public bool disableStun;
+    public bool useStunDeceleration = true;
     [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
@@ -316,6 +321,11 @@ public class PlayerContext
     public float harshLandingDuration;
     public float harshLandingDamage;
     public MoveData harshLandingData;
+
+    [Header("Very Bad Landing")]
+    public float veryBadLandingDuration;
+    public float veryBadLandingDamage;
+    public MoveData veryBadLandingData;
 
     [Header("Roll")]
     public bool disableRoll;
@@ -352,6 +362,7 @@ public class PlayerContext
     [HideInInspector] public HealthBar healthBar;
     public Material playerMat;
     public ParticleManager particleManager;
+    public PlayerAnimEventHandler playerAnimEventHandler;
 
     [Header("Prefabs")]
     public GameObject playerUIPrefab;
@@ -413,6 +424,7 @@ public class MoveData
     [Tooltip("Maximum speed.")] public float maxSpeed;
     public float maxSpeedDeceleration;
     public float turnSpeedMult;
+    public float modelTurnDelay;
     [Tooltip("Multiplier on turn deceleration curve. Represents units per second squared.")] public float turnDecelerationMult = 1;
     [Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees.")] public AnimationCurve turnDeceleration;
 }
@@ -425,6 +437,8 @@ public class JumpData
     public float maxMaxSpeedTime;
     public float minMaxSpeedTime;
     public bool cutJump;
+    public bool useCutoffGravMult;
+    public float cutoffGravMult;
     public float cutSpeed;
     public float upwardDeceleration;
     public float upwardDecelApexThreshold;

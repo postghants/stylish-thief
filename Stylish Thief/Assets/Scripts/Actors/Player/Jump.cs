@@ -70,6 +70,11 @@ public class Jump
                     {
                         ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
 
+                        if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards"))
+                        {
+                        ctx.anim.SetTrigger("UpwardsToStall");
+                        }
+
                         if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
                         {
                             ctx.rb.velocity.y = 0;
@@ -88,6 +93,11 @@ public class Jump
             if (ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
             {
                 ctx.rb.velocity.y = 0;
+            }
+
+            if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Stall Loop"))
+            {
+                ctx.anim.SetTrigger("StartFall");
             }
             ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
         }

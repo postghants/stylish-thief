@@ -26,6 +26,10 @@ public class Jump
             ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
             ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
             ctx.rb.StartCoroutine(SetMovementMult(ctx));
+            if(ctx.currentJumpData == ctx.baseJumpData)
+            {
+                ctx.anim.SetTrigger("StartLiftoff");
+            }
         }
         if (ctx.jumpBuffer == 0)
         {
@@ -69,9 +73,9 @@ public class Jump
                     {
                         ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
 
-                        if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Liftoff"))
+                        if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Liftoff"))
                         {
-                        ctx.anim.SetTrigger("UpwardsToStall");
+                            ctx.anim.SetTrigger("UpwardsToStall");
                         }
 
                         if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
@@ -94,7 +98,7 @@ public class Jump
                 ctx.rb.velocity.y = 0;
             }
 
-            if(ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Stall Loop"))
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Stall Loop"))
             {
                 ctx.anim.SetTrigger("StartFall");
             }

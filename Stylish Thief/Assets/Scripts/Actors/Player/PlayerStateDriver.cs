@@ -93,6 +93,18 @@ public class PlayerStateDriver : Actor, IDamageable
         }
     }
 
+    public void SetTrigger(string name)
+    {
+        foreach(var trigger in ctx.anim.parameters)
+        {
+            if(trigger.type == AnimatorControllerParameterType.Trigger)
+            {
+                ctx.anim.ResetTrigger(trigger.name);
+            }
+        }
+        ctx.anim.SetTrigger(name);
+    }
+
     private int disableControlCounter;
     public void DisableControls()
     {

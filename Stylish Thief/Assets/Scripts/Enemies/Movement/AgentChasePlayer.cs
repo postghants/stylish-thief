@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(ActorPhysics))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class AgentChasePlayer : EnemyMovement
 {
     [Header("Movement")]

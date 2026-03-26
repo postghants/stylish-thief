@@ -228,4 +228,17 @@ public class ActorPhysics : MonoBehaviour
         Vector3 pos = environmentCollider.transform.position;
         return IsGrounded(pos);
     }
+
+    public PatrolZone CurrentZone()
+    {
+        var colliders = Physics.OverlapBox(environmentCollider.transform.position, environmentCollider.bounds.extents);
+        foreach (var collider in colliders)
+        {
+            if(collider.TryGetComponent(out PatrolZone zone))
+            {
+                return zone; 
+            }
+        }
+        return null;
+    }
 }

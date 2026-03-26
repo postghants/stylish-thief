@@ -682,9 +682,8 @@ namespace HSM
         {
             if (ctx.moveInputValue != Vector2.zero)
             {
-                float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
-
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
                 Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
 
                 if (acceleration.sqrMagnitude > 0)

@@ -133,9 +133,14 @@ namespace HSM
                 //    newVel = newVel.normalized * ctx.stunMinSpeed;
                 //}
 
+                Vector3 newVel = ctx.rb.velocity.magnitude * hit.normal;
+                if (ctx.useStunDeceleration)
+                {
+                    newVel *= ctx.stunDeceleration;
+                }
 
-
-                Vector3 newVel = hit.normal * ctx.rb.velocity.magnitude * ctx.stunDeceleration;
+                //tom toevoeging
+                ctx.playerAnimEventHandler.Bump();
 
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
@@ -539,7 +544,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.blockJump = 0;
-            ctx.isStunned = false;
+            ctx.isStunned = true;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -672,6 +677,7 @@ namespace HSM
                 Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
                 newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
 
                 if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
                 {
@@ -784,6 +790,7 @@ namespace HSM
                 Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
 
                 newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
 
                 if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
                 {

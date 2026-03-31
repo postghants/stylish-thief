@@ -4,15 +4,17 @@ public class RickBumper : MonoBehaviour
 {
     PlayerStateDriver player;
     public float startSpeed;
-    public bool partOfSequence;
-    public GameObject nextInSequence;
+    public GameObject target;
+    public GameObject stopper;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (partOfSequence)
+        if (target != stopper)
         {
-            transform.LookAt(nextInSequence.transform);
+            //stopper.transform.parent = null;
+            Destroy(stopper);
         }
+        transform.LookAt(target.transform);
     }
 
     // Update is called once per frame
@@ -30,16 +32,18 @@ public class RickBumper : MonoBehaviour
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
-            if (partOfSequence)
-            {
-                player.gameObject.GetComponent<ActorPhysics>().gravity = Vector3.zero;
-                player.DisableControls();
-                player.ctx.cmd.deceleration = 0;
-                player.ctx.cmd.maxSpeedDeceleration = 0;
-            }
+            player.gameObject.GetComponent<ActorPhysics>().gravity = Vector3.zero;
+            player.DisableControls();
+            player.ctx.cmd.deceleration = 0;
+            player.ctx.cmd.maxSpeedDeceleration = 0;
             player.transform.position = transform.position;
             player.SetVelocity(transform.forward * startSpeed);
             player.ctx.hasGrabbed = false;
         }
     }
 }
+
+
+//Todo
+//Make this thing standard check for how long the player needs to travel in a straight line, before being let go and being able to do shit again. Probably by replacing Next In Sequence with a general target
+    //To do this, I need to set a timer, start it OnTrigger, add a collider as child, and... That's it?

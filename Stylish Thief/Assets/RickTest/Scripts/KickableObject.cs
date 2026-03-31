@@ -9,8 +9,8 @@ public class KickableObject : MonoBehaviour
     BoxCollider coll;
     PlayerStateDriver player;
     bool kicked;
-    public float givenScore;
-    public string crime;
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
     public float force;
     public float upForce;
     public float rotationalForce;

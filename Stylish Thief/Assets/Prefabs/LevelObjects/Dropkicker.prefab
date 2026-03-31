@@ -181,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgentJumpChase
   ctr: {fileID: 941804433808702746}
   animationCodeNames: []
+  disableTransition: 0
   maxSpeed: 10
   acceleration: 20
   maxJumpDist: 40
@@ -204,6 +205,7 @@ MonoBehaviour:
   animationCodeNames:
   - Walk
   - Idle
+  disableTransition: 0
   walkSpeed: 4
   walkAccel: 7
   minDestinationPauseTime: 0
@@ -449,6 +451,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1661632945978321142, guid: 73a63a7bf5d7ee04096f0f497522429c, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d1789ef8187b11a40a180e244ddf8eb9, type: 2}
     - target: {fileID: 919132149155446097, guid: 73a63a7bf5d7ee04096f0f497522429c, type: 3}
       propertyPath: m_Name
       value: Dropkicker_Animation

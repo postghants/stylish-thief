@@ -16,7 +16,6 @@ Material:
   - _MK_LIGHT_BANDED
   - _MK_OUTLINE_HULL_CLIP
   - _MK_RECEIVE_SHADOWS
-  - _MK_SPECULAR_ISOTROPIC
   m_InvalidKeywords:
   - _ALPHACLIPPING_ON
   - _ALPHAPREMULTIPLY_ON
@@ -168,7 +167,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AdditionalLightsFalloff: 1
+    - _AdditionalLightsFalloff: 0.403
     - _AdditionalLightsThreshold: 0.5
     - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
@@ -224,8 +223,8 @@ Material:
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
     - _Light: 2
-    - _LightBands: 4
-    - _LightBandsScale: 0.5
+    - _LightBands: 3
+    - _LightBandsScale: 0.726
     - _LightThreshold: 0.5
     - _Metallic: 0
     - _NormalMapIntensity: 1
@@ -250,9 +249,9 @@ Material:
     - _RimThresholdOffset: 0.25
     - _Saturation: 1
     - _SketchMapScale: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0.773
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1
+    - _Specular: 0
     - _SpecularHighlights: 1
     - _SpecularIntensity: 1
     - _SpecularSmoothness: 0
@@ -279,9 +278,9 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
+    - _AlbedoColor: {r: 0.32967436, g: 0.393698, b: 0.49685526, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.32967433, g: 0.39369798, b: 0.49685526, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}

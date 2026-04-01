@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RickTimerChallenge : MonoBehaviour
 {
@@ -6,11 +8,17 @@ public class RickTimerChallenge : MonoBehaviour
     [Tooltip("Should this count up or down? Stopwatch makes it count up infinitely")] public bool stopwatch;
     [Tooltip("DON'T TOUCH THIS")] public bool countUp;
     [Tooltip("DON'T TOUCH THIS")] public float stopwatchTime;
+    [SerializeField] private TMP_Text stopwatchText;
+    [SerializeField] private RickChangeReact stopwatchTextReact;
 
     [Header("Countdown version")]
     [Tooltip("How long does the player get?")] public float givenTime;
     [Tooltip("DON'T TOUCH THIS")] public float currentTime;
-    [Tooltip("DON'T TOUCH THIS")] public bool countDown;
+    [Tooltip("DON'T TOUCH THIS")] public bool countdown;
+    [SerializeField] private Image countdownUI;
+    [SerializeField] private Image countdownUIBackdrop;
+    [SerializeField] private RickChangeReact WinText;
+    [SerializeField] private RickChangeReact LoseText;
 
     [Header("Crime stuff")]
     [Tooltip("How many points does the player get from this?")] public float givenScore;
@@ -29,12 +37,14 @@ public class RickTimerChallenge : MonoBehaviour
         if (stopwatch && countUp)
         {
             stopwatchTime += Time.deltaTime;
+            stopwatchText.text = stopwatchTime.ToString();
         }
-        else if (countDown)
+        else if (countdown)
         {
             if (currentTime > 0)
             {
                 currentTime -= Time.deltaTime;
+                countdownUI.fillAmount = 1 / givenTime * currentTime;
             }
             else
             {
@@ -49,10 +59,13 @@ public class RickTimerChallenge : MonoBehaviour
             if (stopwatch && !countUp)
             {
                 countUp = true;
+                stopwatchTextReact.DoReaction(true, 0, 0);
             }
-            else if (!countDown)
+            else if (!countdown)
             {
-                countDown = true;
+                countdown = true;
+                countdownUI.enabled = true;
+                countdownUIBackdrop.enabled = true;
             }
         }
     }
@@ -64,38 +77,43 @@ public class RickTimerChallenge : MonoBehaviour
             countUp = false;
             Debug.Log(stopwatchTime);
             stopwatchTime = 0;
-
+            stopwatchTextReact.DoReaction(true, 2, 0);
         }
     }
     public void WinCountDown()
     {
-        if (countDown)
+        if (countdown)
         {
-            countDown = false;
+            countdown = false;
             Debug.Log("You made it");
             currentTime = givenTime;
             CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
-
+            countdownUI.enabled = false;
+            countdownUIBackdrop.enabled = false;
+            WinText.DoReaction(true, 2, 1);
         }
     }
     public void FailCountDown()
     {
-        if (countDown)
+        if (countdown)
         {
-            countDown = false;
+            countdown = false;
             Debug.Log("You failed");
             currentTime = givenTime;
-
+            countdownUI.enabled = false;
+            countdownUIBackdrop.enabled = false;
+            LoseText.DoReaction(true, 2, 1);
         }
     }
     public void CancelCountDown()
     {
-        if (countDown)
+        if (countdown)
         {
-            countDown = false;
+            countdown = false;
             Debug.Log("Timer cancelled");
             currentTime = givenTime;
-
+            countdownUI.enabled = false;
+            countdownUIBackdrop.enabled = false;
         }
     }
 }

@@ -28,7 +28,6 @@ public class KickableObject : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<BoxCollider>();
-        coll.isTrigger = true;
     }
 
     // Update is called once per frame

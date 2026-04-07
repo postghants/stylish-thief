@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -8,12 +9,19 @@ public class KickableObject : MonoBehaviour
     BoxCollider coll;
     PlayerStateDriver player;
     bool kicked;
-    public float givenScore;
-    public string crime;
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
     public float force;
     public float upForce;
     public float rotationalForce;
     public float gravity;
+    public Vector3 centerAfterHit;
+    public Vector3 sizeAfterHit;
+    public Vector3 visualPositionAfterHit;
+
+    //tom fmod EventReference
+    [SerializeField] EventReference kickCanEvent;
+
     //public float scaleMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +41,9 @@ public class KickableObject : MonoBehaviour
         {
             //Detect player
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
+            coll.center = centerAfterHit;
+            coll.size = sizeAfterHit;
+            //GetComponentInChildren<Transform>().localPosition = visualPositionAfterHit;
             coll.isTrigger = false;
             rb.constraints = RigidbodyConstraints.None;
             gameObject.layer = 22;
@@ -40,6 +51,10 @@ public class KickableObject : MonoBehaviour
             targetDir = -targetDir - new Vector3(0, -targetDir.y, 0) + new Vector3(0, upForce, 0);
             rb.linearVelocity = targetDir.normalized * force;
             rb.angularVelocity = Random.insideUnitSphere * rotationalForce;
+
+            //tom audio event
+            RuntimeManager.PlayOneShotAttached(kickCanEvent, gameObject);
+
             if (!kicked)
             {
                 CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);

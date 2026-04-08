@@ -67,7 +67,7 @@ namespace HSM
             ctx.isStunned = true;
             ctx.playerMat.color = ctx.stunnedColor;
             ctx.particleManager.StartGroup("Stun");
-            ctx.anim.SetBool("Sliding", false);
+            ctx.player.SetTrigger("StartBonk");
             ctx.currentMoveMult = 0;
         }
 
@@ -146,7 +146,6 @@ namespace HSM
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
                 ctx.currentlyJumping = true;
-                ctx.anim.SetBool("Sliding", false);
                 machine.ChangeState(machine.Root.Leaf(), ((PlayerRoot)machine.Root).airborne.stunnedAirborne);
             }
         }
@@ -164,7 +163,6 @@ namespace HSM
             if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
             {
                 ctx.slideTimer = 0;
-                ctx.anim.SetBool("Sliding", false);
                 return Parent;
             }
             return null;
@@ -196,8 +194,6 @@ namespace HSM
             ctx.currentMoveMult = ctx.slideMoveMult;
             ctx.playerMat.color = ctx.slidingColor;
 
-            ctx.anim.SetBool("Sliding", true);
-
             ctx.rb.onCollision += OnCollision;
         }
         protected override void OnExit()
@@ -212,7 +208,6 @@ namespace HSM
             if (!ctx.pressingGrab && ctx.slideTimer >= ctx.minSlideTime)
             {
                 ctx.slideTimer = 0;
-                ctx.anim.SetBool("Sliding", false);
                 return Parent;
             }
             return null;
@@ -236,7 +231,7 @@ namespace HSM
             base.OnEnter();
             startVel = ctx.rb.velocity;
             ctx.rb.velocity = Vector3.zero;
-            ctx.anim.Play("Vault");
+            ctx.player.SetTrigger("StartLedgeGrab");
         }
 
         protected override void OnExit()
@@ -246,12 +241,12 @@ namespace HSM
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
                 Jump.PerformJump(ctx);
-                ctx.anim.Play("GrabEndAerial");
+                ctx.player.SetTrigger("LedgeGrabToVault");
                 ctx.particleManager.StartGroup("Vault");
             }
             else
             {
-                ctx.anim.Play("GrabEndGround");
+                ctx.player.SetTrigger("EndLedgeGrab");
             }
             timer = 0;
         }
@@ -290,7 +285,7 @@ namespace HSM
             ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
 
-            ctx.anim.Play("grab");
+            ctx.player.SetTrigger("StartGrab");
 
 
             var grabbables = Physics.OverlapSphere(ctx.rb.transform.position, ctx.maxGrabTargetDistanceHorizontal);
@@ -397,6 +392,7 @@ namespace HSM
                 if (!isDecelerating)
                 {
                     isDecelerating = true;
+                    ctx.player.SetTrigger("EndGrab");
                     Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
                     initialVelocity = horizontalVel;
                     targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
@@ -438,7 +434,7 @@ namespace HSM
             ctx.pressingJump = false;
             ctx.blockJump = 1;
 
-            ctx.anim.Play("GrabEndAerial");
+            ctx.player.SetTrigger("StartRoll");
 
             Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
             if (horizontalVel.sqrMagnitude < ctx.rollSpeed * ctx.rollSpeed) { horizontalVel = horizontalVel.normalized * ctx.rollSpeed; }
@@ -488,6 +484,7 @@ namespace HSM
             if (ctx.pressingJump && !ctx.disableRollJump)
             {
                 ctx.currentJumpData = ctx.rollJump;
+                ctx.player.SetTrigger("RollToJump");
                 Jump.PerformJump(ctx);
             }
             if (ctx.rollTimer > ctx.rollDuration)
@@ -507,6 +504,7 @@ namespace HSM
                 if (ctx.rollTimer > ctx.rollDuration + ctx.rollDeceleration + ctx.rollEndLag)
                 {
                     ctx.rollTimer = 0;
+                    ctx.player.SetTrigger("EndRoll");
                     return Parent;
                 }
             }
@@ -518,6 +516,7 @@ namespace HSM
     {
         readonly PlayerContext ctx;
         private float timer;
+        private bool isVeryBad;
         public PlayerHarshLanded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -537,21 +536,35 @@ namespace HSM
                 return;
             }
 
-            ctx.player.TakeDamage(ctx.harshLandingDamage);
-            ctx.cmd = ctx.harshLandingData;
+            if (ctx.jumpBufferCounter > ctx.rollTiming)
+            {
+                ctx.player.TakeDamage(ctx.veryBadLandingDamage);
+                ctx.cmd = ctx.veryBadLandingData;
+                isVeryBad = true;
+                ctx.player.SetTrigger("StartVeryBadLanding");
+            }
+            else
+            {
+                ctx.player.TakeDamage(ctx.harshLandingDamage);
+                ctx.cmd = ctx.harshLandingData;
+                isVeryBad = false;
+                ctx.player.SetTrigger("StartBadLanding");
+            }
+
         }
 
         protected override void OnExit()
         {
             ctx.blockJump = 0;
-            ctx.isStunned = true;
+            ctx.isStunned = false;
         }
 
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if (timer >= ctx.harshLandingDuration)
+            if (!isVeryBad && timer >= ctx.harshLandingDuration || isVeryBad && timer >= ctx.veryBadLandingDuration)
             {
+                ctx.player.SetTrigger("EndBadLanding");
                 ctx.blockJump--;
                 ctx.cmd = ctx.groundMoveData;
                 return ((PlayerGrounded)Parent).moving;
@@ -572,9 +585,9 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("JumpUp"))
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
             {
-                ctx.anim.Play("Idle");
+                ctx.player.SetTrigger("StartIdle");
             }
         }
 
@@ -610,9 +623,15 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && ctx.rb.velocity.y == 0)
+            {
+                ctx.player.SetTrigger("StartWalk");
+            }
             if (ctx.moveInputValue != Vector2.zero)
             {
-                ctx.anim.Play("Run 2");
+                Vector3 horizontalVel = ctx.rb.velocity;
+                horizontalVel.y = 0;
+                ctx.anim.SetBool("OverRunSpeed", horizontalVel.magnitude > ctx.animRunSpeed);
             }
         }
 
@@ -663,27 +682,31 @@ namespace HSM
         {
             if (ctx.moveInputValue != Vector2.zero)
             {
-                float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
-
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
-                ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
-
+                float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
                 Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
-                ctx.rb.velocity += acceleration;
 
-                Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
-                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
-                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
-
-                if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                if (acceleration.sqrMagnitude > 0)
                 {
-                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
+
+                    ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+
+                    ctx.rb.velocity += acceleration;
+
+
+                    Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
+                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                    newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
+
+                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    {
+                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    }
+                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
-                ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
             }
             else
             {
@@ -728,15 +751,7 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Run 2") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("JumpUp"))
-                if (ctx.rb.velocity.y > 0)
-                {
-                    ctx.anim.Play("JumpUp");
-                }
-                else
-                {
-                    ctx.anim.Play("Fall");
-                }
+            ctx.anim.SetBool("OverFastFallSpeed", ctx.rb.velocity.y > ctx.currentJumpData.fastFallSpeed);
         }
     }
 
@@ -774,29 +789,34 @@ namespace HSM
         {
             ctx.coyoteTimeCounter += deltaTime;
 
-            if (ctx.moveInputValue != Vector2.zero && Leaf() != vaulting)
+            if (ctx.moveInputValue != Vector2.zero)
             {
-                float angle = Vector3.Angle(ctx.moveDirection, ctx.rb.velocity);
 
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
+                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
 
-                currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
-                ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
-
-                Vector3 acceleration = ctx.currentMoveMult * ctx.cmd.acceleration * deltaTime * ctx.moveDirection;
-                ctx.rb.velocity += acceleration;
-
-                Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
-                Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
-                newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
-
-                if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                if (acceleration.sqrMagnitude > 0)
                 {
-                    newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
+
+                    ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+
+                    ctx.rb.velocity += acceleration;
+
+
+                    Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
+                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                    newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
+
+                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    {
+                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                    }
+                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
-                ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
             }
             else
             {
@@ -884,13 +904,15 @@ namespace HSM
 
             ctx.cmd = ctx.prePoundMove;
             ctx.gravMultiplier = ctx.prePoundGrav;
+
+            ctx.player.SetTrigger("StartBagThrow");
         }
 
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
 
-            if(timer >= ctx.prePoundDuration)
+            if (timer >= ctx.prePoundDuration)
             {
                 return ((PlayerRoot)Parent.Parent).fixedSpeed.pound;
             }
@@ -921,7 +943,7 @@ namespace HSM
             {
                 //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
                 //{
-                    return ((PlayerRoot)Parent.Parent).grounded.rolling;
+                return ((PlayerRoot)Parent.Parent).grounded.rolling;
                 //}
                 //implement land state later
                 //return ((PlayerRoot)Parent.Parent).grounded;
@@ -1007,7 +1029,7 @@ namespace HSM
                     }
                     ctx.currentJumpData = ctx.slideJumpData;
                 }
-                else if(!ctx.disableJump)
+                else if (!ctx.disableJump)
                 {
                     ctx.currentJumpData = ctx.baseJumpData;
                 }

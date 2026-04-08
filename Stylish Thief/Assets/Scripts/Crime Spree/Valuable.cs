@@ -17,6 +17,8 @@ public class Valuable : MonoBehaviour, IGrabbable
     {
         if (CrimeSpreeManager.instance != null) CrimeSpreeManager.instance.CollectedValuable(this);
 
+        ctx.anim.SetTrigger("StartGrabValuable");
+
         if (transform.parent != null && transform.parent.TryGetComponent(out ValuableParent parent))
         {
             foreach(EnemySpawn spawner in parent.spawners)

@@ -13,7 +13,6 @@ public class Jump
     {
         if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
         {
-            Debug.Log("Jumpin");
             ctx.particleManager.StartGroup("Jump");
             ctx.currentlyJumping = true;
             ctx.desiredJump = false;
@@ -27,6 +26,10 @@ public class Jump
             ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
             ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
             ctx.rb.StartCoroutine(SetMovementMult(ctx));
+            if(ctx.currentJumpData == ctx.baseJumpData)
+            {
+                ctx.anim.SetTrigger("StartLiftoff");
+            }
         }
         if (ctx.jumpBuffer == 0)
         {
@@ -44,7 +47,6 @@ public class Jump
             if (ctx.jumpBufferCounter > ctx.jumpBuffer)
             {
                 ctx.desiredJump = false;
-                ctx.jumpBufferCounter = 0;
             }
         }
     }
@@ -71,6 +73,11 @@ public class Jump
                     {
                         ctx.gravMultiplier = ctx.currentJumpData.upwardDecelApex;
 
+                        if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Liftoff"))
+                        {
+                            ctx.anim.SetTrigger("UpwardsToStall");
+                        }
+
                         if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
                         {
                             ctx.rb.velocity.y = 0;
@@ -89,6 +96,11 @@ public class Jump
             if (ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
             {
                 ctx.rb.velocity.y = 0;
+            }
+
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Stall Loop"))
+            {
+                ctx.anim.SetTrigger("StartFall");
             }
             ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
         }
@@ -168,7 +180,7 @@ public class Jump
         while (timer < ctx.currentJumpData.jumpMovementMultTime)
         {
             timer += Time.deltaTime;
-            if (ctx.rb.isGrounded) { break; }
+            if (!ctx.currentlyJumping) { break; }
             yield return null;
         }
         ctx.currentJumpMoveMult = 1;

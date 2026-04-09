@@ -789,7 +789,7 @@ namespace HSM
         {
             ctx.coyoteTimeCounter += deltaTime;
 
-            if (ctx.moveInputValue != Vector2.zero)
+            if (ctx.moveInputValue != Vector2.zero && Leaf() != grabbing)
             {
 
                 Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);

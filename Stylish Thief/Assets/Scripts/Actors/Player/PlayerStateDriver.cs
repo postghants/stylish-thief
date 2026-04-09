@@ -26,7 +26,6 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.currentHealth = ctx.maxHealth;
 
-
         // Initialize state machine
         Root = new(null, ctx);
         StateMachineBuilder builder = new(Root);

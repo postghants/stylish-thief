@@ -96,10 +96,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639105656478333159
+  lastModified: 639113270075838762
   FileSizes:
   - Name: 
-    Value: 1084
+    Value: 1216
   Exists: 1
 --- !u!114 &-2835417493117700529
 MonoBehaviour:
@@ -150,14 +150,17 @@ MonoBehaviour:
   - {fileID: 6383367166387091341}
   - {fileID: -2835417493117700529}
   - {fileID: -5064963789610319477}
+  - {fileID: 5137456390697069764}
+  - {fileID: 5368668797380967410}
   EditorParameters:
   - {fileID: 808413082084937723}
+  - {fileID: 6413292653978370968}
   MasterBanks:
   - {fileID: 8104597693844846538}
   StringsBanks:
   - {fileID: -4038847268614741242}
   cacheVersion: 131848
-  cacheTime: 639105656478333159
+  cacheTime: 639113270075838762
   SerializableEventsDict:
   - key: event:/jump
     index: 0
@@ -171,6 +174,10 @@ MonoBehaviour:
     index: 4
   - key: event:/grab
     index: 5
+  - key: event:/Can_Kick
+    index: 6
+  - key: event:/Can_Impact
+    index: 7
 --- !u!114 &808413082084937723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +254,60 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &5137456390697069764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Can_Kick
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Can_Kick
+  Guid:
+    Data1: 74498629
+    Data2: 1302472494
+    Data3: 185712276
+    Data4: 1850235603
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 0
+--- !u!114 &5368668797380967410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Can_Impact
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Can_Impact
+  Guid:
+    Data1: 1476313087
+    Data2: 1116692985
+    Data3: -2132087630
+    Data4: 1933202830
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 0
 --- !u!114 &6383367166387091341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +335,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 80
   Length: 0
+--- !u!114 &6413292653978370968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/volume slider
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: volume slider
+  StudioPath: parameter:/volume slider
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 145233771
+    data2: 2429990065
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &8104597693844846538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +374,6 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639105656478328070
+  lastModified: 639113270075827167
   FileSizes: []
   Exists: 1

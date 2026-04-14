@@ -20793,7 +20793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5556491811016845559, guid: 17c53e8f81df3e241bc5f38276461ce1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 5556491811016845559, guid: 17c53e8f81df3e241bc5f38276461ce1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -106588,7 +106588,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5556491811016845559, guid: 17c53e8f81df3e241bc5f38276461ce1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 5556491811016845559, guid: 17c53e8f81df3e241bc5f38276461ce1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -173224,6 +173224,63 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1001 &310436726220835908
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1355006518315198832, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_Name
+      value: Barricade Landmine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 57.13296
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -12.05806
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566433288195340193, guid: be2114cdd5d52b84b89409f726959262, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: be2114cdd5d52b84b89409f726959262, type: 3}
 --- !u!1001 &516318357679043707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -173677,3 +173734,4 @@ SceneRoots:
   - {fileID: 1831588616}
   - {fileID: 1105468241}
   - {fileID: 304658156}
+  - {fileID: 310436726220835908}

@@ -18,6 +18,12 @@ public class BigBlast : MonoBehaviour
         mesh.enabled = false;
         currentTelegraphTime = 0;
     }
+    private void OnEnable()
+    {
+        coll.enabled = false;
+        mesh.enabled = false;
+        currentTelegraphTime = 0;
+    }
 
     // Update is called once per frame
     void Update()
@@ -44,8 +50,24 @@ public class BigBlast : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
+                if (transform.parent != null)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    FullReset();
+                }
             }
         }
+    }
+    private void FullReset()
+    {
+        coll.enabled = false;
+        mesh.enabled = false;
+        fired = false;
+        currentLingerTime = 0;
+        currentTelegraphTime = 0;
+        gameObject.SetActive(false);
     }
 }

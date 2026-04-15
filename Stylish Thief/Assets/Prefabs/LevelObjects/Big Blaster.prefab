@@ -14,12 +14,11 @@ GameObject:
   - component: {fileID: 6540515099225631455}
   - component: {fileID: 2320606802488066449}
   - component: {fileID: 255693366131855295}
-  - component: {fileID: 8422900051001742}
-  - component: {fileID: 6725575750426737888}
-  - component: {fileID: 413377288347821564}
-  - component: {fileID: -8164019323340308807}
-  - component: {fileID: 4669293469344345798}
   - component: {fileID: 8493037400413003749}
+  - component: {fileID: 3709177089521478732}
+  - component: {fileID: 6725575750426737888}
+  - component: {fileID: -8164019323340308807}
+  - component: {fileID: 1410140158978370959}
   m_Layer: 0
   m_Name: Big Blaster
   m_TagString: Untagged
@@ -175,7 +174,27 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4
---- !u!114 &8422900051001742
+--- !u!114 &8493037400413003749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7885268584836148508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1611f4abc0db20f4db536d36e72511ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  ctx:
+    activeZone: {fileID: 0}
+    player: {fileID: 0}
+  targeting: {fileID: 3709177089521478732}
+  currentMovement: {fileID: 6725575750426737888}
+  currentAttack: {fileID: -8164019323340308807}
+  animations: []
+  anim: {fileID: 0}
+--- !u!114 &3709177089521478732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,8 +208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DistanceTargeting
   ctr: {fileID: 0}
   idle: {fileID: 6725575750426737888}
-  chase: {fileID: 413377288347821564}
-  attack: {fileID: 0}
+  chase: {fileID: 1410140158978370959}
+  attack: {fileID: -8164019323340308807}
   chaseDistance: 50
   loseDistance: 9999
   attackDistance: 30
@@ -216,30 +235,6 @@ MonoBehaviour:
   minDestinationPauseTime: 0
   maxDestinationPauseTime: 0
   rotationTf: {fileID: 3243913734693315139}
---- !u!114 &413377288347821564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7885268584836148508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30a1d96c01c9dbd4d80d23da2c44cfbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgentJumpChase
-  ctr: {fileID: 8493037400413003749}
-  animationCodeNames:
-  - Run
-  - Jump
-  disableTransition: 0
-  maxSpeed: 10
-  acceleration: 20
-  maxJumpDist: 40
-  jumpSpeed: 40
-  jumpArc: -20
-  rotationTf: {fileID: 3243913734693315139}
-  jumpTimer: 0
 --- !u!114 &-8164019323340308807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +247,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efac6e968ca02c040945cb9acbde9231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
---- !u!114 &4669293469344345798
+  ctr: {fileID: 0}
+  animationCodeNames: []
+  fired: 0
+  rotationTf: {fileID: 3243913734693315139}
+  projectile: {fileID: 6257556127259048501}
+--- !u!114 &1410140158978370959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,37 +261,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 7885268584836148508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a4174d15739e74b8118f2550888ad0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropkickerController
-  ctx:
-    activeZone: {fileID: 0}
-    player: {fileID: 0}
-  targeting: {fileID: 8422900051001742}
-  currentMovement: {fileID: 0}
-  currentAttack: {fileID: 0}
-  animations: []
-  anim: {fileID: 0}
---- !u!114 &8493037400413003749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7885268584836148508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1611f4abc0db20f4db536d36e72511ba, type: 3}
+  m_Script: {fileID: 11500000, guid: ca35cd934f25d1b41ad86e929154db4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  ctx:
-    activeZone: {fileID: 0}
-    player: {fileID: 0}
-  targeting: {fileID: 8422900051001742}
-  currentMovement: {fileID: 0}
-  currentAttack: {fileID: 0}
-  animations: []
-  anim: {fileID: 0}
+  ctr: {fileID: 0}
+  animationCodeNames: []
+  disableTransition: 0
+  maxSpeed: 10
+  acceleration: 20
+  maxJumpDist: 40
+  jumpSpeed: 40
+  jumpArc: -20
+  circleRadius: 10
+  rotationTf: {fileID: 3243913734693315139}
+  jumpTimer: 0
+  targetSet: 0
+  randomTarget: {x: 0, y: 0, z: 0}
 --- !u!1 &8343120208813807749
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +308,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4754361781135997093}
   m_Father: {fileID: 8256572893775819674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8693136509525604601
@@ -404,3 +390,80 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &2083252766986836960
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3243913734693315139}
+    m_Modifications:
+    - target: {fileID: 416754995684707954, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_Name
+      value: Big Blast
+      objectReference: {fileID: 0}
+    - target: {fileID: 416754995684707954, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+--- !u!4 &4754361781135997093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+  m_PrefabInstance: {fileID: 2083252766986836960}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6257556127259048501 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5349851389340262869, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+  m_PrefabInstance: {fileID: 2083252766986836960}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0db3dc2ef85d7124786e633545be7360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'

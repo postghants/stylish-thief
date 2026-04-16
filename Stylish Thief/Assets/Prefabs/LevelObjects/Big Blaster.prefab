@@ -114,7 +114,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -190,8 +190,8 @@ MonoBehaviour:
     activeZone: {fileID: 0}
     player: {fileID: 0}
   targeting: {fileID: 3709177089521478732}
-  currentMovement: {fileID: 6725575750426737888}
-  currentAttack: {fileID: -8164019323340308807}
+  currentMovement: {fileID: 0}
+  currentAttack: {fileID: 0}
   animations: []
   anim: {fileID: 0}
 --- !u!114 &3709177089521478732
@@ -212,7 +212,7 @@ MonoBehaviour:
   attack: {fileID: -8164019323340308807}
   chaseDistance: 50
   loseDistance: 9999
-  attackDistance: 30
+  attackDistance: 0.01
 --- !u!114 &6725575750426737888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,16 +267,18 @@ MonoBehaviour:
   ctr: {fileID: 0}
   animationCodeNames: []
   disableTransition: 0
-  maxSpeed: 10
+  maxSpeed: 60
   acceleration: 20
   maxJumpDist: 40
   jumpSpeed: 40
   jumpArc: -20
   circleRadius: 10
   rotationTf: {fileID: 3243913734693315139}
+  projectile: {fileID: 1810921142747239826}
   jumpTimer: 0
   targetSet: 0
   randomTarget: {x: 0, y: 0, z: 0}
+  patrolZoneTarget: {x: 0, y: 0, z: 0}
 --- !u!1 &8343120208813807749
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +290,6 @@ GameObject:
   - component: {fileID: 3243913734693315139}
   - component: {fileID: 8693136509525604601}
   - component: {fileID: 7664652167786713723}
-  - component: {fileID: 4822036204202213301}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -369,27 +370,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4822036204202213301
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8343120208813807749}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2083252766986836960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -406,6 +386,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4150201040256972329, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 4927226468435713002}
     - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -451,9 +435,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+--- !u!1 &1810921142747239826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 416754995684707954, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+  m_PrefabInstance: {fileID: 2083252766986836960}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4754361781135997093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+  m_PrefabInstance: {fileID: 2083252766986836960}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &4927226468435713002 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 6379407166462935050, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
   m_PrefabInstance: {fileID: 2083252766986836960}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &6257556127259048501 stripped
@@ -461,7 +455,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5349851389340262869, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
   m_PrefabInstance: {fileID: 2083252766986836960}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1810921142747239826}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0db3dc2ef85d7124786e633545be7360, type: 3}

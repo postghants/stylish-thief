@@ -50,7 +50,7 @@ public class BigBlast : MonoBehaviour
             }
             else
             {
-                if (transform.parent != null)
+                if (transform.parent == null)
                 {
                     Destroy(gameObject);
                 }

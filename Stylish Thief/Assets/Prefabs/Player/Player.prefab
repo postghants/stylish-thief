@@ -20127,7 +20127,7 @@ MonoBehaviour:
       jumpMovementMultTime: 0
       downwardAccel: 60
       maxFallSpeed: 55
-      fastFallSpeed: 50
+      fastFallSpeed: 49
     disableJump: 0
     coyoteTime: 0.1
     jumpBuffer: 0.1
@@ -20202,7 +20202,7 @@ MonoBehaviour:
     stunUpwardSpeed: 1
     stunDuration: 0.1
     harshLandingDuration: 1
-    harshLandingDamage: -45
+    harshLandingDamage: -10
     harshLandingData:
       acceleration: 0
       deceleration: 25
@@ -20235,12 +20235,12 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    veryBadLandingDuration: 0
-    veryBadLandingDamage: 0.1
+    veryBadLandingDuration: 2
+    veryBadLandingDamage: -20
     veryBadLandingData:
       acceleration: 0
-      deceleration: 0
-      maxSpeed: 0
+      deceleration: 25
+      maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
       modelTurnDelay: 0
@@ -20252,38 +20252,38 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     disableRoll: 0
-    rollTiming: 20
-    rollSpeed: 1
-    rollDuration: 0
+    rollTiming: 0.2
+    rollSpeed: 30
+    rollDuration: 0.3
     rollEndSpeed: 20
-    rollDeceleration: 1
+    rollDeceleration: 0
     rollEndLag: 0
     disableRollJump: 0
     rollJump:
-      jumpImpulse: 10
+      jumpImpulse: 25
       cuttable: 0
-      maxMaxSpeedTime: 0.2
-      minMaxSpeedTime: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
       cutJump: 0
       useCutoffGravMult: 0
       cutoffGravMult: 0
       cutSpeed: 0
-      upwardDeceleration: 30
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 10
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
       hangtimeDuration: 0.2
-      setSpeed: 0
-      setSpeedSpeed: 0
+      setSpeed: 1
+      setSpeedSpeed: 27
       horizontalBoost: 0
-      jumpMovementMult: 1
-      jumpMovementMultTime: 0
-      downwardAccel: 30
-      maxFallSpeed: 730.6
-      fastFallSpeed: 35
-    disablePound: 0
+      jumpMovementMult: 0.3
+      jumpMovementMultTime: 10
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
+    disablePound: 1
     prePoundUpBoost: 0
-    prePoundDuration: 25
-    prePoundGrav: 40
+    prePoundDuration: 0
+    prePoundGrav: 0
     prePoundMove:
       acceleration: 0
       deceleration: 0
@@ -20298,9 +20298,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    poundSpeedDown: 0
-    poundSpeedFw: 0.2
-    poundLandDelay: -45
+    poundSpeedDown: 30
+    poundSpeedFw: 30
+    poundLandDelay: 1
     poundLandSpeed: 0
     panTime: 0.2
     panAngle: -45

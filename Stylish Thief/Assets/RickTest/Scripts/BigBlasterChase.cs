@@ -23,6 +23,8 @@ public class BigBlasterChase : EnemyMovement
     private NavMeshAgent agent;
     private ActorPhysics rb;
     [SerializeField] private Transform rotationTf;
+    [SerializeField] private GameObject projectile;
+
 
     [Header("Internal")]
     [SerializeField] private float jumpTimer;
@@ -34,6 +36,7 @@ public class BigBlasterChase : EnemyMovement
 
     [SerializeField] private bool targetSet;
     [SerializeField] private Vector3 randomTarget;
+    [SerializeField] private Vector3 patrolZoneTarget;
 
     private void Start()
     {
@@ -68,12 +71,13 @@ public class BigBlasterChase : EnemyMovement
         // If player is in the same patrol zone
         if (ctr.ctx.activeZone == playerZone)
         {
+            
             if (targetSet)
             {
-                Vector3 lookPos = randomTarget;
+                Vector3 lookPos = patrolZoneTarget;
                 lookPos.y = agent.transform.position.y;
                 rotationTf.transform.LookAt(lookPos);
-                Vector3 compareTarget = randomTarget;
+                Vector3 compareTarget = patrolZoneTarget;
                 compareTarget.y = 0;
                 Vector3 comparePos = agent.transform.position;
                 comparePos.y = 0;
@@ -81,16 +85,40 @@ public class BigBlasterChase : EnemyMovement
                 if (compareTarget == comparePos)
                 {
                     Debug.Log("FIRE");
+                    targetSet = false;
+                    lookPos = ctr.ctx.player.transform.position;
+                    lookPos.y = agent.transform.position.y;
+                    rotationTf.transform.LookAt(lookPos);
+                    if (projectile != null)
+                    {
+                        if (!projectile.activeSelf)
+                        {
+                            projectile.SetActive(true);
+                        }
+                    }
                 }
             }
             else
             {
-                //Pick a random spot around the player
-                agent.SetDestination(ctr.ctx.player.transform.position);
-                Vector3 randomTargetRaw = Random.insideUnitCircle;
-                randomTarget = ctr.ctx.player.transform.position + randomTargetRaw * circleRadius;
-                targetSet = true;
-                Debug.Log("Moving toward " + randomTarget);
+                if (projectile != null)
+                {
+                    if (!projectile.activeSelf)
+                    {
+                        //Pick a random spot around the player
+                        Vector3 randomTargetRaw = Random.insideUnitCircle;
+                        randomTargetRaw.z = randomTargetRaw.y;
+                        randomTargetRaw.y = 0;
+                        randomTarget = ctr.ctx.player.transform.position + (randomTargetRaw.normalized * circleRadius);
+
+                        //Nearest point to target in patrol zone
+                        patrolZoneTarget = ctr.ctx.activeZone.ClosestPoint(randomTarget);
+                        agent.SetDestination(patrolZoneTarget);
+
+                        targetSet = true;
+                        Debug.Log("Moving toward " + randomTarget);
+                    }
+                }
+                
             }
             //Move toward that spot
             
@@ -111,7 +139,8 @@ public class BigBlasterChase : EnemyMovement
     }
     public override void OnExit()
     {
-
+        targetSet = false;
+        projectile.SetActive(false);
     }
 
     private void ChaseOutsideZone()

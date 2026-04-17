@@ -1,7 +1,5 @@
 using FMODUnity;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class KickableObject : MonoBehaviour
 {

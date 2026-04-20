@@ -36,6 +36,7 @@ public class RickTimerChallenge : MonoBehaviour
     {
         if (stopwatch && countUp)
         {
+            stopwatchText.enabled = true;
             stopwatchTime += Time.deltaTime;
             stopwatchText.text = stopwatchTime.ToString();
         }

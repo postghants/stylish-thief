@@ -74,7 +74,10 @@ public class BigBlasterChase : EnemyMovement
             
             if (targetSet)
             {
-                Vector3 lookPos = patrolZoneTarget;
+                /*Vector3 lookPos = patrolZoneTarget;
+                lookPos.y = agent.transform.position.y;
+                rotationTf.transform.LookAt(lookPos);*/
+                Vector3 lookPos = agent.steeringTarget;
                 lookPos.y = agent.transform.position.y;
                 rotationTf.transform.LookAt(lookPos);
                 Vector3 compareTarget = patrolZoneTarget;
@@ -86,6 +89,7 @@ public class BigBlasterChase : EnemyMovement
                 {
                     Debug.Log("FIRE");
                     targetSet = false;
+
                     lookPos = ctr.ctx.player.transform.position;
                     lookPos.y = agent.transform.position.y;
                     rotationTf.transform.LookAt(lookPos);

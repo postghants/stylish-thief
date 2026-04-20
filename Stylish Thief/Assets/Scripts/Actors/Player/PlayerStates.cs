@@ -788,39 +788,41 @@ namespace HSM
         protected override void OnUpdate(float deltaTime)
         {
             ctx.coyoteTimeCounter += deltaTime;
-
-            if (ctx.moveInputValue != Vector2.zero && Leaf() != grabbing)
+            if (Leaf() != grabbing)
             {
-
-                Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
-                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
-
-                if (acceleration.sqrMagnitude > 0)
+                if (ctx.moveInputValue != Vector2.zero)
                 {
-                    currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
 
-                    ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+                    Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                    float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
+                    Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
 
-                    ctx.rb.velocity += acceleration;
-
-
-                    Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
-                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
-                    newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
-
-                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    if (acceleration.sqrMagnitude > 0)
                     {
-                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                        currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
+
+                        ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+
+                        ctx.rb.velocity += acceleration;
+
+
+                        Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
+                        Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                        newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                        newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
+
+                        if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                        {
+                            newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                        }
+                        ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                     }
-                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
-            }
-            else
-            {
-                ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.cmd.deceleration * deltaTime;
+                else
+                {
+                    ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.cmd.deceleration * deltaTime;
+                }
             }
 
             if (ctx.useGravity)

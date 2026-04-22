@@ -257,9 +257,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90993d367060931468d2347d248e33a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  givenScore: 100
+  crime: Abusing Equipment
   startSpeed: 30
   target: {fileID: 142906706359550415}
+  usingStopper: 1
   stopper: {fileID: 142906706359550415}
+  gravityEnabler: {fileID: 3039946916375448982}
 --- !u!1 &2978683389191439156
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,6 +425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c132c70cc930f94ab0e80c6269bb061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  justGravity: 0
+  justGravity: 1
   playerPrefab: {fileID: 4668033689235908336, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
   endSpeed: 50

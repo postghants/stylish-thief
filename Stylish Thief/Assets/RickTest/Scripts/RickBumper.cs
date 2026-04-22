@@ -22,16 +22,6 @@ public class RickBumper : MonoBehaviour
             gravityEnabler.SetActive(false);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void BumperLaunch()
-    {
-
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)

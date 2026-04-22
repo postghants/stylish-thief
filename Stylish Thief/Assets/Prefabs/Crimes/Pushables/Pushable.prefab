@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4781215418598618483}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.00000032782552}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 80.57252, y: 23.069265, z: -18}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
@@ -132,14 +132,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   givenScore: 500
   crime: Destruction of corporate property
+  requiresGrab: 0
   distance: 3.5
   force: 5
   upForce: 4
   rotationalForce: 2
   gravity: -9.81
-  centerAfterHit: {x: 0, y: 0, z: 0}
-  sizeAfterHit: {x: 0, y: 0, z: 0}
-  visualPositionAfterHit: {x: 0, y: 0, z: 0}
 --- !u!54 &8102543028257763469
 Rigidbody:
   m_ObjectHideFlags: 0

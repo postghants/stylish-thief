@@ -31,7 +31,10 @@ public class AgentChasePlayer : EnemyMovement
     public override void OnUpdate(float deltaTime)
     {
         agent.SetDestination(ctr.ctx.player.transform.position);
-        Vector3 lookPos = ctr.ctx.player.transform.position;
+        /*Vector3 lookPos = ctr.ctx.player.transform.position;
+        lookPos.y = agent.transform.position.y;
+        rotationTf.transform.LookAt(lookPos);*/
+        Vector3 lookPos = agent.steeringTarget;
         lookPos.y = agent.transform.position.y;
         rotationTf.transform.LookAt(lookPos);
     }

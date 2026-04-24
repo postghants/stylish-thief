@@ -78,7 +78,7 @@ public class RickTimerChallenge : MonoBehaviour
             countUp = false;
             Debug.Log(stopwatchTime);
             stopwatchTime = 0;
-            stopwatchTextReact.DoReaction(true, 2, 0);
+            stopwatchTextReact.DoReaction(true, 60, 0);
         }
     }
     public void WinCountDown()

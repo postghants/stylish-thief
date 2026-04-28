@@ -4,16 +4,17 @@ public class RickBirdTrigger : MonoBehaviour
 {
     //public PlayerStateDriver player;
     [Header("Crime stuff")]
-    public float givenScore;
-    public string crime;
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
     [Header("Stats stuff")]
-    public GameObject player;
-    public RickBird birds;
-    public float respawnTime;
+    [Tooltip("So which bird we spawning? Make it the same prefab as what it already starts with")] public RickBird birds;
+    [Tooltip("How long until a deleted bird comes back?")] public float respawnTime;
     float timer;
     bool count;
     public GameObject birdPrefab;
     GameObject birdInstance;
+    [Header("Internal no touchy")]
+    [Tooltip("Doesn't have to be set!")] public GameObject player;
     void Start()
     {
         

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ColliderEnabler : MonoBehaviour
 {
-    public bool dontEnableOnStart;
-    public bool disableInstead;
+    [Tooltip("Whether to enable the collider immediately or not")] public bool dontEnableOnStart;
+    [Tooltip("Whether to do the opposite and actually disable it instead")] public bool disableInstead;
     private Collider coll;
     void Start()
     {

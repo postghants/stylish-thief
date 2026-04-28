@@ -6,9 +6,9 @@ public class OtherThief : MonoBehaviour
     [Tooltip("How many points does the player get from this?")] public float givenScore;
     [Tooltip("What is the name of this crime?")] public string crime;
 
-    public float greetTime;
-    [SerializeField] private bool greeting;
-    [SerializeField] private float currentTime;
+    [Tooltip("How long does Robin stand still to greet the person?")] public float greetTime;
+    private bool greeting;
+    private float currentTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -5,12 +5,12 @@ public class OtherThiefManager : MonoBehaviour
 {
 
     [Header("Stats stuff")]
-    public float respawnTime;
+    [Tooltip("How long does it take to spawn them again in a random spot?")] public float respawnTime;
     float timer;
+    [Header("Internal no touchy")]
     public bool count;
-
     [SerializeField] private List<OtherThief> thiefLocations;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of Update after the MonoBehaviour is create
     void Start()
     {
         foreach (Transform child in transform)

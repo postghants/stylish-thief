@@ -236,7 +236,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab && !ctx.disableVaultJump)
+            if (ctx.pressingGrab && ctx.pressingJump &&!ctx.disableVaultJump)
             {
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;

@@ -4,7 +4,7 @@ public class StickerCrime : MonoBehaviour
 {
     [Tooltip("How many points does the player get from this?")] public float givenScore;
     [Tooltip("What is the name of this crime?")] public string crime;
-    [SerializeField] private GameObject sticker;
+    [Tooltip("GameObject that represents the sticker")] [SerializeField] private GameObject sticker;
     PlayerStateDriver player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

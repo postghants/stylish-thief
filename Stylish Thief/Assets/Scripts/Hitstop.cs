@@ -36,6 +36,18 @@ public static class Hitstop
         Time.timeScale = target;
     }
 
+    public static IEnumerator FreezeTimescale(float target, float time)
+    {
+        float startScale = Time.timeScale;
+        Time.timeScale = target;
+        while (time > 0)
+        {
+            time -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = startScale;
+    }
+
     public static IEnumerator WhooshTimescale(float target, float descentTime, float holdTime, float ascentTime)
     {
         float timer = 0;
@@ -49,7 +61,7 @@ public static class Hitstop
             yield return null;
         }
 
-        while(timer < descentTime + holdTime + ascentTime)
+        while (timer < descentTime + holdTime + ascentTime)
         {
             timer += Time.unscaledDeltaTime;
             yield return null;

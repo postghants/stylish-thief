@@ -910,6 +910,11 @@ namespace HSM
             ctx.player.SetTrigger("StartBagThrow");
         }
 
+        protected override void OnUpdate(float deltaTime)
+        {
+            ctx.gravMultiplier = ctx.prePoundGrav;
+        }
+
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;

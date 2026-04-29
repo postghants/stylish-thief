@@ -328,25 +328,30 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-
+            
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
+            Debug.Log("Origin 1: " + origin);
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-ctx.rb.skinWidth * 2);
 
-            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
             {
-                if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
+                if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
                 {
                     origin = checkHit.point;
-                    origin.y += ctx.maxLedgeHeight;
+                    origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
+                    Vector3 cast1Origin = origin;
                     if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                     {
-                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
                         {
                             origin = heightHit.point;
                             origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                            origin.x = cast1Origin.x;
+                            origin.z = cast1Origin.z;
                             ctx.rb.transform.position = origin;
+
 
                             Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
                             return;

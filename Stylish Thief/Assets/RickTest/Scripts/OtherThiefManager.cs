@@ -8,7 +8,7 @@ public class OtherThiefManager : MonoBehaviour
     [Tooltip("How long does it take to spawn them again in a random spot?")] public float respawnTime;
     float timer;
     [Header("Internal no touchy")]
-    public bool count;
+    [Tooltip("Yo don't touch this one. Leave it on false")] public bool count;
     [SerializeField] private List<OtherThief> thiefLocations;
     // Start is called once before the first execution of Update after the MonoBehaviour is create
     void Start()

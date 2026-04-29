@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3956313295997469582}
   - component: {fileID: 6599686698727585094}
   - component: {fileID: 8197852666459941845}
+  - component: {fileID: 1046383201348193179}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -112,6 +113,21 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1046383201348193179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2577688004503472361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31784f22a67963044a0850f347bfd126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  damage: 50
+  turnColliderOff: 1
+  coll: {fileID: 8197852666459941845}
 --- !u!1 &4994681764528540992
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12696cd6f0bc9184eab7ae136eef8bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  givenScore: 50
+  crime: Wasting Explosives Budget
   timeBeforeBoom: 1
   LengthOfBoom: 0.2
   explosion: {fileID: 2577688004503472361}

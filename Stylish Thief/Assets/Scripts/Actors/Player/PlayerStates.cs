@@ -30,14 +30,14 @@ namespace HSM
             ctx.stunTimer = 0;
             ctx.currentMoveMult = 0;
             ctx.currentlyJumping = false;
-            ctx.playerMat.color = ctx.stunnedColor;
+            //ctx.playerMat.color = ctx.stunnedColor;
         }
 
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
             ctx.isStunned = false;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -65,7 +65,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.isStunned = true;
-            ctx.playerMat.color = ctx.stunnedColor;
+            //ctx.playerMat.color = ctx.stunnedColor;
             ctx.particleManager.StartGroup("Stun");
             ctx.player.SetTrigger("StartBonk");
             ctx.currentMoveMult = 0;
@@ -74,7 +74,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
             ctx.isStunned = false;
         }
 
@@ -97,7 +97,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveMult = ctx.slideMoveMult;
-            ctx.playerMat.color = ctx.slidingColor;
+            //ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
         }
@@ -155,7 +155,7 @@ namespace HSM
             ctx.currentMoveMult = 1;
             ctx.rb.onCollision -= OnCollision;
             ctx.hasGrabbed = false;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
         }
         protected override State GetTransition(float deltaTime)
         {
@@ -192,7 +192,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveMult = ctx.slideMoveMult;
-            ctx.playerMat.color = ctx.slidingColor;
+            //ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
         }
@@ -282,7 +282,7 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
-            ctx.playerMat.color = ctx.grabColor;
+            //ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
 
             ctx.player.SetTrigger("StartGrab");
@@ -380,7 +380,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
-            ctx.playerMat.color = ctx.airColor;
+            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -479,7 +479,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
-            ctx.playerMat.color = ctx.airColor;
+            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -679,7 +679,7 @@ namespace HSM
             ctx.hasGrabbed = false;
             ctx.cmd = ctx.groundMoveData;
             ctx.currentMoveMult = 1;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
             // Do animations or whatever
         }
 
@@ -787,7 +787,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
-            ctx.playerMat.color = ctx.airColor;
+            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override void OnUpdate(float deltaTime)

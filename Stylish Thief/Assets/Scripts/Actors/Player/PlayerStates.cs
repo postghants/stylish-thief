@@ -331,7 +331,6 @@ namespace HSM
             
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
-            Debug.Log("Origin 1: " + origin);
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-ctx.rb.skinWidth * 2);
 

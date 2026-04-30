@@ -46,19 +46,6 @@ public class PlayerStateDriver : Actor, IDamageable
 
     private void Update()
     {
-        Jump.SetPhysics(ctx);
-    }
-
-    private void FixedUpdate()
-    {
-        // Read input
-        ctx.moveInputValue = moveAction.ReadValue<Vector2>();
-        float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
-        ctx.moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
-        if (ctx.moveDirection.sqrMagnitude > 0)
-        {
-            ctx.facing = ctx.moveDirection;
-        }
 
         // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
@@ -74,6 +61,19 @@ public class PlayerStateDriver : Actor, IDamageable
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(Root.Leaf());
+    }
+
+    private void FixedUpdate()
+    {
+        // Read input
+        ctx.moveInputValue = moveAction.ReadValue<Vector2>();
+        float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
+        ctx.moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * ctx.moveInputValue.magnitude;
+        if (ctx.moveDirection.sqrMagnitude > 0)
+        {
+            ctx.facing = ctx.moveDirection;
+        }
+
     }
 
     public void TakeKnockback(Vector3 knockback)

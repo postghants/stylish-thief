@@ -106,6 +106,7 @@ public class JumpAttack : EnemyAttack
         kb.y = grabKbVertical;
         ctr.ctx.player.TakeKnockback(kb);
         ctr.ctx.player.TakeDamage(grabDamage);
+        StartCoroutine(Hitstop.FreezeTimescale(0f, 1f));
     }
 
     public override void OnExit()

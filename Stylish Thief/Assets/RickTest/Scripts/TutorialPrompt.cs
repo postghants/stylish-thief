@@ -9,7 +9,10 @@ public class TutorialPrompt : MonoBehaviour
     private InputAction input2;
     public string inputName;
     public string input2Name;
+    public bool has2Inputs;
+    public bool destroyOnCompletion;
     bool completed;
+    InputDisabler disabler;
 
     PlayerStateDriver player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,37 +20,32 @@ public class TutorialPrompt : MonoBehaviour
     {
         input = InputSystem.actions.FindAction(inputName);
         input2 = InputSystem.actions.FindAction(input2Name);
+        disabler = GetComponent<InputDisabler>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player != null)
+        if (!completed)
         {
-            if (input2Name == null)
+            if (player != null)
             {
-                if (input.IsPressed())
+                if (has2Inputs)
                 {
-                    Debug.Log("input");
+                    if (input.inProgress && input2.inProgress)
+                    {
+                        EndPrompt();
+                    }
                 }
-                if (input2.IsPressed())
+                else
                 {
-                    Debug.Log("input2");
-                }
-                if (input.IsInProgress() && input2.IsInProgress())
-                {
-                    EndPrompt();
+                    if (input.WasPerformedThisFrame())
+                    {
+                        EndPrompt();
+                    }
                 }
             }
         }
-        
-        /*else
-        {
-            if (input.WasPerformedThisFrame())
-            {
-                EndPrompt();
-            }
-        }*/
     }
     public void InitialisePrompt()
     {
@@ -58,25 +56,20 @@ public class TutorialPrompt : MonoBehaviour
     }
     public void EndPrompt()
     {
+        completed = true;
         Time.timeScale = 1;
         player = null;
-    }
-    public void DisableEverything()
-    {
-            player.ctx.disableGrab = true;
-            player.ctx.disableJump = true;
-            player.ctx.disablePound = true;
-            player.ctx.disableRoll = true;
-            player.ctx.disableRollJump = true;
-            player.ctx.disableVault = true;
-            player.ctx.disableVaultJump = true;
+        disabler.EnableEverything();
+        if (destroyOnCompletion)
+        {
+            Destroy(gameObject);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            //DisableEverything();
         }
     }
 }

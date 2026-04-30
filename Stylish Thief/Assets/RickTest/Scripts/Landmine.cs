@@ -1,13 +1,19 @@
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Landmine : MonoBehaviour
 {
-    public float timeBeforeBoom;
+    [Header("Crime stuff")]
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
+    [Header("Setup")]
+    [Tooltip("How long does it take for it to blow up after activation?")] public float timeBeforeBoom;
     float currentTime;
 
-    public float LengthOfBoom;
-
-    [SerializeField] private GameObject explosion;
+    [Tooltip("How long does the explosion last?")] public float LengthOfBoom;
+    
+    [Header("References, don't touch")]
+    [Tooltip("Internal no touchy")] [SerializeField] private GameObject explosion;
     private MeshRenderer mesh;
 
     bool triggered;
@@ -32,6 +38,7 @@ public class Landmine : MonoBehaviour
                 currentTime = 0;
                 mesh.enabled = false;
                 explosion.SetActive(true);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
                 Destroy(gameObject, LengthOfBoom);
             }
         }

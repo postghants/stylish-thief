@@ -7,22 +7,25 @@ public class RickTimerChallenge : MonoBehaviour
     [Header("Stopwatch version")]
     [Tooltip("Should this count up or down? Stopwatch makes it count up infinitely")] public bool stopwatch;
     [Tooltip("DON'T TOUCH THIS")] public bool countUp;
-    [Tooltip("DON'T TOUCH THIS")] public float stopwatchTime;
-    [SerializeField] private TMP_Text stopwatchText;
-    [SerializeField] private RickChangeReact stopwatchTextReact;
+    private float stopwatchTime;
 
     [Header("Countdown version")]
     [Tooltip("How long does the player get?")] public float givenTime;
-    [Tooltip("DON'T TOUCH THIS")] public float currentTime;
-    [Tooltip("DON'T TOUCH THIS")] public bool countdown;
-    [SerializeField] private Image countdownUI;
-    [SerializeField] private Image countdownUIBackdrop;
-    [SerializeField] private RickChangeReact WinText;
-    [SerializeField] private RickChangeReact LoseText;
+    private float currentTime;
+    private bool countdown;
 
     [Header("Crime stuff")]
-    [Tooltip("How many points does the player get from this?")] public float givenScore;
-    [Tooltip("What is the name of this crime?")] public string crime;
+    [Tooltip("How many points does the player get from this? (Only on Countdown)")] public float givenScore;
+    [Tooltip("What is the name of this crime? (Only on Countdown)")] public string crime;
+
+    [Header("References (don't touch)")]
+    [Tooltip("DON'T TOUCH THIS")][SerializeField] private TMP_Text stopwatchText;
+    [Tooltip("DON'T TOUCH THIS")][SerializeField] private RickChangeReact stopwatchTextReact;
+
+    [Tooltip("DON'T TOUCH THIS")][SerializeField] private Image countdownUI;
+    [Tooltip("DON'T TOUCH THIS")][SerializeField] private Image countdownUIBackdrop;
+    [Tooltip("DON'T TOUCH THIS")][SerializeField] private RickChangeReact WinText;
+    [Tooltip("DON'T TOUCH THIS")][SerializeField] private RickChangeReact LoseText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

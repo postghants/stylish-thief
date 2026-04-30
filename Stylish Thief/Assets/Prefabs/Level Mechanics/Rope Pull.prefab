@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5474512965634089129}
   - component: {fileID: 714900606960450446}
   - component: {fileID: 8641106814800769057}
-  - component: {fileID: 2549221924164704546}
+  - component: {fileID: 7386621432770025059}
   m_Layer: 0
   m_Name: End
   m_TagString: Untagged
@@ -90,6 +90,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &8641106814800769057
 CapsuleCollider:
@@ -114,7 +115,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2549221924164704546
+--- !u!114 &7386621432770025059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,10 +124,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 3129092439864527613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 344196e0ed763fb4a82811191f50ccb6, type: 3}
+  m_Script: {fileID: 11500000, guid: 60db274893e65ba45b1cc13549d123c3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RickRopeEnd
-  pull: {fileID: 709696599992259148}
+  m_EditorClassIdentifier: Assembly-CSharp::EventTrigger
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 709696599992259148}
+        m_TargetAssemblyTypeName: RickRopePull, Assembly-CSharp
+        m_MethodName: StopPulling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3659253950543547298
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +237,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8985716262742125979
 MonoBehaviour:
@@ -321,6 +343,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &709696599992259148
 MonoBehaviour:
@@ -334,15 +357,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1311dcda95de64896780f49aa28839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  score: 100
+  givenScore: 0
   crime: Criminal Mischief
-  endSpeed: 45
   startSpeed: 40
+  endSpeed: 45
   offset: {x: 0, y: -0.5, z: 0}
-  pulling: 0
-  endPoint: {fileID: 3129092439864527613}
   failsafeTimer: 6
-  failsafeTime: 0
+  endPoint: {fileID: 3129092439864527613}
 --- !u!135 &5776608352952072530
 SphereCollider:
   m_ObjectHideFlags: 0

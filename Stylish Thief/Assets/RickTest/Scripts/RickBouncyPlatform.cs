@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class RickBouncyPlatform : MonoBehaviour
 {
-    public float score;
-    public string crime;
-    public float launchForce;
-    public float oneToOneConstant = 1.5f;
-    public float minimumHeight;
-    public bool oneToOne;
-    public bool fullSpeedReplacement;
+    [Tooltip("How many points does the player get from this?")] public float score;
+    [Tooltip("What is the name of this crime?")] public string crime;
+    [Tooltip("How hard does this launch you?")] public float launchForce;
+    //public float oneToOneConstant = 1.5f;
+    //public float minimumHeight;
+    //public bool oneToOne;
+    //public bool fullSpeedReplacement;
     Vector3 directionalForce;
     PlayerStateDriver player;
 
@@ -33,27 +33,27 @@ public class RickBouncyPlatform : MonoBehaviour
                     //player.ctx.rb.velocity = transform.up * (-player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10));
                 }
             }*/
-            if (oneToOne)
-            {
-                //Check for launch magnitude here as the check for minimum launch
-                if (player.ctx.rb.velocity.y > -minimumHeight)
-                {
-                    player.SetVelocity(transform.up * minimumHeight);
-                }
-                else
-                {
-                    //player.ctx.rb.velocity = new Vector3(player.ctx.rb.velocity.x, -player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10), player.ctx.rb.velocity.z);
-                    player.SetVelocity(transform.up * (-player.ctx.rb.velocity.y * oneToOneConstant));
-                }
-            }
-            else if (fullSpeedReplacement)
-            {
-                player.SetVelocity(directionalForce);
-            }
-            else
-            {
+            //if (oneToOne)
+            //{
+            //    //Check for launch magnitude here as the check for minimum launch
+            //    if (player.ctx.rb.velocity.y > -minimumHeight)
+            //    {
+            //        player.SetVelocity(transform.up * minimumHeight);
+            //    }
+            //    else
+            //    {
+            //        //player.ctx.rb.velocity = new Vector3(player.ctx.rb.velocity.x, -player.ctx.rb.velocity.y * (1 + player.ctx.baseJumpData.downwardMovementMultiplier / 10), player.ctx.rb.velocity.z);
+            //        player.SetVelocity(transform.up * (-player.ctx.rb.velocity.y * oneToOneConstant));
+            //    }
+            //}
+            //else if (fullSpeedReplacement)
+            //{
+            //    player.SetVelocity(directionalForce);
+            //}
+            //else
+            //{
                 player.SetVelocity(player.ctx.rb.velocity - new Vector3(0, player.ctx.rb.velocity.y, 0) + directionalForce);
-            }
+            //}
             player.transform.position = player.transform.position + new Vector3(0, .01f, 0);
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
             player.ctx.hasGrabbed = false;

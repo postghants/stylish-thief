@@ -3,28 +3,27 @@ using UnityEngine;
 public class RickBumper : MonoBehaviour
 {
     PlayerStateDriver player;
-    public float startSpeed;
-    public GameObject target;
-    public GameObject stopper;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Crime stuff")]
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
+    [Header("Bumper setup")]
+    [Tooltip("How fast should the player go?")] public float startSpeed;
+    [Tooltip("Where is this bumper pointing to?")] public GameObject target;
+    [Tooltip("Are you using the stopper?")] public bool usingStopper;
+    [Header("References, don't touch")]
+    [Tooltip("Don't touch this one. It should just refer to the stopper.")] public GameObject stopper;
+    [Tooltip("Don't touch this one. It should just refer to the gravity enabler.")] public GameObject gravityEnabler;
     void Start()
     {
-        if (target != stopper)
-        {
-            //stopper.transform.parent = null;
-            Destroy(stopper);
-        }
         transform.LookAt(target.transform);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void BumperLaunch()
-    {
-
+        if (!usingStopper)
+        {
+            stopper.SetActive(false);
+        }
+        if (target.gameObject != gravityEnabler)
+        {
+            gravityEnabler.SetActive(false);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -39,6 +38,7 @@ public class RickBumper : MonoBehaviour
             player.transform.position = transform.position;
             player.SetVelocity(transform.forward * startSpeed);
             player.ctx.hasGrabbed = false;
+            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
         }
     }
 }

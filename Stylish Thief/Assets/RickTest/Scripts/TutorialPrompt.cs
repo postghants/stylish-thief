@@ -10,9 +10,11 @@ public class TutorialPrompt : MonoBehaviour
     public string inputName;
     public string input2Name;
     public bool has2Inputs;
+    public bool StopTime;
     public bool destroyOnCompletion;
     bool completed;
-    InputDisabler disabler;
+    public InputDisabler disabler;
+    [SerializeField] private GameObject canvas;
 
     PlayerStateDriver player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,7 +22,6 @@ public class TutorialPrompt : MonoBehaviour
     {
         input = InputSystem.actions.FindAction(inputName);
         input2 = InputSystem.actions.FindAction(input2Name);
-        disabler = GetComponent<InputDisabler>();
     }
 
     // Update is called once per frame
@@ -39,9 +40,12 @@ public class TutorialPrompt : MonoBehaviour
                 }
                 else
                 {
-                    if (input.WasPerformedThisFrame())
+                    if (inputName != "")
                     {
-                        EndPrompt();
+                        if (input.WasPerformedThisFrame())
+                        {
+                            EndPrompt();
+                        }
                     }
                 }
             }
@@ -51,18 +55,26 @@ public class TutorialPrompt : MonoBehaviour
     {
         if (!completed)
         {
-            Time.timeScale = 0;
+            canvas.SetActive(true);
+            if (StopTime)
+            {
+                Time.timeScale = 0;
+            }
         }
     }
     public void EndPrompt()
     {
+        canvas.SetActive(false);
         completed = true;
         Time.timeScale = 1;
         player = null;
-        disabler.EnableEverything();
+        if (disabler != null)
+        {
+            disabler.EnableEverything();
+        }
         if (destroyOnCompletion)
         {
-            Destroy(gameObject);
+            Destroy(gameObject.transform.parent.gameObject);
         }
     }
     private void OnTriggerEnter(Collider other)

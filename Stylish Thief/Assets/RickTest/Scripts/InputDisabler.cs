@@ -3,25 +3,53 @@ using UnityEngine.InputSystem;
 
 public class InputDisabler : MonoBehaviour
 {
-    private InputAction jump;
-    private InputAction grab;
-    private InputAction pound;
-    private InputAction bumperLeft;
-    private InputAction bumperRight;
-    private InputAction move;
-    private InputAction look;
+    private InputAction jumpAction;
+    private InputAction grabAction;
+    private InputAction poundAction;
+    private InputAction bumperLeftAction;
+    private InputAction bumperRightAction;
+    private InputAction moveAction;
+    private InputAction lookAction;
+    public bool jump;
+    public bool grab;
+    public bool pound;
+    public bool bumperLeft;
+    public bool bumperRight;
+    public bool move;
+    public bool look;
     void Start()
     {
-        jump = InputSystem.actions.FindAction("Jump");
-        grab = InputSystem.actions.FindAction("Grab");
-        pound = InputSystem.actions.FindAction("Pound");
-        bumperLeft = InputSystem.actions.FindAction("BumperLeft");
-        bumperRight = InputSystem.actions.FindAction("BumperRight");
-        move = InputSystem.actions.FindAction("Move");
-        look = InputSystem.actions.FindAction("Look");
+        SetActions();
+    }
+    private void SetActions()
+    {
+        jumpAction = InputSystem.actions.FindAction("Jump");
+        grabAction = InputSystem.actions.FindAction("Grab");
+        poundAction = InputSystem.actions.FindAction("Pound");
+        bumperLeftAction = InputSystem.actions.FindAction("BumperLeft");
+        bumperRightAction = InputSystem.actions.FindAction("BumperRight");
+        moveAction = InputSystem.actions.FindAction("Move");
+        lookAction = InputSystem.actions.FindAction("Look");
+    }
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+    public void DisableSelection()
+    {
+        SetActions();
+        EnableEverything();
+        if (jump) { DisableJumpInput(); }
+        if (grab) { DisableGrabInput(); }
+        if (pound) { DisablePoundInput(); }
+        if (bumperLeft) { DisableBumperLeftInput(); }
+        if (bumperRight) { DisableBumperRightInput(); }
+        if (move) { DisableMoveInput(); }
+        if (look) { DisableLookInput(); }
     }
     public void EnableEverything()
     {
+        SetActions();
         EnableJumpInput();
         EnableGrabInput();
         EnablePoundInput();
@@ -32,58 +60,58 @@ public class InputDisabler : MonoBehaviour
     }
     public void EnableJumpInput()
     {
-        jump.Enable();
+        jumpAction.Enable();
     }
     public void DisableJumpInput()
     {
-        jump.Disable();
+        jumpAction.Disable();
     }
     public void EnableGrabInput()
     {
-        grab.Enable();
+        grabAction.Enable();
     }
     public void DisableGrabInput()
     {
-        grab.Disable();
+        grabAction.Disable();
     }
     public void EnablePoundInput()
     {
-        pound.Enable();
+        poundAction.Enable();
     }
     public void DisablePoundInput()
     {
-        pound.Disable();
+        poundAction.Disable();
     }
     public void EnableBumperLeftInput()
     {
-        bumperLeft.Enable();
+        bumperLeftAction.Enable();
     }
     public void DisableBumperLeftInput()
     {
-        bumperLeft.Disable();
+        bumperLeftAction.Disable();
     }
     public void EnableBumperRightInput()
     {
-        bumperRight.Enable();
+        bumperRightAction.Enable();
     }
     public void DisableBumperRightInput()
     {
-        bumperRight.Disable();
+        bumperRightAction.Disable();
     }
     public void EnableMoveInput()
     {
-        move.Enable();
+        moveAction.Enable();
     }
     public void DisableMoveInput()
     {
-        move.Disable();
+        moveAction.Disable();
     }
     public void EnableLookInput()
     {
-        look.Enable();
+        lookAction.Enable();
     }
     public void DisableLookInput()
     {
-        look.Disable();
+        lookAction.Disable();
     }
 }

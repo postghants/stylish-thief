@@ -78,7 +78,7 @@ public class Jump
                             ctx.anim.SetTrigger("UpwardsToStall");
                         }
 
-                        if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.fixedDeltaTime * ctx.rb.gravity.y <= 0)
+                        if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.deltaTime * ctx.rb.gravity.y <= 0)
                         {
                             ctx.rb.velocity.y = 0;
                         }

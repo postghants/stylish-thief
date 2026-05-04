@@ -30,14 +30,14 @@ namespace HSM
             ctx.stunTimer = 0;
             ctx.currentMoveMult = 0;
             ctx.currentlyJumping = false;
-            ctx.playerMat.color = ctx.stunnedColor;
+            //ctx.playerMat.color = ctx.stunnedColor;
         }
 
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
             ctx.isStunned = false;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -65,7 +65,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.isStunned = true;
-            ctx.playerMat.color = ctx.stunnedColor;
+            //ctx.playerMat.color = ctx.stunnedColor;
             ctx.particleManager.StartGroup("Stun");
             ctx.player.SetTrigger("StartBonk");
             ctx.currentMoveMult = 0;
@@ -74,7 +74,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
             ctx.isStunned = false;
         }
 
@@ -97,7 +97,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveMult = ctx.slideMoveMult;
-            ctx.playerMat.color = ctx.slidingColor;
+            //ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
         }
@@ -155,7 +155,7 @@ namespace HSM
             ctx.currentMoveMult = 1;
             ctx.rb.onCollision -= OnCollision;
             ctx.hasGrabbed = false;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
         }
         protected override State GetTransition(float deltaTime)
         {
@@ -192,7 +192,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.currentMoveMult = ctx.slideMoveMult;
-            ctx.playerMat.color = ctx.slidingColor;
+            //ctx.playerMat.color = ctx.slidingColor;
 
             ctx.rb.onCollision += OnCollision;
         }
@@ -236,7 +236,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab && !ctx.disableVaultJump)
+            if (ctx.pressingGrab && ctx.pressingJump &&!ctx.disableVaultJump)
             {
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
@@ -282,7 +282,7 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
-            ctx.playerMat.color = ctx.grabColor;
+            //ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
 
             ctx.player.SetTrigger("StartGrab");
@@ -328,25 +328,29 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-
+            
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-ctx.rb.skinWidth * 2);
 
-            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
             {
-                if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle)
+                if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
                 {
                     origin = checkHit.point;
-                    origin.y += ctx.maxLedgeHeight;
+                    origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
+                    Vector3 cast1Origin = origin;
                     if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                     {
-                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore))
+                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
                         {
                             origin = heightHit.point;
                             origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                            origin.x = cast1Origin.x;
+                            origin.z = cast1Origin.z;
                             ctx.rb.transform.position = origin;
+
 
                             Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
                             return;
@@ -375,7 +379,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
-            ctx.playerMat.color = ctx.airColor;
+            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -474,7 +478,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
-            ctx.playerMat.color = ctx.airColor;
+            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -674,7 +678,7 @@ namespace HSM
             ctx.hasGrabbed = false;
             ctx.cmd = ctx.groundMoveData;
             ctx.currentMoveMult = 1;
-            ctx.playerMat.color = ctx.baseColor;
+            //ctx.playerMat.color = ctx.baseColor;
             // Do animations or whatever
         }
 
@@ -782,45 +786,47 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
-            ctx.playerMat.color = ctx.airColor;
+            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override void OnUpdate(float deltaTime)
         {
             ctx.coyoteTimeCounter += deltaTime;
-
-            if (ctx.moveInputValue != Vector2.zero)
+            if (Leaf() != grabbing)
             {
-
-                Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
-                Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
-
-                if (acceleration.sqrMagnitude > 0)
+                if (ctx.moveInputValue != Vector2.zero)
                 {
-                    currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
 
-                    ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+                    Vector2 currentHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                    float angle = Vector3.Angle(ctx.moveDirection, currentHorizontalVel);
+                    Vector3 acceleration = ctx.currentJumpMoveMult * ctx.cmd.acceleration * deltaTime * ctx.currentMoveMult * ctx.moveDirection;
 
-                    ctx.rb.velocity += acceleration;
-
-
-                    Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
-                    Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-
-                    newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
-                    newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
-
-                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    if (acceleration.sqrMagnitude > 0)
                     {
-                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                        currentHorizontalVel -= ctx.cmd.turnDeceleration.Evaluate(angle / 180) * ctx.cmd.turnDecelerationMult * deltaTime * currentHorizontalVel;
+
+                        ctx.rb.velocity.x = currentHorizontalVel.x; ctx.rb.velocity.z = currentHorizontalVel.y;
+
+                        ctx.rb.velocity += acceleration;
+
+
+                        Vector3 turnSpeed = ctx.cmd.turnSpeedMult * acceleration;
+                        Vector2 newHorizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+
+                        newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
+                        newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
+
+                        if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                        {
+                            newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                        }
+                        ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                     }
-                    ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }
-            }
-            else
-            {
-                ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.cmd.deceleration * deltaTime;
+                else
+                {
+                    ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.cmd.deceleration * deltaTime;
+                }
             }
 
             if (ctx.useGravity)
@@ -906,6 +912,11 @@ namespace HSM
             ctx.gravMultiplier = ctx.prePoundGrav;
 
             ctx.player.SetTrigger("StartBagThrow");
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            ctx.gravMultiplier = ctx.prePoundGrav;
         }
 
         protected override State GetTransition(float deltaTime)

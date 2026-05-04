@@ -14,7 +14,7 @@ Material:
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
   - _MK_ALPHA_CLIPPING
-  - _MK_LIGHT_BANDED
+  - _MK_LIGHT_CEL
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
   m_InvalidKeywords:
@@ -169,7 +169,7 @@ Material:
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AdditionalLightsFalloff: 1
-    - _AdditionalLightsThreshold: 0.48
+    - _AdditionalLightsThreshold: 0.254
     - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
     - _AlembicMotionVectors: 0
@@ -198,7 +198,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DetailUVSet: 0
-    - _DiffuseSmoothness: 0
+    - _DiffuseSmoothness: 0.055
     - _DiffuseThresholdOffset: 0.25
     - _Dissolve: 0
     - _DissolveAmount: 0.5
@@ -223,10 +223,10 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 2
+    - _Light: 1
     - _LightBands: 3
     - _LightBandsScale: 0.5
-    - _LightThreshold: 0.11
+    - _LightThreshold: 0.131
     - _Metallic: 0
     - _NormalMapIntensity: 1
     - _OcclusionStrength: 1
@@ -250,7 +250,7 @@ Material:
     - _RimThresholdOffset: 0.25
     - _Saturation: 1
     - _SketchMapScale: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0.631
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
@@ -285,7 +285,7 @@ Material:
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GoochDarkColor: {r: 0.4342799, g: 0.019757802, b: 0.6981132, a: 1}
+    - _GoochDarkColor: {r: 0.7906724, g: 0.638602, b: 0.8867924, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _OutlineColor: {r: 0, g: 0, b: 0.47843137, a: 1}
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}

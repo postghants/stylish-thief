@@ -9,7 +9,12 @@ public class TutorialPrompt : MonoBehaviour
     private InputAction input2;
     public string inputName;
     public string input2Name;
+    public bool has2Inputs;
+    public bool StopTime;
+    public bool destroyOnCompletion;
     bool completed;
+    public InputDisabler disabler;
+    [SerializeField] private GameObject canvas;
 
     PlayerStateDriver player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,61 +27,61 @@ public class TutorialPrompt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player != null)
+        if (!completed)
         {
-            if (input2Name == null)
+            if (player != null)
             {
-                if (input.IsPressed())
+                if (has2Inputs)
                 {
-                    Debug.Log("input");
+                    if (input.inProgress && input2.inProgress)
+                    {
+                        EndPrompt();
+                    }
                 }
-                if (input2.IsPressed())
+                else
                 {
-                    Debug.Log("input2");
-                }
-                if (input.IsInProgress() && input2.IsInProgress())
-                {
-                    EndPrompt();
+                    if (inputName != "")
+                    {
+                        if (input.WasPerformedThisFrame())
+                        {
+                            EndPrompt();
+                        }
+                    }
                 }
             }
         }
-        
-        /*else
-        {
-            if (input.WasPerformedThisFrame())
-            {
-                EndPrompt();
-            }
-        }*/
     }
     public void InitialisePrompt()
     {
         if (!completed)
         {
-            Time.timeScale = 0;
+            canvas.SetActive(true);
+            if (StopTime)
+            {
+                Time.timeScale = 0;
+            }
         }
     }
     public void EndPrompt()
     {
+        canvas.SetActive(false);
+        completed = true;
         Time.timeScale = 1;
         player = null;
-    }
-    public void DisableEverything()
-    {
-            player.ctx.disableGrab = true;
-            player.ctx.disableJump = true;
-            player.ctx.disablePound = true;
-            player.ctx.disableRoll = true;
-            player.ctx.disableRollJump = true;
-            player.ctx.disableVault = true;
-            player.ctx.disableVaultJump = true;
+        if (disabler != null)
+        {
+            disabler.EnableEverything();
+        }
+        if (destroyOnCompletion)
+        {
+            Destroy(gameObject.transform.parent.gameObject);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            //DisableEverything();
         }
     }
 }

@@ -26,7 +26,6 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.currentHealth = ctx.maxHealth;
 
-
         // Initialize state machine
         Root = new(null, ctx);
         StateMachineBuilder builder = new(Root);
@@ -108,8 +107,10 @@ public class PlayerStateDriver : Actor, IDamageable
     private int disableControlCounter;
     public void DisableControls()
     {
-        disableControlCounter++;
-        if (disableControlCounter == 1)
+        disableControlCounter = 1;
+        //disableControlCounter++;
+        if (disableControlCounter > 0)
+        //if (disableControlCounter == 1)
         {
             moveAction.Disable();
             jumpAction.Disable();
@@ -122,7 +123,8 @@ public class PlayerStateDriver : Actor, IDamageable
 
     public void EnableControls()
     {
-        disableControlCounter--;
+        disableControlCounter = 0;
+        //disableControlCounter--;
         if (disableControlCounter == 0)
         {
             moveAction.Enable();

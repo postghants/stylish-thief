@@ -9766,7 +9766,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b45fb8265e9b3504fb5c5c4c10449e9b, type: 2}
+  - {fileID: 2100000, guid: 87cebace5c9758649b7049efa6a90a9a, type: 2}
   - {fileID: 2100000, guid: d810ab8430c8ed8469121f8d1cefba9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -20026,13 +20026,13 @@ MonoBehaviour:
     regenDelay: 1.5
     timeScale: 1
     groundMoveData:
-      acceleration: 25
+      acceleration: 40
       deceleration: 8
       maxSpeed: 15
-      maxSpeedDeceleration: 15
-      turnSpeedMult: 6
+      maxSpeedDeceleration: 1
+      turnSpeedMult: 10
       modelTurnDelay: 0
-      turnDecelerationMult: 10
+      turnDecelerationMult: 0
       turnDeceleration:
         serializedVersion: 2
         m_Curve:
@@ -20067,13 +20067,13 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     airMoveData:
-      acceleration: 25
-      deceleration: 8
+      acceleration: 35
+      deceleration: 4
       maxSpeed: 15
-      maxSpeedDeceleration: 12
-      turnSpeedMult: 9999999
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 3
       modelTurnDelay: 0
-      turnDecelerationMult: 1
+      turnDecelerationMult: 14
       turnDeceleration:
         serializedVersion: 2
         m_Curve:
@@ -20087,17 +20087,17 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.6549124
-          value: 0.051286466
-          inSlope: 0.2660134
-          outSlope: 0.2660134
+          time: 0.31741244
+          value: 0.059404656
+          inSlope: 0.6135431
+          outSlope: 0.6135431
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.279899
-          outWeight: 0.33333334
+          inWeight: 0.5136485
+          outWeight: 0.19364356
         - serializedVersion: 3
           time: 1
-          value: 0.5680313
+          value: 0.9996414
           inSlope: 1.2319243
           outSlope: 1.2319243
           tangentMode: 0
@@ -20108,31 +20108,31 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     baseJumpData:
-      jumpImpulse: 10
+      jumpImpulse: 15
       cuttable: 1
-      maxMaxSpeedTime: 0.2
-      minMaxSpeedTime: 0.001
-      cutJump: 1
-      useCutoffGravMult: 0
-      cutoffGravMult: 0
-      cutSpeed: 4
-      upwardDeceleration: 30
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 10
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 1
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
       hangtimeDuration: 0.2
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      downwardAccel: 30
-      maxFallSpeed: 730.6
-      fastFallSpeed: 35
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
     disableJump: 0
-    coyoteTime: 24.54
-    jumpBuffer: 0.2
+    coyoteTime: 0.1
+    jumpBuffer: 0.1
     disableGrab: 0
-    grabSpeed: 17
+    grabSpeed: 20
     grabDuration: 0.4
     grabEndSpeed: 17
     grabDeceleration: 0
@@ -20141,32 +20141,32 @@ MonoBehaviour:
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    disableVault: 1
-    ledgeCheckDistance: 4.38
-    maxLedgeHeight: 81.47
-    vaultMaxDuration: 34.8
+    disableVault: 0
+    ledgeCheckDistance: 1.5
+    maxLedgeHeight: 2
+    vaultMaxDuration: 0.4
     disableVaultJump: 0
     vaultJump:
       jumpImpulse: 15
       cuttable: 0
-      maxMaxSpeedTime: 0.2
-      minMaxSpeedTime: 0
+      maxMaxSpeedTime: 0.03
+      minMaxSpeedTime: 0.001
       cutJump: 0
       useCutoffGravMult: 0
       cutoffGravMult: 0
-      cutSpeed: 10
-      upwardDeceleration: 10
-      upwardDecelApexThreshold: 2
-      upwardDecelApex: 5
-      hangtimeDuration: 2
+      cutSpeed: 0
+      upwardDeceleration: 90
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
       setSpeed: 1
-      setSpeedSpeed: 20
+      setSpeedSpeed: 27
       horizontalBoost: 0
-      jumpMovementMult: 0
-      jumpMovementMultTime: 1
-      downwardAccel: 30
-      maxFallSpeed: 30
-      fastFallSpeed: 28
+      jumpMovementMult: 0.1
+      jumpMovementMultTime: 0.2
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 50
     disableSlide: 1
     disableAirborneSlide: 1
     minSlideTime: 1
@@ -20202,10 +20202,10 @@ MonoBehaviour:
     stunUpwardSpeed: 1
     stunDuration: 0.1
     harshLandingDuration: 1
-    harshLandingDamage: -45
+    harshLandingDamage: -10
     harshLandingData:
       acceleration: 0
-      deceleration: 999999
+      deceleration: 25
       maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -20235,12 +20235,12 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    veryBadLandingDuration: 0
-    veryBadLandingDamage: 0
+    veryBadLandingDuration: 2
+    veryBadLandingDamage: -20
     veryBadLandingData:
       acceleration: 0
-      deceleration: 0
-      maxSpeed: 0
+      deceleration: 25
+      maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
       modelTurnDelay: 0
@@ -20252,35 +20252,35 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     disableRoll: 0
-    rollTiming: 0.1
-    rollSpeed: 25
-    rollDuration: 0.5
+    rollTiming: 0.2
+    rollSpeed: 30
+    rollDuration: 0.3
     rollEndSpeed: 20
-    rollDeceleration: 1
+    rollDeceleration: 0
     rollEndLag: 0
     disableRollJump: 0
     rollJump:
-      jumpImpulse: 10
+      jumpImpulse: 25
       cuttable: 0
-      maxMaxSpeedTime: 0.2
-      minMaxSpeedTime: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
       cutJump: 0
       useCutoffGravMult: 0
       cutoffGravMult: 0
       cutSpeed: 0
-      upwardDeceleration: 30
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 10
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
       hangtimeDuration: 0.2
-      setSpeed: 0
-      setSpeedSpeed: 0
+      setSpeed: 1
+      setSpeedSpeed: 27
       horizontalBoost: 0
-      jumpMovementMult: 1
-      jumpMovementMultTime: 0
-      downwardAccel: 30
-      maxFallSpeed: 730.6
-      fastFallSpeed: 35
-    disablePound: 0
+      jumpMovementMult: 0.3
+      jumpMovementMultTime: 10
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
+    disablePound: 1
     prePoundUpBoost: 0
     prePoundDuration: 0
     prePoundGrav: 0
@@ -20298,9 +20298,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    poundSpeedDown: 0
-    poundSpeedFw: 0
-    poundLandDelay: 0
+    poundSpeedDown: 30
+    poundSpeedFw: 30
+    poundLandDelay: 1
     poundLandSpeed: 0
     panTime: 0.2
     panAngle: -45
@@ -20315,8 +20315,8 @@ MonoBehaviour:
     playerAnimEventHandler: {fileID: 9013888677959444090}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
-    baseColor: {r: 1, g: 0.2783019, b: 0.3992617, a: 0}
-    airColor: {r: 1, g: 0.43867922, b: 0.5135219, a: 0}
+    baseColor: {r: 1, g: 0.5497308, b: 0, a: 0}
+    airColor: {r: 0.9818569, g: 1, b: 0.1745283, a: 0}
     grabColor: {r: 0.9433962, g: 0.74264276, b: 0.28924885, a: 0}
     slidingColor: {r: 1, g: 0.5497308, b: 0, a: 0}
     stunnedColor: {r: 0.9818569, g: 1, b: 0.1745283, a: 0}
@@ -20340,7 +20340,7 @@ MonoBehaviour:
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0
-    jumpApexTimer: 0
+    jumpApexTimer: 1
     blockJump: 0
     currentMoveMult: 0
     currentJumpMoveMult: 1
@@ -40144,6 +40144,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 4199111852456702283}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -40189,8 +40201,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5373420583385811280, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
       propertyPath: m_RenderingLayerMask
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5373420583385811280, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c9db55cad48c3b74cb96b194d3d00651, type: 2}
+    - target: {fileID: 5373420583385811280, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 87cebace5c9758649b7049efa6a90a9a, type: 2}
+    - target: {fileID: 5373420583385811280, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a505aaada8cd174b8b30dcbb376240e, type: 2}
+    - target: {fileID: 5373420583385811280, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ec8236ce9ea1f074e8e1e9c1f6365912, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

@@ -13,4 +13,8 @@ public abstract class EnemyTargeting : MonoBehaviour
         ctr = GetComponent<EnemyController>();
     }
 
+    private void Awake()
+    {
+        ctr = GetComponent<EnemyController>();
+    }
 }

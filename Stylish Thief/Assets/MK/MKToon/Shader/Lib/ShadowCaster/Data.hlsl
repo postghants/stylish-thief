@@ -8,8 +8,6 @@
 
 #ifndef MK_TOON_SHADOWCASTER_IO
 	#define MK_TOON_SHADOWCASTER_IO
-
-	#include "../Core.hlsl"
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// INPUT
@@ -18,7 +16,7 @@
 	{
 		float4 vertex : POSITION;
 		half3 normal : NORMAL;
-		#ifdef MK_PARALLAX
+		#if defined(MK_PARALLAX) || defined(MK_TANGENT_VERTEX)
 			half4 tangent : TANGENT;
 		#endif
 		#ifdef MK_VERTEX_COLOR_REQUIRED

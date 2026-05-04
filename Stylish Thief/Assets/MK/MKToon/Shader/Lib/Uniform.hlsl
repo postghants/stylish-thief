@@ -9,14 +9,6 @@
 #ifndef MK_TOON_UNIFORM
 	#define MK_TOON_UNIFORM
 
-	#if defined(MK_URP)
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-	#elif defined(MK_LWRP)
-		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
-	#else
-		#include "UnityCG.cginc"
-	#endif
-
 	#include "Pipeline.hlsl"
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +56,7 @@
         uniform float _OutlineFadeMax;
 
 		uniform half _AlphaCutoff;
+		uniform half _AlbedoMapIntensity;
 		uniform half _Metallic;
 		uniform half _Smoothness;
 		uniform half _Roughness;
@@ -114,12 +107,16 @@
 		uniform half _SketchMapScale;
 		uniform half _HatchingMapScale;
 		uniform half _OutlineSize;
+		uniform half _OutlineConstantSize;
 		uniform half _SpecularIntensity;
 		uniform half _LightTransmissionIntensity;
 		uniform half _RefractionDistortionMapScale;
 		uniform half _IndexOfRefraction;
 		uniform half _RefractionDistortion;
 		uniform half _AdditionalLightsFalloff;
+		uniform half _GoochDarkRemapMin;
+		uniform half _GoochDarkRemapMax;
+		uniform half _GoochDarkRemapFadeWithIndirect;
 
 		uniform int _WrappedLighting;
 		uniform int _FresnelHighlights;
@@ -154,6 +151,7 @@
 			UNITY_DOTS_INSTANCED_PROP(float, _OutlineFadeMin)
 			UNITY_DOTS_INSTANCED_PROP(float, _OutlineFadeMax)
 			UNITY_DOTS_INSTANCED_PROP(float, _AlphaCutoff)
+			UNITY_DOTS_INSTANCED_PROP(float, _AlbedoMapIntensity)
 			UNITY_DOTS_INSTANCED_PROP(float, _Metallic)
 			UNITY_DOTS_INSTANCED_PROP(float, _Smoothness)
 			UNITY_DOTS_INSTANCED_PROP(float, _Roughness)
@@ -203,12 +201,17 @@
 			UNITY_DOTS_INSTANCED_PROP(float, _SketchMapScale)
 			UNITY_DOTS_INSTANCED_PROP(float, _HatchingMapScale)
 			UNITY_DOTS_INSTANCED_PROP(float, _OutlineSize)
+			UNITY_DOTS_INSTANCED_PROP(float, _OutlineConstantSize)
 			UNITY_DOTS_INSTANCED_PROP(float, _SpecularIntensity)
 			UNITY_DOTS_INSTANCED_PROP(float, _LightTransmissionIntensity)
 			UNITY_DOTS_INSTANCED_PROP(float, _RefractionDistortionMapScale)
 			UNITY_DOTS_INSTANCED_PROP(float, _IndexOfRefraction)
 			UNITY_DOTS_INSTANCED_PROP(float, _RefractionDistortion)
 			UNITY_DOTS_INSTANCED_PROP(float, _AdditionalLightsFalloff)
+			UNITY_DOTS_INSTANCED_PROP(float, _GoochDarkRemapMin)
+			UNITY_DOTS_INSTANCED_PROP(float, _GoochDarkRemapMax)
+			UNITY_DOTS_INSTANCED_PROP(float, _GoochDarkRemapFadeWithIndirect)
+
 			UNITY_DOTS_INSTANCED_PROP(float, _WrappedLighting)
 			UNITY_DOTS_INSTANCED_PROP(float, _FresnelHighlights)
 			UNITY_DOTS_INSTANCED_PROP(float, _DetailBlend)
@@ -249,6 +252,7 @@
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _OutlineFadeMax)
 
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _AlphaCutoff)
+		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _AlbedoMapIntensity)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _Metallic)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _Smoothness)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _Roughness)
@@ -299,12 +303,17 @@
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _SketchMapScale)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _HatchingMapScale)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _OutlineSize)
+		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _OutlineConstantSize)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _SpecularIntensity)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _LightTransmissionIntensity)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _RefractionDistortionMapScale)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _IndexOfRefraction)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _RefractionDistortion)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _AdditionalLightsFalloff)
+		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _GoochDarkRemapMin)
+		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _GoochDarkRemapMax)
+		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _GoochDarkRemapFadeWithIndirect)
+
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _WrappedLighting)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _FresnelHighlights)
 		MK_DEFINE_CACHED_DOTS_INSTANCED_PROP(float, _DetailBlend)
@@ -346,6 +355,7 @@
 			mk_DOTS_Cached_OutlineFadeMax = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _OutlineFadeMax);
 
 			mk_DOTS_Cached_AlphaCutoff = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _AlphaCutoff);
+			mk_DOTS_Cached_AlbedoMapIntensity = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _AlbedoMapIntensity);
 			mk_DOTS_Cached_Metallic = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _Metallic);
 			mk_DOTS_Cached_Smoothness = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _Smoothness);
 			mk_DOTS_Cached_Roughness = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _Roughness);
@@ -395,12 +405,17 @@
 			mk_DOTS_Cached_SketchMapScale = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _SketchMapScale);
 			mk_DOTS_Cached_HatchingMapScale = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _HatchingMapScale);
 			mk_DOTS_Cached_OutlineSize = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _OutlineSize);
+			mk_DOTS_Cached_OutlineConstantSize = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _OutlineConstantSize);
 			mk_DOTS_Cached_SpecularIntensity = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _SpecularIntensity);
 			mk_DOTS_Cached_LightTransmissionIntensity = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _LightTransmissionIntensity);
 			mk_DOTS_Cached_RefractionDistortionMapScale = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _RefractionDistortionMapScale);
 			mk_DOTS_Cached_IndexOfRefraction = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _IndexOfRefraction);
 			mk_DOTS_Cached_RefractionDistortion = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _RefractionDistortion);
 			mk_DOTS_Cached_AdditionalLightsFalloff = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _AdditionalLightsFalloff);
+			mk_DOTS_Cached_GoochDarkRemapMin = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _GoochDarkRemapMin);
+			mk_DOTS_Cached_GoochDarkRemapMax = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _GoochDarkRemapMax);
+			mk_DOTS_Cached_GoochDarkRemapFadeWithIndirect = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _GoochDarkRemapFadeWithIndirect);
+
 			mk_DOTS_Cached_WrappedLighting = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _WrappedLighting);
 			mk_DOTS_Cached_FresnelHighlights = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _FresnelHighlights);
 			mk_DOTS_Cached_DetailBlend = MK_ACCESS_DOTS_INSTANCED_PROP_WITH_DEFAULT(float, _DetailBlend);
@@ -441,6 +456,7 @@
 		#define _OutlineFadeMin MK_SET_DOTS_INSTANCED_PROP(float, _OutlineFadeMin)
 		#define _OutlineFadeMax MK_SET_DOTS_INSTANCED_PROP(float, _OutlineFadeMax)
 		#define _AlphaCutoff MK_SET_DOTS_INSTANCED_PROP(float, _AlphaCutoff)
+		#define _AlbedoMapIntensity MK_SET_DOTS_INSTANCED_PROP(float, _AlbedoMapIntensity)
 		#define _Metallic MK_SET_DOTS_INSTANCED_PROP(float, _Metallic)
 		#define _Smoothness MK_SET_DOTS_INSTANCED_PROP(float, _Smoothness)
 		#define _Roughness MK_SET_DOTS_INSTANCED_PROP(float, _Roughness)
@@ -490,12 +506,17 @@
 		#define _SketchMapScale MK_SET_DOTS_INSTANCED_PROP(float, _SketchMapScale)
 		#define _HatchingMapScale MK_SET_DOTS_INSTANCED_PROP(float, _HatchingMapScale)
 		#define _OutlineSize MK_SET_DOTS_INSTANCED_PROP(float, _OutlineSize)
+		#define _OutlineConstantSize MK_SET_DOTS_INSTANCED_PROP(float, _OutlineConstantSize)
 		#define _SpecularIntensity MK_SET_DOTS_INSTANCED_PROP(float, _SpecularIntensity)
 		#define _LightTransmissionIntensity MK_SET_DOTS_INSTANCED_PROP(float, _LightTransmissionIntensity)
 		#define _RefractionDistortionMapScale MK_SET_DOTS_INSTANCED_PROP(float, _RefractionDistortionMapScale)
 		#define _IndexOfRefraction MK_SET_DOTS_INSTANCED_PROP(float, _IndexOfRefraction)
 		#define _RefractionDistortion MK_SET_DOTS_INSTANCED_PROP(float, _RefractionDistortion)
 		#define _AdditionalLightsFalloff MK_SET_DOTS_INSTANCED_PROP(float, _AdditionalLightsFalloff)
+		#define _GoochDarkRemapMin MK_SET_DOTS_INSTANCED_PROP(float, _GoochDarkRemapMin)
+		#define _GoochDarkRemapMax MK_SET_DOTS_INSTANCED_PROP(float, _GoochDarkRemapMax)
+		#define _GoochDarkRemapFadeWithIndirect MK_SET_DOTS_INSTANCED_PROP(float, _GoochDarkRemapFadeWithIndirect)
+
 		#define _WrappedLighting MK_SET_DOTS_INSTANCED_PROP(float, _WrappedLighting)
 		#define _FresnelHighlights MK_SET_DOTS_INSTANCED_PROP(float, _FresnelHighlights)
 		#define _DetailBlend MK_SET_DOTS_INSTANCED_PROP(float, _DetailBlend)

@@ -103,10 +103,20 @@ namespace MK.Toon.Editor
             "Alpha Cutoff", 
             "Pixels will be discarded if the albedo alpha minus Cutoff passes a value of < 0."
         );
+        internal static readonly GUIContent minDistance = new GUIContent
+        (
+            "Min Distance", 
+            ""
+        );
+        internal static readonly GUIContent maxDistance = new GUIContent
+        (
+            "Max Distance", 
+            ""
+        );
         internal static readonly GUIContent albedoMap = new GUIContent
         (
             "Albedo", 
-            "Albedo (RGBA) represents the base of your Material. Color (RGB) and Alpha (A) are used."
+            "Albedo (RGBA) represents the base of your Material. Color (RGB) and Alpha (A) are used. Slider controls how much the albedo map affects the surface color."
         );
         internal static readonly GUIContent specularColor = new GUIContent
         (
@@ -429,13 +439,23 @@ namespace MK.Toon.Editor
         internal static readonly GUIContent goochDarkColor = new GUIContent
         (
             "Dark",
-            ""
+            "Dark areas will interpolate between the albedo (RGB) and the dark gooch (RGB). (Mainlight Only)"
+        );
+        internal static readonly GUIContent goochRemap = new GUIContent
+        (
+            "Remap Dark",
+            "Remaps the value range of the gooch dark contribution on dark areas based on the environment lighting. A lower value range (towards 0) will show more of environment lighting rather than the gooch dark."
         );
         internal static readonly GUIContent goochDarkMap = new GUIContent
         (
             "Dark", 
             "Dark gooch colors are used for shadowed areas of the material. \n\n" +
-            "Dark areas will interpolate between the albedo (RGB) and the dark gooch (RGB)."
+            "Dark areas will interpolate between the albedo (RGB) and the dark gooch (RGB). (Mainlight Only)"
+        );
+        internal static readonly GUIContent goochDarkRemapFadeWithIndirect = new GUIContent
+        (
+            "Fade With Indirect", 
+            "When enabled, the dark Gooch color blend toward the scenes indirect lighting (ambient/GI/APV), letting the material inherit the environments tint."
         );
         internal static readonly GUIContent colorGrading = new GUIContent
         (
@@ -803,6 +823,11 @@ namespace MK.Toon.Editor
         (
             "Width", 
             "Size of the outline. Map (R) is used for an advanced size setup."
+        );
+        internal static readonly GUIContent outlineConstantSize = new GUIContent
+        (
+            "Constant Size", 
+            "Ensures the outline maintains a consistent thickness regardless of the object's distance from the camera."
         );
         public static readonly GUIContent outlineClipOffset = new GUIContent
         (

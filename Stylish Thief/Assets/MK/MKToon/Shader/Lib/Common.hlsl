@@ -9,14 +9,6 @@
 #ifndef MK_TOON_COMMON
 	#define MK_TOON_COMMON
 
-	#if defined(MK_URP)
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-	#elif defined(MK_LWRP)
-		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
-	#else
-		#include "UnityCG.cginc"
-	#endif
-
 	#include "Config.hlsl"
 	#include "Pipeline.hlsl"
 
@@ -36,6 +28,16 @@
 	inline float3 Stutter(float t, float3 f)
 	{
 		return frac(SafeDivide(round(t * f), f));
+	}
+
+	//Remap based on Supertask - remap on C# / HLSL
+	half3 Remap3(half3 v, half3 minOld, half3 maxOld, half3 minNew, half3 maxNew) 
+	{
+		return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
+	}
+	half Remap1(half v, half minOld, half maxOld, half minNew, half maxNew) 
+	{
+		return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
 	}
 
 	inline half ScaleToFitResolution(half2 referenceAspect, half2 referenceResolution, half2 resolution)
@@ -425,28 +427,49 @@
 
 	inline float3 VertexAnimationSine(float3 positionObject, half intensity, half3 frequency)
 	{
-		positionObject += (sin((positionObject.zxx + lerp(MK_TIME.yyy, Stutter(MK_TIME.y, frequency.zyx), step(HALF_MIN, _VertexAnimationStutter))) * frequency.zyx) * intensity * 0.5 + 0.5 * intensity);
+		half3 f = abs(frequency.zyx);
+		half3 eps = half3(HALF_MIN, HALF_MIN, HALF_MIN);
+		half3 nz = step(eps, f);
+		half3 fSafe = max(f, eps);
+		half st = step(HALF_MIN, _VertexAnimationStutter);
+		half3 phase = lerp(_Time.yyy, Stutter(_Time.y, fSafe), st.xxx);
+		float3 addV = (sin((positionObject.zxx + phase) * f) * intensity * 0.5 + 0.5 * intensity) * nz;
+		positionObject += addV;
 		return positionObject;
 	}
 
 	inline float3 VertexAnimationPulse(float3 positionObject, half3 normalObject, half intensity, half3 frequency)
 	{
-		//positionObject += SafeNormalizenormalObject * sin(Stutter(MK_TIME.y, frequency.xyz) * frequency.xyz) * intensity;
-		float3 scaleAnimation = 1.0 + (sin(lerp(MK_TIME.yyy, Stutter(MK_TIME.y, frequency.xyz), step(HALF_MIN, _VertexAnimationStutter)) * frequency.xyz) * intensity * 0.5 + 0.5 * intensity);
-		float3x3 scale = float3x3
-		(
-			scaleAnimation.x, 0, 0,
-			0, scaleAnimation.y, 0,
-			0, 0, scaleAnimation.z
-		);
-		positionObject = mul(scale, positionObject.xyz);
+		const half3 eps = half3(HALF_MIN, HALF_MIN, HALF_MIN);
+
+		half3 absF = abs(frequency);
+		half3 nzMask = step(eps, absF);
+
+		half3 fSafe = max(absF, eps);
+
+		half stutterOn = step(HALF_MIN, _VertexAnimationStutter);
+		half3 phase = lerp(_Time.yyy, Stutter(_Time.y, fSafe), stutterOn.xxx);
+
+		half3 intensity3 = intensity * nzMask;
+
+		float3 scaleAnimation = 1.0 + (sin(phase * absF) * intensity3 * 0.5 + 0.5 * intensity3);
+
+		positionObject *= scaleAnimation;
+
 		return positionObject;
 	}
 
 	inline float3 VertexAnimationNoise(float3 positionObject, float2 uv, half3 normalObject, half intensity, half3 frequency)
 	{
-		float van = NoiseSimple(positionObject, normalObject.xz) * MK_TIME.y;
-		positionObject += normalObject * (sin(lerp(van, Stutter(van, frequency.xyz), step(HALF_MIN, _VertexAnimationStutter)) * frequency.xyz) * intensity * 0.5 + 0.5 * intensity);
+		half3 f = abs(frequency);
+		half3 eps = half3(HALF_MIN, HALF_MIN, HALF_MIN);
+		half3 nz = step(eps, f);
+		half3 fSafe = max(f, eps);
+		half st = step(HALF_MIN, _VertexAnimationStutter);
+		half van = NoiseSimple(positionObject, normalObject.xz) * _Time.y;
+		half3 phase = lerp(van.xxx, Stutter(van, fSafe), st.xxx);
+		half3 a = (sin(phase * f) * intensity * 0.5 + 0.5 * intensity) * nz;
+		positionObject += normalObject * a;
 		return positionObject;
 	}
 

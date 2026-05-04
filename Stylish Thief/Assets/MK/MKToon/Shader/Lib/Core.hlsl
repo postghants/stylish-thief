@@ -9,6 +9,13 @@
 #ifndef MK_TOON_CORE
 	#define MK_TOON_CORE
 
+	#ifdef _MK_SURFACE_TYPE_TRANSPARENT
+		//Fix up unity internal directives
+		#ifndef _SURFACE_TYPE_TRANSPARENT
+			#define _SURFACE_TYPE_TRANSPARENT
+		#endif
+	#endif
+
 	#if defined(MK_URP)
 		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 		#if UNITY_VERSION >= 202220 && defined(LOD_FADE_CROSSFADE)
@@ -27,6 +34,12 @@
 		void ParticleInstancingSetup() {}
 	#endif
 
+	//CurvedWorldSupport
+	#ifndef MK_META_PASS
+	//CurvedWorldDefinitions
+	#endif
+	//
+
 	struct MKInputDataWrapper
 	{
 		float2 normalizedScreenSpaceUV;
@@ -37,7 +50,11 @@
 	{
 		half4 svTarget0 : SV_Target0;
 		#if UNITY_VERSION >= 202220 && defined(_WRITE_RENDERING_LAYERS)
-			float4 svTarget1 : SV_Target1;
+			#if UNITY_VERSION >= 60020000
+				uint svTarget1 : SV_Target1;
+			#else //UNITY_VERSION >= 202220
+				float4 svTarget1 : SV_Target1;
+			#endif
 		#endif
 	};
 

@@ -13,7 +13,7 @@
 		#define MK_SHADOWCASTER_PASS
 	#endif
 
-	#include "../Core.hlsl"
+	#include_with_pragmas "../Core.hlsl"
 
 	#if defined(MK_SURFACE_TYPE_TRANSPARENT) && SHADER_TARGET > 30
 		#ifndef MK_TOON_DITHER_MASK

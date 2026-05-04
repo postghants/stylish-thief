@@ -16,6 +16,39 @@ namespace MK.Toon.Editor
 {
     public static partial class EditorHelper
     {
+        public static void DrawMinMaxFloatSlider(MaterialEditor materialEditor, MaterialProperty propertyMin, MaterialProperty propertyMax, float limitMin, float limitMax, string registerUndoMessage, GUIContent ui, int labelIndent = 0)
+        {
+            EditorGUI.indentLevel += labelIndent;
+            EditorGUI.showMixedValue = propertyMin.hasMixedValue || propertyMax.hasMixedValue;
+            float valueMin = propertyMin.floatValue;
+            float valueMax = propertyMax.floatValue;
+
+            EditorGUI.BeginChangeCheck();
+
+            Rect position = EditorGUILayout.GetControlRect();
+
+            Rect minRect = new Rect(position.xMin + EditorGUIUtility.labelWidth + EditorGUIUtility.standardVerticalSpacing, position.y, EditorGUIUtility.fieldWidth, position.height);
+			Rect maxRect = new Rect(position.xMax - EditorGUIUtility.fieldWidth, position.y, EditorGUIUtility.fieldWidth, position.height);
+            Rect sliderRect = new Rect(minRect.xMax + EditorGUIUtility.standardVerticalSpacing * 2, position.y, position.xMax - minRect.xMax - maxRect.width - EditorGUIUtility.standardVerticalSpacing * 4, position.height);
+
+            EditorGUI.LabelField(position, ui);
+            valueMin = EditorGUI.FloatField(minRect, valueMin);
+            valueMax = EditorGUI.FloatField(maxRect, valueMax);
+
+            EditorGUI.MinMaxSlider(sliderRect, ref valueMin, ref valueMax, limitMin, limitMax);
+
+            if(EditorGUI.EndChangeCheck())
+            {
+                materialEditor.RegisterPropertyChangeUndo(registerUndoMessage);
+                if(valueMin < valueMax)
+                    propertyMin.floatValue = valueMin;
+                if(valueMax > valueMin)
+                    propertyMax.floatValue = valueMax;
+            }
+            EditorGUI.showMixedValue = false;
+            EditorGUI.indentLevel -= labelIndent;
+        }
+        
         /// <summary>
         /// Draw a default splitter
         /// </summary>

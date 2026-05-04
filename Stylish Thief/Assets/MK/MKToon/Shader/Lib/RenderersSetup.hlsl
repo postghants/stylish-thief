@@ -9,10 +9,10 @@
 #ifndef MK_TOON_RENDERERS_SETUP
 	#define MK_TOON_RENDERERS_SETUP
 	#if SHADER_TARGET >= 45
-		#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
+		#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
 	#elif SHADER_TARGET >= 35
-		#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
+		#pragma only_renderers glcore gles3
 	#else
-		#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
+		#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
 	#endif
 #endif

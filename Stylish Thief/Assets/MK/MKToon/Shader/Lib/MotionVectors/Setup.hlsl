@@ -13,7 +13,7 @@
 		#define MK_MOTION_VECTORS_PASS
 	#endif
 
-	#include "../Core.hlsl"
+	#include_with_pragmas "../Core.hlsl"
 
 	//Hightmap is only needed if a UV is required
 	#if !defined(MK_TEXCLR) && !defined(MK_DISSOLVE)

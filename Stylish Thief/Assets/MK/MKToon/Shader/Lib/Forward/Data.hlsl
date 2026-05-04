@@ -9,7 +9,6 @@
 #ifndef MK_TOON_IO_FORWARD
 	#define MK_TOON_IO_FORWARD
 	
-	#include "../Core.hlsl"
 	#include "../Lighting.hlsl"
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +48,11 @@
 			DECLARE_STATIC_LIGHTMAP_INPUT(1);
 			
 			//use tangents only if tbn matrix is required
-			#if defined(MK_TBN)
+			#if defined(MK_TBN) || defined(MK_TANGENT_VERTEX)
+				half4 tangent : TANGENT;
+			#endif
+		#else
+			#if defined(MK_TBN) || defined(MK_TANGENT_VERTEX)
 				half4 tangent : TANGENT;
 			#endif
 		#endif
@@ -110,7 +113,7 @@
 			float3 flipbookUV : TEXCOORD10;
 		#endif
 
-		#ifdef MK_USE_APV_PROBE_OCCLUSION
+		#ifdef USE_APV_PROBE_OCCLUSION
 			float4 probeOcclusion : TEXCOORD11;
 		#endif
 

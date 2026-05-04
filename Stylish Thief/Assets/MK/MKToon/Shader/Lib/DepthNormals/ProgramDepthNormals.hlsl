@@ -9,7 +9,6 @@
 #ifndef MK_TOON_DEPTH_NORMALS
 	#define MK_TOON_DEPTH_NORMALS
 	
-	#include "../Core.hlsl"
 	#include "Data.hlsl"
 	#include "../Surface.hlsl"
 
@@ -28,11 +27,25 @@
 			vertexInput.vertex.xyz = VertexAnimation(PASS_VERTEX_ANIMATION_ARG(_VertexAnimationMap, PASS_VERTEX_ANIMATION_UV(vertexInput.texcoord0.xy), _VertexAnimationIntensity, _VertexAnimationFrequency.xyz, vertexInput.vertex.xyz, vertexInput.normal));
 		#endif
 
+		//CurvedWorldSupport
+		//CurvedWorldVertexTransformations
+		/*
+			Replace on the Vertex Transformation code the following:
+			- v.vertex => vertexInput.vertex
+			- v.normal => vertexInput.normal
+			- v.tangent => vertexInput.tangent
+		*/
+		//
+
 		vertexOutput.svPositionClip = ComputeObjectToClipSpace(vertexInput.vertex.xyz);
 
-		//texcoords
-		#if defined(MK_TCM)
-			vertexOutput.uv = vertexInput.texcoord0.xy;
+		#if defined(MK_TCM) || defined(MK_TCD)
+			//XY always RAW Coords
+			vertexOutput.uv = vertexInput.texcoord0.xyxy;
+			
+			#if defined(MK_SECONDARY_UV_SET)
+				vertexOutput.uv.zw = _DetailUVSet > 0.5 ? vertexInput.texcoord7.xy : vertexInput.texcoord0.xy;
+			#endif
 		#endif
 
 		vertexOutput.normalWorld.xyz = ComputeNormalWorld(vertexInput.normal);
@@ -77,7 +90,7 @@
 			vertexOutput.svPositionClip,
 			PASS_POSITION_WORLD_ARG(0)
 			PASS_FOG_FACTOR_WORLD_ARG(0)
-			PASS_BASE_UV_ARG(float4(vertexOutput.uv, 0, 0))
+			PASS_BASE_UV_ARG(vertexOutput.uv)
 			PASS_LIGHTMAP_UV_ARG(0)
 			PASS_VERTEX_COLOR_ARG(1)
 			PASS_NORMAL_WORLD_ARG(vertexOutput.normalWorld.xyz)
@@ -106,8 +119,12 @@
 		#endif
 
 		#ifdef MK_WRITE_RENDERING_LAYERS
-			uint renderingLayers = GetMeshRenderingLayer();
-			mkFragmentOutput.svTarget1 = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+			#if UNITY_VERSION >= 60020000
+				mkFragmentOutput.svTarget1 = EncodeMeshRenderingLayer();
+			#else //UNITY_VERSION >= 202220
+				uint renderingLayers = GetMeshRenderingLayer();
+				mkFragmentOutput.svTarget1 = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+			#endif
 		#endif
 
 		return mkFragmentOutput;

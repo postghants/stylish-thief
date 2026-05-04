@@ -13,7 +13,7 @@ namespace MK.RampCreator
         private SerializedProperty _outputGradientProperty;
         private GUIStyle flowTextStyle { get { return new GUIStyle(EditorStyles.label) { wordWrap = true }; } }
 
-        private static string _defaultFilePath = "Assets/_MK/MKRampCreator";
+        private static string _defaultFilePath = "Assets/MK/MKRampCreator";
         private string _filePath = _defaultFilePath;
         private string _filename = "NewRamp";
 

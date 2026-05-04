@@ -177,9 +177,10 @@ PlayerSettings:
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 23
+  AndroidMinSdkVersion: 25
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
+  AndroidPreferredDataLocation: 1
   aotOptions: 
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
@@ -194,11 +195,11 @@ PlayerSettings:
   VertexChannelCompressionMask: 4054
   iPhoneSdkVersion: 988
   iOSSimulatorArchitecture: 0
-  iOSTargetOSVersionString: 13.0
+  iOSTargetOSVersionString: 15.0
   tvOSSdkVersion: 0
   tvOSSimulatorArchitecture: 0
   tvOSRequireExtendedGameController: 0
-  tvOSTargetOSVersionString: 13.0
+  tvOSTargetOSVersionString: 15.0
   VisionOSSdkVersion: 0
   VisionOSTargetOSVersionString: 1.0
   uIPrerenderedIcon: 0
@@ -268,6 +269,7 @@ PlayerSettings:
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
   AndroidTargetArchitectures: 2
+  AndroidAllowedArchitectures: -1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: 
@@ -580,7 +582,7 @@ PlayerSettings:
   locationUsageDescription: 
   microphoneUsageDescription: 
   bluetoothUsageDescription: 
-  macOSTargetOSVersion: 11.0
+  macOSTargetOSVersion: 12.0
   switchNMETAOverride: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
@@ -835,23 +837,24 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    EmbeddedLinux: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    GameCoreScarlett: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    GameCoreXboxOne: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    Kepler: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    LinuxHeadlessSimulation: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    Nintendo Switch: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    PS4: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    PS5: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    QNX: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
+    Android: 
+    EmbeddedLinux: 
+    GameCoreScarlett: 
+    GameCoreXboxOne: 
+    Kepler: 
+    LinuxHeadlessSimulation: 
+    Nintendo Switch: 
+    Nintendo Switch 2: 
+    PS4: 
+    PS5: 
+    QNX: 
     ReservedCFE: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    Standalone: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    VisionOS: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    WebGL: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
+    Standalone: 
+    VisionOS: 
+    WebGL: 
     Windows Store Apps: 
-    XboxOne: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
-    tvOS: MK_TOON_OUTLINE_FADING_LINEAR;MK_TOON_ALLOW_DETAIL_MAPS_UV_7;MK_TOON_STYLIZE_SYSTEM_SHADOWS
+    XboxOne: 
+    tvOS: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -965,3 +968,4 @@ PlayerSettings:
   androidVulkanAllowFilterList: []
   androidVulkanDeviceFilterListAsset: {fileID: 0}
   d3d12DeviceFilterListAsset: {fileID: 0}
+  allowedHttpConnections: 3

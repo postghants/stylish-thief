@@ -9766,8 +9766,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 87cebace5c9758649b7049efa6a90a9a, type: 2}
-  - {fileID: 2100000, guid: d810ab8430c8ed8469121f8d1cefba9d, type: 2}
+  - {fileID: 2100000, guid: c13bed2f987d4d749a442f2c8789ebc2, type: 2}
+  - {fileID: 2100000, guid: c13bed2f987d4d749a442f2c8789ebc2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20073,7 +20073,7 @@ MonoBehaviour:
       maxSpeedDeceleration: 0
       turnSpeedMult: 3
       modelTurnDelay: 0
-      turnDecelerationMult: 14
+      turnDecelerationMult: 0
       turnDeceleration:
         serializedVersion: 2
         m_Curve:
@@ -20162,7 +20162,7 @@ MonoBehaviour:
       setSpeed: 1
       setSpeedSpeed: 27
       horizontalBoost: 0
-      jumpMovementMult: 0.1
+      jumpMovementMult: 0
       jumpMovementMultTime: 0.2
       downwardAccel: 60
       maxFallSpeed: 55
@@ -20207,7 +20207,7 @@ MonoBehaviour:
       acceleration: 0
       deceleration: 25
       maxSpeed: 0.01
-      maxSpeedDeceleration: 0
+      maxSpeedDeceleration: 25
       turnSpeedMult: 0
       modelTurnDelay: 0
       turnDecelerationMult: 15
@@ -20280,16 +20280,16 @@ MonoBehaviour:
       downwardAccel: 60
       maxFallSpeed: 55
       fastFallSpeed: 49
-    disablePound: 1
+    disablePound: 0
     prePoundUpBoost: 0
-    prePoundDuration: 0
+    prePoundDuration: 0.4
     prePoundGrav: 0
     prePoundMove:
       acceleration: 0
       deceleration: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
-      turnSpeedMult: 0
+      turnSpeedMult: 99
       modelTurnDelay: 0
       turnDecelerationMult: 1
       turnDeceleration:

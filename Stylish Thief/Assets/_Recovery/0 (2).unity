@@ -34551,6 +34551,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1198782b280d0e4993f99cc67718f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicSystem
+  musicSystem:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!4 &452413650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 801479397477987660, guid: b4b097589232a154c8d6a71b206dcca7, type: 3}
@@ -92313,7 +92320,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 451054063}
         m_TargetAssemblyTypeName: MusicSystem, Assembly-CSharp
-        m_MethodName: PauseAudioHandler
+        m_MethodName: TestAudioThing
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -92413,7 +92420,7 @@ Transform:
   m_GameObject: {fileID: 1112142825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 109.01, y: 0.49, z: -44.22}
+  m_LocalPosition: {x: 108.17, y: 1.08, z: -45.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

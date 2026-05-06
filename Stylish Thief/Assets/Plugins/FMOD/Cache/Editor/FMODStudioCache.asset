@@ -132,10 +132,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639095324110023553
+  lastModified: 639107326048704089
   FileSizes:
   - Name: 
-    Value: 1216
+    Value: 1344
   Exists: 1
 --- !u!114 &-3902772963728671673
 MonoBehaviour:
@@ -260,6 +260,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 80
   Length: 0
+--- !u!114 &-1344475317229676107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/menu_progression
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: menu_progression
+  StudioPath: parameter:/menu_progression
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 787073657
+    data2: 3854506518
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-1064034880265980024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,15 +363,18 @@ MonoBehaviour:
   - {fileID: -3481508030545250722}
   - {fileID: 2345173755864369149}
   - {fileID: -3748715155579957248}
+  - {fileID: 1917404158613682274}
   EditorParameters:
   - {fileID: -1542717023739630830}
   - {fileID: -5101209841070108718}
+  - {fileID: 6976609852091614562}
+  - {fileID: -1344475317229676107}
   MasterBanks:
   - {fileID: 5614288757303133642}
   StringsBanks:
   - {fileID: -4592567951691115650}
   cacheVersion: 131848
-  cacheTime: 639095324110023553
+  cacheTime: 639107326048704089
   SerializableEventsDict:
   - key: event:/Music_System
     index: 0
@@ -365,6 +392,32 @@ MonoBehaviour:
     index: 6
   - key: event:/Can_Kick
     index: 7
+  - key: event:/pauseMusic
+    index: 8
+--- !u!114 &986499815968782319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/pauseMusic/fmodpause
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: fmodpause
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2694852036
+    data2: 3700115702
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &1302151484046575222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +446,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 306315
+--- !u!114 &1917404158613682274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/pauseMusic
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/pauseMusic
+  Guid:
+    Data1: 768325774
+    Data2: 1121878728
+    Data3: 2055389601
+    Data4: 1847130062
+  Banks:
+  - {fileID: 5614288757303133642}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 986499815968782319}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 38851
 --- !u!114 &2345173755864369149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,7 +516,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639095324109966876
+  lastModified: 639107326048648999
   FileSizes: []
   Exists: 1
 --- !u!114 &5968218711657244279
@@ -477,6 +558,30 @@ MonoBehaviour:
   FileSizes:
   - Name: 
     Value: 960
+  Exists: 1
+--- !u!114 &6976609852091614562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/fmodpause
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: fmodpause
+  StudioPath: parameter:/fmodpause
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2694852036
+    data2: 3700115702
+  Type: 1
+  IsGlobal: 1
+  Labels: []
   Exists: 1
 --- !u!114 &8019752887001015970
 MonoBehaviour:

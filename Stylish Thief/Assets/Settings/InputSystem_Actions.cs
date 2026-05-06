@@ -199,6 +199,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""debug_audio"",
+                    ""type"": ""Button"",
+                    ""id"": ""40e4f66f-28d2-47b5-88ae-7e2d7256795b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -628,6 +637,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""BumperRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17d6c8d2-b830-4397-974d-51be08a3de8d"",
+                    ""path"": ""<Keyboard>/#(P)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""debug_audio"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1227,6 +1247,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_BumperLeft = m_Player.FindAction("BumperLeft", throwIfNotFound: true);
         m_Player_BumperRight = m_Player.FindAction("BumperRight", throwIfNotFound: true);
+        m_Player_debug_audio = m_Player.FindAction("debug_audio", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1332,6 +1353,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_BumperLeft;
     private readonly InputAction m_Player_BumperRight;
+    private readonly InputAction m_Player_debug_audio;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1391,6 +1413,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/BumperRight".
         /// </summary>
         public InputAction @BumperRight => m_Wrapper.m_Player_BumperRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/debug_audio".
+        /// </summary>
+        public InputAction @debug_audio => m_Wrapper.m_Player_debug_audio;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1453,6 +1479,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @BumperRight.started += instance.OnBumperRight;
             @BumperRight.performed += instance.OnBumperRight;
             @BumperRight.canceled += instance.OnBumperRight;
+            @debug_audio.started += instance.OnDebug_audio;
+            @debug_audio.performed += instance.OnDebug_audio;
+            @debug_audio.canceled += instance.OnDebug_audio;
         }
 
         /// <summary>
@@ -1500,6 +1529,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @BumperRight.started -= instance.OnBumperRight;
             @BumperRight.performed -= instance.OnBumperRight;
             @BumperRight.canceled -= instance.OnBumperRight;
+            @debug_audio.started -= instance.OnDebug_audio;
+            @debug_audio.performed -= instance.OnDebug_audio;
+            @debug_audio.canceled -= instance.OnDebug_audio;
         }
 
         /// <summary>
@@ -1884,6 +1916,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBumperRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "debug_audio" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDebug_audio(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

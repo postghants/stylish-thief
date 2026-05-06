@@ -111,7 +111,7 @@ public class DropkickerContext : JumperContext
 }
 
 [Serializable]
-public class DropkickerJumpData : JumpData
+public class DropkickerJumpData
 {
 
     [Tooltip("Expected total jump height")] public float jumpHeight; //Typically between 0 and 5

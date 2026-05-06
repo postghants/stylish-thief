@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class RickRopePull : MonoBehaviour
 {
-    public float score;
-    public string crime;
-    public float endSpeed;
-    public float startSpeed;
-    public Vector3 offset;
-    public bool pulling = false;
-    public GameObject endPoint;
+    [Header("Crime stuff")]
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
+    [Header("Setup")]
+    [Tooltip("How fast do you get pulled?")] public float startSpeed;
+    [Tooltip("How fast are you going when you reach the end?")] public float endSpeed;
+    [Tooltip("Does there need to be an offset? (keep at 0, -0.5, 0)")] public Vector3 offset;
+    [Tooltip("How long do you need to travel before the failsafe kicks in?")] public float failsafeTimer;
+    float failsafeTime;
+    bool pulling = false;
+    [Header("References, don't touch")]
+    [Tooltip("Don't touch! Should refer to End")] [SerializeField] private GameObject endPoint;
     PlayerStateDriver player;
-
-    public float failsafeTimer;
-    public float failsafeTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,7 +76,7 @@ public class RickRopePull : MonoBehaviour
         player.ctx.hasGrabbed = false;
         player.SetVelocity(transform.forward * endSpeed);
         player = null;
-        CrimeSpreeManager.instance.DoMinorCrime(score, crime);
+        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
     }
 }
 /* RICK'S LITTLE CHEAT SHEET

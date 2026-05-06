@@ -5,13 +5,15 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class RickVendingMachine : MonoBehaviour
 {
     PlayerStateDriver player;
-    public float tamperScore;
-    public string tamperCrime;
-    public float breakScore;
-    public string breakCrime;
-    public float totalItems;
+    [Header("Crime stuff")]
+    [Tooltip("How many points does the player get from this normally?")] public float tamperScore;
+    [Tooltip("What is the name of this crime normally?")] public string tamperCrime;
+    [Tooltip("When you fully break it, how many points does the player get from this?")] public float breakScore;
+    [Tooltip("When you fully break it, what is the name of the crime?")] public string breakCrime;
+    [Header("Vending Machine setup")]
+    [Tooltip("How many times can you hit it before it explodes?")] public float totalItems;
     float remainingItems;
-    public GameObject canPrefab;
+    [Tooltip("What should spawn when it is hit?")] public GameObject canPrefab;
     GameObject can;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,12 +33,10 @@ public class RickVendingMachine : MonoBehaviour
             
             //Detect player
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            Debug.Log("PISS " + player.Root.Leaf());
 
             //Check if current state is something specific
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing" || player.Root.Leaf().ToString().Contains("tunned") || player.Root.Leaf().ToString().Contains("lid"))
             {
-                Debug.Log("aaaaaaaaaa");
                 if (remainingItems > 1)
                 {
                     can = Instantiate(canPrefab, transform.parent.transform.position, Quaternion.identity);

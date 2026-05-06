@@ -13,7 +13,7 @@
 		#define MK_UNIVERSAL2D_PASS
 	#endif
 
-	#include "../Core.hlsl"
+	#include_with_pragmas "../Core.hlsl"
 
 	#include "ProgramUniversal2D.hlsl"
 #endif

@@ -13,7 +13,7 @@
 		#define MK_FORWARD_ADD_PASS
 	#endif
 
-	#include "../Core.hlsl"
+	#include_with_pragmas "../Core.hlsl"
 
 	#include "ProgramForward.hlsl"
 #endif

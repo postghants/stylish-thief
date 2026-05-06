@@ -12,16 +12,6 @@
 	#ifndef UNITY_PASS_META
 		#define UNITY_PASS_META
 	#endif
-
-	#if defined(MK_URP)
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
-	#elif defined(MK_LWRP)
-		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/MetaInput.hlsl"
-	#else
-		#include "UnityMetaPass.cginc"
-	#endif
-
-	#include "../Core.hlsl"
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// INPUT
@@ -38,7 +28,7 @@
 		#if defined(DYNAMICLIGHTMAP_ON) || defined(UNITY_PASS_META)
 			float2 dynamicLightmapUV : TEXCOORD2;
 		#endif
-		#if defined(MK_PARALLAX)
+		#if defined(MK_PARALLAX) || defined(MK_TANGENT_VERTEX)
 			half4 tangent : TANGENT;
 			half3 normal : NORMAL;
 		#endif

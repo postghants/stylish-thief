@@ -9,8 +9,6 @@
 #ifndef MK_TOON_SHADOWCASTER
 	#define MK_TOON_SHADOWCASTER
 
-	#include "../Core.hlsl"
-
 	#if defined(MK_URP)
 		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
 		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
@@ -44,6 +42,16 @@
 		#ifdef MK_VERTEX_ANIMATION
 			VERTEX_INPUT.vertex.xyz = VertexAnimation(PASS_VERTEX_ANIMATION_ARG(_VertexAnimationMap, PASS_VERTEX_ANIMATION_UV(VERTEX_INPUT.texcoord0.xy), _VertexAnimationIntensity, _VertexAnimationFrequency.xyz, VERTEX_INPUT.vertex.xyz, VERTEX_INPUT.normal));
 		#endif
+
+		//CurvedWorldSupport
+		//CurvedWorldVertexTransformations
+		/*
+			Replace on the Vertex Transformation code the following:
+			- v.vertex => VERTEX_INPUT.vertex
+			- v.normal => VERTEX_INPUT.normal
+			- v.tangent => VERTEX_INPUT.tangent
+		*/
+		//
 
 		#ifdef MK_VERTEX_COLOR_REQUIRED
 			vertexOutput.color = VERTEX_INPUT.color;

@@ -7,18 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walls_Blackstone_Trim_A_Mat
+  m_Name: Road
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
-  - _MK_HEIGHT_MAP
+  - _MK_COLOR_GRADING_ALBEDO
   - _MK_LIGHT_CEL
-  - _MK_NORMAL_MAP
-  - _MK_OCCLUSION_MAP
   - _MK_OUTLINE_NOISE
-  - _MK_PARALLAX
   - _MK_PBS_MAP_1
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
@@ -41,7 +38,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: a4096ef91613f9f4daf8cf7c889f1a03, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6fbf5f3bf4a097c4dbc9612f2be896d5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -105,7 +102,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 2800000, guid: 2f22244aa3d2d034897d858246d8e588, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IridescenceRamp:
@@ -117,7 +114,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a4096ef91613f9f4daf8cf7c889f1a03, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6fbf5f3bf4a097c4dbc9612f2be896d5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -133,11 +130,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: d232fc1a32af07d49b916fb8b784cb74, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 5f8a31f722413404e8c3c50e676b4d88, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineMap:
@@ -214,7 +211,7 @@ Material:
     - _BlendSrcAlpha: 1
     - _Brightness: 1.17
     - _BumpScale: 1
-    - _ColorGrading: 0
+    - _ColorGrading: 1
     - _Contrast: 1
     - _Cutoff: 0.5
     - _DetailBlend: 0
@@ -269,9 +266,9 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: -1
-    - _OutlineSize: 5
+    - _OutlineSize: 0
     - _OutlineTab: 1
-    - _Parallax: 0.0272
+    - _Parallax: 0.02
     - _ReceiveShadows: 1
     - _RenderFace: 2
     - _RenderPriority: 0
@@ -280,7 +277,7 @@ Material:
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
-    - _Saturation: 2.47
+    - _Saturation: 1
     - _SketchMapScale: 1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0

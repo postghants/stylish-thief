@@ -15,11 +15,16 @@ namespace MK.Toon
         internal static readonly string shaderVariantPBSName = "Physically Based";
         internal static readonly string shaderVariantSimpleName = "Simple";
         internal static readonly string shaderVariantUnlitName = "Unlit";
+        
+        //CurvedWorldSupport
+        //CurvedWorldEditor
+        //public static readonly Vector4Property curvedWorldBlendSettings = new Vector4Property(Uniforms.curvedWorldBlendSettings);
+        //
 
         /////////////////
         // Options     //
         /////////////////
-        public static readonly EnumProperty<Workflow> workflow          = new EnumProperty<Workflow>(Uniforms.workflow, Keywords.workflow);
+        public static readonly EnumProperty<Workflow> workflow = new EnumProperty<Workflow>(Uniforms.workflow, Keywords.workflow);
         public static readonly EnumProperty<RenderFace> renderFace      = new EnumProperty<RenderFace>(Uniforms.renderFace);
         public static readonly SurfaceProperty surface                  = new SurfaceProperty(Uniforms.surface, Keywords.surface);
         public static readonly EnumProperty<ZWrite> zWrite              = new EnumProperty<ZWrite>(Uniforms.zWrite);
@@ -37,6 +42,7 @@ namespace MK.Toon
         public static readonly ColorProperty albedoColor                         = new ColorProperty(Uniforms.albedoColor);
         public static readonly RangeProperty alphaCutoff                         = new RangeProperty(Uniforms.alphaCutoff, 0, 1);
         public static readonly TextureProperty albedoMap                         = new TextureProperty(Uniforms.albedoMap, Keywords.albedoMap);
+        public static readonly RangeProperty albedoMapIntensity                  = new RangeProperty(Uniforms.albedoMapIntensity, 0f, 1f);
         public static readonly TilingProperty mainTiling                         = new TilingProperty(Uniforms.albedoMap);
         public static readonly OffsetProperty mainOffset                         = new OffsetProperty(Uniforms.albedoMap);
         public static readonly ColorProperty specularColor                       = new ColorProperty(Uniforms.specularColor);
@@ -102,6 +108,9 @@ namespace MK.Toon
         public static readonly ColorProperty goochBrightColor                      = new ColorProperty(Uniforms.goochBrightColor);
         public static readonly TextureProperty goochBrightMap                      = new TextureProperty(Uniforms.goochBrightMap, Keywords.goochBrightMap);
         public static readonly ColorProperty goochDarkColor                        = new ColorProperty(Uniforms.goochDarkColor);
+        public static readonly ColorProperty goochDarkRemapMin                     = new ColorProperty(Uniforms.goochDarkRemapMin);
+        public static readonly ColorProperty goochDarkRemapMax                     = new ColorProperty(Uniforms.goochDarkRemapMax);
+        public static readonly IntProperty goochDarkRemapFadeWithIndirect          = new IntProperty(Uniforms.goochDarkRemapFadeWithIndirect);
         public static readonly TextureProperty goochDarkMap                        = new TextureProperty(Uniforms.goochDarkMap, Keywords.goochDarkMap);
         public static readonly EnumProperty<ColorGrading> colorGrading             = new EnumProperty<ColorGrading>(Uniforms.colorGrading, Keywords.colorGrading);
         public static readonly RangeProperty hue                                   = new RangeProperty(Uniforms.hue, 0f, 1f);
@@ -177,6 +186,7 @@ namespace MK.Toon
         public static readonly TextureProperty outlineMap            = new TextureProperty(Uniforms.outlineMap, Keywords.outlineMap);
         public static readonly RangeProperty outlineClipOffset       = new RangeProperty(Uniforms.outlineClipOffset, 0, 1);
         public static readonly RangeProperty outlineSize             = new RangeProperty(Uniforms.outlineSize, 0);
+        public static readonly BoolProperty outlineConstantSize      = new BoolProperty(Uniforms.outlineConstantSize);
         public static readonly ColorProperty outlineColor            = new ColorProperty(Uniforms.outlineColor);
         #if MK_TOON_OUTLINE_FADING_LINEAR  || MK_TOON_OUTLINE_FADING_EXPONENTIAL || MK_TOON_OUTLINE_FADING_INVERSE_EXPONENTIAL
             public static readonly FloatProperty outlineFadeMin      = new FloatProperty(Uniforms.outlineFadeMin);

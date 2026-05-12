@@ -9,7 +9,6 @@
 #ifndef MK_TOON_MOTION_VECTORS
 	#define MK_TOON_MOTION_VECTORS
 	
-	#include "../Core.hlsl"
 	#include "Data.hlsl"
 	#include "../Surface.hlsl"
 
@@ -27,6 +26,16 @@
 		#ifdef MK_VERTEX_ANIMATION
 			vertexInput.vertex.xyz = VertexAnimation(PASS_VERTEX_ANIMATION_ARG(_VertexAnimationMap, PASS_VERTEX_ANIMATION_UV(vertexInput.texcoord0.xy), _VertexAnimationIntensity, _VertexAnimationFrequency.xyz, vertexInput.vertex.xyz, vertexInput.normal));
 		#endif
+
+		//CurvedWorldSupport
+		//CurvedWorldVertexTransformations
+		/*
+			Replace on the Vertex Transformation code the following:
+			- v.vertex => vertexInput.vertex
+			- v.normal => vertexInput.normal
+			- v.tangent => vertexInput.tangent
+		*/
+		//
 
 		vertexOutput.svPositionClip = ComputeObjectToClipSpace(vertexInput.vertex.xyz);
 
@@ -50,7 +59,7 @@
 			vertexOutput.nullClip = ComputeObjectToClipSpace(0);
 		#endif
 
-		#if defined(APLICATION_SPACE_WARP_MOTION)
+		#if defined(APPLICATION_SPACE_WARP_MOTION)
 			vertexOutput.positionCSNoJitter = mul(_NonJitteredViewProjMatrix, mul(MATRIX_M, vertexInput.vertex));
 			vertexOutput.svPositionClip = vertexOutput.positionCSNoJitter;
 		#else
@@ -101,7 +110,7 @@
 			LODFadeCrossFade(vertexOutput.svPositionClip);
 		#endif
 
-		#if defined(APLICATION_SPACE_WARP_MOTION)
+		#if defined(APPLICATION_SPACE_WARP_MOTION)
 			return float4(CalcAswNdcMotionVectorFromCsPositions(vertexOutput.positionCSNoJitter, vertexOutput.previousPositionCSNoJitter), 1);
 		#else
 			return float4(CalcNdcMotionVectorFromCsPositions(vertexOutput.positionCSNoJitter, vertexOutput.previousPositionCSNoJitter), 0, 0);

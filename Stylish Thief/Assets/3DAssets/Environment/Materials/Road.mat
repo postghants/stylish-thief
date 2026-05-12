@@ -7,12 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Chip_Platform
+  m_Name: Road
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
+  - _MK_COLOR_GRADING_ALBEDO
   - _MK_LIGHT_CEL
   - _MK_OUTLINE_NOISE
   - _MK_PBS_MAP_1
@@ -37,7 +38,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: c25daa304f9acf04b85903f56464617a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6fbf5f3bf4a097c4dbc9612f2be896d5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -113,7 +114,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c25daa304f9acf04b85903f56464617a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6fbf5f3bf4a097c4dbc9612f2be896d5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -208,9 +209,9 @@ Material:
     - _BlendDstAlpha: 0
     - _BlendSrc: 1
     - _BlendSrcAlpha: 1
-    - _Brightness: 1
+    - _Brightness: 1.17
     - _BumpScale: 1
-    - _ColorGrading: 0
+    - _ColorGrading: 1
     - _Contrast: 1
     - _Cutoff: 0.5
     - _DetailBlend: 0
@@ -265,7 +266,7 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: -1
-    - _OutlineSize: 20
+    - _OutlineSize: 0
     - _OutlineTab: 1
     - _Parallax: 0.02
     - _ReceiveShadows: 1

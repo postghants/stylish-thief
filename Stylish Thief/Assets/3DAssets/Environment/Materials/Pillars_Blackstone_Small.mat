@@ -7,17 +7,23 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Chip_Platform
+  m_Name: Pillars_Blackstone_Small
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
+  - _MK_HEIGHT_MAP
   - _MK_LIGHT_CEL
+  - _MK_NORMAL_MAP
+  - _MK_OCCLUSION_MAP
   - _MK_OUTLINE_NOISE
+  - _MK_PARALLAX
+  - _MK_PBS_MAP_0
   - _MK_PBS_MAP_1
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
+  - _MK_WORKFLOW_SPECULAR
   m_InvalidKeywords:
   - _MK_ARTISTIC_ANIMATION_STUTTER
   - _MK_DETAIL_BLEND_MIX
@@ -32,14 +38,14 @@ Material:
     IGNOREPROJECTOR: False
     RenderType: Opaque
   disabledShaderPasses: []
-  m_LockedProperties: _DetailUVSet
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: c25daa304f9acf04b85903f56464617a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 4d18f16ba78c52843b7f3b450a1181a2, type: 3}
+        m_Scale: {x: 0.75, y: 1.15}
+        m_Offset: {x: 0.13, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -101,7 +107,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b2bbad903de4ada459794db03952c17d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IridescenceRamp:
@@ -113,7 +119,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c25daa304f9acf04b85903f56464617a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4d18f16ba78c52843b7f3b450a1181a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -121,7 +127,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 122330970ddf6ba4291ebe0f3bfa2202, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseMap:
@@ -129,11 +135,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9aec80332f1ca5545956779edc65d2d3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1c6b50fe2ea8a1049aeb1b8c1aa71131, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineMap:
@@ -157,7 +163,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 21344cb592ae1ce42a6f5436b51c3ce2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularRamp:
@@ -208,7 +214,7 @@ Material:
     - _BlendDstAlpha: 0
     - _BlendSrc: 1
     - _BlendSrcAlpha: 1
-    - _Brightness: 1
+    - _Brightness: 1.17
     - _BumpScale: 1
     - _ColorGrading: 0
     - _Contrast: 1
@@ -255,8 +261,8 @@ Material:
     - _LightTransmissionThresholdOffset: 0.25
     - _Metallic: 0
     - _Mode: 0
-    - _NormalMapIntensity: 1
-    - _OcclusionMapIntensity: 0.313
+    - _NormalMapIntensity: 5
+    - _OcclusionMapIntensity: 1
     - _OcclusionStrength: 1
     - _OptionsTab: 1
     - _Outline: 1
@@ -265,7 +271,7 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: -1
-    - _OutlineSize: 20
+    - _OutlineSize: 5
     - _OutlineTab: 1
     - _Parallax: 0.02
     - _ReceiveShadows: 1
@@ -276,9 +282,9 @@ Material:
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
-    - _Saturation: 1
+    - _Saturation: 2.47
     - _SketchMapScale: 1
-    - _Smoothness: 0
+    - _Smoothness: 0.127
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
@@ -301,7 +307,7 @@ Material:
     - _VertexAnimation: 0
     - _VertexAnimationIntensity: 0.05
     - _VertexAnimationStutter: 0
-    - _Workflow: 0
+    - _Workflow: 1
     - _WrappedLighting: 1
     - _ZTest: 4
     - _ZWrite: 1

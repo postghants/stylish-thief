@@ -89,6 +89,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7522156205536493768
 MonoBehaviour:
@@ -102,6 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66ff2fcc8e94324fb36895ffa0d9028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RickRendererDisabler
+  disableTarget: {fileID: 0}
+  timeScale: 0
 --- !u!1 &1832088553618865720
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +194,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1628582519525999948
 MonoBehaviour:
@@ -204,6 +208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66ff2fcc8e94324fb36895ffa0d9028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RickRendererDisabler
+  disableTarget: {fileID: 0}
+  timeScale: 0
 --- !u!1 &3121748162844191749
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,7 +221,7 @@ GameObject:
   - component: {fileID: 6957520713535590723}
   - component: {fileID: 5274219986300725317}
   m_Layer: 0
-  m_Name: Valauable Parent
+  m_Name: Valuable Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

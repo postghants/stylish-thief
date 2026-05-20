@@ -4,15 +4,16 @@ public class RickBird : MonoBehaviour
 {
     RickBirdTrigger trigger;
     Vector3 targetDir;
-    public float horizontalSpeed;
-    public float verticalSpeed = 0;
-    public float verticalAccelerationMin;
-    public float verticalAccelerationMax;
+    [Tooltip("How fast should it fly horizontally?")] public float horizontalSpeed;
+    [Tooltip("What's the slowest the bird can accelerate upward?")] public float verticalAccelerationMin;
+    [Tooltip("What's the fastest the bird can accelerate upward?")] public float verticalAccelerationMax;
     float verticalAcceleration;
-    public float maxVerticalSpeed;
-    public float destroyTime;
-    public GameObject sitting;
-    public GameObject flying;
+    [Tooltip("What's the fastest the bird can fly up?")] public float maxVerticalSpeed;
+    [Tooltip("How long does it take for the bird to disappear?")] public float destroyTime;
+    [Tooltip("Sitting (or standing) version of the bird's visuals")] public GameObject sitting;
+    [Tooltip("Flying version of the bird's visuals")] public GameObject flying;
+    [Header("Internal no touchy")]
+    [Tooltip("Do not touch! Leave at 0!")] public float verticalSpeed = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

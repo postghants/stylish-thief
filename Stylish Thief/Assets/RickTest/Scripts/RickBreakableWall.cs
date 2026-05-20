@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class RickBreakableWall : MonoBehaviour
 {
-    public float score;
-    public string crime;
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
     PlayerStateDriver player;
     private void OnTriggerEnter(Collider other)
     {
@@ -15,7 +15,7 @@ public class RickBreakableWall : MonoBehaviour
             //Check if current state is something specific
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
             {
-                CrimeSpreeManager.instance.DoMinorCrime(score, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
                 Destroy(gameObject.transform.parent.gameObject);
             }
         }

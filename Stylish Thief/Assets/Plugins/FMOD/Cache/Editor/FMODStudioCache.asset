@@ -1,5 +1,81 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8425095570571813805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/pauseMusic
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/pauseMusic
+  Guid:
+    Data1: 768325774
+    Data2: 1121878728
+    Data3: 2055389601
+    Data4: 1847130062
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 2032675563310851956}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 38851
+--- !u!114 &-7947692598182169354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/menu_progression
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: menu_progression
+  StudioPath: parameter:/menu_progression
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 787073657
+    data2: 3854506518
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &-7933566402387536164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/fmodpause
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: fmodpause
+  StudioPath: parameter:/fmodpause
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2694852036
+    data2: 3700115702
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-7303077279053896996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26,6 +102,60 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 8
+  Length: 0
+--- !u!114 &-7112558906659398764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Cone_impact
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Cone_impact
+  Guid:
+    Data1: 1817478962
+    Data2: 1287576871
+    Data3: 443491972
+    Data4: -1364559965
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-7105295915586109484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Cone_Kick
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Cone_Kick
+  Guid:
+    Data1: 290217314
+    Data2: 1156782734
+    Data3: -1044522601
+    Data4: 53233250
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
   Length: 0
 --- !u!114 &-6736354039844261313
 MonoBehaviour:
@@ -123,10 +253,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639147968602999526
+  lastModified: 639147948263678103
   FileSizes:
   - Name: 
-    Value: 1216
+    Value: 1448
   Exists: 1
 --- !u!114 &-3525073966530070271
 MonoBehaviour:
@@ -138,10 +268,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/volume slider
+  m_Name: parameter:/volumeSliderValue
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
-  Name: volume slider
-  StudioPath: parameter:/volume slider
+  Name: volumeSliderValue
+  StudioPath: parameter:/volumeSliderValue
   Min: 0
   Max: 1
   Default: 0
@@ -203,15 +333,20 @@ MonoBehaviour:
   - {fileID: -5064963789610319477}
   - {fileID: 2171750675207761852}
   - {fileID: -5130846370135247373}
+  - {fileID: -7112558906659398764}
+  - {fileID: -7105295915586109484}
+  - {fileID: -8425095570571813805}
   EditorParameters:
   - {fileID: 808413082084937723}
   - {fileID: -3525073966530070271}
+  - {fileID: -7947692598182169354}
+  - {fileID: -7933566402387536164}
   MasterBanks:
   - {fileID: 8104597693844846538}
   StringsBanks:
   - {fileID: -4038847268614741242}
   cacheVersion: 131848
-  cacheTime: 639147968602999526
+  cacheTime: 639147948263678103
   SerializableEventsDict:
   - key: event:/jump
     index: 0
@@ -229,6 +364,12 @@ MonoBehaviour:
     index: 6
   - key: event:/Can_Impact
     index: 7
+  - key: event:/Cone_impact
+    index: 8
+  - key: event:/Cone_Kick
+    index: 9
+  - key: event:/pauseMusic
+    index: 10
 --- !u!114 &808413082084937723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +422,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 234496
+--- !u!114 &2032675563310851956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/pauseMusic/fmodpause
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: fmodpause
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2694852036
+    data2: 3700115702
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &2171750675207761852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +539,6 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639147968602989581
+  lastModified: 639147948263667583
   FileSizes: []
   Exists: 1

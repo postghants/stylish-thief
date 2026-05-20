@@ -1,4 +1,5 @@
 using UnityEngine;
+using static ActorPhysics;
 
 namespace HSM
 {
@@ -905,10 +906,16 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            if (ctx.additive)
+            {
+                ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
+            }
+            else
+            {
+                ctx.rb.velocity.y = Mathf.Clamp(ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
+            }
 
-            ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
-
-            ctx.cmd = ctx.prePoundMove;
+                ctx.cmd = ctx.prePoundMove;
             ctx.gravMultiplier = ctx.prePoundGrav;
 
             ctx.player.SetTrigger("StartBagThrow");
@@ -935,6 +942,7 @@ namespace HSM
     public class PlayerPound : State
     {
         private PlayerContext ctx;
+        private Vector3 velocity;
         public PlayerPound(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -944,8 +952,12 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
-            ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
-            ctx.rb.velocity.y = -ctx.poundSpeedDown;
+            //ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
+            //ctx.rb.velocity.y = -ctx.poundSpeedDown;
+
+            velocity = ctx.facing * ctx.poundSpeedFw;
+            velocity.y = -ctx.poundSpeedDown;
+            ctx.rb.velocity = velocity;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -954,12 +966,27 @@ namespace HSM
             {
                 //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
                 //{
-                return ((PlayerRoot)Parent.Parent).grounded.rolling;
+                return ((PlayerRoot)Parent.Parent).grounded.idle;
                 //}
                 //implement land state later
                 //return ((PlayerRoot)Parent.Parent).grounded;
             }
             return null;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ctx.poundAccelerate)
+            {
+                velocity.x += ctx.facing.x * ctx.downAcceleration * deltaTime;
+                velocity.z += ctx.facing.z * ctx.downAcceleration * deltaTime;
+                velocity.y -= ctx.downAcceleration * deltaTime;
+                ctx.rb.velocity = velocity;
+            }
+            if (ctx.rb.velocity.y <= -ctx.baseJumpData.fastFallSpeed)
+            {
+                Debug.Log("Rollable!");
+            }
         }
     }
 

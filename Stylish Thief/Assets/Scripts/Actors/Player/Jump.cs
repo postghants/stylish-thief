@@ -98,11 +98,13 @@ public class Jump
                 ctx.rb.velocity.y = 0;
             }
 
-            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Stall Loop"))
+            var animStateInfo = ctx.anim.GetCurrentAnimatorStateInfo(0);
+            if (!animStateInfo.IsName("Liftoff") && !animStateInfo.IsName("JumpUpwards") && !animStateInfo.IsName("Stall"))
             {
                 ctx.anim.SetTrigger("StartFall");
             }
-            ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+            
+                ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
         }
 
         //Check for hangtime

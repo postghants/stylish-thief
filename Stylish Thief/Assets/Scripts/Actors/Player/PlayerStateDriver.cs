@@ -392,6 +392,7 @@ public class PlayerContext
 
     [Header("Animation variables")]
     public float animRunSpeed;
+    public float animIdleSpeed;
 
     [Header("Internal NO TOUCHY")]
     public float currentHealth;

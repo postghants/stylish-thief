@@ -617,7 +617,11 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.particleManager.StartGroup("Run");
+            ctx.particleManager.StartGroup("Run"); 
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && ctx.rb.velocity.y == 0)
+            {
+                ctx.player.SetTrigger("StartWalk");
+            }
         }
 
         protected override void OnExit()
@@ -627,15 +631,20 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && ctx.rb.velocity.y == 0)
-            {
-                ctx.player.SetTrigger("StartWalk");
-            }
+            Vector3 horizontalVel = ctx.rb.velocity;
+            horizontalVel.y = 0;
             if (ctx.moveInputValue != Vector2.zero)
             {
-                Vector3 horizontalVel = ctx.rb.velocity;
-                horizontalVel.y = 0;
                 ctx.anim.SetBool("OverRunSpeed", horizontalVel.magnitude > ctx.animRunSpeed);
+            }
+            else if(horizontalVel.magnitude < ctx.animIdleSpeed && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                ctx.anim.SetTrigger("StartIdle");
+            }
+
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && horizontalVel.magnitude > ctx.animIdleSpeed)
+            {
+                ctx.player.SetTrigger("StartWalk");
             }
         }
 

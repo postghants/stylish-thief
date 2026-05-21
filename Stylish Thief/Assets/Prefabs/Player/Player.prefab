@@ -5475,7 +5475,9 @@ MonoBehaviour:
       maxFallSpeed: 55
       fastFallSpeed: 49
     disablePound: 0
-    prePoundUpBoost: 0
+    additive: 0
+    poundAccelerate: 1
+    prePoundUpBoost: 2
     prePoundDuration: 0.4
     prePoundGrav: 0
     prePoundMove:
@@ -5494,6 +5496,8 @@ MonoBehaviour:
         m_RotationOrder: 4
     poundSpeedDown: 30
     poundSpeedFw: 30
+    downAcceleration: 60
+    forwardAcceleration: 60
     poundLandDelay: 1
     poundLandSpeed: 0
     panTime: 0.2

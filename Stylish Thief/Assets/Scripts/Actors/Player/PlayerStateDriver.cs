@@ -355,12 +355,16 @@ public class PlayerContext
 
     [Header("Bag Throw")]
     public bool disablePound;
+    public bool additive;
+    public bool poundAccelerate;
     public float prePoundUpBoost;
     public float prePoundDuration;
     public float prePoundGrav;
     public MoveData prePoundMove;
     public float poundSpeedDown;
     public float poundSpeedFw;
+    public float downAcceleration;
+    public float forwardAcceleration;
     public float poundLandDelay;
     public float poundLandSpeed;
 

@@ -100,8 +100,9 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		[HideInInspector] _MainTex ("", 2D) = "white" {}
 		[HideInInspector] _Color ("", Color) = (1,1,1,1)
 	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	// SM 5.0
+	// SM 4.5
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	SubShader
 	{
@@ -136,7 +137,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
 			HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
+			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
 			#pragma shader_feature_local __ _MK_SOFT_FADE
 			#pragma shader_feature_local __ _MK_CAMERA_FADE
@@ -150,6 +152,11 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
 			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
+			#endif
+
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#endif
@@ -180,7 +187,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_PARTICLES
 			#define MK_UNLIT
 
-			#include "../../Lib/Forward/BaseSetup.hlsl"
+			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -211,7 +218,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
 			HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
+			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
 			#pragma shader_feature_local __ _MK_SOFT_FADE
 			#pragma shader_feature_local __ _MK_CAMERA_FADE
@@ -225,6 +233,9 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
 			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
+			#endif
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#endif
@@ -255,7 +266,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_PARTICLES
 			#define MK_UNLIT
 
-			#include "../../Lib/Forward/BaseSetup.hlsl"
+			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -281,6 +292,17 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
+            Stencil
+			{
+				Ref [_StencilRef]
+				ReadMask [_StencilReadMask]
+				WriteMask [_StencilWriteMask]
+				Comp [_StencilComp]
+				Pass [_StencilPass]
+				Fail [_StencilFail]
+				ZFail [_StencilZFail]
+			}
+			
             Name "DepthOnly"
             Tags { "LightMode" = "DepthOnly" }
 
@@ -290,7 +312,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 4.5
-			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
+			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
@@ -310,7 +333,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_UNLIT
 			#define MK_PARTICLES
 
-            #include "../../Lib/DepthOnly/Setup.hlsl"
+            #include_with_pragmas "../../Lib/DepthOnly/Setup.hlsl"
             ENDHLSL
         }
 
@@ -319,6 +342,21 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
+            PackageRequirements 
+			{
+				"com.unity.render-pipelines.universal":"[7.0,16.99]"
+			}
+            Stencil
+			{
+				Ref [_StencilRef]
+				ReadMask [_StencilReadMask]
+				WriteMask [_StencilWriteMask]
+				Comp [_StencilComp]
+				Pass [_StencilPass]
+				Fail [_StencilFail]
+				ZFail [_StencilZFail]
+			}
+			
             Name "DepthNormals"
             Tags { "LightMode" = "DepthNormals" }
 
@@ -327,7 +365,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 4.5
-			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
+			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
@@ -338,6 +377,10 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+			#pragma shader_feature_local __ _MK_NORMAL_MAP
+			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+			#pragma shader_feature_local __ _MK_HEIGHT_MAP
+			#pragma shader_feature_local __ _MK_PARALLAX
 
 			#if UNITY_VERSION >= 202220
 				#if UNITY_VERSION >= 202310
@@ -355,7 +398,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_SIMPLE
 			#define MK_PARTICLES
 
-            #include "../../Lib/DepthNormals/Setup.hlsl"
+            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
             ENDHLSL
         }
 
@@ -372,8 +415,9 @@ Shader "MK/Toon/URP/Particles/Unlit"
             Cull [_RenderFace]
 
             HLSLPROGRAM
-            #pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
+            
 			#pragma target 4.5
+			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
 
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
@@ -392,7 +436,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_UNLIT
 			#define MK_PARTICLES
 
-            #include "../../Lib/Universal2D/Setup.hlsl"
+            #include_with_pragmas "../../Lib/Universal2D/Setup.hlsl"
 
             ENDHLSL
         }
@@ -434,7 +478,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
 			HLSLPROGRAM
 			#pragma target 3.5
-			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
+			#pragma only_renderers glcore gles3
+			
 
 			#pragma shader_feature_local __ _MK_SOFT_FADE
 			#pragma shader_feature_local __ _MK_CAMERA_FADE
@@ -448,6 +493,9 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
 			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
+			#endif
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#endif
@@ -478,7 +526,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_PARTICLES
 			#define MK_UNLIT
 
-			#include "../../Lib/Forward/BaseSetup.hlsl"
+			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -509,7 +557,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
 			HLSLPROGRAM
 			#pragma target 3.5
-			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
+			#pragma only_renderers glcore gles3
+			
 
 			#pragma shader_feature_local __ _MK_SOFT_FADE
 			#pragma shader_feature_local __ _MK_CAMERA_FADE
@@ -523,6 +572,9 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
 			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
+			#endif
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#endif
@@ -553,7 +605,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_PARTICLES
 			#define MK_UNLIT
 
-			#include "../../Lib/Forward/BaseSetup.hlsl"
+			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -579,6 +631,17 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
+            Stencil
+			{
+				Ref [_StencilRef]
+				ReadMask [_StencilReadMask]
+				WriteMask [_StencilWriteMask]
+				Comp [_StencilComp]
+				Pass [_StencilPass]
+				Fail [_StencilFail]
+				ZFail [_StencilZFail]
+			}
+			
             Name "DepthOnly"
             Tags { "LightMode" = "DepthOnly" }
 
@@ -588,7 +651,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 3.5
-			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
+			#pragma only_renderers glcore gles3
+			
 
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
@@ -608,7 +672,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_UNLIT
 			#define MK_PARTICLES
 
-            #include "../../Lib/DepthOnly/Setup.hlsl"
+            #include_with_pragmas "../../Lib/DepthOnly/Setup.hlsl"
             ENDHLSL
         }
 
@@ -617,6 +681,21 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
+            PackageRequirements 
+			{
+				"com.unity.render-pipelines.universal":"[7.0,16.99]"
+			}
+            Stencil
+			{
+				Ref [_StencilRef]
+				ReadMask [_StencilReadMask]
+				WriteMask [_StencilWriteMask]
+				Comp [_StencilComp]
+				Pass [_StencilPass]
+				Fail [_StencilFail]
+				ZFail [_StencilZFail]
+			}
+			
             Name "DepthNormals"
             Tags { "LightMode" = "DepthNormals" }
 
@@ -625,7 +704,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 3.5
-			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
+			#pragma only_renderers glcore gles3
+			
 
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
@@ -636,6 +716,10 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+			#pragma shader_feature_local __ _MK_NORMAL_MAP
+			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+			#pragma shader_feature_local __ _MK_HEIGHT_MAP
+			#pragma shader_feature_local __ _MK_PARALLAX
 
 			#if UNITY_VERSION >= 202220
 				#if UNITY_VERSION >= 202310
@@ -653,7 +737,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_SIMPLE
 			#define MK_PARTICLES
 
-            #include "../../Lib/DepthNormals/Setup.hlsl"
+            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
             ENDHLSL
         }
 
@@ -670,8 +754,9 @@ Shader "MK/Toon/URP/Particles/Unlit"
             Cull [_RenderFace]
 
             HLSLPROGRAM
-            #pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
+            
 			#pragma target 3.5
+			#pragma only_renderers glcore gles3
 
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
@@ -690,7 +775,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_UNLIT
 			#define MK_PARTICLES
 
-            #include "../../Lib/Universal2D/Setup.hlsl"
+            #include_with_pragmas "../../Lib/Universal2D/Setup.hlsl"
 
             ENDHLSL
         }
@@ -732,7 +817,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
 			HLSLPROGRAM
 			#pragma target 2.5
-			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
+			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
 			#pragma shader_feature_local __ _MK_SOFT_FADE
 			#pragma shader_feature_local __ _MK_CAMERA_FADE
@@ -745,6 +831,13 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
 			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
+			#endif
+			#if UNITY_VERSION >= 202120
+				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+			#endif
 
 			#pragma fragmentoption ARB_precision_hint_fastest
 			#pragma vertex ForwardVert
@@ -764,7 +857,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_PARTICLES
 			#define MK_UNLIT
 
-			#include "../../Lib/Forward/BaseSetup.hlsl"
+			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -795,7 +888,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
 			HLSLPROGRAM
 			#pragma target 2.5
-			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
+			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
 			#pragma shader_feature_local __ _MK_SOFT_FADE
 			#pragma shader_feature_local __ _MK_CAMERA_FADE
@@ -808,6 +902,13 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
 			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
+			#endif
+			#if UNITY_VERSION >= 202120
+				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+			#endif
 
 			#pragma fragmentoption ARB_precision_hint_fastest
 			#pragma vertex ForwardVert
@@ -827,7 +928,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_PARTICLES
 			#define MK_UNLIT
 
-			#include "../../Lib/Forward/BaseSetup.hlsl"
+			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -853,6 +954,17 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
+            Stencil
+			{
+				Ref [_StencilRef]
+				ReadMask [_StencilReadMask]
+				WriteMask [_StencilWriteMask]
+				Comp [_StencilComp]
+				Pass [_StencilPass]
+				Fail [_StencilFail]
+				ZFail [_StencilZFail]
+			}
+			
             Name "DepthOnly"
             Tags { "LightMode" = "DepthOnly" }
 
@@ -862,7 +974,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 2.5
-			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
+			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
@@ -882,7 +995,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_UNLIT
 			#define MK_PARTICLES
 
-            #include "../../Lib/DepthOnly/Setup.hlsl"
+            #include_with_pragmas "../../Lib/DepthOnly/Setup.hlsl"
             ENDHLSL
         }
 
@@ -891,6 +1004,21 @@ Shader "MK/Toon/URP/Particles/Unlit"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
+            PackageRequirements 
+			{
+				"com.unity.render-pipelines.universal":"[7.0,16.99]"
+			}
+            Stencil
+			{
+				Ref [_StencilRef]
+				ReadMask [_StencilReadMask]
+				WriteMask [_StencilWriteMask]
+				Comp [_StencilComp]
+				Pass [_StencilPass]
+				Fail [_StencilFail]
+				ZFail [_StencilZFail]
+			}
+			
             Name "DepthNormals"
             Tags { "LightMode" = "DepthNormals" }
 
@@ -899,7 +1027,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 2.5
-			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
+			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
@@ -910,6 +1039,10 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+			#pragma shader_feature_local __ _MK_NORMAL_MAP
+			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+			#pragma shader_feature_local __ _MK_HEIGHT_MAP
+			#pragma shader_feature_local __ _MK_PARALLAX
 
             #pragma multi_compile_instancing
 			#pragma instancing_options procedural:ParticleInstancingSetup
@@ -919,7 +1052,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_SIMPLE
 			#define MK_PARTICLES
 
-            #include "../../Lib/DepthNormals/Setup.hlsl"
+            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
             ENDHLSL
         }
 
@@ -937,7 +1070,8 @@ Shader "MK/Toon/URP/Particles/Unlit"
 
             HLSLPROGRAM
             #pragma target 2.5
-			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
+			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
+			
 
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
@@ -955,7 +1089,7 @@ Shader "MK/Toon/URP/Particles/Unlit"
 			#define MK_UNLIT
 			#define MK_PARTICLES
 
-            #include "../../Lib/Universal2D/Setup.hlsl"
+            #include_with_pragmas "../../Lib/Universal2D/Setup.hlsl"
 
             ENDHLSL
         }

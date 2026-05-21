@@ -1,5 +1,4 @@
 using UnityEngine;
-using static ActorPhysics;
 
 namespace HSM
 {
@@ -31,6 +30,7 @@ namespace HSM
             ctx.stunTimer = 0;
             ctx.currentMoveMult = 0;
             ctx.currentlyJumping = false;
+            ctx.player.SetTrigger("EndBonk");
             //ctx.playerMat.color = ctx.stunnedColor;
         }
 
@@ -230,14 +230,16 @@ namespace HSM
         protected override void OnEnter()
         {
             base.OnEnter();
+            timer = 0;
             startVel = ctx.rb.velocity;
+            ctx.cmd = ctx.vaultMoveData;
             ctx.rb.velocity = Vector3.zero;
             ctx.player.SetTrigger("StartLedgeGrab");
         }
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab && ctx.pressingJump &&!ctx.disableVaultJump)
+            if (ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump)
             {
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
@@ -255,7 +257,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if (ctx.pressingGrab || timer >= ctx.vaultMaxDuration)
+            if ((ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
             {
                 return Parent;
             }
@@ -638,9 +640,9 @@ namespace HSM
             {
                 ctx.anim.SetBool("OverRunSpeed", horizontalVel.magnitude > ctx.animRunSpeed);
             }
-            else if(horizontalVel.magnitude < ctx.animIdleSpeed && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            else if(horizontalVel.magnitude < ctx.animIdleSpeed && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Ledge Grab"))
             {
-                ctx.anim.SetTrigger("StartIdle");
+                ctx.player.SetTrigger("StartIdle");
             }
 
             if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && horizontalVel.magnitude > ctx.animIdleSpeed)

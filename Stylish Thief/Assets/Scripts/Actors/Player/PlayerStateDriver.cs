@@ -308,6 +308,7 @@ public class PlayerContext
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
     public float vaultMaxDuration;
+    public MoveData vaultMoveData;
 
     public bool disableVaultJump;
     public JumpData vaultJump;

@@ -13,8 +13,14 @@ public class TutorialPrompt : MonoBehaviour
     public bool StopTime;
     public bool destroyOnCompletion;
     bool completed;
-    public InputDisabler disabler;
     [SerializeField] private GameObject canvas;
+    public Vector3 facingDirection;
+    public bool changeDirection;
+    public bool changeStateToIdle;
+    //public string stateName;
+    public Vector3 speed;
+    public bool setSpeed;
+    public bool resetGrab;
 
     PlayerStateDriver player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -60,6 +66,22 @@ public class TutorialPrompt : MonoBehaviour
             {
                 Time.timeScale = 0;
             }
+            if (changeDirection)
+            {
+                player.ctx.facing = facingDirection;
+            }
+            if (changeStateToIdle)
+            {
+                player.Machine.ChangeState(player.Root.Leaf(), player.Root.grounded.idle);
+            }
+            if (setSpeed)
+            {
+                player.SetVelocity(speed);
+            }
+            if (resetGrab)
+            {
+                player.ctx.hasGrabbed = false;
+            }
         }
     }
     public void EndPrompt()
@@ -68,10 +90,6 @@ public class TutorialPrompt : MonoBehaviour
         completed = true;
         Time.timeScale = 1;
         player = null;
-        if (disabler != null)
-        {
-            disabler.EnableEverything();
-        }
         if (destroyOnCompletion)
         {
             Destroy(gameObject.transform.parent.gameObject);

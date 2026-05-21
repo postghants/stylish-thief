@@ -8,6 +8,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4083808138971622530, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: EventReference.Path
+      value: event:/Cone_impact
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083808138971622530, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: OverrideMaxDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083808138971622530, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: EventReference.Guid.Data1
+      value: 1817478962
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083808138971622530, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: EventReference.Guid.Data2
+      value: 1287576871
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083808138971622530, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: EventReference.Guid.Data3
+      value: 443491972
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083808138971622530, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      propertyPath: EventReference.Guid.Data4
+      value: -1364559965
+      objectReference: {fileID: 0}
     - target: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: m_Name
       value: Cone
@@ -46,23 +70,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: kickCanEvent.Path
-      value: event:/Can_Kick
+      value: event:/Cone_Kick
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: kickCanEvent.Guid.Data1
-      value: 74498629
+      value: 290217314
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: kickCanEvent.Guid.Data2
-      value: 1302472494
+      value: 1156782734
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: kickCanEvent.Guid.Data3
-      value: 185712276
+      value: -1044522601
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: kickCanEvent.Guid.Data4
-      value: 1850235603
+      value: 53233250
       objectReference: {fileID: 0}
     - target: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       propertyPath: visualPositionAfterHit.y
@@ -198,7 +222,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6751430408462996581}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}

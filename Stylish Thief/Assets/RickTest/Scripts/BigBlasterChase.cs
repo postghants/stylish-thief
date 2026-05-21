@@ -18,6 +18,8 @@ public class BigBlasterChase : EnemyMovement
 
     [Header("Random Area Around Player Selection")]
     public float circleRadius;
+    public float failSafeTime;
+    private float timer;
 
     [Header("References")]
     private NavMeshAgent agent;
@@ -100,6 +102,20 @@ public class BigBlasterChase : EnemyMovement
                             projectile.SetActive(true);
                         }
                     }
+                }
+                if (agent.pathPending || agent.pathStatus.ToString() == "Invalid")
+                {
+                    timer += deltaTime;
+                    Debug.Log("Counting: " + timer);
+                    if (timer >= failSafeTime)
+                    {
+                        timer = 0;
+                        agent.SetDestination(ctr.ctx.player.transform.position);
+                    }
+                }
+                else
+                {
+                    timer = 0;
                 }
             }
             else

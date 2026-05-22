@@ -120080,7 +120080,7 @@ MonoBehaviour:
   spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
-  - enemy: {fileID: 3733895822402104053, guid: d3710434c58b2e34f826c022e6bbc3a9, type: 3}
+  - enemy: {fileID: 941804433808702746, guid: 6f93ef68e342121428d117e1ffd5ad51, type: 3}
     weight: 1
   patrolZoneLayer:
     serializedVersion: 2
@@ -151016,11 +151016,19 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.rollTiming
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.orbitalFollow
       value: 
       objectReference: {fileID: 566103194}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.maxLedgeHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
+      propertyPath: ctx.vaultMaxDuration
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}

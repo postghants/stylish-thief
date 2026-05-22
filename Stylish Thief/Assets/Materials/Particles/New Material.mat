@@ -11,14 +11,23 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7a06e458000b70b4daf220f2785b9711, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
+  - _MK_RECEIVE_SHADOWS
   m_InvalidKeywords:
   - _FLIPBOOKBLENDING_OFF
+  - _MK_ARTISTIC_ANIMATION_STUTTER
+  - _MK_DETAIL_BLEND_MIX
+  - _MK_WRAPPED_DIFFUSE
+  - _RECEIVESHADOWS_ON
+  - _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    IGNOREPROJECTOR: False
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -257,6 +266,9 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GoochDarkRemapFadeWithIndirect: 0
+    - _GoochDarkRemapMax: 1
+    - _GoochDarkRemapMin: 0
     - _GoochRampIntensity: 0.5
     - _HatchingMapScale: 1
     - _Hue: 0
@@ -285,6 +297,7 @@ Material:
     - _OptionsTab: 1
     - _Outline: 3
     - _OutlineClipOffset: 0
+    - _OutlineConstantSize: 0
     - _OutlineData: 0
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25

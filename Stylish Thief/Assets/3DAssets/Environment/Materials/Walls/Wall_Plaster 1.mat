@@ -7,12 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wall_Plaster
+  m_Name: Wall_Plaster 1
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
+  - _MK_COLOR_GRADING_ALBEDO
   - _MK_LIGHT_CEL
   - _MK_NORMAL_MAP
   - _MK_OUTLINE_NOISE
@@ -209,9 +210,9 @@ Material:
     - _BlendDstAlpha: 0
     - _BlendSrc: 1
     - _BlendSrcAlpha: 1
-    - _Brightness: 0.4
+    - _Brightness: 1.1
     - _BumpScale: 1
-    - _ColorGrading: 0
+    - _ColorGrading: 1
     - _Contrast: 0.52
     - _Cutoff: 0.5
     - _DetailBlend: 0
@@ -240,7 +241,7 @@ Material:
     - _GoochDarkRemapMin: 0
     - _GoochRampIntensity: 0.5
     - _HatchingMapScale: 1
-    - _Hue: 0.898
+    - _Hue: 0.95
     - _IndirectFade: 1
     - _Initialized: 0
     - _InputTab: 1
@@ -281,7 +282,7 @@ Material:
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
-    - _Saturation: 31.22
+    - _Saturation: 2.54
     - _SketchMapScale: 1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0

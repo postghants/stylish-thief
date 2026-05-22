@@ -12295,6 +12295,63 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &149715029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 149715030}
+  - component: {fileID: 149715031}
+  m_Layer: 0
+  m_Name: NavMesh Link (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &149715030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149715029}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 154.5, y: -22.75, z: -49.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 576928111}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &149715031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149715029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
+  m_SerializedVersion: 1
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0, y: -2.75, z: -0.5}
+  m_EndPoint: {x: 0, y: -3.75, z: 1.25}
+  m_StartTransform: {fileID: 0}
+  m_EndTransform: {fileID: 0}
+  m_Activated: 1
+  m_Width: 2.61
+  m_CostModifier: 1
+  m_IsOverridingCost: 0
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1001 &149828119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31511,28 +31568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22c8c2c45e3af54c88462dd32a35a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolZone
---- !u!114 &394647474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 394647467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5650f1959fc92b488f3909c6a8bf444, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
-  patrolZone: {fileID: 394647471}
-  spawnOnlyOnce: 1
-  spawnOnStart: 1
-  spawnOnEnterPatrolZone: 0
-  enemySpawnInfo:
-  - enemy: {fileID: 3733895822402104053, guid: d3710434c58b2e34f826c022e6bbc3a9, type: 3}
-    weight: 1
-  patrolZoneLayer:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!4 &395135567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4382748723147176316, guid: 0c03c83fc7dea104f87c79b92238594c, type: 3}
@@ -35401,7 +35436,7 @@ PrefabInstance:
       objectReference: {fileID: 887049215}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: maxChaseTime
-      value: 45
+      value: 944.4
       objectReference: {fileID: 0}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: valuablesToSpawn
@@ -48608,6 +48643,7 @@ Transform:
   - {fileID: 243323050}
   - {fileID: 192028535}
   - {fileID: 37161397}
+  - {fileID: 149715030}
   m_Father: {fileID: 887049216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &577508754
@@ -104226,7 +104262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144104668988225976, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       propertyPath: OnPlayerEnter.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6144104668988225976, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       propertyPath: OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -104259,7 +104295,7 @@ PrefabInstance:
     - target: {fileID: 6144104668988225976, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       propertyPath: OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 394647474}
+      objectReference: {fileID: 0}
     - target: {fileID: 6144104668988225976, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       propertyPath: OnPlayerEnter.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -104379,9 +104415,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2661236939835075516, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 394647469}
-    - targetCorrespondingSourceObject: {fileID: 2661236939835075516, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 394647474}
   m_SourcePrefab: {fileID: 100100000, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
 --- !u!1 &1251700104
 GameObject:
@@ -120177,7 +120210,7 @@ MonoBehaviour:
   spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
-  - enemy: {fileID: 941804433808702746, guid: 6f93ef68e342121428d117e1ffd5ad51, type: 3}
+  - enemy: {fileID: 3733895822402104053, guid: d3710434c58b2e34f826c022e6bbc3a9, type: 3}
     weight: 1
   patrolZoneLayer:
     serializedVersion: 2
@@ -120398,7 +120431,7 @@ MonoBehaviour:
   spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
-  - enemy: {fileID: 941804433808702746, guid: 6f93ef68e342121428d117e1ffd5ad51, type: 3}
+  - enemy: {fileID: 8493037400413003749, guid: 2a8ccb956d782db479c12da095224102, type: 3}
     weight: 1
   patrolZoneLayer:
     serializedVersion: 2
@@ -151120,14 +151153,6 @@ PrefabInstance:
       propertyPath: ctx.orbitalFollow
       value: 
       objectReference: {fileID: 566103194}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.maxLedgeHeight
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.vaultMaxDuration
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.vaultJump.jumpMovementMult
       value: 0

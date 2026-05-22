@@ -75,6 +75,7 @@ public class RickBarSwing : MonoBehaviour
                         Debug.Log(entryRotation.y + " - " + eventHandler.transform.rotation.eulerAngles.y + " = " + difference);*/
 
                         player.SetVelocity(launchSpeeds);
+                        //player.SetTrigger("Hallo!");
                     }
                     else
                     {

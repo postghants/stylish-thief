@@ -5314,7 +5314,7 @@ MonoBehaviour:
       upwardDeceleration: 60
       upwardDecelApexThreshold: 5
       upwardDecelApex: 30
-      hangtimeDuration: 0.2
+      hangtimeDuration: 0
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
@@ -5340,6 +5340,20 @@ MonoBehaviour:
     ledgeCheckDistance: 1.5
     maxLedgeHeight: 2
     vaultMaxDuration: 0.4
+    vaultMoveData:
+      acceleration: 0
+      deceleration: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     disableVaultJump: 0
     vaultJump:
       jumpImpulse: 15

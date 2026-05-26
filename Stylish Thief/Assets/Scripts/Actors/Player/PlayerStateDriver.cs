@@ -308,6 +308,7 @@ public class PlayerContext
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
     public float vaultMaxDuration;
+    public MoveData vaultMoveData;
 
     public bool disableVaultJump;
     public JumpData vaultJump;
@@ -355,12 +356,16 @@ public class PlayerContext
 
     [Header("Bag Throw")]
     public bool disablePound;
+    public bool additive;
+    public bool poundAccelerate;
     public float prePoundUpBoost;
     public float prePoundDuration;
     public float prePoundGrav;
     public MoveData prePoundMove;
     public float poundSpeedDown;
     public float poundSpeedFw;
+    public float downAcceleration;
+    public float forwardAcceleration;
     public float poundLandDelay;
     public float poundLandSpeed;
 
@@ -392,6 +397,7 @@ public class PlayerContext
 
     [Header("Animation variables")]
     public float animRunSpeed;
+    public float animIdleSpeed;
 
     [Header("Internal NO TOUCHY")]
     public float currentHealth;

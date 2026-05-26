@@ -30,6 +30,7 @@ namespace HSM
             ctx.stunTimer = 0;
             ctx.currentMoveMult = 0;
             ctx.currentlyJumping = false;
+            ctx.player.SetTrigger("EndBonk");
             //ctx.playerMat.color = ctx.stunnedColor;
         }
 
@@ -229,14 +230,16 @@ namespace HSM
         protected override void OnEnter()
         {
             base.OnEnter();
+            timer = 0;
             startVel = ctx.rb.velocity;
+            ctx.cmd = ctx.vaultMoveData;
             ctx.rb.velocity = Vector3.zero;
             ctx.player.SetTrigger("StartLedgeGrab");
         }
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab && ctx.pressingJump &&!ctx.disableVaultJump)
+            if (ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump)
             {
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
@@ -254,7 +257,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if (ctx.pressingGrab || timer >= ctx.vaultMaxDuration)
+            if ((ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
             {
                 return Parent;
             }
@@ -617,7 +620,11 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.particleManager.StartGroup("Run");
+            ctx.particleManager.StartGroup("Run"); 
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && ctx.rb.velocity.y == 0)
+            {
+                ctx.player.SetTrigger("StartWalk");
+            }
         }
 
         protected override void OnExit()
@@ -627,15 +634,20 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && ctx.rb.velocity.y == 0)
-            {
-                ctx.player.SetTrigger("StartWalk");
-            }
+            Vector3 horizontalVel = ctx.rb.velocity;
+            horizontalVel.y = 0;
             if (ctx.moveInputValue != Vector2.zero)
             {
-                Vector3 horizontalVel = ctx.rb.velocity;
-                horizontalVel.y = 0;
                 ctx.anim.SetBool("OverRunSpeed", horizontalVel.magnitude > ctx.animRunSpeed);
+            }
+            else if(horizontalVel.magnitude < ctx.animIdleSpeed && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Ledge Grab"))
+            {
+                ctx.player.SetTrigger("StartIdle");
+            }
+
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && horizontalVel.magnitude > ctx.animIdleSpeed)
+            {
+                ctx.player.SetTrigger("StartWalk");
             }
         }
 
@@ -905,10 +917,16 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            if (ctx.additive)
+            {
+                ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
+            }
+            else
+            {
+                ctx.rb.velocity.y = Mathf.Clamp(ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
+            }
 
-            ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
-
-            ctx.cmd = ctx.prePoundMove;
+                ctx.cmd = ctx.prePoundMove;
             ctx.gravMultiplier = ctx.prePoundGrav;
 
             ctx.player.SetTrigger("StartBagThrow");
@@ -935,6 +953,7 @@ namespace HSM
     public class PlayerPound : State
     {
         private PlayerContext ctx;
+        private Vector3 velocity;
         public PlayerPound(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -944,8 +963,12 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
-            ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
-            ctx.rb.velocity.y = -ctx.poundSpeedDown;
+            //ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
+            //ctx.rb.velocity.y = -ctx.poundSpeedDown;
+
+            velocity = ctx.facing * ctx.poundSpeedFw;
+            velocity.y = -ctx.poundSpeedDown;
+            ctx.rb.velocity = velocity;
         }
 
         protected override State GetTransition(float deltaTime)
@@ -954,12 +977,27 @@ namespace HSM
             {
                 //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
                 //{
-                return ((PlayerRoot)Parent.Parent).grounded.rolling;
+                return ((PlayerRoot)Parent.Parent).grounded.idle;
                 //}
                 //implement land state later
                 //return ((PlayerRoot)Parent.Parent).grounded;
             }
             return null;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ctx.poundAccelerate)
+            {
+                velocity.x += ctx.facing.x * ctx.downAcceleration * deltaTime;
+                velocity.z += ctx.facing.z * ctx.downAcceleration * deltaTime;
+                velocity.y -= ctx.downAcceleration * deltaTime;
+                ctx.rb.velocity = velocity;
+            }
+            if (ctx.rb.velocity.y <= -ctx.baseJumpData.fastFallSpeed)
+            {
+                Debug.Log("Rollable!");
+            }
         }
     }
 

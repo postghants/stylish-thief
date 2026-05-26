@@ -75,6 +75,8 @@ public class RickBarSwing : MonoBehaviour
                         Debug.Log(entryRotation.y + " - " + eventHandler.transform.rotation.eulerAngles.y + " = " + difference);*/
 
                         player.SetVelocity(launchSpeeds);
+                        player.SetTrigger("BarSwingToJump");
+                        //player.SetTrigger("Hallo!");
                     }
                     else
                     {
@@ -125,6 +127,8 @@ public class RickBarSwing : MonoBehaviour
             player.transform.position = transform.position;
             CalculateAngles();
             hanging = true;
+
+            player.SetTrigger("StartBarSwing");
         }
     }
     private void CalculateAngles()

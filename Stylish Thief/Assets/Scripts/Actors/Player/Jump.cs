@@ -99,7 +99,7 @@ public class Jump
             }
 
             var animStateInfo = ctx.anim.GetCurrentAnimatorStateInfo(0);
-            if (!animStateInfo.IsName("Liftoff") && !animStateInfo.IsName("Jump Upwards") && !animStateInfo.IsName("Stall") 
+            if (!animStateInfo.IsName("Liftoff") && !animStateInfo.IsName("Jump Upwards") && !animStateInfo.IsName("Stall")
                 && !animStateInfo.IsName("Bonk") && !animStateInfo.IsName("Bonk Loop")
                 && !animStateInfo.IsName("Grab") && !animStateInfo.IsName("Grab Loop") && !animStateInfo.IsName("Grab End")
                 && !animStateInfo.IsName("Ledge Grab") && !animStateInfo.IsName("Vault") && !animStateInfo.IsName("Vault Jump Loop")

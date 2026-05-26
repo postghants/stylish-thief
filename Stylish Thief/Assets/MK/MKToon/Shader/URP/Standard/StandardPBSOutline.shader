@@ -10,10 +10,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 {
 	Properties
 	{
-		//CurvedWorldSupport
-		//CurvedWorldProperties
-		//
-		
 		/////////////////
 		// Options     //
 		/////////////////
@@ -90,9 +86,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		_GoochBrightColor ("", Color) = (1, 1, 1, 1)
 		_GoochBrightMap ("", 2D) = "white" {}
 		_GoochDarkColor ("", Color) = (0, 0, 0, 1)
-		_GoochDarkRemapMin ("", Range (0.0, 1.0)) = 0.0
-		_GoochDarkRemapMax ("", Range (0.0, 1.0)) = 1.0
-		[Toggle] _GoochDarkRemapFadeWithIndirect ("", int) = 0
 		_GoochDarkMap ("", 2D) = "white" {}
 		_Contrast ("", Float) = 1.0
 		_Hue ("", Range(0.0, 1.0)) = 0.0
@@ -179,7 +172,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		_OutlineMap ("", 2D) = "white" {}
 		_OutlineClipOffset ("", Range(0, 1)) = 0.0
 		_OutlineSize ("", Float) = 5.0
-		[Toggle] _OutlineConstantSize ("", int) = 0
 		_OutlineColor ("", Color) = (0, 0, 0, 1)
 		_OutlineNoise ("", Range(-1, 1)) = 0.0
 
@@ -205,10 +197,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
 	}
-
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	// SM 4.5
-	/////////////////////////////////////////////////////////////////////////////////////////////
 	SubShader
 	{
 		Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
@@ -242,8 +230,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
 			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
 			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
@@ -283,14 +270,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_GOOCH_RAMP
 			//#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
-			#if UNITY_VERSION >= 202310
-				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-			#endif
-
-			#if UNITY_VERSION >= 202010
-				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
-			#endif
-
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
@@ -308,10 +287,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#if UNITY_VERSION >= 60030000
-				#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
-				#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
-			#endif
 			#if UNITY_VERSION >= 202330
 				#pragma multi_compile_fragment __ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 			#else
@@ -326,6 +301,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 			#if UNITY_VERSION >= 202310
 				#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
@@ -360,6 +339,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 				#endif
 			#endif
 
+			#if UNITY_VERSION >= 202310
+				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
+			#endif
+
 			#pragma fragmentoption ARB_precision_hint_fastest
 			#pragma vertex ForwardVert
 			#pragma fragment ForwardFrag
@@ -371,14 +354,12 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
 
 			#define MK_URP
 			#define MK_PBS
 			#define MK_STANDARD
-
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
+			#include "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -409,8 +390,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
 			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
 			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
@@ -450,14 +430,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_GOOCH_RAMP
 			//#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
-			#if UNITY_VERSION >= 202310
-				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-			#endif
-
-			#if UNITY_VERSION >= 202010
-				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
-			#endif
-
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
@@ -475,10 +447,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#if UNITY_VERSION >= 60030000
-				#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
-				#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
-			#endif
 			#if UNITY_VERSION >= 202330
 				#pragma multi_compile_fragment __ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 			#else
@@ -493,6 +461,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 			#if UNITY_VERSION >= 202310
 				#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
@@ -527,6 +499,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 				#endif
 			#endif
 
+			#if UNITY_VERSION >= 202310
+				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
+			#endif
+
 			#pragma fragmentoption ARB_precision_hint_fastest
 			#pragma vertex ForwardVert
 			#pragma fragment ForwardFrag
@@ -538,13 +514,12 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
 
 			#define MK_URP
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
+			#include "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -562,17 +537,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass 
 		{
-			Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
 			Name "ShadowCaster"
 			Tags { "LightMode" = "ShadowCaster" }
 
@@ -580,8 +544,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
 			#pragma shader_feature_local __ _MK_HEIGHT_MAP
 			#pragma shader_feature_local __ _MK_PARALLAX
@@ -603,12 +566,13 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma fragment ShadowCasterFrag
 
 			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
 
 			#define MK_URP
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/ShadowCaster/Setup.hlsl"
+			#include "../../Lib/ShadowCaster/Setup.hlsl"
 
 			ENDHLSL
 		}
@@ -625,8 +589,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 			#pragma vertex MetaVert
 			#pragma fragment MetaFrag
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -645,7 +608,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Meta/Setup.hlsl"
+			#include "../../Lib/Meta/Setup.hlsl"
 			ENDHLSL
 		}
 
@@ -673,8 +636,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM 
 			#pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 			#pragma vertex OutlineVert 
 			#pragma fragment OutlineFrag
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -717,7 +679,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_URP
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Outline/Setup.hlsl"
+			#include "../../Lib/Outline/Setup.hlsl"
 
 			ENDHLSL 
 		}
@@ -727,17 +689,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "DepthOnly"
             Tags { "LightMode" = "DepthOnly" }
 
@@ -747,8 +698,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
@@ -772,7 +722,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/DepthOnly/Setup.hlsl"
+            #include "../../Lib/DepthOnly/Setup.hlsl"
             ENDHLSL
         }
 
@@ -781,21 +731,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
-            PackageRequirements 
-			{
-				"com.unity.render-pipelines.universal":"[7.0,16.99]"
-			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "DepthNormals"
             Tags { "LightMode" = "DepthNormals" }
 
@@ -804,8 +739,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
@@ -816,70 +750,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-
-			#if UNITY_VERSION >= 202220
-				#if UNITY_VERSION >= 202310
-					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
-				#endif
-				#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
-			#endif
-
-            #pragma multi_compile_instancing
-
-			#define MK_URP
-			#define MK_PBS
-			#define MK_STANDARD
-			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
-            ENDHLSL
-        }
-		Pass
-        {
-			PackageRequirements 
-			{
-				"com.unity.render-pipelines.universal":"[17.0,99.99]"
-			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
-            Name "DepthNormalsOnly"
-            Tags { "LightMode" = "DepthNormalsOnly" }
-
-            ZWrite On
-            Cull [_RenderFace]
-
-            HLSLPROGRAM
-            #pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
-
-            #pragma vertex DepthNormalsVert
-            #pragma fragment DepthNormalsFrag
-
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			//#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
 
 			#if UNITY_VERSION >= 202220
 				#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
@@ -896,8 +766,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-
-            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
+            #include "../../Lib/DepthNormals/Setup.hlsl"
             ENDHLSL
         }
 
@@ -910,17 +779,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			{
 				"com.unity.render-pipelines.universal":"[16.0,99.99]"
 			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "MotionVectors"
             Tags { "LightMode" = "MotionVectors" }
 
@@ -930,8 +788,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
             #pragma vertex MotionVectorsVert
             #pragma fragment MotionVectorsFrag
@@ -955,7 +812,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_STANDARD
 
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
-            #include_with_pragmas "../../Lib/MotionVectors/Setup.hlsl"
+            #include "../../Lib/MotionVectors/Setup.hlsl"
             ENDHLSL
         }
 
@@ -967,17 +824,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			PackageRequirements 
 			{
 				"com.unity.render-pipelines.universal":"[17.0,99.99]"
-			}
-
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
 			}
 
             Name "XRMotionVectors"
@@ -997,8 +843,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
             #pragma vertex MotionVectorsVert
             #pragma fragment MotionVectorsFrag
@@ -1011,7 +856,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 			
-			#define APPLICATION_SPACE_WARP_MOTION 1
+			#define APLICATION_SPACE_WARP_MOTION 1
 
             #pragma multi_compile_instancing
 
@@ -1024,7 +869,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_STANDARD
 
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
-            #include_with_pragmas "../../Lib/MotionVectors/Setup.hlsl"
+            #include "../../Lib/MotionVectors/Setup.hlsl"
             ENDHLSL
         }
 
@@ -1042,8 +887,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
 			#pragma target 4.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
@@ -1062,7 +906,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_UNLIT
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/Universal2D/Setup.hlsl"
+            #include "../../Lib/Universal2D/Setup.hlsl"
 
             ENDHLSL
         }
@@ -1104,8 +948,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
 			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
 			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
@@ -1145,14 +988,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_GOOCH_RAMP
 			//#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
-			#if UNITY_VERSION >= 202310
-				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-			#endif
-
-			#if UNITY_VERSION >= 202010
-				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
-			#endif
-
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
@@ -1170,10 +1005,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#if UNITY_VERSION >= 60030000
-				#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
-				#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
-			#endif
 			#if UNITY_VERSION >= 202330
 				#pragma multi_compile_fragment __ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 			#else
@@ -1188,6 +1019,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 			#if UNITY_VERSION >= 202310
 				#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
@@ -1238,9 +1073,8 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_URP
 			#define MK_PBS
 			#define MK_STANDARD
-
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
+			#include "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -1271,8 +1105,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
 			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
 			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
@@ -1312,14 +1145,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_GOOCH_RAMP
 			//#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
-			#if UNITY_VERSION >= 202310
-				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-			#endif
-
-			#if UNITY_VERSION >= 202010
-				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
-			#endif
-
 			#if UNITY_VERSION >= 202120
 				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
@@ -1337,10 +1162,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#if UNITY_VERSION >= 60030000
-				#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
-				#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
-			#endif
 			#if UNITY_VERSION >= 202330
 				#pragma multi_compile_fragment __ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 			#else
@@ -1355,6 +1176,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 			#if UNITY_VERSION >= 202310
 				#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
@@ -1406,7 +1231,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
+			#include "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -1424,17 +1249,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass 
 		{
-			Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
 			Name "ShadowCaster"
 			Tags { "LightMode" = "ShadowCaster" }
 
@@ -1442,8 +1256,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
 			#pragma shader_feature_local __ _MK_HEIGHT_MAP
 			#pragma shader_feature_local __ _MK_PARALLAX
@@ -1470,7 +1283,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/ShadowCaster/Setup.hlsl"
+			#include "../../Lib/ShadowCaster/Setup.hlsl"
 
 			ENDHLSL
 		}
@@ -1487,8 +1300,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 			#pragma vertex MetaVert
 			#pragma fragment MetaFrag
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -1507,7 +1319,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Meta/Setup.hlsl"
+			#include "../../Lib/Meta/Setup.hlsl"
 			ENDHLSL
 		}
 
@@ -1535,8 +1347,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM 
 			#pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 			#pragma vertex OutlineVert 
 			#pragma fragment OutlineFrag
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -1579,7 +1390,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_URP
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Outline/Setup.hlsl"
+			#include "../../Lib/Outline/Setup.hlsl"
 
 			ENDHLSL 
 		}
@@ -1589,17 +1400,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "DepthOnly"
             Tags { "LightMode" = "DepthOnly" }
 
@@ -1609,8 +1409,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
@@ -1634,7 +1433,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/DepthOnly/Setup.hlsl"
+            #include "../../Lib/DepthOnly/Setup.hlsl"
             ENDHLSL
         }
 
@@ -1643,21 +1442,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
-            PackageRequirements 
-			{
-				"com.unity.render-pipelines.universal":"[7.0,16.99]"
-			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "DepthNormals"
             Tags { "LightMode" = "DepthNormals" }
 
@@ -1666,8 +1450,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
@@ -1678,10 +1461,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
 
 			#if UNITY_VERSION >= 202220
 				#if UNITY_VERSION >= 202310
@@ -1698,68 +1477,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
-            ENDHLSL
-        }
-		Pass
-        {
-			PackageRequirements 
-			{
-				"com.unity.render-pipelines.universal":"[17.0,99.99]"
-			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
-            Name "DepthNormalsOnly"
-            Tags { "LightMode" = "DepthNormalsOnly" }
-
-            ZWrite On
-            Cull [_RenderFace]
-
-            HLSLPROGRAM
-            #pragma target 3.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
-
-            #pragma vertex DepthNormalsVert
-            #pragma fragment DepthNormalsFrag
-
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			//#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-
-			#if UNITY_VERSION >= 202220
-				#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
-				#if UNITY_VERSION >= 202310
-					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
-				#endif
-			#endif
-
-            #pragma multi_compile_instancing
-
-			#define MK_URP
-			#define MK_PBS
-			#define MK_STANDARD
-			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-
-            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
+            #include "../../Lib/DepthNormals/Setup.hlsl"
             ENDHLSL
         }
 
@@ -1772,17 +1490,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			{
 				"com.unity.render-pipelines.universal":"[16.0,99.99]"
 			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "MotionVectors"
             Tags { "LightMode" = "MotionVectors" }
 
@@ -1792,8 +1499,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 
             #pragma vertex MotionVectorsVert
             #pragma fragment MotionVectorsFrag
@@ -1817,7 +1523,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_STANDARD
 
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
-            #include_with_pragmas "../../Lib/MotionVectors/Setup.hlsl"
+            #include "../../Lib/MotionVectors/Setup.hlsl"
             ENDHLSL
         }
 
@@ -1829,17 +1535,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			PackageRequirements 
 			{
 				"com.unity.render-pipelines.universal":"[17.0,99.99]"
-			}
-
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
 			}
 
             Name "XRMotionVectors"
@@ -1859,8 +1554,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
             #pragma vertex MotionVectorsVert
             #pragma fragment MotionVectorsFrag
@@ -1873,7 +1567,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 			
-			#define APPLICATION_SPACE_WARP_MOTION 1
+			#define APLICATION_SPACE_WARP_MOTION 1
 
             #pragma multi_compile_instancing
 
@@ -1886,7 +1580,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_STANDARD
 
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
-            #include_with_pragmas "../../Lib/MotionVectors/Setup.hlsl"
+            #include "../../Lib/MotionVectors/Setup.hlsl"
             ENDHLSL
         }
 
@@ -1904,8 +1598,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
 			#pragma target 3.5
-			#pragma only_renderers glcore gles3
-			
+			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
@@ -1924,7 +1617,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_UNLIT
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/Universal2D/Setup.hlsl"
+            #include "../../Lib/Universal2D/Setup.hlsl"
 
             ENDHLSL
         }
@@ -1966,8 +1659,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
 			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
 			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
@@ -2002,16 +1694,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_GOOCH_RAMP
 			//#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
-			#if UNITY_VERSION >= 202310
-				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-			#endif
-
-			#if UNITY_VERSION >= 202010
-				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
-			#endif
-
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 				#if UNITY_VERSION >= 60010000
@@ -2027,10 +1710,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#if UNITY_VERSION >= 60030000
-				#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
-				#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
-			#endif
 			#if UNITY_VERSION >= 202330
 				#pragma multi_compile_fragment __ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 			#else
@@ -2045,6 +1724,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 			#if UNITY_VERSION >= 202310
 				#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
@@ -2086,7 +1769,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
+			#include "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -2117,8 +1800,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
 			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
 			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
@@ -2153,16 +1835,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_GOOCH_RAMP
 			//#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
-			#if UNITY_VERSION >= 202310
-				#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-			#endif
-
-			#if UNITY_VERSION >= 202010
-				#pragma multi_compile_fragment __ _SCREEN_SPACE_OCCLUSION
-			#endif
-
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 				#if UNITY_VERSION >= 60010000
@@ -2178,10 +1851,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 
 			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#if UNITY_VERSION >= 60030000
-				#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
-				#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
-			#endif
 			#if UNITY_VERSION >= 202330
 				#pragma multi_compile_fragment __ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 			#else
@@ -2196,6 +1865,10 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#endif
 			#if UNITY_VERSION >= 202310
 				#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
+
+			#if UNITY_VERSION >= 202010
+				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
@@ -2237,7 +1910,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Forward/BaseSetup.hlsl"
+			#include "../../Lib/Forward/BaseSetup.hlsl"
 			
 			ENDHLSL
 		}
@@ -2255,17 +1928,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass 
 		{
-			Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
 			Name "ShadowCaster"
 			Tags { "LightMode" = "ShadowCaster" }
 
@@ -2273,8 +1935,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 			#pragma shader_feature_local __ _MK_ALBEDO_MAP
 			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
 			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
@@ -2299,7 +1960,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/ShadowCaster/Setup.hlsl"
+			#include "../../Lib/ShadowCaster/Setup.hlsl"
 
 			ENDHLSL
 		}
@@ -2316,8 +1977,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM
 			#pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 			#pragma vertex MetaVert
 			#pragma fragment MetaFrag
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -2335,7 +1995,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
 
-			#include_with_pragmas "../../Lib/Meta/Setup.hlsl"
+			#include "../../Lib/Meta/Setup.hlsl"
 			ENDHLSL
 		}
 
@@ -2363,8 +2023,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
 			HLSLPROGRAM 
 			#pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 			#pragma vertex OutlineVert 
 			#pragma fragment OutlineFrag
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -2400,7 +2059,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_URP
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-			#include_with_pragmas "../../Lib/Outline/Setup.hlsl"
+			#include "../../Lib/Outline/Setup.hlsl"
 
 			ENDHLSL 
 		}
@@ -2410,17 +2069,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "DepthOnly"
             Tags { "LightMode" = "DepthOnly" }
 
@@ -2430,8 +2078,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
@@ -2453,7 +2100,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/DepthOnly/Setup.hlsl"
+            #include "../../Lib/DepthOnly/Setup.hlsl"
             ENDHLSL
         }
 
@@ -2462,21 +2109,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		Pass
         {
-            PackageRequirements 
-			{
-				"com.unity.render-pipelines.universal":"[7.0,16.99]"
-			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
             Name "DepthNormals"
             Tags { "LightMode" = "DepthNormals" }
 
@@ -2485,8 +2117,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
             #pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
@@ -2497,10 +2128,6 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
             #pragma shader_feature_local __ _MK_ALBEDO_MAP
             #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
 
 			#if UNITY_VERSION >= 202220
 				#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
@@ -2512,69 +2139,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_PBS
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
-            ENDHLSL
-        }
-
-		Pass
-        {
-			PackageRequirements 
-			{
-				"com.unity.render-pipelines.universal":"[17.0,99.99]"
-			}
-            Stencil
-			{
-				Ref [_StencilRef]
-				ReadMask [_StencilReadMask]
-				WriteMask [_StencilWriteMask]
-				Comp [_StencilComp]
-				Pass [_StencilPass]
-				Fail [_StencilFail]
-				ZFail [_StencilZFail]
-			}
-			
-            Name "DepthNormalsOnly"
-            Tags { "LightMode" = "DepthNormalsOnly" }
-
-            ZWrite On
-            Cull [_RenderFace]
-
-            HLSLPROGRAM
-            #pragma target 2.5
-			#pragma exclude_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
-
-            #pragma vertex DepthNormalsVert
-            #pragma fragment DepthNormalsFrag
-
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			//#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-
-			#if UNITY_VERSION >= 202220
-				#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
-				#if UNITY_VERSION >= 202310
-					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
-				#endif
-			#endif
-
-            #pragma multi_compile_instancing
-
-			#define MK_URP
-			#define MK_PBS
-			#define MK_STANDARD
-			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-
-            #include_with_pragmas "../../Lib/DepthNormals/Setup.hlsl"
+            #include "../../Lib/DepthNormals/Setup.hlsl"
             ENDHLSL
         }
 
@@ -2597,8 +2162,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 
             HLSLPROGRAM
 			#pragma target 2.5
-			#pragma only_renderers gles d3d9 d3d11_9x psp2 n3ds wiiu
-			
+			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
@@ -2617,7 +2181,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 			#define MK_UNLIT
 			#define MK_STANDARD
 			#include_with_pragmas "../../Lib/DotsInstancingSetup.hlsl"
-            #include_with_pragmas "../../Lib/Universal2D/Setup.hlsl"
+            #include "../../Lib/Universal2D/Setup.hlsl"
 
             ENDHLSL
         }

@@ -442,6 +442,7 @@ public class MoveData
 {
     [Tooltip("Acceleration in units per second squared.")] public float acceleration;
     [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
+    public float minWalkSpeed;
     [Tooltip("Maximum speed.")] public float maxSpeed;
     public float maxSpeedDeceleration;
     public float turnSpeedMult;

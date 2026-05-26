@@ -28,7 +28,7 @@ public class Jump
             ctx.rb.StartCoroutine(SetMovementMult(ctx));
             if(ctx.currentJumpData == ctx.baseJumpData)
             {
-                ctx.anim.SetTrigger("StartLiftoff");
+                ctx.player.SetTrigger("StartLiftoff");
             }
         }
         if (ctx.jumpBuffer == 0)
@@ -75,7 +75,7 @@ public class Jump
 
                         if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Liftoff"))
                         {
-                            ctx.anim.SetTrigger("UpwardsToStall");
+                            ctx.player.SetTrigger("UpwardsToStall");
                         }
 
                         if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.deltaTime * ctx.rb.gravity.y <= 0)
@@ -105,7 +105,7 @@ public class Jump
                 && !animStateInfo.IsName("Ledge Grab") && !animStateInfo.IsName("Vault") && !animStateInfo.IsName("Vault Jump Loop")
                 && !animStateInfo.IsName("Bag Throw") && !animStateInfo.IsName("Bag Throw Loop"))
             {
-                ctx.anim.SetTrigger("StartFall");
+                ctx.player.SetTrigger("StartFall");
             }
             
                 ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;

@@ -7,6 +7,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BigBlasterChase : EnemyMovement
 {
+    public GameObject testTarget;
+
     [Header("Movement")]
     public float maxSpeed;
     public float acceleration;
@@ -18,6 +20,8 @@ public class BigBlasterChase : EnemyMovement
 
     [Header("Random Area Around Player Selection")]
     public float circleRadius;
+    public float failSafeTime;
+    private float timer;
 
     [Header("References")]
     private NavMeshAgent agent;
@@ -102,6 +106,20 @@ public class BigBlasterChase : EnemyMovement
                         }
                     }
                 }
+                if (agent.pathPending || agent.pathStatus.ToString() == "Invalid")
+                {
+                    timer += deltaTime;
+                    Debug.Log("Counting: " + timer);
+                    if (timer >= failSafeTime)
+                    {
+                        timer = 0;
+                        agent.SetDestination(ctr.ctx.player.transform.position);
+                    }
+                }
+                else
+                {
+                    timer = 0;
+                }
             }
             else
             {
@@ -137,6 +155,7 @@ public class BigBlasterChase : EnemyMovement
                 ChaseOutsideZone();
             }
         }
+        testTarget.transform.position = patrolZoneTarget;
     }
     public override void OnExit()
     {
@@ -187,7 +206,7 @@ public class BigBlasterChase : EnemyMovement
         lookPos.y = agent.transform.position.y;
         rotationTf.transform.LookAt(lookPos);
         ctr.PlayAnimation("Jump");
-
+        targetSet = false;
     }
     private void Jumping(float deltaTime)
     {

@@ -56,7 +56,8 @@ public class RickBouncyPlatform : MonoBehaviour
             //}
             player.transform.position = player.transform.position + new Vector3(0, .01f, 0);
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
-            player.ctx.anim.SetTrigger("StartLiftoff");
+            player.SetTrigger("StartLiftoff");
+            player.ctx.currentlyJumping = true;
             player.ctx.hasGrabbed = false;
         }
     }

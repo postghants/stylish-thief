@@ -412,6 +412,10 @@ namespace HSM
                 if (ctx.grabTimer > ctx.grabDuration + ctx.grabDeceleration + ctx.grabEndLag)
                 {
                     ctx.grabTimer = 0;
+                    //if (ctx.rb.isGrounded)
+                    //{
+                    //    return ((PlayerRoot)Machine.Root).grounded;
+                    //}
                     return Parent;
                 }
             }
@@ -625,6 +629,12 @@ namespace HSM
             {
                 ctx.player.SetTrigger("StartWalk");
             }
+
+            if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Grab End"))
+            {
+                ctx.player.SetTrigger("StartWalk");
+            }
+
         }
 
         protected override void OnExit()
@@ -717,9 +727,9 @@ namespace HSM
                     newHorizontalVel.x += turnSpeed.x; newHorizontalVel.y += turnSpeed.z;
                     newHorizontalVel = Vector3.ClampMagnitude(newHorizontalVel, new Vector3(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude);
 
-                    if (newHorizontalVel.magnitude > ctx.cmd.maxSpeed)
+                    if (newHorizontalVel.magnitude > Mathf.Lerp(ctx.cmd.minWalkSpeed, ctx.cmd.maxSpeed, ctx.moveInputValue.magnitude))
                     {
-                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, ctx.cmd.maxSpeed, Mathf.Infinity);
+                        newHorizontalVel = newHorizontalVel.normalized * Mathf.Clamp(currentHorizontalVel.magnitude, Mathf.Lerp(ctx.cmd.minWalkSpeed, ctx.cmd.maxSpeed, ctx.moveInputValue.magnitude), Mathf.Infinity);
                     }
                     ctx.rb.velocity.x = newHorizontalVel.x; ctx.rb.velocity.z = newHorizontalVel.y;
                 }

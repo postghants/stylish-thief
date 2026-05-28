@@ -9,6 +9,10 @@ public class PlayerAnimEventHandler : MonoBehaviour
     [SerializeField] EventReference onJumpEvent;
     [SerializeField] EventReference onGrabEvent;
     [SerializeField] EventReference onBumpEvent;
+    [SerializeField] EventReference onLedgeEvent;
+    [SerializeField] EventReference onBagThrowEvent;
+    [SerializeField] EventReference onLandingEvent;
+
 
     public void FootstepLeft()
     {
@@ -31,6 +35,21 @@ public class PlayerAnimEventHandler : MonoBehaviour
     }
 
     public void Bump()
+    {
+        RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
+    }
+
+    public void LedgeGrab()
+    {
+        RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
+    }
+
+    public void BagThrow()
+    {
+        RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
+    }
+
+    public void PlayerLanding()
     {
         RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
     }

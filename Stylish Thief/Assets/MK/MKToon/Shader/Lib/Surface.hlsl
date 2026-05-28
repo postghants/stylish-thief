@@ -9,8 +9,6 @@
 #ifndef MK_TOON_SURFACE
 	#define MK_TOON_SURFACE
 
-	#include "Core.hlsl"
-
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Surface Data
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +50,7 @@
 		#endif
 
 		#ifdef MK_VD
-			half3 viewWorld;
+			float3 viewWorld;
 		#endif
 		#ifdef MK_VD_O
 			half3 viewTangent;
@@ -99,7 +97,7 @@
 		#ifdef MK_DISSOLVE
 			half dissolveClip;
 		#endif
-		#ifdef MK_USE_APV_PROBE_OCCLUSION
+		#ifdef USE_APV_PROBE_OCCLUSION
 			float4 probeOcclusion;
 		#endif
 
@@ -159,9 +157,7 @@
 				half3 emission;
 			#endif
 
-			#ifdef MK_INDIRECT
-				half3 indirect;
-			#endif
+			half3 indirect;
 			half4 direct;
 
 			#ifdef MK_ARTISTIC
@@ -204,7 +200,7 @@
 		#define SURFACE_FLIPBOOK_UV 0
 	#endif
 
-	#ifdef MK_USE_APV_PROBE_OCCLUSION
+	#ifdef USE_APV_PROBE_OCCLUSION
 		#define PASS_PROBE_OCCLUSION_ARG(probeOcclusion) ,probeOcclusion
 	#else
 		#define PASS_PROBE_OCCLUSION_ARG(probeOcclusion)
@@ -284,6 +280,11 @@
 		#define PASS_FLIPBOOK_UV_ARG(flipbookUV)
 	#endif
 
+	inline void SurfaceAlphaClipping(in half alpha, in half threshold)
+	{
+		Clip0(alpha - threshold);
+	}
+
 	//Texture color
 	inline void SurfaceColor(out half3 albedo, out half alpha, DECLARE_SAMPLER_2D_ARGS(albedoMap), float2 uv, float3 blendUV, half4 color)
 	{
@@ -291,7 +292,7 @@
 		#ifdef MK_OUTLINE_PASS
 			c = half4(color.rgb, SAMPLE_SAMPLER2D_FLIPBOOK(albedoMap, uv, blendUV).a * color.a);
 		#else
-			c = SAMPLE_SAMPLER2D_FLIPBOOK(albedoMap, uv, blendUV);
+			c = lerp(half4(1, 1, 1, 1), SAMPLE_SAMPLER2D_FLIPBOOK(albedoMap, uv, blendUV), _AlbedoMapIntensity);
 			c *= color;
 		#endif
 		albedo = c.rgb;
@@ -384,7 +385,7 @@
 		#ifdef MK_FLIPBOOK
 			, in float3 flipbookUV
 		#endif
-		#ifdef MK_USE_APV_PROBE_OCCLUSION
+		#ifdef USE_APV_PROBE_OCCLUSION
 			, in float4 probeOcclusion
 		#endif
 		#ifdef MK_VFACE
@@ -405,7 +406,7 @@
 
 		#if defined(MK_URP_2020_2_Or_Newer) && defined(MK_LIT)
 			#if defined(SHADOWS_SHADOWMASK) && defined(LIGHTMAP_ON)
-				surfaceData.shadowMask = SAMPLE_SHADOWMASK(lightmapUV);
+				surfaceData.shadowMask = SAMPLE_SHADOWMASK(lightmapUV.xy);
 			#elif !defined (LIGHTMAP_ON)
 				surfaceData.shadowMask = unity_ProbesOcclusion;
 			#else
@@ -413,7 +414,7 @@
 			#endif
 		#endif
 
-		#ifdef MK_USE_APV_PROBE_OCCLUSION
+		#ifdef USE_APV_PROBE_OCCLUSION
 			surfaceData.probeOcclusion = probeOcclusion;
 		#endif
 
@@ -478,7 +479,11 @@
 		#endif
 
 		#if defined(MK_SCREEN_UV)
-			surfaceData.screenUV = ComputeNDC(barycentricPositionClip);
+			#ifdef MK_SHADOWCASTER_PASS
+				surfaceData.screenUV = svPositionClip;
+			#else
+				surfaceData.screenUV = ComputeNDC(barycentricPositionClip);
+			#endif
 		#endif
 
 		#if defined(MK_SCREEN_SPACE_OCCLUSION) && defined(MK_URP_2020_2_Or_Newer)
@@ -589,21 +594,21 @@
 			#endif
 		#endif
 
-		#ifndef _DBUFFER
-			#ifdef MK_V_DOT_N
-				surfaceData.VoN = saturate(dot(surfaceData.viewWorld, surfaceData.normalWorld));
-				surfaceData.OneMinusVoN = 1.0 - surfaceData.VoN;
-			#endif
-			#ifdef MK_MV_REF_N
-				surfaceData.MVrN = reflect(-surfaceData.viewWorld, surfaceData.normalWorld);
-			#endif
-		#else
+		#if defined(_DBUFFER)
 			#ifdef MK_V_DOT_N
 				surfaceData.VoN = 0;
 				surfaceData.OneMinusVoN = 0;
 			#endif
 			#ifdef MK_MV_REF_N
 				surfaceData.MVrN = 0;
+			#endif
+		#else
+			#ifdef MK_V_DOT_N
+				surfaceData.VoN = saturate(dot(surfaceData.viewWorld, surfaceData.normalWorld));
+				surfaceData.OneMinusVoN = 1.0 - surfaceData.VoN;
+			#endif
+			#ifdef MK_MV_REF_N
+				surfaceData.MVrN = reflect(-surfaceData.viewWorld, surfaceData.normalWorld);
 			#endif
 		#endif
 
@@ -722,7 +727,7 @@
 			pbsData.smoothness = pbsInput.a;
 		#endif
 
-		#ifdef _DBUFFER
+		#if defined(_DBUFFER)
 			#ifdef MK_LIT
 				#if defined(MK_WORKFLOW_SPECULAR) || defined(MK_SIMPLE)
 					half metallic = 0;
@@ -840,7 +845,7 @@
 		#endif
 
 		#if defined(MK_ALPHA_CLIPPING)
-			Clip0(surface.alpha - _AlphaCutoff);
+			SurfaceAlphaClipping(surface.alpha, _AlphaCutoff);
 		#endif
 
 		#ifdef MK_REFRACTION
@@ -892,9 +897,7 @@
 				#endif
 			#endif
 
-			#ifdef MK_INDIRECT
-				surface.indirect = 0;
-			#endif
+			surface.indirect = half3(0,0,0);
 			#ifdef MK_THICKNESS_MAP
 				surface.thickness = SAMPLE_TEX2D_FLIPBOOK(_ThicknessMap, SAMPLER_REPEAT_MAIN, surfaceData.baseUV.xy, SURFACE_FLIPBOOK_UV).r;
 			#endif

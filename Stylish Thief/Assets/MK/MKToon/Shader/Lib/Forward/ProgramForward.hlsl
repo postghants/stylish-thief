@@ -28,6 +28,16 @@
 		#ifdef MK_VERTEX_ANIMATION
 			VERTEX_INPUT.vertex.xyz = VertexAnimation(PASS_VERTEX_ANIMATION_ARG(_VertexAnimationMap, PASS_VERTEX_ANIMATION_UV(VERTEX_INPUT.texcoord0.xy), _VertexAnimationIntensity, _VertexAnimationFrequency.xyz, VERTEX_INPUT.vertex.xyz, VERTEX_INPUT.normal));
 		#endif
+		
+		//CurvedWorldSupport
+		//CurvedWorldVertexTransformations
+		/*
+			Replace on the Vertex Transformation code the following:
+			- v.vertex => VERTEX_INPUT.vertex
+			- v.normal => VERTEX_INPUT.normal
+			- v.tangent => VERTEX_INPUT.tangent
+		*/
+		//
 
 		//Clip Pos
 		#ifdef MK_POS_WORLD
@@ -315,8 +325,12 @@
 
 		mkFragmentOutput.svTarget0 = surface.final;
 		#ifdef MK_WRITE_RENDERING_LAYERS
-			uint renderingLayers = GetMeshRenderingLayer();
-			mkFragmentOutput.svTarget1 = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+			#if UNITY_VERSION >= 60020000
+				mkFragmentOutput.svTarget1 = EncodeMeshRenderingLayer();
+			#else //UNITY_VERSION >= 202220
+				uint renderingLayers = GetMeshRenderingLayer();
+				mkFragmentOutput.svTarget1 = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+			#endif
 		#endif
 
 		return mkFragmentOutput;

@@ -9,7 +9,6 @@
 #ifndef MK_TOON_UNIVERSAL2D
 	#define MK_TOON_UNIVERSAL2D
 	
-	#include "../Core.hlsl"
 	#include "Data.hlsl"
 	#include "../Surface.hlsl"
 	#include "../Composite.hlsl"

@@ -9,7 +9,6 @@
 #ifndef MK_TOON_COMPOSITE
 	#define MK_TOON_COMPOSITE
 	
-	#include "Core.hlsl"
 	#include "Surface.hlsl"
 	#include "Lighting.hlsl"
 

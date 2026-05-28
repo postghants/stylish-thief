@@ -8,8 +8,6 @@
 
 #ifndef MK_TOON_DEPTH_ONLY_IO
 	#define MK_TOON_DEPTH_ONLY_IO
-
-	#include "../Core.hlsl"
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// INPUT
@@ -26,7 +24,7 @@
 		#ifdef MK_TCM
 			float2 texcoord0 : TEXCOORD0;
 		#endif
-		#if defined(MK_PARALLAX)
+		#if defined(MK_PARALLAX) || defined(MK_TANGENT_VERTEX)
 			half4 tangent : TANGENT;
 		#endif
 

@@ -157,6 +157,26 @@
 		return v * v * v * v * v;
 	}
 
+	inline float FastPow2HP(float v)
+	{
+		return v * v;
+	}
+
+	inline float FastPow3HP(float v)
+	{
+		return v * v * v;
+	}
+
+	inline float FastPow4HP(float v)
+	{
+		return v * v * v * v;
+	}
+
+	inline float FastPow5HP(float v)
+	{
+		return v * v * v * v * v;
+	}
+
 	//Single Component Reciprocal
 	inline half Rcp(half v)
 	{
@@ -561,7 +581,6 @@
 			else
 				ndc.y *= aspect.y;
 			ndc.xy *= scale;
-			ndc.xy *= nullNdc.w;
 		#endif
 
 		return ndc.xy;
@@ -646,7 +665,7 @@
 	// Other
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	#if defined(MK_URP) && UNITY_VERSION >= 202220
-		#define MK_TIME _TimeParameters
+		#define MK_TIME _Time
 	#else
 		#define MK_TIME _Time
 	#endif

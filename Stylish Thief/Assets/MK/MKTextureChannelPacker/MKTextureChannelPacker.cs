@@ -10,7 +10,7 @@ namespace MK.TextureChannelPacker
     {
         private GUIStyle flowTextStyle { get { return new GUIStyle(EditorStyles.label) { wordWrap = true }; } }
         
-        private static readonly string _defaultFilePath = "Assets/_MK/MKTextureChannelPacker";
+        private static readonly string _defaultFilePath = "Assets/MK/MKTextureChannelPacker";
         private string _filePath = _defaultFilePath;
         private string _filename = "NewTexture";
 

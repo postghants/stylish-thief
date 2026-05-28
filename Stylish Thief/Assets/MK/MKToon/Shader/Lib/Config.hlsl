@@ -9,14 +9,33 @@
 #ifndef MK_TOON_DEFINES
 	#define MK_TOON_DEFINES
 
-#ifndef MK_NORMAL
-	#define MK_NORMAL
-#endif
+	#ifndef MK_NORMAL
+		#define MK_NORMAL
+	#endif
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Custom User Config
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	#include "GlobalShaderFeatures.hlsl"
+
+	//CurvedWorldSupport
+	//CurvedWorldVertexData
+	//Uncomment Below
+	/*
+	#ifndef MK_TANGENT_VERTEX
+		#define MK_TANGENT_VERTEX
+	#endif
+	*/
+	//
+	
+	#if defined(MK_OUTLINE_FADING_LINEAR) || defined(MK_OUTLINE_FADING_EXPONENTIAL) || defined(MK_OUTLINE_FADING_INVERSE_EXPONENTIAL)
+		#ifndef MK_OUTLINE_FADING
+			#define MK_OUTLINE_FADING
+		#endif
+	#endif
+
+	// ------------------------------------------------------------------------------------------
+
 	//Force (baked & mixed) lightmaps
 	/*
 	#ifndef MK_FORCE_LIGHTMAPS
@@ -37,22 +56,6 @@
 		#define MK_LEGACY_BANDED_LIGHTING
 	#endif
 	*/
-	
-	#if defined(MK_OUTLINE_FADING_LINEAR) || defined(MK_OUTLINE_FADING_EXPONENTIAL) || defined(MK_OUTLINE_FADING_INVERSE_EXPONENTIAL)
-		#ifndef MK_OUTLINE_FADING
-			#define MK_OUTLINE_FADING
-		#endif
-	#endif
-
-	// ------------------------------------------------------------------------------------------
-
-	#if defined(MK_URP)
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-	#elif defined(MK_LWRP)
-		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Core.hlsl"
-	#else
-		#include "UnityCG.cginc"
-	#endif
 	
 	// ------------------------------------------------------------------------------------------
 	// Note: Every define should have a "MK" prefix to avoid compile issues when using external funtions
@@ -105,6 +108,12 @@
 	#if defined(MK_URP) && UNITY_VERSION >= 60010000
 		#ifndef MK_URP_6000_1_0_OR_NEWER
 			#define MK_URP_6000_1_0_OR_NEWER
+		#endif
+	#endif
+
+	#if UNITY_VERSION >= 60050000
+		#ifndef MK_UNITY_6000_5_0_OR_NEWER
+			#define MK_UNITY_6000_5_0_OR_NEWER
 		#endif
 	#endif
 
@@ -317,11 +326,6 @@
 	#endif
 	
 	#ifdef MK_LIT
-		#if defined(USE_APV_PROBE_OCCLUSION) && defined(MK_FORWARD_BASE_PASS) && UNITY_VERSION >= 60000009
-			#ifndef MK_USE_APV_PROBE_OCCLUSION
-				#define MK_USE_APV_PROBE_OCCLUSION
-			#endif
-		#endif
 		#if (UNITY_VERSION >= 202020 && defined(_SCREEN_SPACE_OCCLUSION)) && !defined(MK_SURFACE_TYPE_TRANSPARENT)
 			#ifndef MK_SCREEN_SPACE_OCCLUSION
 				#define MK_SCREEN_SPACE_OCCLUSION
@@ -828,7 +832,7 @@
 			#define MK_NORMALIZED_SCREEN_UV
 		#endif
 	#endif
-
+	
 	#if	(UNITY_VERSION >= 202220 && defined(MK_INDIRECT)) || defined(_CLUSTER_LIGHT_LOOP) || defined(USE_CLUSTERED_LIGHTING) || USE_FORWARD_PLUS || USE_CLUSTER_LIGHT_LOOP || defined(MK_REFRACTION) || defined(MK_SOFT_FADE) || defined(MK_CAMERA_FADE) || defined(MK_NORMALIZED_SCREEN_UV) || defined(MK_SCREEN_SPACE_OCCLUSION)
 		#ifndef MK_SCREEN_UV
 			#define MK_SCREEN_UV

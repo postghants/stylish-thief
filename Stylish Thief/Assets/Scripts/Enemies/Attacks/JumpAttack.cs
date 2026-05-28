@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -106,6 +107,8 @@ public class JumpAttack : EnemyAttack
         kb.y = grabKbVertical;
         ctr.ctx.player.TakeKnockback(kb);
         ctr.ctx.player.TakeDamage(grabDamage);
+        StartCoroutine(Hitstop.FreezeTimescale(0f, 0.2f));
+        StartCoroutine(CamShake.ShakeCam(3, 0.3f, 0.15f, FindAnyObjectByType<CinemachineCamera>()));
     }
 
     public override void OnExit()

@@ -7,6 +7,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BigBlasterChase : EnemyMovement
 {
+    public GameObject testTarget;
+
     [Header("Movement")]
     public float maxSpeed;
     public float acceleration;
@@ -156,6 +158,7 @@ public class BigBlasterChase : EnemyMovement
                 ChaseOutsideZone();
             }
         }
+        testTarget.transform.position = patrolZoneTarget;
     }
     public override void OnExit()
     {
@@ -195,7 +198,7 @@ public class BigBlasterChase : EnemyMovement
         lookPos.y = agent.transform.position.y;
         rotationTf.transform.LookAt(lookPos);
         ctr.PlayAnimation("Jump");
-
+        targetSet = false;
     }
     private void Jumping(float deltaTime)
     {

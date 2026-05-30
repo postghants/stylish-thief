@@ -16,11 +16,9 @@ Material:
   - _MK_EMISSION_MAP
   - _MK_LIGHT_CEL
   - _MK_OUTLINE_NOISE
-  - _MK_PBS_MAP_0
   - _MK_PBS_MAP_1
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
-  - _MK_WORKFLOW_SPECULAR
   m_InvalidKeywords:
   - _MK_ARTISTIC_ANIMATION_STUTTER
   - _MK_DETAIL_BLEND_MIX
@@ -259,7 +257,7 @@ Material:
     - _LightTransmissionIntensity: 1
     - _LightTransmissionSmoothness: 0.5
     - _LightTransmissionThresholdOffset: 0.25
-    - _Metallic: 0
+    - _Metallic: 0.62
     - _Mode: 0
     - _NormalMapIntensity: 1
     - _OcclusionMapIntensity: 1
@@ -285,7 +283,7 @@ Material:
     - _Roughness: 0.5
     - _Saturation: 2.47
     - _SketchMapScale: 1
-    - _Smoothness: 0
+    - _Smoothness: 0.664
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
@@ -308,7 +306,7 @@ Material:
     - _VertexAnimation: 0
     - _VertexAnimationIntensity: 0.05
     - _VertexAnimationStutter: 0
-    - _Workflow: 1
+    - _Workflow: 0
     - _WrappedLighting: 1
     - _ZTest: 4
     - _ZWrite: 1

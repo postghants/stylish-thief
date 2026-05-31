@@ -10,15 +10,24 @@ public class MusicSystem : MonoBehaviour
     private EventInstance pausedInstance;
     private bool gamePaused = false;
     private float targetTime = 0.6f;
+    public CrimeSpreeManager spreeManagerReference;
 
     void Start()
     {
         //assign de FMOD event variables
-        musicInstance = RuntimeManager.CreateInstance("event:/Music_System");
-        pausedInstance = RuntimeManager.CreateInstance("event:/pauseMusic");
+        musicInstance = RuntimeManager.CreateInstance("event:/Music/Music_System");
+        pausedInstance = RuntimeManager.CreateInstance("event:/Music/pauseMusic");
 
         //muziek start zodra attached object wordt ingeladen.
         musicInstance.start();
+    }
+
+    void Update()
+    {
+        if (spreeManagerReference.Score > 29999)
+        {
+            RuntimeManager.StudioSystem.setParameterByName("Home_Run", 1);
+        }
     }
 
     public void PauseAudioHandler()
@@ -34,19 +43,18 @@ public class MusicSystem : MonoBehaviour
         }
         else
         {
-
             //playbackstate paused instance
             RuntimeManager.StudioSystem.setParameterByName("fmodpause", 0);
             gamePaused = false;
-            StartCoroutine(PauseTimer());
+            StartCoroutine(MusicPauseTimer());
         }
     }
 
     //pauze timer coroutine
-    public IEnumerator PauseTimer()
+    public IEnumerator MusicPauseTimer()
     {
-        yield return new WaitForSeconds(targetTime);
-        Debug.Log("Pauze WEL voorbij!!!!");
+        yield return new WaitForSecondsRealtime(targetTime);
+        Debug.Log("Pauze muziek voorbij!!!!");
         //overgang shenanigans
         musicInstance.setPaused(false);
         //pausedInstance.release();

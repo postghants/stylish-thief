@@ -49,8 +49,10 @@ MonoBehaviour:
   uiLingerTime: 4
   multPerCombo: 0.1
   doCountdown: 1
+  spawnOnValuableGrab: 0
   startTimer: 5
-  frozen: 0
+  patrolZones: {fileID: 0}
+  frozen: 1
   startTime: 0
   valuableLocations:
   - {fileID: 0}
@@ -67,3 +69,17 @@ MonoBehaviour:
   ComboCount: 0
   Multiplier: 1
   Valuables: []
+  bigCrimeEvent:
+    Guid:
+      Data1: 1214268647
+      Data2: 1086968407
+      Data3: -1181440121
+      Data4: -1908698740
+    Path: event:/sfx events/sfx UI/big_crime
+  smallCrimeEvent:
+    Guid:
+      Data1: 115418221
+      Data2: 1314484416
+      Data3: 727699879
+      Data4: 1218809611
+    Path: event:/sfx events/sfx UI/score_event

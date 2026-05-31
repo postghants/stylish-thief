@@ -32,11 +32,14 @@ public class PlayerStateDriver : Actor, IDamageable
         Machine = builder.Build();
 
         // Instantiate player UI
-        GameObject ui = Instantiate(ctx.playerUIPrefab);
-        ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
-        if (CrimeSpreeManager.instance != null)
+        if (ctx.spawnSpreeUI)
         {
-            CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+            GameObject ui = Instantiate(ctx.playerUIPrefab);
+            ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
+            if (CrimeSpreeManager.instance != null)
+            {
+                CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+            }
         }
 
         ctx.player = this;
@@ -267,6 +270,7 @@ public class PlayerContext
 
     [Header("General")]
     public float timeScale = 1;
+    public bool spawnSpreeUI = true;
 
     [Header("Grounded Movement")]
     public MoveData groundMoveData;

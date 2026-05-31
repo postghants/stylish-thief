@@ -41,7 +41,7 @@ public class PlayerAnimEventHandler : MonoBehaviour
 
     public void LedgeGrab()
     {
-        RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
+        RuntimeManager.PlayOneShotAttached(onLedgeEvent, gameObject);
     }
 
     public void BagThrow()

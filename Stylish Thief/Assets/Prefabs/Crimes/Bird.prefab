@@ -705,10 +705,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   horizontalSpeed: 10
-  verticalSpeed: 0
   verticalAccelerationMin: 0.05
   verticalAccelerationMax: 0.1
   maxVerticalSpeed: 15
   destroyTime: 6
   sitting: {fileID: 1187293160345954106}
   flying: {fileID: 3948646471626015846}
+  verticalSpeed: 0
+  birdFlyEvent:
+    Guid:
+      Data1: -810858102
+      Data2: 1282234845
+      Data3: -1731341636
+      Data4: 1374120381
+    Path: event:/sfx events/sfx interactions/wings_flapping

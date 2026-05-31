@@ -1,8 +1,13 @@
+using FMODUnity;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
 public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
@@ -36,6 +41,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public int ComboCount;
     public float Multiplier = 1;
     public List<Valuable> Valuables;
+
+    //tom's score delay
+    private float targetTime = 0.5f;
+
+    [Header("FMOD Events")]
+    //tom timer toggle
+    [SerializeField] EventReference bigCrimeEvent;
+    [SerializeField] EventReference smallCrimeEvent;
 
     private void Start()
     {
@@ -129,6 +142,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     public void CollectedValuable(Valuable collected)
     {
+        RuntimeManager.PlayOneShotAttached(bigCrimeEvent, gameObject);
         if (ChaseTimer == 0)
         {
             StartSpree();
@@ -161,11 +175,20 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public void DoMinorCrime(float score, string crimeName)
     {
         if (ChaseTimer == 0) { return; }
-        AddScore(score * Multiplier, crimeName);
-        AddComboCount();
-        chaseUI.crimeReact.DoReaction(true, 2, .25f);
-        chaseUI.multReact.DoReaction(true, 0, 0);
-        chaseUI.rewardReact.DoReaction(true, 2, 1);
+
+        if (score > 8888f)
+        {
+            AddScore(score * Multiplier, crimeName);
+            AddComboCount();
+            chaseUI.crimeReact.DoReaction(true, 2, .25f);
+            chaseUI.multReact.DoReaction(true, 0, 0);
+            chaseUI.rewardReact.DoReaction(true, 2, 1);
+        }
+        else
+        {
+            StartCoroutine(CrimeDelayTimer(score, crimeName));
+        }
+
     }
 
     public void AddScore(float _score, string crimeName)
@@ -230,5 +253,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     {
         SpawnNewValuables(new(), valuablesToSpawn);
     }
-
+    private IEnumerator CrimeDelayTimer(float score, string crimeName)
+    {
+        yield return new WaitForSecondsRealtime(targetTime);
+        AddScore(score * Multiplier, crimeName);
+        AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+        RuntimeManager.PlayOneShotAttached(smallCrimeEvent, gameObject);
+    }
 }

@@ -170,7 +170,7 @@ Material:
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AdditionalLightsFalloff: 0.604
-    - _AdditionalLightsThreshold: 0.736
+    - _AdditionalLightsThreshold: 0.652
     - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
     - _AlembicMotionVectors: 0
@@ -199,7 +199,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DetailUVSet: 0
-    - _DiffuseSmoothness: 0.489
+    - _DiffuseSmoothness: 0.4
     - _DiffuseThresholdOffset: 0.25
     - _Dissolve: 0
     - _DissolveAmount: 0.5
@@ -214,6 +214,9 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GoochDarkRemapFadeWithIndirect: 0
+    - _GoochDarkRemapMax: 1
+    - _GoochDarkRemapMin: 0
     - _GoochRampIntensity: 0.5
     - _HatchingMapScale: 1
     - _Hue: 0
@@ -227,13 +230,14 @@ Material:
     - _Light: 2
     - _LightBands: 4
     - _LightBandsScale: 0.841
-    - _LightThreshold: 0.431
+    - _LightThreshold: 0.804
     - _Metallic: 0
     - _NormalMapIntensity: 0.5
     - _OcclusionStrength: 1
     - _OptionsTab: 1
     - _Outline: 1
     - _OutlineClipOffset: 0
+    - _OutlineConstantSize: 0
     - _OutlineData: 0
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
@@ -286,7 +290,7 @@ Material:
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GoochDarkColor: {r: 0.1882353, g: 0, b: 0.36078432, a: 1}
+    - _GoochDarkColor: {r: 0.62278765, g: 0.5723269, b: 0.66666657, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _OutlineColor: {r: 0, g: 0, b: 0.4745098, a: 1}
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}

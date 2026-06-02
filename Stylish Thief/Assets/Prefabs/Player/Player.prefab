@@ -5223,6 +5223,7 @@ MonoBehaviour:
     groundMoveData:
       acceleration: 40
       deceleration: 8
+      minWalkSpeed: 0
       maxSpeed: 15
       maxSpeedDeceleration: 1
       turnSpeedMult: 10
@@ -5264,6 +5265,7 @@ MonoBehaviour:
     airMoveData:
       acceleration: 35
       deceleration: 4
+      minWalkSpeed: 0
       maxSpeed: 15
       maxSpeedDeceleration: 0
       turnSpeedMult: 3
@@ -5343,6 +5345,7 @@ MonoBehaviour:
     vaultMoveData:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5415,6 +5418,7 @@ MonoBehaviour:
     harshLandingData:
       acceleration: 0
       deceleration: 25
+      minWalkSpeed: 0
       maxSpeed: 0.01
       maxSpeedDeceleration: 25
       turnSpeedMult: 0
@@ -5449,6 +5453,7 @@ MonoBehaviour:
     veryBadLandingData:
       acceleration: 0
       deceleration: 25
+      minWalkSpeed: 0
       maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5498,6 +5503,7 @@ MonoBehaviour:
     prePoundMove:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 99
@@ -5561,6 +5567,7 @@ MonoBehaviour:
     cmd:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0

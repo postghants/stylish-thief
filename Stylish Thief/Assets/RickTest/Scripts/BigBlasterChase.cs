@@ -12,6 +12,8 @@ public class BigBlasterChase : EnemyMovement
     [Header("Movement")]
     public float maxSpeed;
     public float acceleration;
+    public float postShootDelay;
+    private float postShootTimer;
 
     [Header("Jump")]
     public float maxJumpDist;
@@ -120,23 +122,35 @@ public class BigBlasterChase : EnemyMovement
                 {
                     timer = 0;
                 }
+                postShootTimer = 0;
             }
             else
             {
                 if (projectile != null && !projectile.activeSelf)
                 {
-                    //Pick a random spot around the player
-                    Vector3 randomTargetRaw = Random.insideUnitCircle;
-                    randomTargetRaw.z = randomTargetRaw.y;
-                    randomTargetRaw.y = 0;
-                    randomTarget = ctr.ctx.player.transform.position + (randomTargetRaw.normalized * circleRadius);
+                    if (postShootTimer < postShootDelay)
+                    {
+                        postShootTimer += deltaTime;
+                    }
+                    else
+                    {
+    //Pick a random spot around the player
+                        Vector3 randomTargetRaw = Random.insideUnitCircle;
+                        randomTargetRaw.z = randomTargetRaw.y;
+                        randomTargetRaw.y = 0;
+                        randomTarget = ctr.ctx.player.transform.position + (randomTargetRaw.normalized * circleRadius);
 
-                    //Nearest point to target in patrol zone
-                    patrolZoneTarget = ctr.ctx.activeZone.ClosestPoint(randomTarget);
-                    agent.SetDestination(patrolZoneTarget);
+                        //Nearest point to target in patrol zone
+                        patrolZoneTarget = ctr.ctx.activeZone.ClosestPoint(randomTarget);
+                        agent.SetDestination(patrolZoneTarget);
 
-                    targetSet = true;
-                    Debug.Log("Moving toward " + randomTarget);
+                        targetSet = true;
+                        Debug.Log("Moving toward " + randomTarget);
+                    }
+                    
+                }
+                else
+                {
                 }
             }
             //Move toward that spot
@@ -171,9 +185,9 @@ public class BigBlasterChase : EnemyMovement
         ctr.SetAnimationTrigger("Shoot");
         yield return new WaitForSeconds(blast.lingerTime);
         ctr.SetAnimationTrigger("Getup");
+        yield return new WaitForSeconds(postShootDelay);
 
     }
-
     private void ChaseOutsideZone()
     {
         if ((patrolZonePath != null && patrolZonePath.Count == 0)) { return; }

@@ -45,9 +45,14 @@ namespace MK.Toon.Editor
             _renderPipeline = renderPipeline;
         }
 
+        //CurvedWorldSupport
+        //CurvedWorldEditor
+        //protected MaterialProperty _curvedWorldBlendSettings;
+        //
+
         /////////////////////////////////////////////////////////////////////////////////////////////
-		// Properties                                                                              //
-		/////////////////////////////////////////////////////////////////////////////////////////////
+        // Properties                                                                              //
+        /////////////////////////////////////////////////////////////////////////////////////////////
         protected ShaderTemplate _shaderTemplate;
         protected RenderPipeline _renderPipeline; 
    
@@ -71,6 +76,7 @@ namespace MK.Toon.Editor
         protected MaterialProperty _albedoColor;
         protected MaterialProperty _alphaCutoff;
         protected MaterialProperty _albedoMap;
+        protected MaterialProperty _albedoMapIntensity;
 
         /////////////////
         // Stylize     //
@@ -140,6 +146,11 @@ namespace MK.Toon.Editor
         /// <param name="props"></param>
         protected virtual void FindProperties(MaterialProperty[] props)
         {
+            //CurvedWorldSupport
+            //CurvedWorldEditor
+            //_curvedWorldBlendSettings = FindProperty(Properties.curvedWorldBlendSettings.uniform.name, props, false);
+            //
+
             _surface = FindProperty(Properties.surface.uniform.name, props);
             _zWrite = FindProperty(Properties.zWrite.uniform.name, props);
             _blend = FindProperty(Properties.blend.uniform.name, props);
@@ -154,6 +165,7 @@ namespace MK.Toon.Editor
             _albedoColor = FindProperty(Properties.albedoColor.uniform.name, props);
             _alphaCutoff = FindProperty(Properties.alphaCutoff.uniform.name, props);
             _albedoMap = FindProperty(Properties.albedoMap.uniform.name, props);
+            _albedoMapIntensity = FindProperty(Properties.albedoMapIntensity.uniform.name, props);
 
             _colorGrading = FindProperty(Properties.colorGrading.uniform.name, props);
             _hue = FindProperty(Properties.hue.uniform.name, props);
@@ -463,7 +475,10 @@ namespace MK.Toon.Editor
 
         protected virtual void DrawAlbedoMap(MaterialEditor materialEditor)
         {
-            materialEditor.TexturePropertySingleLine(UI.albedoMap, _albedoMap, _albedoColor);
+            if(_albedoMap.textureValue == null)
+                materialEditor.TexturePropertySingleLine(UI.albedoMap, _albedoMap, _albedoColor);
+            else
+                materialEditor.TexturePropertySingleLine(UI.albedoMap, _albedoMap, _albedoColor, _albedoMapIntensity);
         }
 
         protected void DrawAlbedoScaleTransform(MaterialEditor materialEditor)
@@ -699,6 +714,12 @@ namespace MK.Toon.Editor
             FindProperties(properties);
 
             //EditorGUI.BeginChangeCheck();
+            //CurvedWorldSupport
+            //CurvedWorldEditor
+            //if (_curvedWorldBlendSettings != null)
+            //    materialEditor.ShaderProperty(_curvedWorldBlendSettings, "Curved World Blend Settings");
+            //
+
             DrawOptions(materialEditor);
             DrawInput(materialEditor);
             DrawStylize(materialEditor);

@@ -123,7 +123,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
-        m_Texture: {fileID: 2800000, guid: 122330970ddf6ba4291ebe0f3bfa2202, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseMap:
@@ -236,6 +236,9 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _GoochDarkRemapFadeWithIndirect: 0
+    - _GoochDarkRemapMax: 1
+    - _GoochDarkRemapMin: 0
     - _GoochRampIntensity: 0.5
     - _HatchingMapScale: 1
     - _Hue: 0
@@ -263,6 +266,7 @@ Material:
     - _OptionsTab: 1
     - _Outline: 1
     - _OutlineClipOffset: 0
+    - _OutlineConstantSize: 0
     - _OutlineData: 0
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25

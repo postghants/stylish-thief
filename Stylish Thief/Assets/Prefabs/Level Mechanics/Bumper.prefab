@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6450192243198316574}
   - component: {fileID: 246767833857098422}
   - component: {fileID: 3929859603448221832}
+  - component: {fileID: 8129256321186322531}
   m_Layer: 0
   m_Name: Stopper
   m_TagString: Untagged
@@ -130,6 +131,20 @@ MonoBehaviour:
   justGravity: 0
   playerPrefab: {fileID: 4668033689235908336, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
   endSpeed: 20
+--- !u!114 &8129256321186322531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142906706359550415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c66ff2fcc8e94324fb36895ffa0d9028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RickRendererDisabler
+  disableTarget: {fileID: 0}
+  timeScale: 0
 --- !u!1 &1190353103608127376
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,6 +326,7 @@ GameObject:
   - component: {fileID: 2085686469384532365}
   - component: {fileID: 273350553567697744}
   - component: {fileID: 5092065441967323979}
+  - component: {fileID: 7543165536822410488}
   m_Layer: 0
   m_Name: Gravity Enabler
   m_TagString: Untagged
@@ -428,3 +444,17 @@ MonoBehaviour:
   justGravity: 1
   playerPrefab: {fileID: 4668033689235908336, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
   endSpeed: 50
+--- !u!114 &7543165536822410488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039946916375448982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c66ff2fcc8e94324fb36895ffa0d9028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RickRendererDisabler
+  disableTarget: {fileID: 0}
+  timeScale: 0

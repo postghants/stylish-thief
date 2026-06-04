@@ -9,8 +9,6 @@
 #ifndef MK_TOON_LIGHTING
 	#define MK_TOON_LIGHTING
 
-	#include "Core.hlsl"
-
 	#if defined(MK_URP)
 		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 	#elif defined(MK_LWRP)
@@ -64,6 +62,10 @@
 	#endif
 
 	#include "Surface.hlsl"
+
+	#ifndef MK_GOOCH_REMAP_MAX_INPUT
+		#define MK_GOOCH_REMAP_MAX_INPUT half3(1,1,1)
+	#endif
 	
 	// ------------------------------------------------------------------------------------------
 	// Note: The complete lighting is not entirely physically "correct"
@@ -127,7 +129,7 @@
 			half VoLND;
 		#endif
 		#ifdef MK_LHV
-			half3 LHV;
+			float3 LHV;
 		#endif
 		#ifdef MK_L_DOT_LHV
 			half LoLHV;
@@ -358,7 +360,9 @@
 		#ifdef MK_INDIRECT
 			#if defined(MK_URP) || defined(MK_LWRP)
 				#if UNITY_VERSION >= 60000009
-					#if defined(DYNAMICLIGHTMAP_ON)
+					#if defined(_SCREEN_SPACE_IRRADIANCE)
+    					gi.diffuse = SAMPLE_GI(_ScreenSpaceIrradiance, surfaceData.svPositionClip.xy);
+					#elif defined(DYNAMICLIGHTMAP_ON)
 						gi.diffuse = SAMPLE_GI(surfaceData.lightmapUV.xy, surfaceData.lightmapUV.zw, surfaceData.lightmapUV.rgb, surfaceData.normalWorld);
 					#elif !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
 						gi.diffuse = SAMPLE_GI(surfaceData.lightmapUV.rgb,
@@ -834,15 +838,15 @@
 		half anisoStretch = anisoScale.x * anisoScale.y;
 
 		half p = Rcp(anisoStretch);
-		half ay = FastPow2(ToLHV) / FastPow2(anisoScale.x);
-		half ax = FastPow2(BoLHV) / FastPow2(anisoScale.y);
+		half ay = FastPow2HP(ToLHV) / FastPow2HP(anisoScale.x);
+		half ax = FastPow2HP(BoLHV) / FastPow2HP(anisoScale.y);
 
-		return INV_PI * p * Rcp(FastPow2(ay + ax + FastPow2(NoLHV)));
+		return INV_PI * p * Rcp(FastPow2HP(ay + ax + FastPow2HP(NoLHV)));
 	}
 
 	inline half DistributionGGX(half NoLHV, half roughnessP4)
 	{
-		return SafeDivide(roughnessP4, (PI * FastPow2(FastPow2(NoLHV) * (roughnessP4 - 1.0) + 1)));
+		return SafeDivide(roughnessP4, (PI * FastPow2HP(FastPow2HP(NoLHV) * (roughnessP4 - 1.0) + 1)));
 	}
 
 	inline half GeometricSchlickGGX(half VoN, half roughness)
@@ -852,7 +856,7 @@
 
 	inline half GeometricSmithGGX(half VoN, half NoL, half roughness)
 	{
-		half directRoughness = FastPow2(roughness + 1.0) * 0.125;
+		half directRoughness = FastPow2HP(roughness + 1.0) * 0.125;
 		return GeometricSchlickGGX(VoN, directRoughness) * GeometricSchlickGGX(NoL, directRoughness);
 	}
 
@@ -876,7 +880,7 @@
 	*/
 
 	//specular blinn phong
-	inline half BlinnSpecular(half ndhv, half shine)
+	inline float BlinnSpecular(float ndhv, half shine)
 	{
 		//exp2 instead of linear SHINE_MULT to match URP behavior
 		return pow(ndhv, exp2(10 * shine + 1));
@@ -1072,7 +1076,9 @@
 			#endif
 			half3 gooch;
 			//Gooch needs to be applied on diffuse only to not distract other light styles such as indirect, spec, lightTransmission
-			gooch = goochRamp * lerp(surface.goochDark.rgb, surface.goochBright.rgb, max(diffuse.r, max(diffuse.g, diffuse.b)));
+			half diffuseContrib = max(diffuse.r, max(diffuse.g, diffuse.b));
+			half3 goochDarkRemapped = lerp(half3(0,0,0), surface.goochDark.rgb, Remap3(surface.indirect.rgb, half3(0, 0, 0), MK_GOOCH_REMAP_MAX_INPUT, _GoochDarkRemapMin.xxx, _GoochDarkRemapMax.xxx));
+			gooch = goochRamp * lerp(lerp(surface.goochDark.rgb, goochDarkRemapped, _GoochDarkRemapFadeWithIndirect), surface.goochBright.rgb, diffuseContrib);
 
 			//#ifdef MK_GOOCH_RAMP
 			//	gooch.rgb = lerp(gooch.rgb, SampleRamp2D(PASS_TEXTURE_2D(_GoochRamp, SAMPLER_CLAMPED_MAIN), half2(diffuse.a, light.distanceAttenuation)).rgb, _GoochRampIntensity);

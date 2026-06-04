@@ -27,6 +27,7 @@ namespace MK.Toon.Editor
         private MaterialProperty _outlineData;
         private MaterialProperty _outlineMap;
         private MaterialProperty _outlineSize;
+        private MaterialProperty _outlineConstantSize;
         private MaterialProperty _outlineColor;
         private MaterialProperty _outlineNoise;
         private MaterialProperty _outlineClipOffset;
@@ -45,6 +46,7 @@ namespace MK.Toon.Editor
             _outlineData = FindProperty(Properties.outlineData.uniform.name, props, false);
             _outlineMap = FindProperty(Properties.outlineMap.uniform.name, props, false);
             _outlineSize = FindProperty(Properties.outlineSize.uniform.name, props, false);
+            _outlineConstantSize = FindProperty(Properties.outlineConstantSize.uniform.name, props, false);
             _outlineColor = FindProperty(Properties.outlineColor.uniform.name, props, false);
             _outlineNoise = FindProperty(Properties.outlineNoise.uniform.name, props, false);
             _outlineClipOffset = FindProperty(Properties.outlineClipOffset.uniform.name, props, false);
@@ -81,6 +83,7 @@ namespace MK.Toon.Editor
                     }
 
                     materialEditor.ShaderProperty(_outlineColor, UI.outlineColor);
+                    materialEditor.ShaderProperty(_outlineConstantSize, UI.outlineConstantSize);
                     materialEditor.TexturePropertySingleLine(UI.outlineMap, _outlineMap, _outlineSize);
 
                     #if MK_TOON_OUTLINE_FADING_LINEAR  || MK_TOON_OUTLINE_FADING_EXPONENTIAL || MK_TOON_OUTLINE_FADING_INVERSE_EXPONENTIAL

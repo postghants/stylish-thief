@@ -32,11 +32,14 @@ public class PlayerStateDriver : Actor, IDamageable
         Machine = builder.Build();
 
         // Instantiate player UI
-        GameObject ui = Instantiate(ctx.playerUIPrefab);
-        ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
-        if (CrimeSpreeManager.instance != null)
+        if (ctx.spawnSpreeUI)
         {
-            CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+            GameObject ui = Instantiate(ctx.playerUIPrefab);
+            ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
+            if (CrimeSpreeManager.instance != null)
+            {
+                CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+            }
         }
 
         ctx.player = this;
@@ -46,11 +49,13 @@ public class PlayerStateDriver : Actor, IDamageable
 
     private void Update()
     {
-        Jump.SetPhysics(ctx);
-    }
 
-    private void FixedUpdate()
-    {
+        // Perform physics checks
+        ctx.rb.isGrounded = ctx.rb.IsGrounded();
+        ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
+        Jump.JumpBuffer(ctx);
+        Jump.SetPhysics(ctx);
+
         // Read input
         ctx.moveInputValue = moveAction.ReadValue<Vector2>();
         float targetAngle = Mathf.Atan2(ctx.moveInputValue.x, ctx.moveInputValue.y) * Mathf.Rad2Deg + ctx.cam.eulerAngles.y;
@@ -60,12 +65,6 @@ public class PlayerStateDriver : Actor, IDamageable
             ctx.facing = ctx.moveDirection;
         }
 
-        // Perform physics checks
-        ctx.rb.isGrounded = ctx.rb.IsGrounded();
-        ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
-        Jump.JumpBuffer(ctx);
-        Jump.SetPhysics(ctx);
-
         // Face model forward
         if (ctx.rb.velocity.sqrMagnitude > 0)
         {
@@ -74,6 +73,11 @@ public class PlayerStateDriver : Actor, IDamageable
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(Root.Leaf());
+    }
+
+    private void FixedUpdate()
+    {
+
     }
 
     public void TakeKnockback(Vector3 knockback)
@@ -266,6 +270,7 @@ public class PlayerContext
 
     [Header("General")]
     public float timeScale = 1;
+    public bool spawnSpreeUI = true;
 
     [Header("Grounded Movement")]
     public MoveData groundMoveData;
@@ -307,6 +312,7 @@ public class PlayerContext
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
     public float vaultMaxDuration;
+    public MoveData vaultMoveData;
 
     public bool disableVaultJump;
     public JumpData vaultJump;
@@ -354,12 +360,16 @@ public class PlayerContext
 
     [Header("Bag Throw")]
     public bool disablePound;
+    public bool additive;
+    public bool poundAccelerate;
     public float prePoundUpBoost;
     public float prePoundDuration;
     public float prePoundGrav;
     public MoveData prePoundMove;
     public float poundSpeedDown;
     public float poundSpeedFw;
+    public float downAcceleration;
+    public float forwardAcceleration;
     public float poundLandDelay;
     public float poundLandSpeed;
 
@@ -391,6 +401,7 @@ public class PlayerContext
 
     [Header("Animation variables")]
     public float animRunSpeed;
+    public float animIdleSpeed;
 
     [Header("Internal NO TOUCHY")]
     public float currentHealth;
@@ -435,6 +446,7 @@ public class MoveData
 {
     [Tooltip("Acceleration in units per second squared.")] public float acceleration;
     [Tooltip("Extra friction applied when not pressing any move input.")] public float deceleration;
+    public float minWalkSpeed;
     [Tooltip("Maximum speed.")] public float maxSpeed;
     public float maxSpeedDeceleration;
     public float turnSpeedMult;

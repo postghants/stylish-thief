@@ -59,7 +59,7 @@ namespace MK.MeshUtility
         private Operation _operation = Operation.AverageNormals;
         private NormalsOutputTarget _normalsOutputTarget = NormalsOutputTarget.OverwriteNormals;
         private string _filenameSuffix = "";
-        private static readonly string _defaultFilePath = "Assets/_MK/MKMeshUtility";
+        private static readonly string _defaultFilePath = "Assets/MK/MKMeshUtility";
         private string _filePath = _defaultFilePath;
         private List<MeshData> _selectedMeshes;
 

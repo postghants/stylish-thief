@@ -217,7 +217,7 @@ MonoBehaviour:
   tamperCrime: Dealing Stolen Goods
   breakScore: 500
   breakCrime: Destruction of Corporate Property
-  totalItems: 3
+  totalItems: 2
   canPrefab: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
 --- !u!1 &1799587814580652579
 GameObject:
@@ -433,6 +433,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4b4e099c8a4714eb48089ec0932d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dontEnableOnStart: 0
+  disableInstead: 0
 --- !u!1 &8976459030957486690
 GameObject:
   m_ObjectHideFlags: 0

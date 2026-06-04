@@ -9,15 +9,6 @@
 #ifndef MK_TOON_META
 	#define MK_TOON_META
 
-	#if defined(MK_URP)
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
-	#elif defined(MK_LWRP)
-		#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/MetaInput.hlsl"
-	#else
-		#include "UnityMetaPass.cginc"
-	#endif
-	
-	#include "../Core.hlsl"
 	#include "Common.hlsl"
 	#include "Data.hlsl"
 	#include "../Surface.hlsl"

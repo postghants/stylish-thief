@@ -8,8 +8,6 @@
 
 #ifndef MK_TOON_DEPTH_NORMALS_IO
 	#define MK_TOON_DEPTH_NORMALS_IO
-
-	#include "../Core.hlsl"
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// INPUT
@@ -18,10 +16,16 @@
 	{
 		float4 vertex : POSITION;
 		half3 normal : NORMAL;
-		#ifdef MK_TCM
-			float2 texcoord0 : TEXCOORD0;
+		#if defined(MK_TCM) || defined(MK_TCD)
+			#if defined(MK_SECONDARY_UV_SET)
+				float2 texcoord0 : TEXCOORD0;
+				float2 texcoord7 : TEXCOORD7;
+			#else
+				float2 texcoord0 : TEXCOORD0;
+			#endif
 		#endif
-		#if defined(MK_PARALLAX) || defined(MK_TBN)
+
+		#if defined(MK_PARALLAX) || defined(MK_TBN) || defined(MK_TANGENT_VERTEX)
 			half4 tangent : TANGENT;
 		#endif
 
@@ -34,8 +38,8 @@
 	struct VertexOutputDepthNormals
 	{
 		float4 svPositionClip : SV_POSITION;
-		#ifdef MK_TCM
-			float2 uv : TEXCOORD0;
+		#if defined(MK_TCM) || defined(MK_TCD)
+			float4 uv : TEXCOORD0;
 		#endif
 
 		#if defined(MK_PARALLAX)

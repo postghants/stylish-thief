@@ -90,6 +90,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &589714658151904205
 BoxCollider:
@@ -126,8 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   score: 10
   crime: Criminal Mischief
-  launchForce: 30
-  oneToOneConstant: 1.5
-  minimumHeight: 0
-  oneToOne: 0
-  fullSpeedReplacement: 0
+  launchForce: 35

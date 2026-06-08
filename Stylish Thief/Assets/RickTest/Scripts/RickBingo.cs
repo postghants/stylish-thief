@@ -45,7 +45,7 @@ public class RickBingo : MonoBehaviour
         }
     }
 
-    public void CheckCompletion()
+    public void CheckCompletion(GameObject obj)
     {
         currentItemCount++;
         
@@ -60,12 +60,12 @@ public class RickBingo : MonoBehaviour
         {
             Debug.Log(currentItemCount.ToString() + "/" + bingoBalls.Count.ToString());
             unfinishedCrime = currentItemCount.ToString() + "/" + bingoBalls.Count.ToString() + unfinishedText;
-            CrimeSpreeManager.instance.DoMinorCrime(0, unfinishedCrime);
+            CrimeSpreeManager.instance.DoMinorCrime(0, unfinishedCrime, obj);
         }
     }
     public void GrantScore()
     {
-        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
     }
 
     public void ResetBingo()

@@ -55,7 +55,7 @@ public class KickableObject : MonoBehaviour
 
             if (!kicked)
             {
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
             }
             kicked = true;
             Destroy(gameObject, 5f);

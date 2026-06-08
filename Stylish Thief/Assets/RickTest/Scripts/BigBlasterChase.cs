@@ -152,7 +152,6 @@ public class BigBlasterChase : EnemyMovement
         ctr.SetAnimationTrigger("Shoot");
         yield return new WaitForSeconds(blast.lingerTime);
         ctr.SetAnimationTrigger("Getup");
-
     }
 
     private void ChaseOutsideZone()

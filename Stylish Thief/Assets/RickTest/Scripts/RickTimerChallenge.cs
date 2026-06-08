@@ -91,7 +91,7 @@ public class RickTimerChallenge : MonoBehaviour
             countdown = false;
             Debug.Log("You made it");
             currentTime = givenTime;
-            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
             countdownUI.enabled = false;
             countdownUIBackdrop.enabled = false;
             WinText.DoReaction(true, 2, 1);

@@ -38,7 +38,7 @@ public class RickBumper : MonoBehaviour
             player.transform.position = transform.position;
             player.SetVelocity(transform.forward * startSpeed);
             player.ctx.hasGrabbed = false;
-            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
         }
     }
 }

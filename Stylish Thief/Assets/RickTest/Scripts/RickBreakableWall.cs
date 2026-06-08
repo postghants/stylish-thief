@@ -15,7 +15,7 @@ public class RickBreakableWall : MonoBehaviour
             //Check if current state is something specific
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
             {
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                 Destroy(gameObject.transform.parent.gameObject);
             }
         }

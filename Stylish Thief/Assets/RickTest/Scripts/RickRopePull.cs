@@ -76,7 +76,7 @@ public class RickRopePull : MonoBehaviour
         player.ctx.hasGrabbed = false;
         player.SetVelocity(transform.forward * endSpeed);
         player = null;
-        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
     }
 }
 /* RICK'S LITTLE CHEAT SHEET

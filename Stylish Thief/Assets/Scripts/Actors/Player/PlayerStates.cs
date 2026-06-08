@@ -83,6 +83,23 @@ namespace HSM
         {
             ctx.stunTimer += deltaTime;
         }
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.airStunTimer < ctx.airStunDuration)
+            {
+                ctx.airStunTimer += deltaTime;
+                return null;
+            }
+            else
+            {
+                ctx.airStunTimer = 0;
+                ctx.currentMoveMult = 1;
+                ctx.isStunned = false;
+                ctx.stunTimer = 0;
+                ctx.player.SetTrigger("EndBonk");
+                return Parent;
+            }
+        }
     }
 
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.

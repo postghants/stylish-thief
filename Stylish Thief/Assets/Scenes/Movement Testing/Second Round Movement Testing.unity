@@ -31552,7 +31552,7 @@ MonoBehaviour:
   spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
-  - enemy: {fileID: 8493037400413003749, guid: 2a8ccb956d782db479c12da095224102, type: 3}
+  - enemy: {fileID: 941804433808702746, guid: 6f93ef68e342121428d117e1ffd5ad51, type: 3}
     weight: 1
   patrolZoneLayer:
     serializedVersion: 2
@@ -117977,6 +117977,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4b097589232a154c8d6a71b206dcca7, type: 3}
+--- !u!1001 &1370253287
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 106.16331
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 20.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 19.808348
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609802771176823263, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532413414758412566, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532413414758412566, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532413414758412566, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532413414758412566, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812039886084055530, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
+      propertyPath: m_Name
+      value: Glass
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0e7bb6d1690df8c4fa89bea025f423f5, type: 3}
 --- !u!1 &1374157248 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2661236939835075516, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
@@ -151146,33 +151219,9 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.rollTiming
-      value: 0.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: ctx.orbitalFollow
       value: 
       objectReference: {fileID: 566103194}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.vaultJump.jumpMovementMult
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.groundMoveData.modelTurnDelay
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.airMoveData.turnDecelerationMult
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.groundMoveData.maxSpeedDeceleration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039265793413682498, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
-      propertyPath: ctx.harshLandingData.maxSpeedDeceleration
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 7388014831910008894, guid: 223427b9884d30048aa334f8cea8877e, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -160654,7 +160703,7 @@ MonoBehaviour:
   spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
-  - enemy: {fileID: 3733895822402104053, guid: d3710434c58b2e34f826c022e6bbc3a9, type: 3}
+  - enemy: {fileID: 8493037400413003749, guid: 2a8ccb956d782db479c12da095224102, type: 3}
     weight: 1
   patrolZoneLayer:
     serializedVersion: 2
@@ -175870,3 +175919,4 @@ SceneRoots:
   - {fileID: 1599768342}
   - {fileID: 1048385645}
   - {fileID: 204325360}
+  - {fileID: 1370253287}

@@ -336,6 +336,8 @@ public class PlayerContext
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
+    [Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
+
 
     [Header("Harsh Landing")]
     public float harshLandingDuration;
@@ -420,6 +422,7 @@ public class PlayerContext
     public float grabTimer;
     public float rollTimer;
     public float stunTimer;
+    public float airStunTimer;
     public float slideTimer;
     public float regenTimer;
     public float jumpTimer;

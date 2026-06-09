@@ -41,7 +41,7 @@ public class RickVendingMachine : MonoBehaviour
                 {
                     can = Instantiate(canPrefab, transform.parent.transform.position, Quaternion.identity);
                     remainingItems--;
-                    CrimeSpreeManager.instance.DoMinorCrime(tamperScore, tamperCrime);
+                    CrimeSpreeManager.instance.DoMinorCrime(tamperScore, tamperCrime, null);
                 }
                 else if (remainingItems == 1)
                 {
@@ -49,14 +49,14 @@ public class RickVendingMachine : MonoBehaviour
                     can = Instantiate(canPrefab, transform.parent.transform.position + new Vector3(0, 0, 1), Quaternion.identity);
                     can = Instantiate(canPrefab, transform.parent.transform.position - new Vector3(0, 0, 1), Quaternion.identity);
                     remainingItems--;
-                    CrimeSpreeManager.instance.DoMinorCrime(tamperScore, tamperCrime);
+                    CrimeSpreeManager.instance.DoMinorCrime(tamperScore, tamperCrime, null);
                 }
                 else
                 {
                     can = Instantiate(canPrefab, transform.parent.transform.position + new Vector3(-1, 0, 0), Quaternion.identity);
                     can = Instantiate(canPrefab, transform.parent.transform.position + new Vector3(-1, 0, 1), Quaternion.identity);
                     can = Instantiate(canPrefab, transform.parent.transform.position - new Vector3(1, 0, 1), Quaternion.identity);
-                    CrimeSpreeManager.instance.DoMinorCrime(breakScore, breakCrime);
+                    CrimeSpreeManager.instance.DoMinorCrime(breakScore, breakCrime, null);
                     Destroy(gameObject.transform.parent.gameObject);
                 }
             }

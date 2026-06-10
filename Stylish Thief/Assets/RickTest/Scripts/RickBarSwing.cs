@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class RickBarSwing : MonoBehaviour
 {
@@ -17,16 +18,20 @@ public class RickBarSwing : MonoBehaviour
     private Vector3 facingDirection;
     private PlayerAnimEventHandler eventHandler;
     Vector3 entryRotation;
+    private Vector3 localModelPosition;
 
     [Header("Input")]
     private InputAction jump;
-
+    private InputAction trick;
+    private InputAction grab;
     public JumpData jumpData;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         jump = InputSystem.actions.FindAction("Jump");
+        trick = InputSystem.actions.FindAction("Trick");
+        grab = InputSystem.actions.FindAction("Grab");
     }
 
     // Update is called once per frame
@@ -37,8 +42,22 @@ public class RickBarSwing : MonoBehaviour
         {
             if (hanging)
             {
+                if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
+                {
+                    flipDirection = !flipDirection;
+                    Debug.Log("flipping");
+                }
+                if (flipDirection)
+                {
+                    eventHandler.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+                }
+                else
+                {
+                    eventHandler.transform.rotation = transform.rotation;
+                }
                 if (jump.WasPerformedThisFrame())
                 {
+                    player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = localModelPosition;
                     //if (entrySpeed.magnitude < forwardVelocity)
                     //{
                     Vector3 launchSpeeds = (transform.forward * forwardVelocity);
@@ -100,6 +119,8 @@ public class RickBarSwing : MonoBehaviour
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.frozen);
             player.SetVelocity(Vector3.zero);
             player.transform.position = transform.position;
+            localModelPosition = player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition;
+            player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = Vector3.zero;
             CalculateAngles();
             hanging = true;
             player.SetTrigger("StartBarSwing");

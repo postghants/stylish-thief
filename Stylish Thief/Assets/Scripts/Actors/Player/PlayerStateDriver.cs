@@ -73,6 +73,18 @@ public class PlayerStateDriver : Actor, IDamageable
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(Root.Leaf());
+        if (ctx.iFramesOn)
+        {
+            if (ctx.iFrameTimer < ctx.invincibilityLength)
+            {
+                ctx.iFrameTimer += Time.deltaTime;
+            }
+            else
+            {
+                ctx.iFrameTimer = 0;
+                ctx.iFramesOn = false;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -82,8 +94,12 @@ public class PlayerStateDriver : Actor, IDamageable
 
     public void TakeKnockback(Vector3 knockback)
     {
-        ctx.rb.velocity += knockback;
-        Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
+        //if (!ctx.iFramesOn)
+        {
+            ctx.rb.velocity += knockback;
+            Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
+            ctx.iFramesOn = true;
+        }
     }
 
     public void SetVelocity(Vector3 newVel)
@@ -239,15 +255,20 @@ public class PlayerStateDriver : Actor, IDamageable
     //IDamageable
     public void TakeDamage(float damage)
     {
-        ctx.currentHealth -= damage;
-        if (ctx.healthBar != null)
+        if (!ctx.iFramesOn)
         {
-            ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
-        }
-        ctx.regenTimer = 0;
-        if (ctx.currentHealth <= 0)
-        {
-            Die();
+            ctx.iFramesOn = true;
+            ctx.currentHealth -= damage;
+            if (ctx.healthBar != null)
+            {
+                ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+            }
+            ctx.regenTimer = 0;
+            if (ctx.currentHealth <= 0)
+            {
+                ctx.iFramesOn = false;
+                Die();
+            }
         }
     }
 
@@ -267,6 +288,7 @@ public class PlayerContext
     public float maxHealth = 100;
     public float regenRate = 10;
     public float regenDelay = 1.5f;
+    public float invincibilityLength;
 
     [Header("General")]
     public float timeScale = 1;
@@ -408,6 +430,8 @@ public class PlayerContext
 
     [Header("Internal NO TOUCHY")]
     public float currentHealth;
+    public float iFrameTimer;
+    public bool iFramesOn;
     public Vector3 moveDirection;
     public Vector3 facing;
     public float coyoteTimeCounter;

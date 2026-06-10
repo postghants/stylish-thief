@@ -5218,6 +5218,7 @@ MonoBehaviour:
     maxHealth: 100
     regenRate: 10
     regenDelay: 1.5
+    invincibilityLength: 1
     timeScale: 1
     spawnSpreeUI: 1
     groundMoveData:
@@ -5544,6 +5545,8 @@ MonoBehaviour:
     animRunSpeed: 7
     animIdleSpeed: 5
     currentHealth: 0
+    iFrameTimer: 0
+    iFramesOn: 0
     moveDirection: {x: 0, y: 0, z: 0}
     facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0

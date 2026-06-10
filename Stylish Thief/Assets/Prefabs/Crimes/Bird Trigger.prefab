@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7885635486754538902}
   - component: {fileID: 7031361695515807017}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bird Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 5014652963578078371}
   - component: {fileID: 6422583489450261668}
   - component: {fileID: 4365670010293078515}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,10 +211,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   givenScore: 5
   crime: Disturbing wildlife
-  player: {fileID: 0}
   birds: {fileID: 8321978529617803902}
   respawnTime: 5
   birdPrefab: {fileID: 7852686391188940370, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+  player: {fileID: 0}
 --- !u!114 &4365670010293078515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +237,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7885635486754538902}
     m_Modifications:
+    - target: {fileID: 346440516512195056, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187293160345954106, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1691149221564303263, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135595965812605552, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429031279974820400, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948646471626015846, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3975973204289952497, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -277,9 +301,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5436429742334493942, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960706597457952843, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7852686391188940370, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
       propertyPath: m_Name
       value: Bird
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852686391188940370, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8119326670810194471, guid: 30791d90189cbc14ab761ad38f80a0da, type: 3}
       propertyPath: m_Enabled

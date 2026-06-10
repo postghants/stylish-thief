@@ -256,7 +256,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump)
+            if (ctx.pressingTrick && !ctx.disableVaultJump)
             {
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
@@ -274,7 +274,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if ((ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
+            if ((ctx.pressingTrick && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
             {
                 return Parent;
             }
@@ -379,7 +379,6 @@ namespace HSM
                     Vector3 cast1Origin = origin;
                     if (ctx.rb.isGrounded)
                     {
-                        Debug.Log("Grounded Grabbing");
                         if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                         {
                             if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeightGround, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
@@ -597,13 +596,13 @@ namespace HSM
             ctx.blockJump++;
             ctx.isStunned = true;
 
-            if (!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
+            if (!ctx.disableRoll && ctx.rollBufferCounter > 0 && ctx.rollBufferCounter < ctx.rollTiming)
             {
                 Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
                 return;
             }
 
-            if (ctx.jumpBufferCounter > ctx.rollTiming)
+            if (ctx.rollBufferCounter > ctx.rollTiming)
             {
                 ctx.player.TakeDamage(ctx.veryBadLandingDamage);
                 ctx.cmd = ctx.veryBadLandingData;

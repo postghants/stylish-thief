@@ -17,6 +17,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private InputAction poundAction;
     private InputAction panLeftAction;
     private InputAction panRightAction;
+    private InputAction trickAction;
 
     private void Start()
     {
@@ -54,6 +55,7 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
         ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
         Jump.JumpBuffer(ctx);
+        RollBuffer(ctx);
         Jump.SetPhysics(ctx);
 
         // Read input
@@ -85,11 +87,6 @@ public class PlayerStateDriver : Actor, IDamageable
                 ctx.iFramesOn = false;
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     public void TakeKnockback(Vector3 knockback)
@@ -138,6 +135,7 @@ public class PlayerStateDriver : Actor, IDamageable
             poundAction.Disable();
             panLeftAction.Disable();
             panRightAction.Disable();
+            trickAction.Disable();
         }
     }
 
@@ -153,6 +151,7 @@ public class PlayerStateDriver : Actor, IDamageable
             poundAction.Enable();
             panLeftAction.Enable();
             panRightAction.Enable();
+            trickAction.Enable();
         }
     }
 
@@ -196,6 +195,27 @@ public class PlayerStateDriver : Actor, IDamageable
     {
         StartCoroutine(PanCamera(-ctx.panAngle, ctx.panTime));
     }
+    public void OnTrickStart(InputAction.CallbackContext c)
+    {
+        ctx.desiredRoll = true;
+        ctx.pressingTrick = true;
+        ctx.rollBufferCounter = 0;
+    }
+    public void OnTrickStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingTrick = false;
+    }
+    public static void RollBuffer(PlayerContext ctx)
+    {
+        if (ctx.desiredRoll)
+        {
+            ctx.rollBufferCounter += Time.deltaTime;
+            if (ctx.rollBufferCounter > ctx.rollTiming)
+            {
+                ctx.desiredRoll = false;
+            }
+        }
+    }
 
     private IEnumerator PanCamera(float angle, float time)
     {
@@ -225,6 +245,7 @@ public class PlayerStateDriver : Actor, IDamageable
         poundAction = InputSystem.actions.FindAction("Pound");
         panLeftAction = InputSystem.actions.FindAction("BumperLeft");
         panRightAction = InputSystem.actions.FindAction("BumperRight");
+        trickAction = InputSystem.actions.FindAction("Trick");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         grabAction.started += OnGrabStart;
@@ -233,6 +254,8 @@ public class PlayerStateDriver : Actor, IDamageable
         poundAction.canceled += OnPoundStop;
         panLeftAction.started += OnPanLeft;
         panRightAction.started += OnPanRight;
+        trickAction.started += OnTrickStart;
+        trickAction.canceled += OnTrickStop;
     }
 
 
@@ -278,6 +301,8 @@ public class PlayerStateDriver : Actor, IDamageable
         jumpAction.canceled -= OnJumpStop;
         grabAction.started -= OnGrabStart;
         grabAction.canceled -= OnGrabStop;
+        trickAction.started -= OnTrickStart;
+        trickAction.canceled -= OnTrickStop;
     }
 }
 
@@ -436,6 +461,7 @@ public class PlayerContext
     public Vector3 facing;
     public float coyoteTimeCounter;
     public float jumpBufferCounter;
+    public float rollBufferCounter;
     public bool currentlyJumping;
     public float baseGrav;
     public float gravMultiplier;
@@ -446,6 +472,7 @@ public class PlayerContext
     public bool hasGrabbed;
     public float grabTimer;
     public float rollTimer;
+    public bool desiredRoll;
     public float stunTimer;
     public float airStunTimer;
     public float slideTimer;
@@ -466,6 +493,7 @@ public class PlayerContext
     public bool desiredGrab;
     public bool pressingGrab;
     public bool pressingPound;
+    public bool pressingTrick;
 
 }
 

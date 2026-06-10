@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RickBumper : MonoBehaviour
@@ -13,6 +14,13 @@ public class RickBumper : MonoBehaviour
     [Header("References, don't touch")]
     [Tooltip("Don't touch this one. It should just refer to the stopper.")] public GameObject stopper;
     [Tooltip("Don't touch this one. It should just refer to the gravity enabler.")] public GameObject gravityEnabler;
+
+    [Header("Bumper setup")]
+    public bool cycleTargets;
+    public float cycleTime;
+    float timer;
+    int currentTarget;
+    public List<GameObject> targets;
     void Start()
     {
         transform.LookAt(target.transform);
@@ -23,6 +31,26 @@ public class RickBumper : MonoBehaviour
         if (target.gameObject != gravityEnabler)
         {
             gravityEnabler.SetActive(false);
+        }
+    }
+    private void Update()
+    {
+        if (cycleTargets)
+        {
+            if (timer < cycleTime)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                timer = 0;
+                transform.LookAt(targets[currentTarget].transform);
+                currentTarget++;
+                if (currentTarget == targets.Count)
+                {
+                    currentTarget = 0;
+                }
+            }
         }
     }
     private void OnTriggerEnter(Collider other)

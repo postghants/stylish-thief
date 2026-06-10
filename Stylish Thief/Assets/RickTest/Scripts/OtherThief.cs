@@ -47,7 +47,7 @@ public class OtherThief : MonoBehaviour
                 player.SetVelocity(Vector2.zero);
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.grounded.idle);
                 player.DisableControls();
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                 Debug.Log("HI [NAME OF OTHER THIEF]!");
             }
         }

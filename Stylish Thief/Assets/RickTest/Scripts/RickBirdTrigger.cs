@@ -52,7 +52,7 @@ public class RickBirdTrigger : MonoBehaviour
                     {
                         birds.FlyAway(player.transform);
                         count = true;
-                        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                     }
                 }
             }

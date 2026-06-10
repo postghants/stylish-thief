@@ -38,7 +38,7 @@ public class Landmine : MonoBehaviour
                 currentTime = 0;
                 mesh.enabled = false;
                 explosion.SetActive(true);
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                 Destroy(gameObject, LengthOfBoom);
             }
         }

@@ -5218,6 +5218,7 @@ MonoBehaviour:
     maxHealth: 100
     regenRate: 10
     regenDelay: 1.5
+    invincibilityLength: 1
     timeScale: 1
     spawnSpreeUI: 1
     groundMoveData:
@@ -5340,7 +5341,8 @@ MonoBehaviour:
     maxGrabTargetDistanceDown: -1
     disableVault: 0
     ledgeCheckDistance: 1.5
-    maxLedgeHeight: 2
+    maxLedgeHeight: 3
+    maxLedgeHeightGround: 2
     vaultMaxDuration: 0.4
     vaultMoveData:
       acceleration: 0
@@ -5413,6 +5415,7 @@ MonoBehaviour:
     stunMinSpeed: 1
     stunUpwardSpeed: 1
     stunDuration: 0.1
+    airStunDuration: 0.2
     harshLandingDuration: 1
     harshLandingDamage: -10
     harshLandingData:
@@ -5542,6 +5545,8 @@ MonoBehaviour:
     animRunSpeed: 7
     animIdleSpeed: 5
     currentHealth: 0
+    iFrameTimer: 0
+    iFramesOn: 0
     moveDirection: {x: 0, y: 0, z: 0}
     facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0
@@ -5557,6 +5562,7 @@ MonoBehaviour:
     grabTimer: 0
     rollTimer: 0
     stunTimer: 0
+    airStunTimer: 0
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0

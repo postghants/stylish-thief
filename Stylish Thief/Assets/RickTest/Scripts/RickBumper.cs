@@ -11,9 +11,15 @@ public class RickBumper : MonoBehaviour
     [Tooltip("How fast should the player go?")] public float startSpeed;
     [Tooltip("Where is this bumper pointing to?")] public GameObject target;
     [Tooltip("Are you using the stopper?")] public bool usingStopper;
+    public float failsafeTime;
     [Header("References, don't touch")]
     [Tooltip("Don't touch this one. It should just refer to the stopper.")] public GameObject stopper;
     [Tooltip("Don't touch this one. It should just refer to the gravity enabler.")] public GameObject gravityEnabler;
+    public float fsTimer;
+    public bool countFailsafe;
+    public GameObject playerPrefab;
+    PlayerStateDriver prefabPlayer;
+
 
     [Header("Bumper setup")]
     public bool cycleTargets;
@@ -23,6 +29,7 @@ public class RickBumper : MonoBehaviour
     public List<GameObject> targets;
     void Start()
     {
+        prefabPlayer = playerPrefab.GetComponent<PlayerStateDriver>();
         transform.LookAt(target.transform);
         if (!usingStopper)
         {
@@ -44,12 +51,34 @@ public class RickBumper : MonoBehaviour
             else
             {
                 timer = 0;
-                transform.LookAt(targets[currentTarget].transform);
+                target = targets[currentTarget];
+                transform.LookAt(target.transform);
                 currentTarget++;
                 if (currentTarget == targets.Count)
                 {
                     currentTarget = 0;
                 }
+            }
+        }
+        if (countFailsafe)
+        {
+            if (fsTimer < failsafeTime)
+            {
+                fsTimer += Time.deltaTime;
+            }
+            else
+            {
+                fsTimer = 0;
+                countFailsafe = false;
+                player.EnableControls();
+                player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
+                player.gameObject.GetComponent<ActorPhysics>().gravity = -Vector3.up;
+                player.ctx.cmd.deceleration = prefabPlayer.ctx.airMoveData.deceleration;
+                player.ctx.cmd.maxSpeedDeceleration = prefabPlayer.ctx.airMoveData.maxSpeedDeceleration;
+                //player.SetVelocity(transform.forward * endSpeed);
+                player.ctx.hasGrabbed = false;
+                player.gameObject.GetComponent<ActorPhysics>().gravity = -Vector3.up;
+                //player.transform.position = target.transform.position;
             }
         }
     }
@@ -66,7 +95,8 @@ public class RickBumper : MonoBehaviour
             player.transform.position = transform.position;
             player.SetVelocity(transform.forward * startSpeed);
             player.ctx.hasGrabbed = false;
-            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
+            countFailsafe = true;
         }
     }
 }

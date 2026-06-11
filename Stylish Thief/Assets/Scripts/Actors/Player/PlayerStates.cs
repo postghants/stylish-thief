@@ -83,6 +83,23 @@ namespace HSM
         {
             ctx.stunTimer += deltaTime;
         }
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.airStunTimer < ctx.airStunDuration)
+            {
+                ctx.airStunTimer += deltaTime;
+                return null;
+            }
+            else
+            {
+                ctx.airStunTimer = 0;
+                ctx.currentMoveMult = 1;
+                ctx.isStunned = false;
+                ctx.stunTimer = 0;
+                ctx.player.SetTrigger("EndBonk");
+                return Parent;
+            }
+        }
     }
 
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
@@ -239,7 +256,7 @@ namespace HSM
 
         protected override void OnExit()
         {
-            if (ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump)
+            if (ctx.pressingTrick && !ctx.disableVaultJump)
             {
                 ctx.rb.velocity = startVel;
                 ctx.currentJumpData = ctx.vaultJump;
@@ -257,7 +274,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if ((ctx.pressingGrab && ctx.pressingJump && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
+            if ((ctx.pressingTrick && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
             {
                 return Parent;
             }
@@ -331,7 +348,15 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            
+            if (ctx.rb.isGrounded)
+            {
+                Debug.Log("Grounded Grabbing");
+
+            }
+            else
+            {
+
+            }
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
             Bounds bounds = ctx.rb.environmentCollider.bounds;
@@ -342,23 +367,53 @@ namespace HSM
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
                 {
                     origin = checkHit.point;
-                    origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
-                    Vector3 cast1Origin = origin;
-                    if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
+                    if (ctx.rb.isGrounded)
                     {
-                        if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                        origin.y += ctx.maxLedgeHeightGround; //Add the maximum ledge height to where the boxcast hit the ground
+                    }
+                    else
+                    {
+                        origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
+                    }
+                    
+                    Vector3 cast1Origin = origin;
+                    if (ctx.rb.isGrounded)
+                    {
+                        if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
                         {
-                            origin = heightHit.point;
-                            origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
-                            origin.x = cast1Origin.x;
-                            origin.z = cast1Origin.z;
-                            ctx.rb.transform.position = origin;
+                            if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeightGround, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                            {
+                                origin = heightHit.point;
+                                origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                                origin.x = cast1Origin.x;
+                                origin.z = cast1Origin.z;
+                                ctx.rb.transform.position = origin;
 
 
-                            Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
-                            return;
+                                Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                                return;
+                            }
                         }
                     }
+                    else
+                    {
+                        if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
+                        {
+                            if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                            {
+                                origin = heightHit.point;
+                                origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                                origin.x = cast1Origin.x;
+                                origin.z = cast1Origin.z;
+                                ctx.rb.transform.position = origin;
+
+
+                                Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                                return;
+                            }
+                        }
+                    }
+                    
                 }
             }
 
@@ -541,13 +596,13 @@ namespace HSM
             ctx.blockJump++;
             ctx.isStunned = true;
 
-            if (!ctx.disableRoll && ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter < ctx.rollTiming)
+            if (!ctx.disableRoll && ctx.rollBufferCounter > 0 && ctx.rollBufferCounter < ctx.rollTiming)
             {
                 Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
                 return;
             }
 
-            if (ctx.jumpBufferCounter > ctx.rollTiming)
+            if (ctx.rollBufferCounter > ctx.rollTiming)
             {
                 ctx.player.TakeDamage(ctx.veryBadLandingDamage);
                 ctx.cmd = ctx.veryBadLandingData;

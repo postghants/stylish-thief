@@ -12,6 +12,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [SerializeField] private int valuablesToSpawn;
     [SerializeField] private float uiLingerTime;
     [SerializeField] private float multPerCombo;
+    [SerializeField] private float comboTime;
+    [SerializeField] private int crimeBufferLength = 10;
 
     [Header("Countdown stuff")]
     public bool doCountdown;
@@ -34,8 +36,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public float Score;
     public float ChaseTimer = 0;
     public int ComboCount;
+    public float ComboTimer;
     public float Multiplier = 1;
     public List<Valuable> Valuables;
+    private Queue<GameObject> crimeBuffer = new();
 
     private void Start()
     {
@@ -57,13 +61,22 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
             if (ChaseTimer >= 60)
             {
-                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss");
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
             }
             else
             {
-                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("mm':'ss");
+                chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
             }
             ChaseTimer -= Time.deltaTime;
+
+            if (ComboCount > 0 && comboTime != 0)
+            {
+                ComboTimer += Time.deltaTime;
+                if(ComboTimer >= comboTime)
+                {
+                    ResetComboCount();
+                }
+            }
 
             if (ChaseTimer < 0) { EndSpree(); Debug.Log("End Spree!!!!!!!"); }
         }
@@ -114,6 +127,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         ChaseTimer = 0;
         ComboCount = 0;
         Multiplier = 1;
+        ComboTimer = 0;
         chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
         StartCoroutine(UILinger());
         playerInstance.TakeDamage(99999);
@@ -158,9 +172,18 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         AddScore(score * Multiplier, "Another Crime");
         AddComboCount();
     }
-    public void DoMinorCrime(float score, string crimeName)
+    public void DoMinorCrime(float score, string crimeName, GameObject obj)
     {
         if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
         AddScore(score * Multiplier, crimeName);
         AddComboCount();
         chaseUI.crimeReact.DoReaction(true, 2, .25f);
@@ -191,20 +214,29 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         chaseUI.multText.text = Multiplier.ToString("0.0") + "x";
     }
 
+    public void ResetComboCount()
+    {
+        ComboCount = 0;
+        Multiplier = 1;
+        ComboTimer = 0;
+        chaseUI.comboText.text = "COMBO " + ComboCount.ToString();
+        chaseUI.multText.text = Multiplier.ToString("0.0") + "x";
+    }
+
     public void SpawnNewValuables(List<Transform> taken, int spawnCount)
     {
         List<Transform> toRemove = new List<Transform>();
-        foreach(var l in valuableLocations)
+        foreach (var l in valuableLocations)
         {
-            if(l == null) toRemove.Add(l);
+            if (l == null) toRemove.Add(l);
         }
 
-        foreach(var l in toRemove)
+        foreach (var l in toRemove)
         {
             valuableLocations.Remove(l);
         }
 
-        if(valuableLocations.Count == 0) { return; }
+        if (valuableLocations.Count == 0) { return; }
 
         foreach (Valuable v in Valuables)
         {
@@ -212,7 +244,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         }
         Valuables.Clear();
 
-        if(spawnCount >= valuableLocations.Count) { spawnCount = valuableLocations.Count - 1; }
+        if (spawnCount >= valuableLocations.Count) { spawnCount = valuableLocations.Count - 1; }
 
         if (valuableLocations.Count < spawnCount + 1) { return; }
         while (spawnCount > 0)

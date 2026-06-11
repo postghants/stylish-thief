@@ -5409,7 +5409,7 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
-    disableStun: 0
+    disableStun: 1
     useStunDeceleration: 1
     stunDeceleration: 1
     stunMinSpeed: 1
@@ -5551,6 +5551,7 @@ MonoBehaviour:
     facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0
     jumpBufferCounter: 0
+    rollBufferCounter: 0
     currentlyJumping: 0
     baseGrav: 0
     gravMultiplier: 0
@@ -5561,6 +5562,7 @@ MonoBehaviour:
     hasGrabbed: 0
     grabTimer: 0
     rollTimer: 0
+    desiredRoll: 0
     stunTimer: 0
     airStunTimer: 0
     slideTimer: 0
@@ -5613,6 +5615,7 @@ MonoBehaviour:
     desiredGrab: 0
     pressingGrab: 0
     pressingPound: 0
+    pressingTrick: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5222,6 +5222,7 @@ MonoBehaviour:
     groundMoveData:
       acceleration: 40
       deceleration: 8
+      minWalkSpeed: 0
       maxSpeed: 15
       maxSpeedDeceleration: 1
       turnSpeedMult: 10
@@ -5263,6 +5264,7 @@ MonoBehaviour:
     airMoveData:
       acceleration: 35
       deceleration: 4
+      minWalkSpeed: 0
       maxSpeed: 15
       maxSpeedDeceleration: 0
       turnSpeedMult: 3
@@ -5339,6 +5341,21 @@ MonoBehaviour:
     ledgeCheckDistance: 1.5
     maxLedgeHeight: 2
     vaultMaxDuration: 0.4
+    vaultMoveData:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     disableVaultJump: 0
     vaultJump:
       jumpImpulse: 15
@@ -5400,6 +5417,7 @@ MonoBehaviour:
     harshLandingData:
       acceleration: 0
       deceleration: 25
+      minWalkSpeed: 0
       maxSpeed: 0.01
       maxSpeedDeceleration: 25
       turnSpeedMult: 0
@@ -5434,6 +5452,7 @@ MonoBehaviour:
     veryBadLandingData:
       acceleration: 0
       deceleration: 25
+      minWalkSpeed: 0
       maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5483,6 +5502,7 @@ MonoBehaviour:
     prePoundMove:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 99
@@ -5546,6 +5566,7 @@ MonoBehaviour:
     cmd:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5600,10 +5621,10 @@ MonoBehaviour:
   mass: 1
   collisionLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2097153
   groundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2097153
   maxBounces: 5
   skinWidth: 0.015
   groundCheckDist: 0.1

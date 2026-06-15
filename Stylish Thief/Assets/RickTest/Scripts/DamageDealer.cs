@@ -30,6 +30,7 @@ public class DamageDealer : MonoBehaviour
             {
                 if (coll != null) { coll.enabled = false; }
             }
+            Debug.Log("hello hi hello");
         }
     }
 }

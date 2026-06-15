@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Munt
       objectReference: {fileID: 0}
+    - target: {fileID: 3713801430709853677, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -47,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: Value
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4469014966223161329, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: InitialModule.startColor.maxGradient.key0.g
@@ -112,8 +120,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.6745098
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 6042784105309664169, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4660567031908438355, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
@@ -141,6 +151,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rotationSpeed: 80
+  givenTime: 2
+  respawnTime: 5
+  givenScore: 100
+  crimeName: Minor Theft
+  theftIsMinor: 1
 --- !u!114 &6732557815498601103
 MonoBehaviour:
   m_ObjectHideFlags: 0

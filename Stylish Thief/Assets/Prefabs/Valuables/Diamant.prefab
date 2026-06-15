@@ -76,7 +76,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -105,6 +106,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collection
   rotationSpeed: 60
+  givenTime: 60
+  respawnTime: 120
+  givenScore: 3000
+  crimeName: GRAND THEFT
+  theftIsMinor: 0
 --- !u!114 &7907910608644079072
 MonoBehaviour:
   m_ObjectHideFlags: 0

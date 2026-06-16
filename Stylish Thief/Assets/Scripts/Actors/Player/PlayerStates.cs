@@ -343,7 +343,10 @@ namespace HSM
             //    ctx.rb.onCollision -= OnCollision;
             //    return;
             //}
-            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+            if (!ctx.disableStun)
+            {
+                PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+            }
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -417,7 +420,7 @@ namespace HSM
                 }
             }
 
-            if (!addedCollisionEvent)
+            if (!addedCollisionEvent && !ctx.disableStun)
             {
                 addedCollisionEvent = true;
                 ctx.rb.onCollision += OnCollision;
@@ -430,7 +433,10 @@ namespace HSM
             ctx.grabTimer = 0;
             try
             {
-                ctx.rb.onCollision -= OnCollision;
+                if (!ctx.disableStun)
+                {
+                    ctx.rb.onCollision -= OnCollision;
+                }
             }
             catch { }
             ctx.useGravity = true;
@@ -515,12 +521,15 @@ namespace HSM
             //    ctx.rb.onCollision -= OnCollision;
             //    return;
             //}
-            PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+            if (!ctx.disableStun)
+            {
+                PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+            }
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (!addedCollisionEvent)
+            if (!addedCollisionEvent && !ctx.disableStun)
             {
                 addedCollisionEvent = true;
                 ctx.rb.onCollision += OnCollision;
@@ -533,7 +542,10 @@ namespace HSM
             ctx.rollTimer = 0;
             try
             {
-                ctx.rb.onCollision -= OnCollision;
+                if (!ctx.disableStun)
+                {
+                    ctx.rb.onCollision -= OnCollision;
+                }
             }
             catch { }
             ctx.useGravity = true;

@@ -190,6 +190,42 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         chaseUI.multReact.DoReaction(true, 0, 0);
         chaseUI.rewardReact.DoReaction(true, 2, 1);
     }
+    public void DoMinorTheftCrime(float score, string crimeName, GameObject obj)
+    {
+        if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
+        AddScore(score * Multiplier, crimeName);
+        //AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        //chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+    }
+    public void DoTheftCrime(float score, string crimeName, GameObject obj)
+    {
+        if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
+        AddScore(score * Multiplier, crimeName);
+        AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+    }
 
     public void AddScore(float _score, string crimeName)
     {

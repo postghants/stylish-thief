@@ -11,18 +11,14 @@ PrefabInstance:
     - target: {fileID: 885439052184932840, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 6967712871034110678, guid: e34a04f2baac0854bb1daaa84eed063b, type: 3}
+      objectReference: {fileID: -5495902117074765545, guid: 077408ba4cea99e408bb38b3654c0423, type: 3}
     - target: {fileID: 3147243636071933218, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 9ad1fa756dc9b8c44a888594d1d07676, type: 2}
+      objectReference: {fileID: 2100000, guid: 5a3c978ec1ac2494fae9cb23aa3f4b49, type: 2}
     - target: {fileID: 3507667602866603255, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Name
-      value: Munt
-      objectReference: {fileID: 0}
-    - target: {fileID: 3713801430709853677, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Smaragd
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.x
@@ -50,23 +46,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: Value
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 4469014966223161329, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.b
+      value: 0.050980397
       objectReference: {fileID: 0}
     - target: {fileID: 4469014966223161329, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: InitialModule.startColor.maxGradient.key0.g
-      value: 0.5411765
+      value: 0.36862746
       objectReference: {fileID: 0}
     - target: {fileID: 4469014966223161329, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: InitialModule.startColor.maxGradient.key0.r
-      value: 0.69803923
+      value: 0.03137255
       objectReference: {fileID: 0}
     - target: {fileID: 4660567031908438355, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Name
-      value: Munt
+      value: Smaragd
       objectReference: {fileID: 0}
     - target: {fileID: 5639899632491094820, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalPosition.x
@@ -110,20 +106,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6940236674380244654, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.043137256
       objectReference: {fileID: 0}
     - target: {fileID: 6940236674380244654, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Color.g
-      value: 0.45882356
+      value: 0.32941177
       objectReference: {fileID: 0}
     - target: {fileID: 6940236674380244654, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Color.r
-      value: 0.6745098
+      value: 0.023529414
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 6042784105309664169, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4660567031908438355, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
@@ -151,11 +146,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rotationSpeed: 80
-  givenTime: 2
-  respawnTime: 5
-  givenScore: 100
-  crimeName: Minor Theft
-  theftIsMinor: 1
+  givenTime: 10
+  respawnTime: 60
+  givenScore: 1000
+  crimeName: Major Theft
+  theftIsMinor: 0
 --- !u!114 &6732557815498601103
 MonoBehaviour:
   m_ObjectHideFlags: 0

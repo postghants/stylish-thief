@@ -5215,10 +5215,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateDriver
   ctx:
-    maxHealth: 100
-    regenRate: 10
-    regenDelay: 1.5
-    invincibilityLength: 1
+    maxHealth: 99999
+    regenRate: 10000
+    regenDelay: 0
+    invincibilityLength: 0.75
     timeScale: 1
     spawnSpreeUI: 1
     groundMoveData:
@@ -5414,8 +5414,9 @@ MonoBehaviour:
     stunDeceleration: 1
     stunMinSpeed: 1
     stunUpwardSpeed: 1
-    stunDuration: 0.1
-    airStunDuration: 0.2
+    stunDuration: 1
+    airStunDuration: 2
+    setSpeedToZero: 1
     harshLandingDuration: 1
     harshLandingDamage: -10
     harshLandingData:

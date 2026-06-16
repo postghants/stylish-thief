@@ -69,6 +69,10 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
                 chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
             }
+            if (ChaseTimer > maxChaseTime)
+            {
+                ChaseTimer = maxChaseTime;
+            }
             ChaseTimer -= Time.deltaTime;
 
             if (ComboCount > 0 && comboTime != 0)

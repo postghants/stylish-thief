@@ -75,7 +75,7 @@ public class PlayerStateDriver : Actor, IDamageable
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(Root.Leaf());
-        if (ctx.iFramesOn)
+        if (ctx.iFramesOn && Root.Leaf().ToString() != "HSM.PlayerStunnedAirborne" && Root.Leaf().ToString() != "HSM.PlayerStunned")
         {
             if (ctx.iFrameTimer < ctx.invincibilityLength)
             {
@@ -278,7 +278,7 @@ public class PlayerStateDriver : Actor, IDamageable
     //IDamageable
     public void TakeDamage(float damage)
     {
-        if (!ctx.iFramesOn)
+        //if (!ctx.iFramesOn)
         {
             ctx.iFramesOn = true;
             ctx.currentHealth -= damage;
@@ -385,6 +385,7 @@ public class PlayerContext
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
     [Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
+    public bool setSpeedToZero;
 
 
     [Header("Harsh Landing")]

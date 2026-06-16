@@ -33,7 +33,13 @@ namespace HSM
             ctx.player.SetTrigger("EndBonk");
             //ctx.playerMat.color = ctx.stunnedColor;
         }
-
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ctx.rb.isGrounded && ctx.setSpeedToZero)
+            {
+                ctx.rb.velocity = Vector3.zero;
+            }
+        }
         protected override void OnExit()
         {
             ctx.currentMoveMult = 1;

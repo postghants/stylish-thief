@@ -25,7 +25,7 @@ public class StickerCrime : MonoBehaviour
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
             {
                 sticker.SetActive(true);
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
             }
         }
     }

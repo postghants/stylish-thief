@@ -18,7 +18,7 @@ public class RickBingoBall : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             //Communicate how many its been based on length of parent's list
-            rickBingo.CheckCompletion();
+            rickBingo.CheckCompletion(gameObject);
             gameObject.SetActive(false);
         }
     }

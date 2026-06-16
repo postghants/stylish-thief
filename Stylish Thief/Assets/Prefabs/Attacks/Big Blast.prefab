@@ -49,7 +49,7 @@ MonoBehaviour:
   coll: {fileID: 6379407166462935050}
   mesh: {fileID: 8795471354995600961}
   telegraphTime: 1.5
-  lingerTime: 0.25
+  lingerTime: 1.125
 --- !u!1 &3251029691120450282
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_UVBias: {x: 0, y: 0}
   m_RenderingLayerMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 253
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 12.5}
   m_Size: {x: 1, y: 50, z: 25}
@@ -239,3 +239,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damage: 25
+  turnColliderOff: 0
+  coll: {fileID: 0}

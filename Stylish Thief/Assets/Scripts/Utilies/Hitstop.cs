@@ -1,0 +1,80 @@
+using System.Collections;
+using UnityEngine;
+
+public static class Hitstop
+{
+    public static void SetTimescale(float timescale)
+    {
+        Time.timeScale = timescale;
+    }
+
+    public static IEnumerator LerpTimescale(float target, float time)
+    {
+        float timer = 0;
+        float startScale = Time.timeScale;
+        while (timer < time)
+        {
+            timer += Time.unscaledDeltaTime;
+            Time.timeScale = Mathf.Lerp(startScale, target, time / timer);
+
+            yield return null;
+        }
+        Time.timeScale = target;
+    }
+
+    public static IEnumerator SmoothDampTimescale(float target, float time)
+    {
+        float timer = 0;
+        float smoothDampRef = 0;
+        while (timer < time)
+        {
+            timer += Time.unscaledDeltaTime;
+            Time.timeScale = Mathf.SmoothDamp(Time.timeScale, target, ref smoothDampRef, time);
+
+            yield return null;
+        }
+        Time.timeScale = target;
+    }
+
+    public static IEnumerator FreezeTimescale(float target, float time)
+    {
+        float startScale = Time.timeScale;
+        Time.timeScale = target;
+        while (time > 0)
+        {
+            time -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = 1;
+    }
+
+    public static IEnumerator WhooshTimescale(float target, float descentTime, float holdTime, float ascentTime)
+    {
+        float timer = 0;
+        float smoothDampRef = 0;
+        Debug.Log("Start timescale descent");
+        while (timer < descentTime)
+        {
+            timer += Time.unscaledDeltaTime;
+            Time.timeScale = Mathf.SmoothDamp(Time.timeScale, target, ref smoothDampRef, descentTime);
+
+            yield return null;
+        }
+        Time.timeScale = target;
+        while (timer < descentTime + holdTime)
+        {
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Debug.Log("Start timescale ascent");
+        while (timer < descentTime + holdTime + ascentTime)
+        {
+            timer += Time.unscaledDeltaTime;
+            Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1, ref smoothDampRef, ascentTime);
+
+            yield return null;
+        }
+
+        Time.timeScale = 1;
+    }
+}

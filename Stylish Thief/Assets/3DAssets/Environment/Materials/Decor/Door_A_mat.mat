@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
+  - _MK_COLOR_GRADING_ALBEDO
   - _MK_LIGHT_CEL
   - _MK_OUTLINE_NOISE
   - _MK_PBS_MAP_1
@@ -210,7 +211,7 @@ Material:
     - _BlendSrcAlpha: 1
     - _Brightness: 1
     - _BumpScale: 1
-    - _ColorGrading: 0
+    - _ColorGrading: 1
     - _Contrast: 1
     - _Cutoff: 0.5
     - _DetailBlend: 0
@@ -280,7 +281,7 @@ Material:
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
-    - _Saturation: 1
+    - _Saturation: 1.15
     - _SketchMapScale: 1
     - _Smoothness: 0.585
     - _SmoothnessTextureChannel: 0

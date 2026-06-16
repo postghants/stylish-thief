@@ -7,16 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fence_A_mat 1
+  m_Name: Bumper
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
   - _MK_COLOR_GRADING_ALBEDO
-  - _MK_EMISSION_MAP
   - _MK_LIGHT_CEL
   - _MK_OUTLINE_NOISE
+  - _MK_PBS_MAP_0
   - _MK_PBS_MAP_1
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
@@ -34,12 +34,12 @@ Material:
     IGNOREPROJECTOR: False
     RenderType: Opaque
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _DetailUVSet
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: 2fbcb462c3e85a4419fc70622b9c59bd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8e02bd3e4450d4240be5f19273d69ad7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -79,7 +79,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 255b5afb72dedc24aa6f38371f9e7910, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GoochBrightMap:
@@ -115,7 +115,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 2fbcb462c3e85a4419fc70622b9c59bd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8e02bd3e4450d4240be5f19273d69ad7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -123,7 +123,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
-        m_Texture: {fileID: 2800000, guid: 122330970ddf6ba4291ebe0f3bfa2202, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5bf0d504786a5a344be79e3944aa0c3e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseMap:
@@ -159,7 +159,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
-        m_Texture: {fileID: 2800000, guid: 47fdcbbe17e460d4198ab18f419c6782, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularRamp:
@@ -193,8 +193,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AdditionalLightsFalloff: 0.885
-    - _AdditionalLightsThreshold: 0.61
+    - _AdditionalLightsFalloff: 1
+    - _AdditionalLightsThreshold: 0.5
     - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
     - _AlembicMotionVectors: 0
@@ -210,7 +210,7 @@ Material:
     - _BlendDstAlpha: 0
     - _BlendSrc: 1
     - _BlendSrcAlpha: 1
-    - _Brightness: 1.14
+    - _Brightness: 1.61
     - _BumpScale: 1
     - _ColorGrading: 1
     - _Contrast: 1
@@ -221,7 +221,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DetailUVSet: 0
     - _Diffuse: 0
-    - _DiffuseSmoothness: 0.278
+    - _DiffuseSmoothness: 0.073
     - _DiffuseThresholdOffset: 0.25
     - _Dissolve: 0
     - _DissolveAmount: 0.5
@@ -258,10 +258,10 @@ Material:
     - _LightTransmissionIntensity: 1
     - _LightTransmissionSmoothness: 0.5
     - _LightTransmissionThresholdOffset: 0.25
-    - _Metallic: 0.62
+    - _Metallic: 0
     - _Mode: 0
     - _NormalMapIntensity: 1
-    - _OcclusionMapIntensity: 1
+    - _OcclusionMapIntensity: 0.313
     - _OcclusionStrength: 1
     - _OptionsTab: 1
     - _Outline: 1
@@ -271,7 +271,7 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: -1
-    - _OutlineSize: 20
+    - _OutlineSize: 10
     - _OutlineTab: 1
     - _Parallax: 0.02
     - _ReceiveShadows: 1
@@ -282,9 +282,9 @@ Material:
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
-    - _Saturation: 1.39
+    - _Saturation: 1.34
     - _SketchMapScale: 1
-    - _Smoothness: 0.664
+    - _Smoothness: 0.746
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
@@ -316,9 +316,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GoochDarkColor: {r: 0.85136396, g: 0.66093105, b: 0.9685534, a: 1}
+    - _GoochDarkColor: {r: 0.74980456, g: 0.5782999, b: 0.8553459, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _LightTransmissionColor: {r: 1, g: 0.65, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0.45882356, a: 1}

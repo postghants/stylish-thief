@@ -62,10 +62,12 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
             if (ChaseTimer >= 60)
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
+                chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
             }
             else
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
+                chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
             }
             ChaseTimer -= Time.deltaTime;
 

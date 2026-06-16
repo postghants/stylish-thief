@@ -36,7 +36,7 @@ public class PlayerStateDriver : Actor, IDamageable
         if (ctx.spawnSpreeUI)
         {
             GameObject ui = Instantiate(ctx.playerUIPrefab);
-            ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
+            ctx.healthBar = ui.GetComponentInChildren<UIBar>();
             if (CrimeSpreeManager.instance != null)
             {
                 CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
@@ -433,7 +433,7 @@ public class PlayerContext
     public Animator anim;
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
-    [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public UIBar healthBar;
     public Material playerMat;
     public ParticleManager particleManager;
     public PlayerAnimEventHandler playerAnimEventHandler;

@@ -8,6 +8,7 @@ public class AgentChasePlayer : EnemyMovement
     [Header("Movement")]
     public float maxSpeed;
     public float acceleration;
+    [SerializeField] private bool onlyInZone;
 
     [Header("References")]
     private NavMeshAgent agent;
@@ -30,13 +31,31 @@ public class AgentChasePlayer : EnemyMovement
 
     public override void OnUpdate(float deltaTime)
     {
-        agent.SetDestination(ctr.ctx.player.transform.position);
-        /*Vector3 lookPos = ctr.ctx.player.transform.position;
-        lookPos.y = agent.transform.position.y;
-        rotationTf.transform.LookAt(lookPos);*/
-        Vector3 lookPos = agent.steeringTarget;
-        lookPos.y = agent.transform.position.y;
-        rotationTf.transform.LookAt(lookPos);
+        var playerZone = ctr.ctx.player.ctx.rb.CurrentZone();
+
+        if (onlyInZone)
+        {
+            if (ctr.ctx.activeZone == playerZone)
+            {
+                agent.SetDestination(ctr.ctx.player.transform.position);
+                /*Vector3 lookPos = ctr.ctx.player.transform.position;
+                lookPos.y = agent.transform.position.y;
+                rotationTf.transform.LookAt(lookPos);*/
+                Vector3 lookPos = agent.steeringTarget;
+                lookPos.y = agent.transform.position.y;
+                rotationTf.transform.LookAt(lookPos);
+            }
+        }
+        else
+        {
+            agent.SetDestination(ctr.ctx.player.transform.position);
+            /*Vector3 lookPos = ctr.ctx.player.transform.position;
+            lookPos.y = agent.transform.position.y;
+            rotationTf.transform.LookAt(lookPos);*/
+            Vector3 lookPos = agent.steeringTarget;
+            lookPos.y = agent.transform.position.y;
+            rotationTf.transform.LookAt(lookPos);
+        }
     }
 
     public override void OnExit()

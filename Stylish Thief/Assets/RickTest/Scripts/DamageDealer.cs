@@ -25,12 +25,16 @@ public class DamageDealer : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            player.TakeDamage(damage);
-            if (turnColliderOff)
+            if (!player.ctx.iFramesOn)
             {
-                if (coll != null) { coll.enabled = false; }
+                player.TakeDamage(damage);
+                if (turnColliderOff)
+                {
+                    if (coll != null) { coll.enabled = false; }
+                }
+                Debug.Log("hello hi hello");
+                player.ctx.player.TakeKnockback(Vector3.zero);
             }
-            Debug.Log("hello hi hello");
         }
     }
 }

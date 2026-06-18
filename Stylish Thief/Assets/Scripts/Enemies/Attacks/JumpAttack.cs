@@ -105,14 +105,17 @@ public class JumpAttack : EnemyAttack
 
     public void OnHit()
     {
-        Vector3 kb = rb.velocity * grabKbHorizontal;
-        kb.y = grabKbVertical;
-        ctr.ctx.player.TakeKnockback(kb);
-        ctr.ctx.player.TakeDamage(grabDamage);
-        if (doHitStop)
+        if (!ctr.ctx.player.ctx.iFramesOn)
         {
-            StartCoroutine(Hitstop.FreezeTimescale(0f, 0.2f));
-            StartCoroutine(CamShake.ShakeCam(3, 0.3f, 0.15f, FindAnyObjectByType<CinemachineCamera>()));
+            Vector3 kb = rb.velocity * grabKbHorizontal;
+            kb.y = grabKbVertical;
+            ctr.ctx.player.TakeKnockback(kb);
+            ctr.ctx.player.TakeDamage(grabDamage);
+            if (doHitStop)
+            {
+                StartCoroutine(Hitstop.FreezeTimescale(0f, 0.2f));
+                StartCoroutine(CamShake.ShakeCam(3, 0.3f, 0.15f, FindAnyObjectByType<CinemachineCamera>()));
+            }
         }
     }
 

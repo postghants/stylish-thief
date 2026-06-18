@@ -5215,10 +5215,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateDriver
   ctx:
-    maxHealth: 100
-    regenRate: 10
-    regenDelay: 1.5
+    maxHealth: 99999
+    regenRate: 10000
+    regenDelay: 0
+    invincibilityLength: 0.75
     timeScale: 1
+    spawnSpreeUI: 1
     groundMoveData:
       acceleration: 40
       deceleration: 8
@@ -5315,7 +5317,7 @@ MonoBehaviour:
       upwardDeceleration: 60
       upwardDecelApexThreshold: 5
       upwardDecelApex: 30
-      hangtimeDuration: 0.2
+      hangtimeDuration: 0
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
@@ -5339,7 +5341,8 @@ MonoBehaviour:
     maxGrabTargetDistanceDown: -1
     disableVault: 0
     ledgeCheckDistance: 1.5
-    maxLedgeHeight: 2
+    maxLedgeHeight: 3
+    maxLedgeHeightGround: 2
     vaultMaxDuration: 0.4
     vaultMoveData:
       acceleration: 0
@@ -5406,12 +5409,14 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
-    disableStun: 0
+    disableStun: 1
     useStunDeceleration: 1
     stunDeceleration: 1
     stunMinSpeed: 1
     stunUpwardSpeed: 1
-    stunDuration: 0.1
+    stunDuration: 1
+    airStunDuration: 2
+    setSpeedToZero: 1
     harshLandingDuration: 1
     harshLandingDamage: -10
     harshLandingData:
@@ -5541,10 +5546,13 @@ MonoBehaviour:
     animRunSpeed: 7
     animIdleSpeed: 5
     currentHealth: 0
+    iFrameTimer: 0
+    iFramesOn: 0
     moveDirection: {x: 0, y: 0, z: 0}
     facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0
     jumpBufferCounter: 0
+    rollBufferCounter: 0
     currentlyJumping: 0
     baseGrav: 0
     gravMultiplier: 0
@@ -5555,7 +5563,9 @@ MonoBehaviour:
     hasGrabbed: 0
     grabTimer: 0
     rollTimer: 0
+    desiredRoll: 0
     stunTimer: 0
+    airStunTimer: 0
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0
@@ -5606,6 +5616,7 @@ MonoBehaviour:
     desiredGrab: 0
     pressingGrab: 0
     pressingPound: 0
+    pressingTrick: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0

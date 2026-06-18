@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using UnityEngine.UIElements;
 
 public class RickBarSwing : MonoBehaviour
 {
+    public float testDifference;
+    [SerializeField] bool flipDirection;
     PlayerStateDriver player;
     public bool countDown;
     public float timeUntilControl;
@@ -16,17 +18,20 @@ public class RickBarSwing : MonoBehaviour
     private Vector3 facingDirection;
     private PlayerAnimEventHandler eventHandler;
     Vector3 entryRotation;
-    bool flipDirection;
+    private Vector3 localModelPosition;
 
     [Header("Input")]
     private InputAction jump;
-
+    private InputAction trick;
+    private InputAction grab;
     public JumpData jumpData;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         jump = InputSystem.actions.FindAction("Jump");
+        trick = InputSystem.actions.FindAction("Trick");
+        grab = InputSystem.actions.FindAction("Grab");
     }
 
     // Update is called once per frame
@@ -37,53 +42,42 @@ public class RickBarSwing : MonoBehaviour
         {
             if (hanging)
             {
-                
-
+                if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
+                {
+                    flipDirection = !flipDirection;
+                    Debug.Log("flipping");
+                }
+                if (flipDirection)
+                {
+                    eventHandler.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+                }
+                else
+                {
+                    eventHandler.transform.rotation = transform.rotation;
+                }
                 if (jump.WasPerformedThisFrame())
                 {
-                    if (entrySpeed.magnitude < forwardVelocity)
+                    player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = localModelPosition;
+                    //if (entrySpeed.magnitude < forwardVelocity)
+                    //{
+                    Vector3 launchSpeeds = (transform.forward * forwardVelocity);
+                    launchSpeeds.y = upVelocity;
+
+                    //float difference = entryRotation.y - eventHandler.transform.rotation.eulerAngles.y;
+                    if (flipDirection)
                     {
-                        Vector3 launchSpeeds = (transform.forward * forwardVelocity);
-                        launchSpeeds.y = upVelocity;
-
-                        float difference = entryRotation.y - eventHandler.transform.rotation.eulerAngles.y;
-                        if (flipDirection)
-                        {
-                            launchSpeeds.x = -launchSpeeds.x;
-                            launchSpeeds.z = -launchSpeeds.z;
-                        }
-                        /*if (difference > 90 && difference < 270)
-                        {
-                            Debug.Log("Over 90, turns back");
-                            launchSpeeds.x = -launchSpeeds.x;
-                            launchSpeeds.z = -launchSpeeds.z;
-                        }
-                        else if (difference >= 270)
-                        {
-                            Debug.Log("Over 270, won't turn back");
-                        }
-                        if (difference < -90 && difference > -270)
-                        {
-                            Debug.Log("Under -90, turns back");
-                            launchSpeeds.x = -launchSpeeds.x;
-                            launchSpeeds.z = -launchSpeeds.z;
-                        }
-                        else if (difference <= -270)
-                        {
-                            Debug.Log("Under -270, won't turn back");
-                        }
-                        Debug.Log(entryRotation.y + " - " + eventHandler.transform.rotation.eulerAngles.y + " = " + difference);*/
-
-                        player.SetVelocity(launchSpeeds);
-                        player.SetTrigger("BarSwingToJump");
-                        //player.SetTrigger("Hallo!");
+                        launchSpeeds.x = -launchSpeeds.x;
+                        launchSpeeds.z = -launchSpeeds.z;
                     }
-                    else
+                    player.SetVelocity(launchSpeeds);
+                    player.SetTrigger("BarSwingToJump");
+                    //}
+                    /*else
                     {
                         Vector3 launchSpeeds = (transform.forward * entrySpeed.magnitude);
                         launchSpeeds.y = upVelocity;
                         player.SetVelocity(launchSpeeds);
-                    }
+                    }*/
 
                     player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne);
                     hanging = false;
@@ -109,7 +103,7 @@ public class RickBarSwing : MonoBehaviour
             }
         }
         //exampleAction.performed or .started or .canceled += OnExamplePerform or OnExampleStart or OnExampleStop
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -125,61 +119,45 @@ public class RickBarSwing : MonoBehaviour
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.frozen);
             player.SetVelocity(Vector3.zero);
             player.transform.position = transform.position;
+            localModelPosition = player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition;
+            player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = Vector3.zero;
             CalculateAngles();
             hanging = true;
-
             player.SetTrigger("StartBarSwing");
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = localModelPosition;
+        player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne);
+        hanging = false;
+        player.ctx.hasGrabbed = false;
+        if (!countDown)
+        {
+            timer = 0;
+            countDown = false;
+            player.EnableControls();
+            //player.ctx.airMoveData.deceleration = 4;
+            player.ctx.cmd.deceleration = 4;
+            player = null;
         }
     }
     private void CalculateAngles()
     {
         float difference = transform.rotation.eulerAngles.y - entryRotation.y;
-        if (difference > 90 && difference < 270)
-        {
-            Debug.Log("Over 90, turns back");
-            flipDirection = true;
-        }
-        else if (difference >= 270)
-        {
-            Debug.Log("Over 270, won't turn back");
-            flipDirection = false;
-        }
-        if (difference < -90 && difference > -270)
-        {
-            Debug.Log("Under -90, turns back");
-            flipDirection = true;
-        }
-        else if (difference <= -270)
-        {
-            Debug.Log("Under -270, won't turn back");
-            flipDirection = false;
-        }
-        if (difference >= -90 && difference <= 90)
-        {
-            flipDirection = false;
-        }
         Debug.Log(transform.rotation.eulerAngles.y + " - " + entryRotation.y + " = " + difference);
-        
-        Vector3 rotation = eventHandler.transform.rotation.eulerAngles;
-        rotation.y = transform.rotation.eulerAngles.y;
-        if (flipDirection)
+
+        Vector3 rotation = Vector3.zero;
+
+        if ((difference > 90 && difference < 270) || (difference < -90 && difference > -270))
         {
-            rotation.y = transform.rotation.eulerAngles.y + 90;
-            rotation = -rotation;
+            flipDirection = true;
+            eventHandler.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
         }
-        eventHandler.transform.rotation = Quaternion.Euler(rotation);
+        else
+        {
+            flipDirection = false;
+            eventHandler.transform.rotation = transform.rotation;
+        }
     }
 }
-
-//Making the player launch in 2 directions
-//Detect the facing direciton of the player
-//Extrapolate which side of the bar that is
-    //If the bar (normalised) is facing at .5, .5 and the player .5, .5 then the difference on both axes is 0. The player is facing diagonally forward here (not accurate number)
-    //If the bar is facing 1, 0 and the player 0, 1 then the difference is 1, 1. The player is facing directly to the right here
-    //if the bar is facing .5, .5 and the player 0, 1 then the difference is .5, 1
-//Change the player's facing direction to be the closest of 2 facing directions on the bar
-//Launch the player in the facing direction
-
-//Making the player capable of changing direction
-//Read the move direction of the player! It tells me exactly where the player is inputting so I can adjust things based on that
-//Just swap the facing direction when the player turns

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class KickableObject : MonoBehaviour
 {
+    public float destroyTime = 5;
     Rigidbody rb;
     BoxCollider coll;
     PlayerStateDriver player;
@@ -58,7 +59,7 @@ public class KickableObject : MonoBehaviour
                 CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
             }
             kicked = true;
-            Destroy(gameObject, 5f);
+            Destroy(gameObject, destroyTime);
         }
     }
 }

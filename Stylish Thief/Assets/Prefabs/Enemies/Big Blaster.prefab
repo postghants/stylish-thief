@@ -4874,7 +4874,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4754361781135997093}
   - {fileID: 2717435170679170143}
   - {fileID: 2375124184770783865}
   m_Father: {fileID: 0}
@@ -5061,13 +5060,16 @@ MonoBehaviour:
   ctr: {fileID: 0}
   animationCodeNames: []
   disableTransition: 0
+  testTarget: {fileID: 0}
   maxSpeed: 60
   acceleration: 20
+  postShootDelay: 0.917
   maxJumpDist: 40
   jumpSpeed: 40
   jumpArc: -20
   circleRadius: 10
   bulletParticles: {fileID: 6028482474151808301}
+  failSafeTime: 0
   rotationTf: {fileID: 2717435170679170143}
   projectile: {fileID: 1810921142747239826}
   jumpTimer: 0
@@ -5080,7 +5082,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8256572893775819674}
+    m_TransformParent: {fileID: 2717435170679170143}
     m_Modifications:
     - target: {fileID: 416754995684707954, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
       propertyPath: m_Name
@@ -5090,10 +5092,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2105139918753001724, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_Size.y
+      value: 73.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2105139918753001724, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_RenderingLayerMask.m_Bits
+      value: 253
+      objectReference: {fileID: 0}
     - target: {fileID: 4150201040256972329, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
       propertyPath: coll
       value: 
       objectReference: {fileID: 4927226468435713002}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706934630854189893, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7352941
+      objectReference: {fileID: 0}
     - target: {fileID: 5349851389340262869, guid: b4f1171fc36d8094382eebaf651be825, type: 3}
       propertyPath: mesh
       value: 
@@ -5185,15 +5207,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8083925837835336028, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.36
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8083925837835336028, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.36
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8083925837835336028, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.36
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8083925837835336028, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5245,7 +5267,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8083925837835336028, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4754361781135997093}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8891248145199440870, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
       insertIndex: -1

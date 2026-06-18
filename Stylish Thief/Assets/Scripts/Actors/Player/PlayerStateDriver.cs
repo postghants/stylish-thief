@@ -17,6 +17,7 @@ public class PlayerStateDriver : Actor, IDamageable
     private InputAction poundAction;
     private InputAction panLeftAction;
     private InputAction panRightAction;
+    private InputAction trickAction;
 
     private void Start()
     {
@@ -32,11 +33,14 @@ public class PlayerStateDriver : Actor, IDamageable
         Machine = builder.Build();
 
         // Instantiate player UI
-        GameObject ui = Instantiate(ctx.playerUIPrefab);
-        ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
-        if (CrimeSpreeManager.instance != null)
+        if (ctx.spawnSpreeUI)
         {
-            CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+            GameObject ui = Instantiate(ctx.playerUIPrefab);
+            ctx.healthBar = ui.GetComponentInChildren<UIBar>();
+            if (CrimeSpreeManager.instance != null)
+            {
+                CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
+            }
         }
 
         ctx.player = this;
@@ -51,6 +55,7 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.rb.isGrounded = ctx.rb.IsGrounded();
         ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
         Jump.JumpBuffer(ctx);
+        RollBuffer(ctx);
         Jump.SetPhysics(ctx);
 
         // Read input
@@ -70,17 +75,28 @@ public class PlayerStateDriver : Actor, IDamageable
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(Root.Leaf());
-    }
-
-    private void FixedUpdate()
-    {
-
+        if (ctx.iFramesOn && Root.Leaf().ToString() != "HSM.PlayerStunnedAirborne" && Root.Leaf().ToString() != "HSM.PlayerStunned")
+        {
+            if (ctx.iFrameTimer < ctx.invincibilityLength)
+            {
+                ctx.iFrameTimer += Time.deltaTime;
+            }
+            else
+            {
+                ctx.iFrameTimer = 0;
+                ctx.iFramesOn = false;
+            }
+        }
     }
 
     public void TakeKnockback(Vector3 knockback)
     {
-        ctx.rb.velocity += knockback;
-        Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
+        //if (!ctx.iFramesOn)
+        {
+            ctx.rb.velocity += knockback;
+            Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
+            ctx.iFramesOn = true;
+        }
     }
 
     public void SetVelocity(Vector3 newVel)
@@ -119,6 +135,7 @@ public class PlayerStateDriver : Actor, IDamageable
             poundAction.Disable();
             panLeftAction.Disable();
             panRightAction.Disable();
+            trickAction.Disable();
         }
     }
 
@@ -134,6 +151,7 @@ public class PlayerStateDriver : Actor, IDamageable
             poundAction.Enable();
             panLeftAction.Enable();
             panRightAction.Enable();
+            trickAction.Enable();
         }
     }
 
@@ -177,6 +195,27 @@ public class PlayerStateDriver : Actor, IDamageable
     {
         StartCoroutine(PanCamera(-ctx.panAngle, ctx.panTime));
     }
+    public void OnTrickStart(InputAction.CallbackContext c)
+    {
+        ctx.desiredRoll = true;
+        ctx.pressingTrick = true;
+        ctx.rollBufferCounter = 0;
+    }
+    public void OnTrickStop(InputAction.CallbackContext c)
+    {
+        ctx.pressingTrick = false;
+    }
+    public static void RollBuffer(PlayerContext ctx)
+    {
+        if (ctx.desiredRoll)
+        {
+            ctx.rollBufferCounter += Time.deltaTime;
+            if (ctx.rollBufferCounter > ctx.rollTiming)
+            {
+                ctx.desiredRoll = false;
+            }
+        }
+    }
 
     private IEnumerator PanCamera(float angle, float time)
     {
@@ -206,6 +245,7 @@ public class PlayerStateDriver : Actor, IDamageable
         poundAction = InputSystem.actions.FindAction("Pound");
         panLeftAction = InputSystem.actions.FindAction("BumperLeft");
         panRightAction = InputSystem.actions.FindAction("BumperRight");
+        trickAction = InputSystem.actions.FindAction("Trick");
         jumpAction.started += OnJumpStart;
         jumpAction.canceled += OnJumpStop;
         grabAction.started += OnGrabStart;
@@ -214,6 +254,8 @@ public class PlayerStateDriver : Actor, IDamageable
         poundAction.canceled += OnPoundStop;
         panLeftAction.started += OnPanLeft;
         panRightAction.started += OnPanRight;
+        trickAction.started += OnTrickStart;
+        trickAction.canceled += OnTrickStop;
     }
 
 
@@ -236,15 +278,20 @@ public class PlayerStateDriver : Actor, IDamageable
     //IDamageable
     public void TakeDamage(float damage)
     {
-        ctx.currentHealth -= damage;
-        if (ctx.healthBar != null)
+        //if (!ctx.iFramesOn)
         {
-            ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
-        }
-        ctx.regenTimer = 0;
-        if (ctx.currentHealth <= 0)
-        {
-            Die();
+            ctx.iFramesOn = true;
+            ctx.currentHealth -= damage;
+            if (ctx.healthBar != null)
+            {
+                ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
+            }
+            ctx.regenTimer = 0;
+            if (ctx.currentHealth <= 0)
+            {
+                ctx.iFramesOn = false;
+                Die();
+            }
         }
     }
 
@@ -254,6 +301,8 @@ public class PlayerStateDriver : Actor, IDamageable
         jumpAction.canceled -= OnJumpStop;
         grabAction.started -= OnGrabStart;
         grabAction.canceled -= OnGrabStop;
+        trickAction.started -= OnTrickStart;
+        trickAction.canceled -= OnTrickStop;
     }
 }
 
@@ -264,9 +313,11 @@ public class PlayerContext
     public float maxHealth = 100;
     public float regenRate = 10;
     public float regenDelay = 1.5f;
+    public float invincibilityLength;
 
     [Header("General")]
     public float timeScale = 1;
+    public bool spawnSpreeUI = true;
 
     [Header("Grounded Movement")]
     public MoveData groundMoveData;
@@ -307,6 +358,7 @@ public class PlayerContext
     public bool disableVault;
     public float ledgeCheckDistance;
     public float maxLedgeHeight;
+    public float maxLedgeHeightGround;
     public float vaultMaxDuration;
     public MoveData vaultMoveData;
 
@@ -332,6 +384,9 @@ public class PlayerContext
     [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
+    [Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
+    public bool setSpeedToZero;
+
 
     [Header("Harsh Landing")]
     public float harshLandingDuration;
@@ -379,7 +434,7 @@ public class PlayerContext
     public Animator anim;
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
-    [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public UIBar healthBar;
     public Material playerMat;
     public ParticleManager particleManager;
     public PlayerAnimEventHandler playerAnimEventHandler;
@@ -401,10 +456,13 @@ public class PlayerContext
 
     [Header("Internal NO TOUCHY")]
     public float currentHealth;
+    public float iFrameTimer;
+    public bool iFramesOn;
     public Vector3 moveDirection;
     public Vector3 facing;
     public float coyoteTimeCounter;
     public float jumpBufferCounter;
+    public float rollBufferCounter;
     public bool currentlyJumping;
     public float baseGrav;
     public float gravMultiplier;
@@ -415,7 +473,9 @@ public class PlayerContext
     public bool hasGrabbed;
     public float grabTimer;
     public float rollTimer;
+    public bool desiredRoll;
     public float stunTimer;
+    public float airStunTimer;
     public float slideTimer;
     public float regenTimer;
     public float jumpTimer;
@@ -434,6 +494,7 @@ public class PlayerContext
     public bool desiredGrab;
     public bool pressingGrab;
     public bool pressingPound;
+    public bool pressingTrick;
 
 }
 

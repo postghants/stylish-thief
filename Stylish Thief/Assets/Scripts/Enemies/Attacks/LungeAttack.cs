@@ -85,8 +85,11 @@ public class LungeAttack : EnemyAttack
     {
         if(ctr.currentAttack == this)
         {
-            ctr.ctx.player.TakeDamage(grabDamage);
-            ctr.ctx.player.TakeKnockback(rb.velocity * grabKbVelocityMult + rb.velocity.normalized * grabKbHorizontal + Vector3.up * grabKbVertical);
+            if (!ctr.ctx.player.ctx.iFramesOn)
+            {
+                ctr.ctx.player.TakeDamage(grabDamage);
+                ctr.ctx.player.TakeKnockback(rb.velocity * grabKbVelocityMult + rb.velocity.normalized * grabKbHorizontal + Vector3.up * grabKbVertical);
+            }
         }
     }
 

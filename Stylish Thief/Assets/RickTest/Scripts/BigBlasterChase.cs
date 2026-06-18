@@ -7,9 +7,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BigBlasterChase : EnemyMovement
 {
+    public GameObject testTarget;
+
     [Header("Movement")]
     public float maxSpeed;
     public float acceleration;
+    public float postShootDelay;
+    private float postShootTimer;
 
     [Header("Jump")]
     public float maxJumpDist;
@@ -18,6 +22,8 @@ public class BigBlasterChase : EnemyMovement
 
     [Header("Random Area Around Player Selection")]
     public float circleRadius;
+    public float failSafeTime;
+    private float timer;
 
     [Header("References")]
     private NavMeshAgent agent;
@@ -103,23 +109,49 @@ public class BigBlasterChase : EnemyMovement
                         }
                     }
                 }
+                if (agent.pathPending || agent.pathStatus.ToString() == "Invalid")
+                {
+                    timer += deltaTime;
+                    Debug.Log("Counting: " + timer);
+                    if (timer >= failSafeTime)
+                    {
+                        timer = 0;
+                        agent.SetDestination(ctr.ctx.player.transform.position);
+                    }
+                }
+                else
+                {
+                    timer = 0;
+                }
+                postShootTimer = 0;
             }
             else
             {
                 if (projectile != null && !projectile.activeSelf)
                 {
-                    //Pick a random spot around the player
-                    Vector3 randomTargetRaw = Random.insideUnitCircle;
-                    randomTargetRaw.z = randomTargetRaw.y;
-                    randomTargetRaw.y = 0;
-                    randomTarget = ctr.ctx.player.transform.position + (randomTargetRaw.normalized * circleRadius);
+                    if (postShootTimer < postShootDelay)
+                    {
+                        postShootTimer += deltaTime;
+                    }
+                    else
+                    {
+    //Pick a random spot around the player
+                        Vector3 randomTargetRaw = Random.insideUnitCircle;
+                        randomTargetRaw.z = randomTargetRaw.y;
+                        randomTargetRaw.y = 0;
+                        randomTarget = ctr.ctx.player.transform.position + (randomTargetRaw.normalized * circleRadius);
 
-                    //Nearest point to target in patrol zone
-                    patrolZoneTarget = ctr.ctx.activeZone.ClosestPoint(randomTarget);
-                    agent.SetDestination(patrolZoneTarget);
+                        //Nearest point to target in patrol zone
+                        patrolZoneTarget = ctr.ctx.activeZone.ClosestPoint(randomTarget);
+                        agent.SetDestination(patrolZoneTarget);
 
-                    targetSet = true;
-                    Debug.Log("Moving toward " + randomTarget);
+                        targetSet = true;
+                        Debug.Log("Moving toward " + randomTarget);
+                    }
+                    
+                }
+                else
+                {
                 }
             }
             //Move toward that spot
@@ -138,6 +170,7 @@ public class BigBlasterChase : EnemyMovement
                 ChaseOutsideZone();
             }
         }
+        testTarget.transform.position = patrolZoneTarget;
     }
     public override void OnExit()
     {
@@ -154,8 +187,9 @@ public class BigBlasterChase : EnemyMovement
         bulletParticles.Play();
         yield return new WaitForSeconds(blast.lingerTime);
         ctr.SetAnimationTrigger("Getup");
-    }
+        yield return new WaitForSeconds(postShootDelay);
 
+    }
     private void ChaseOutsideZone()
     {
         if ((patrolZonePath != null && patrolZonePath.Count == 0)) { return; }
@@ -188,7 +222,7 @@ public class BigBlasterChase : EnemyMovement
         lookPos.y = agent.transform.position.y;
         rotationTf.transform.LookAt(lookPos);
         ctr.PlayAnimation("Jump");
-
+        targetSet = false;
     }
     private void Jumping(float deltaTime)
     {

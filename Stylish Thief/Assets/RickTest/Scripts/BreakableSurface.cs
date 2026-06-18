@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class BreakableSurface : MonoBehaviour
 {
+    [Header("Crime stuff")]
+    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("What is the name of this crime?")] public string crime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,7 +21,7 @@ public class BreakableSurface : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             Destroy(transform.parent.gameObject);
-            Debug.Log("Shattered");
+            CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
         }
     }
 }

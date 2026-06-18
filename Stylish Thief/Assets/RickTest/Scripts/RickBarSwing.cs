@@ -126,6 +126,22 @@ public class RickBarSwing : MonoBehaviour
             player.SetTrigger("StartBarSwing");
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = localModelPosition;
+        player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne);
+        hanging = false;
+        player.ctx.hasGrabbed = false;
+        if (!countDown)
+        {
+            timer = 0;
+            countDown = false;
+            player.EnableControls();
+            //player.ctx.airMoveData.deceleration = 4;
+            player.ctx.cmd.deceleration = 4;
+            player = null;
+        }
+    }
     private void CalculateAngles()
     {
         float difference = transform.rotation.eulerAngles.y - entryRotation.y;

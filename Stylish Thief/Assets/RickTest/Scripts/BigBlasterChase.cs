@@ -22,6 +22,7 @@ public class BigBlasterChase : EnemyMovement
     [Header("References")]
     private NavMeshAgent agent;
     private ActorPhysics rb;
+    [SerializeField] private ParticleSystem bulletParticles;
     [SerializeField] private Transform rotationTf;
     [SerializeField] private GameObject projectile;
 
@@ -150,6 +151,7 @@ public class BigBlasterChase : EnemyMovement
         ctr.PlayAnimation("Aim");
         yield return new WaitForSeconds(blast.telegraphTime);
         ctr.SetAnimationTrigger("Shoot");
+        bulletParticles.Play();
         yield return new WaitForSeconds(blast.lingerTime);
         ctr.SetAnimationTrigger("Getup");
     }

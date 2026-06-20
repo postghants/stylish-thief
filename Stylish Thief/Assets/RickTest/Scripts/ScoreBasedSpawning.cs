@@ -31,14 +31,13 @@ public class ScoreBasedSpawning : MonoBehaviour
             {
                 if (info.spawnNewThing)
                 {
-                    info.spawnedThing = Instantiate(info.thingToSpawn, new Vector3(0, -500, 0), Quaternion.identity);
+                    info.spawnedThing = Instantiate(info.thingToSpawn, info.spawnLocation, Quaternion.identity);
                 }
                 else
                 {
                     info.thingToSpawn.SetActive(true);
                 }
                 info.hasSpawned = true;
-                info.spawnedThing.transform.position = info.spawnLocation;
             }
         }
     }

@@ -148,6 +148,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8483793589573741098}
   m_SourcePrefab: {fileID: 100100000, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+--- !u!1 &8285851082333727611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5466211971363890595, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+  m_PrefabInstance: {fileID: 4118158658429800152}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8758105440000466827 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4660567031908438355, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
@@ -171,6 +176,7 @@ MonoBehaviour:
   givenScore: 500
   crimeName: Theft
   theftIsMinor: 0
+  particles: {fileID: 8285851082333727611}
 --- !u!114 &8483793589573741098
 MonoBehaviour:
   m_ObjectHideFlags: 0

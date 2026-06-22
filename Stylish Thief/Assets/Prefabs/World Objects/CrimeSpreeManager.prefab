@@ -29,7 +29,8 @@ Transform:
   m_LocalPosition: {x: 10.68169, y: -0, z: -20.29317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 391255672776328757}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6556351053450197771
@@ -48,8 +49,12 @@ MonoBehaviour:
   valuablesToSpawn: 3
   uiLingerTime: 4
   multPerCombo: 0.1
+  comboTime: 0
+  crimeBufferLength: 10
   doCountdown: 1
+  spawnOnValuableGrab: 0
   startTimer: 5
+  patrolZones: {fileID: 0}
   frozen: 0
   startTime: 0
   valuableLocations:
@@ -65,5 +70,57 @@ MonoBehaviour:
   Score: 0
   ChaseTimer: 0
   ComboCount: 0
+  ComboTimer: 0
   Multiplier: 1
   Valuables: []
+--- !u!1 &6270329988146535049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 391255672776328757}
+  - component: {fileID: 4550722850882907844}
+  m_Layer: 0
+  m_Name: Traps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &391255672776328757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6270329988146535049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4112998439884974717}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4550722850882907844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6270329988146535049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e801f3b99c0c38479378dd490786553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  scoreBasedSpawnInfo:
+  - spawnNewThing: 1
+    thingToSpawn: {fileID: 7825644260504333453, guid: 0219df05f87de5446b46b07d5956cfc9, type: 3}
+    spawnedThing: {fileID: 0}
+    spawnLocation: {x: 0, y: 0, z: 0}
+    hasSpawned: 0
+    requiredScore: 2000

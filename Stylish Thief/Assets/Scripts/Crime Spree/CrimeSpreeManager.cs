@@ -62,10 +62,16 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
             if (ChaseTimer >= 60)
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
+                chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
             }
             else
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
+                chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
+            }
+            if (ChaseTimer > maxChaseTime)
+            {
+                ChaseTimer = maxChaseTime;
             }
             ChaseTimer -= Time.deltaTime;
 
@@ -173,6 +179,42 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         AddComboCount();
     }
     public void DoMinorCrime(float score, string crimeName, GameObject obj)
+    {
+        if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
+        AddScore(score * Multiplier, crimeName);
+        AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+    }
+    public void DoMinorTheftCrime(float score, string crimeName, GameObject obj)
+    {
+        if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
+        AddScore(score * Multiplier, crimeName);
+        //AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        //chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+    }
+    public void DoTheftCrime(float score, string crimeName, GameObject obj)
     {
         if (ChaseTimer == 0) { return; }
 

@@ -16,6 +16,8 @@ public class JumpAttack : EnemyAttack
     public float grabKbHorizontal;
     public float grabKbVertical;
 
+    public bool doHitStop;
+
     private float timer = 0;
     private float recoveryTimer = 0;
     private bool playedRecovery = false;
@@ -103,12 +105,18 @@ public class JumpAttack : EnemyAttack
 
     public void OnHit()
     {
-        Vector3 kb = rb.velocity * grabKbHorizontal;
-        kb.y = grabKbVertical;
-        ctr.ctx.player.TakeKnockback(kb);
-        ctr.ctx.player.TakeDamage(grabDamage);
-        StartCoroutine(Hitstop.FreezeTimescale(0f, 0.2f));
-        StartCoroutine(CamShake.ShakeCam(3, 0.3f, 0.15f, FindAnyObjectByType<CinemachineCamera>()));
+        if (!ctr.ctx.player.ctx.iFramesOn)
+        {
+            Vector3 kb = rb.velocity * grabKbHorizontal;
+            kb.y = grabKbVertical;
+            ctr.ctx.player.TakeKnockback(kb);
+            ctr.ctx.player.TakeDamage(grabDamage);
+            if (doHitStop)
+            {
+                StartCoroutine(Hitstop.FreezeTimescale(0f, 0.2f));
+                StartCoroutine(CamShake.ShakeCam(3, 0.3f, 0.15f, FindAnyObjectByType<CinemachineCamera>()));
+            }
+        }
     }
 
     public override void OnExit()

@@ -8,40 +8,60 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 713850515814410216, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_Radius
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 885439052184932840, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -7387706064836869012, guid: 55e51fdb7101aea4a8cac42f34f845fc, type: 3}
+      objectReference: {fileID: -3895255768526168856, guid: 5d8b06e757a36af4bb4947aaadf5c90f, type: 3}
     - target: {fileID: 3147243636071933218, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 1e04c0eaa285bcd4e9a86b3a6bb6c327, type: 2}
+      objectReference: {fileID: 2100000, guid: 9f99664d684960f4fae3adb6998d5a52, type: 2}
     - target: {fileID: 3507667602866603255, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Name
       value: Dobbelstenen
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
@@ -116,7 +136,8 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.68235296
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -145,6 +166,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collection
   rotationSpeed: 80
+  givenTime: 4
+  respawnTime: 45
+  givenScore: 500
+  crimeName: Theft
+  theftIsMinor: 0
 --- !u!114 &8483793589573741098
 MonoBehaviour:
   m_ObjectHideFlags: 0

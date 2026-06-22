@@ -5,7 +5,7 @@ public class BigBlast : MonoBehaviour
 {
     [SerializeField] private DecalProjector decal;
     [SerializeField] private CapsuleCollider coll;
-    [SerializeField] private MeshRenderer mesh;
+    //[SerializeField] private MeshRenderer mesh;
     public float telegraphTime;
     float currentTelegraphTime;
     bool fired;
@@ -15,13 +15,13 @@ public class BigBlast : MonoBehaviour
     void Start()
     {
         coll.enabled = false;
-        mesh.enabled = false;
+        //mesh.enabled = false;
         currentTelegraphTime = 0;
     }
     private void OnEnable()
     {
         coll.enabled = false;
-        mesh.enabled = false;
+        //mesh.enabled = false;
         currentTelegraphTime = 0;
     }
 
@@ -38,7 +38,7 @@ public class BigBlast : MonoBehaviour
             {
                 currentTelegraphTime = 0;
                 coll.enabled = true;
-                mesh.enabled = true;
+                //mesh.enabled = true;
                 fired = true;
             }
         }
@@ -64,7 +64,7 @@ public class BigBlast : MonoBehaviour
     private void FullReset()
     {
         coll.enabled = false;
-        mesh.enabled = false;
+        //mesh.enabled = false;
         fired = false;
         currentLingerTime = 0;
         currentTelegraphTime = 0;

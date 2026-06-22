@@ -7,7 +7,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BigBlasterChase : EnemyMovement
 {
-    public GameObject testTarget;
 
     [Header("Movement")]
     public float maxSpeed;
@@ -28,6 +27,7 @@ public class BigBlasterChase : EnemyMovement
     [Header("References")]
     private NavMeshAgent agent;
     private ActorPhysics rb;
+    [SerializeField] private ParticleSystem bulletParticles;
     [SerializeField] private Transform rotationTf;
     [SerializeField] private GameObject projectile;
 
@@ -169,7 +169,6 @@ public class BigBlasterChase : EnemyMovement
                 ChaseOutsideZone();
             }
         }
-        testTarget.transform.position = patrolZoneTarget;
     }
     public override void OnExit()
     {
@@ -181,9 +180,10 @@ public class BigBlasterChase : EnemyMovement
     {
         var blast = projectile.GetComponent<BigBlast>();
         ctr.PlayAnimation("Aim");
-        yield return new WaitForSeconds(blast.telegraphTime);
+        yield return new WaitForSeconds(blast.telegraphTime + 0.1f);
         ctr.SetAnimationTrigger("Shoot");
-        yield return new WaitForSeconds(blast.lingerTime);
+        bulletParticles.Play();
+        yield return new WaitForSeconds(blast.lingerTime - 0.1f);
         ctr.SetAnimationTrigger("Getup");
         yield return new WaitForSeconds(postShootDelay);
 

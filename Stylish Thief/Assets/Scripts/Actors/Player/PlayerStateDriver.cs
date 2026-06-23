@@ -282,6 +282,7 @@ public class PlayerStateDriver : Actor, IDamageable
         {
             ctx.iFramesOn = true;
             ctx.currentHealth -= damage;
+            CrimeSpreeManager.instance.ChaseTimer -= damage;
             if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
@@ -434,6 +435,7 @@ public class PlayerContext
     public Animator anim;
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
+    public CrimeSpreeManager spreeManager;
     [HideInInspector] public UIBar healthBar;
     public Material playerMat;
     public ParticleManager particleManager;

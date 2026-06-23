@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5429493328396366509}
   - component: {fileID: 7755608023900504573}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   explosionLength: 0.5
   player: {fileID: 0}
   explosion: {fileID: 8626699006927613810}
-  renderer: {fileID: 2631779727487175590}
+  visual: {fileID: 6879708943032323317}
   vfxPrefab: {fileID: 6892666274494531276, guid: 61c363c1a2895d349b3ffbcb7dc6783b, type: 3}
 --- !u!1 &2441048374155868251
 GameObject:
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 4074171012771190440}
   - component: {fileID: 5280746674637301291}
   - component: {fileID: 7114483947231486928}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 7880254634126850310}
   - component: {fileID: 8702213283331294513}
   - component: {fileID: 8626699006927613810}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,9 +426,21 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2b79e25b2e077d54d9daba84337e4be7, type: 2}
+    - target: {fileID: -1036732338115730447, guid: 1d3b23c8140219949b114d21bb419aed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1d3b23c8140219949b114d21bb419aed, type: 3}
       propertyPath: m_Name
       value: Rocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1d3b23c8140219949b114d21bb419aed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736639068055168802, guid: 1d3b23c8140219949b114d21bb419aed, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

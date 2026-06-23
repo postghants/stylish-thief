@@ -13,11 +13,15 @@ public class Collection : MonoBehaviour
 
     Renderer renderer;
     Collider collider;
+    Light light;
+    [SerializeField] GameObject particles;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         renderer = GetComponentInChildren<Renderer>();
         collider = GetComponentInChildren<Collider>();
+        light = GetComponentInChildren<Light>();
+        particles.SetActive(true);
     }
 
     // Update is called once per frame
@@ -32,6 +36,8 @@ public class Collection : MonoBehaviour
         {
             renderer.enabled = true;
             collider.enabled = true;
+            light.enabled = true;
+            particles.SetActive(true);
         }
     }
     public void Collect()
@@ -42,6 +48,8 @@ public class Collection : MonoBehaviour
         }
         renderer.enabled = false;
         collider.enabled = false;
+        light.enabled = false;
+        particles.SetActive(false);
         currentTime = 0;
         if (theftIsMinor)
         {

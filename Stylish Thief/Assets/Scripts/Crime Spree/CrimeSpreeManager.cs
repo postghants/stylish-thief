@@ -23,7 +23,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [Header("Countdown internal")]
     public bool frozen;
     public float startTime = 0;
-    PlayerStateDriver playerInstance;
+    public PlayerStateDriver playerInstance;
 
     [Header("References")]
     [SerializeField] private List<Transform> valuableLocations;

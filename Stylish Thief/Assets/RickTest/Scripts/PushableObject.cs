@@ -70,7 +70,7 @@ public class PushableObject : MonoBehaviour
         {
             if (other.gameObject.layer != 6)
             {
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                 Destroy(gameObject);
             }
         }
@@ -117,7 +117,7 @@ public class PushableObject : MonoBehaviour
         {
             if (collision.gameObject.layer != 6)
             {
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                 Destroy(gameObject);
             }
         }

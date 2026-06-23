@@ -1,4 +1,3 @@
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -101,6 +100,10 @@ public class TutorialPrompt : MonoBehaviour
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
         }
+    }
+    public void MarkUncompleted()
+    {
+        completed = false;
     }
 }
 //Disable every input except the target ones

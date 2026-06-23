@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,11 +7,12 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BigBlasterChase : EnemyMovement
 {
-    public GameObject testTarget;
 
     [Header("Movement")]
     public float maxSpeed;
     public float acceleration;
+    public float postShootDelay;
+    private float postShootTimer;
 
     [Header("Jump")]
     public float maxJumpDist;
@@ -26,6 +27,7 @@ public class BigBlasterChase : EnemyMovement
     [Header("References")]
     private NavMeshAgent agent;
     private ActorPhysics rb;
+    [SerializeField] private ParticleSystem bulletParticles;
     [SerializeField] private Transform rotationTf;
     [SerializeField] private GameObject projectile;
 
@@ -60,7 +62,7 @@ public class BigBlasterChase : EnemyMovement
         agent.enabled = true;
         agent.speed = maxSpeed;
         agent.acceleration = acceleration;
-        //ctr.PlayAnimation("Run");
+        ctr.PlayAnimation("Run");
     }
     public override void OnUpdate(float deltaTime)
     {
@@ -75,15 +77,15 @@ public class BigBlasterChase : EnemyMovement
         // If player is in the same patrol zone
         if (ctr.ctx.activeZone == playerZone)
         {
-            
+
             if (targetSet)
             {
                 /*Vector3 lookPos = patrolZoneTarget;
                 lookPos.y = agent.transform.position.y;
                 rotationTf.transform.LookAt(lookPos);*/
                 Vector3 lookPos = agent.steeringTarget;
-                lookPos.y = agent.transform.position.y;
-                rotationTf.transform.LookAt(lookPos);
+                lookPos.y = rotationTf.position.y;
+                rotationTf.LookAt(lookPos);
                 Vector3 compareTarget = patrolZoneTarget;
                 compareTarget.y = 0;
                 Vector3 comparePos = agent.transform.position;
@@ -93,9 +95,10 @@ public class BigBlasterChase : EnemyMovement
                 {
                     Debug.Log("FIRE");
                     targetSet = false;
+                    StartCoroutine(ShootAnimationCoroutine());
 
                     lookPos = ctr.ctx.player.transform.position;
-                    lookPos.y = agent.transform.position.y;
+                    lookPos.y = rotationTf.transform.position.y;
                     rotationTf.transform.LookAt(lookPos);
                     if (projectile != null)
                     {
@@ -119,14 +122,19 @@ public class BigBlasterChase : EnemyMovement
                 {
                     timer = 0;
                 }
+                postShootTimer = 0;
             }
             else
             {
-                if (projectile != null)
+                if (projectile != null && !projectile.activeSelf)
                 {
-                    if (!projectile.activeSelf)
+                    if (postShootTimer < postShootDelay)
                     {
-                        //Pick a random spot around the player
+                        postShootTimer += deltaTime;
+                    }
+                    else
+                    {
+    //Pick a random spot around the player
                         Vector3 randomTargetRaw = Random.insideUnitCircle;
                         randomTargetRaw.z = randomTargetRaw.y;
                         randomTargetRaw.y = 0;
@@ -139,11 +147,14 @@ public class BigBlasterChase : EnemyMovement
                         targetSet = true;
                         Debug.Log("Moving toward " + randomTarget);
                     }
+                    
                 }
-                
+                else
+                {
+                }
             }
             //Move toward that spot
-            
+
             //If on the spot, open fire
             //Script should loop automatically without issue but otherwise reset it now
         }
@@ -158,7 +169,6 @@ public class BigBlasterChase : EnemyMovement
                 ChaseOutsideZone();
             }
         }
-        testTarget.transform.position = patrolZoneTarget;
     }
     public override void OnExit()
     {
@@ -166,6 +176,18 @@ public class BigBlasterChase : EnemyMovement
         projectile.SetActive(false);
     }
 
+    private IEnumerator ShootAnimationCoroutine()
+    {
+        var blast = projectile.GetComponent<BigBlast>();
+        ctr.PlayAnimation("Aim");
+        yield return new WaitForSeconds(blast.telegraphTime + 0.1f);
+        ctr.SetAnimationTrigger("Shoot");
+        bulletParticles.Play();
+        yield return new WaitForSeconds(blast.lingerTime - 0.1f);
+        ctr.SetAnimationTrigger("Getup");
+        yield return new WaitForSeconds(postShootDelay);
+
+    }
     private void ChaseOutsideZone()
     {
         if ((patrolZonePath != null && patrolZonePath.Count == 0)) { return; }
@@ -227,8 +249,11 @@ public class BigBlasterChase : EnemyMovement
     }
     protected override void Reset()
     {
-        //animationCodeNames.Add("Run");
-        //animationCodeNames.Add("Jump");
+        animationCodeNames.Add("Run");
+        animationCodeNames.Add("Jump");
+        animationCodeNames.Add("Aim");
+        animationCodeNames.Add("Shoot");
+        animationCodeNames.Add("Getup");
         base.Reset();
     }
 }

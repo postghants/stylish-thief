@@ -45,7 +45,7 @@ public class KickableObject : MonoBehaviour
             //GetComponentInChildren<Transform>().localPosition = visualPositionAfterHit;
             coll.isTrigger = false;
             rb.constraints = RigidbodyConstraints.None;
-            gameObject.layer = 22;
+            gameObject.layer = 21;
             Vector3 targetDir = player.transform.position - transform.position;
             targetDir = -targetDir - new Vector3(0, -targetDir.y, 0) + new Vector3(0, upForce, 0);
             rb.linearVelocity = targetDir.normalized * force;
@@ -56,7 +56,7 @@ public class KickableObject : MonoBehaviour
 
             if (!kicked)
             {
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime);
+                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
             }
             kicked = true;
             Destroy(gameObject, destroyTime);

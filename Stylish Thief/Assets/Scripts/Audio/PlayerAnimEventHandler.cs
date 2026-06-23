@@ -10,7 +10,7 @@ public class PlayerAnimEventHandler : MonoBehaviour
     [SerializeField] EventReference onGrabEvent;
     [SerializeField] EventReference onBumpEvent;
     [SerializeField] EventReference onLedgeEvent;
-    [SerializeField] EventReference onBagThrowEvent;
+    [SerializeField] EventReference onDashEvent;
     [SerializeField] EventReference onLandingEvent;
 
 
@@ -44,13 +44,13 @@ public class PlayerAnimEventHandler : MonoBehaviour
         RuntimeManager.PlayOneShotAttached(onLedgeEvent, gameObject);
     }
 
-    public void BagThrow()
+    public void Dash()
     {
-        RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
+        RuntimeManager.PlayOneShotAttached(onDashEvent, gameObject);
     }
 
     public void PlayerLanding()
     {
-        RuntimeManager.PlayOneShotAttached(onBumpEvent, gameObject);
+        RuntimeManager.PlayOneShotAttached(onLandingEvent, gameObject);
     }
 }

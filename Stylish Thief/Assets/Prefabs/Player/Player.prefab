@@ -15779,7 +15779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15930,20 +15930,20 @@ MonoBehaviour:
       Data3: 1697038721
       Data4: -181162227
     Path: event:/sfx events/sfx player/ledge_grab
-  onBagThrowEvent:
+  onDashEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1164978021
+      Data2: 1090524165
+      Data3: -194805864
+      Data4: 108413610
+    Path: event:/sfx events/sfx player/Dash
   onLandingEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -911489358
+      Data2: 1303675184
+      Data3: 2034723240
+      Data4: -570034162
+    Path: event:/sfx events/sfx player/landing
 --- !u!95 &2467910005956807573
 Animator:
   serializedVersion: 7

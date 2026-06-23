@@ -8,6 +8,7 @@ public class MusicSystem : MonoBehaviour
     //make the variables for the FMOD event instances
     private EventInstance musicInstance;
     private EventInstance pausedInstance;
+    private EventInstance CrimeSpreeAlarm;
     private bool gamePaused = false;
     private float targetTime = 0.6f;
     public CrimeSpreeManager spreeManagerReference;
@@ -17,14 +18,16 @@ public class MusicSystem : MonoBehaviour
         //assign de FMOD event variables
         musicInstance = RuntimeManager.CreateInstance("event:/Music/Music_System");
         pausedInstance = RuntimeManager.CreateInstance("event:/Music/pauseMusic");
+        CrimeSpreeAlarm = RuntimeManager.CreateInstance("event:/sfx events/sfx UI/crime_spree_alarm");
 
         //muziek start zodra attached object wordt ingeladen.
         musicInstance.start();
+        CrimeSpreeAlarm.start();
     }
 
     void Update()
     {
-        if (spreeManagerReference.Score > 29999)
+        if (spreeManagerReference.Score > 49999)
         {
             RuntimeManager.StudioSystem.setParameterByName("Home_Run", 1);
         }

@@ -108,14 +108,27 @@ public class BigBlasterChase : EnemyMovement
                         }
                     }
                 }
-                if (agent.pathPending || agent.pathStatus.ToString() == "Invalid")
+                if (agent.hasPath)
                 {
                     timer += deltaTime;
                     Debug.Log("Counting: " + timer);
                     if (timer >= failSafeTime)
                     {
                         timer = 0;
-                        agent.SetDestination(ctr.ctx.player.transform.position);
+                        Debug.Log("FIRE");
+                        targetSet = false;
+                        StartCoroutine(ShootAnimationCoroutine());
+
+                        lookPos = ctr.ctx.player.transform.position;
+                        lookPos.y = rotationTf.transform.position.y;
+                        rotationTf.transform.LookAt(lookPos);
+                        if (projectile != null)
+                        {
+                            if (!projectile.activeSelf)
+                            {
+                                projectile.SetActive(true);
+                            }
+                        }
                     }
                 }
                 else
@@ -162,11 +175,14 @@ public class BigBlasterChase : EnemyMovement
         {
             if (playerZone != null)
             {
-                if (patrolZonePath == null || patrolZonePath.Count == 0 || playerZone != patrolZonePath[^1])
+                if (projectile != null && !projectile.activeSelf)
                 {
-                    patrolZonePath = PatrolZoneManager.instance.FindShortestPath(ctr.ctx.activeZone, playerZone, maxJumpDist);
+                    if (patrolZonePath == null || patrolZonePath.Count == 0 || playerZone != patrolZonePath[^1])
+                    {
+                        patrolZonePath = PatrolZoneManager.instance.FindShortestPath(ctr.ctx.activeZone, playerZone, maxJumpDist);
+                    }
+                    ChaseOutsideZone();
                 }
-                ChaseOutsideZone();
             }
         }
     }

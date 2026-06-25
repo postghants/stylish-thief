@@ -20,9 +20,9 @@ public class CameraCullingButBad : MonoBehaviour
     {
         end = player.transform;
         float distance = Vector3.Distance(start.position, end.position);
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, distance);
-        transform.position = (start.position + end.position) / 2;
-        transform.LookAt(end.position + new Vector3(0, verticalOffset, 0));
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, distance * 2);
+        //transform.position = (start.position + end.position) / 2;
+        //transform.LookAt(end.position + new Vector3(0, verticalOffset, 0));
     }
     private void OnTriggerEnter(Collider other)
     {

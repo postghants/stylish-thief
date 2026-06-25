@@ -311,7 +311,7 @@ MonoBehaviour:
   chase: {fileID: 1738979226368235924}
   attack: {fileID: 6085588675129154461}
   chaseDistance: 40
-  loseDistance: 50
+  loseDistance: 40
   attackDistance: 6.5
 --- !u!114 &3733895822402104053
 MonoBehaviour:
@@ -381,6 +381,7 @@ MonoBehaviour:
   disableTransition: 0
   maxSpeed: 25
   acceleration: 99
+  onlyInZone: 1
   rotationTf: {fileID: 2686362541020823045}
 --- !u!114 &6085588675129154461
 MonoBehaviour:

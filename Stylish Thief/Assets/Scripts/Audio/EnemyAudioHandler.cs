@@ -1,6 +1,5 @@
 using FMODUnity;
 using UnityEngine;
-using static UnityEditor.Profiling.RawFrameDataView;
 
 public class EnemyAudioHandler : MonoBehaviour
 {

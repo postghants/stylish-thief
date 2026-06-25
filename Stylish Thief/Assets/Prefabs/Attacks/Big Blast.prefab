@@ -47,9 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   decal: {fileID: 2105139918753001724}
   coll: {fileID: 6379407166462935050}
-  mesh: {fileID: 8795471354995600961}
   telegraphTime: 1.5
-  lingerTime: 0.25
+  lingerTime: 1.125
 --- !u!1 &3251029691120450282
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
-  m_Material: {fileID: 2100000, guid: ed3fa370ece76864caa311bca4016394, type: 2}
+  m_Material: {fileID: 2100000, guid: 1c03444ec2e7b594187d613bd97fc217, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 180
@@ -103,7 +102,7 @@ MonoBehaviour:
   m_UVBias: {x: 0, y: 0}
   m_RenderingLayerMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 253
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 12.5}
   m_Size: {x: 1, y: 50, z: 25}
@@ -239,3 +238,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damage: 25
+  turnColliderOff: 0
+  coll: {fileID: 0}

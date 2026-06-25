@@ -7,10 +7,15 @@ public class RickBumperEnd : MonoBehaviour
     public GameObject playerPrefab;
     PlayerStateDriver prefabPlayer;
     public float endSpeed;
+    [SerializeField] private RickBumper launchingBit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         prefabPlayer = playerPrefab.GetComponent<PlayerStateDriver>();
+        if (launchingBit == null)
+        {
+            launchingBit = GetComponentInParent<RickBumper>();
+        }
     }
 
     // Update is called once per frame
@@ -41,6 +46,9 @@ public class RickBumperEnd : MonoBehaviour
                 player.ctx.cmd.maxSpeedDeceleration = prefabPlayer.ctx.airMoveData.maxSpeedDeceleration;
                 //player.SetVelocity(transform.forward * endSpeed);
                 player.ctx.hasGrabbed = false;
+                player.gameObject.GetComponent<ActorPhysics>().gravity = -Vector3.up;
+                launchingBit.fsTimer = 0;
+                launchingBit.countFailsafe = false;
             }
         }
     }

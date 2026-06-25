@@ -5215,14 +5215,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateDriver
   ctx:
-    maxHealth: 100
-    regenRate: 10
-    regenDelay: 1.5
+    maxHealth: 99999
+    regenRate: 10000
+    regenDelay: 0
+    invincibilityLength: 0.75
     timeScale: 1
     spawnSpreeUI: 1
     groundMoveData:
       acceleration: 40
       deceleration: 8
+      minWalkSpeed: 0
       maxSpeed: 15
       maxSpeedDeceleration: 1
       turnSpeedMult: 10
@@ -5264,6 +5266,7 @@ MonoBehaviour:
     airMoveData:
       acceleration: 35
       deceleration: 4
+      minWalkSpeed: 0
       maxSpeed: 15
       maxSpeedDeceleration: 0
       turnSpeedMult: 3
@@ -5338,11 +5341,13 @@ MonoBehaviour:
     maxGrabTargetDistanceDown: -1
     disableVault: 0
     ledgeCheckDistance: 1.5
-    maxLedgeHeight: 2
+    maxLedgeHeight: 3
+    maxLedgeHeightGround: 2
     vaultMaxDuration: 0.4
     vaultMoveData:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5404,17 +5409,20 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
-    disableStun: 0
+    disableStun: 1
     useStunDeceleration: 1
     stunDeceleration: 1
     stunMinSpeed: 1
     stunUpwardSpeed: 1
-    stunDuration: 0.1
+    stunDuration: 1
+    airStunDuration: 2
+    setSpeedToZero: 1
     harshLandingDuration: 1
     harshLandingDamage: -10
     harshLandingData:
       acceleration: 0
       deceleration: 25
+      minWalkSpeed: 0
       maxSpeed: 0.01
       maxSpeedDeceleration: 25
       turnSpeedMult: 0
@@ -5449,6 +5457,7 @@ MonoBehaviour:
     veryBadLandingData:
       acceleration: 0
       deceleration: 25
+      minWalkSpeed: 0
       maxSpeed: 0.01
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5498,6 +5507,7 @@ MonoBehaviour:
     prePoundMove:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 99
@@ -5536,10 +5546,13 @@ MonoBehaviour:
     animRunSpeed: 7
     animIdleSpeed: 5
     currentHealth: 0
+    iFrameTimer: 0
+    iFramesOn: 0
     moveDirection: {x: 0, y: 0, z: 0}
     facing: {x: 1, y: 0, z: 0}
     coyoteTimeCounter: 0
     jumpBufferCounter: 0
+    rollBufferCounter: 0
     currentlyJumping: 0
     baseGrav: 0
     gravMultiplier: 0
@@ -5550,7 +5563,9 @@ MonoBehaviour:
     hasGrabbed: 0
     grabTimer: 0
     rollTimer: 0
+    desiredRoll: 0
     stunTimer: 0
+    airStunTimer: 0
     slideTimer: 0
     regenTimer: 0
     jumpTimer: 0
@@ -5561,6 +5576,7 @@ MonoBehaviour:
     cmd:
       acceleration: 0
       deceleration: 0
+      minWalkSpeed: 0
       maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
@@ -5600,6 +5616,7 @@ MonoBehaviour:
     desiredGrab: 0
     pressingGrab: 0
     pressingPound: 0
+    pressingTrick: 0
 --- !u!114 &5516163521354773594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5615,10 +5632,10 @@ MonoBehaviour:
   mass: 1
   collisionLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2097153
   groundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2097153
   maxBounces: 5
   skinWidth: 0.015
   groundCheckDist: 0.1
@@ -10659,7 +10676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
-  m_Material: {fileID: 2100000, guid: ed3fa370ece76864caa311bca4016394, type: 2}
+  m_Material: {fileID: 2100000, guid: 7e58d7c25c69eca41939136916e52e7b, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 0

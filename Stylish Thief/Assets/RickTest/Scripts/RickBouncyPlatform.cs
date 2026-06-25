@@ -17,7 +17,7 @@ public class RickBouncyPlatform : MonoBehaviour
         directionalForce = transform.up * launchForce;
         if (other.gameObject.layer == 6)
         {
-            CrimeSpreeManager.instance?.DoMinorCrime(score, crime);
+            CrimeSpreeManager.instance?.DoMinorCrime(score, crime, gameObject);
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             
             /*if (oneToOne)
@@ -56,7 +56,8 @@ public class RickBouncyPlatform : MonoBehaviour
             //}
             player.transform.position = player.transform.position + new Vector3(0, .01f, 0);
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
-            player.ctx.anim.SetTrigger("StartLiftoff");
+            player.SetTrigger("StartLiftoff");
+            player.ctx.currentlyJumping = true;
             player.ctx.hasGrabbed = false;
         }
     }

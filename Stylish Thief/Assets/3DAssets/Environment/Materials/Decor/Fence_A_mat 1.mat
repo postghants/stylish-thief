@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
+  - _MK_COLOR_GRADING_ALBEDO
   - _MK_EMISSION_MAP
   - _MK_LIGHT_CEL
   - _MK_OUTLINE_NOISE
@@ -209,9 +210,9 @@ Material:
     - _BlendDstAlpha: 0
     - _BlendSrc: 1
     - _BlendSrcAlpha: 1
-    - _Brightness: 1.17
+    - _Brightness: 1.14
     - _BumpScale: 1
-    - _ColorGrading: 0
+    - _ColorGrading: 1
     - _Contrast: 1
     - _Cutoff: 0.5
     - _DetailBlend: 0
@@ -270,7 +271,7 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: -1
-    - _OutlineSize: 5
+    - _OutlineSize: 20
     - _OutlineTab: 1
     - _Parallax: 0.02
     - _ReceiveShadows: 1
@@ -281,7 +282,7 @@ Material:
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
-    - _Saturation: 2.47
+    - _Saturation: 1.39
     - _SketchMapScale: 1
     - _Smoothness: 0.664
     - _SmoothnessTextureChannel: 0

@@ -28,7 +28,7 @@ public class Jump
             ctx.rb.StartCoroutine(SetMovementMult(ctx));
             if(ctx.currentJumpData == ctx.baseJumpData)
             {
-                ctx.anim.SetTrigger("StartLiftoff");
+                ctx.player.SetTrigger("StartLiftoff");
             }
         }
         if (ctx.jumpBuffer == 0)
@@ -75,7 +75,7 @@ public class Jump
 
                         if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Jump Upwards") || ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Liftoff"))
                         {
-                            ctx.anim.SetTrigger("UpwardsToStall");
+                            ctx.player.SetTrigger("UpwardsToStall");
                         }
 
                         if (ctx.rb.velocity.y + ctx.gravMultiplier * Time.deltaTime * ctx.rb.gravity.y <= 0)
@@ -91,44 +91,45 @@ public class Jump
             }
         }
 
-        if (ctx.rb.velocity.y < 0)
+        if (ctx.rb.velocity.y <= 0 && !ctx.rb.isGrounded)
         {
-            if (ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
-            {
-                ctx.rb.velocity.y = 0;
-            }
+            //if (ctx.rb.velocity.y >= Time.deltaTime * ctx.rb.gravity.y * 30 && ctx.jumpApexTimer > 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration && ctx.pressingJump)
+            //{
+            //    ctx.rb.velocity.y = 0;
+            //}
 
             var animStateInfo = ctx.anim.GetCurrentAnimatorStateInfo(0);
-            if (!animStateInfo.IsName("Liftoff") && !animStateInfo.IsName("Jump Upwards") && !animStateInfo.IsName("Stall") 
+            if (!animStateInfo.IsName("Liftoff") && !animStateInfo.IsName("Jump Upwards") && !animStateInfo.IsName("Stall")
                 && !animStateInfo.IsName("Bonk") && !animStateInfo.IsName("Bonk Loop")
                 && !animStateInfo.IsName("Grab") && !animStateInfo.IsName("Grab Loop") && !animStateInfo.IsName("Grab End")
                 && !animStateInfo.IsName("Ledge Grab") && !animStateInfo.IsName("Vault") && !animStateInfo.IsName("Vault Jump Loop")
-                && !animStateInfo.IsName("Bag Throw") && !animStateInfo.IsName("Bag Throw Loop"))
+                && !animStateInfo.IsName("Bag Throw") && !animStateInfo.IsName("Bag Throw Loop") 
+                && !animStateInfo.IsName("Fall") && !animStateInfo.IsName("Fall Loop") && !animStateInfo.IsName("Fast Fall") && !animStateInfo.IsName("Fast Fall Loop"))
             {
-                ctx.anim.SetTrigger("StartFall");
+                ctx.player.SetTrigger("StartFall");
             }
             
                 ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
         }
 
-        //Check for hangtime
-        if (ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y == 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration)
-        {
-            if (ctx.pressingJump)
-            {
-                ctx.gravMultiplier = 0;
-                ctx.jumpApexTimer += Time.deltaTime;
+        ////Check for hangtime
+        //if (ctx.currentlyJumping && !ctx.rb.isGrounded && ctx.rb.velocity.y == 0 && ctx.jumpApexTimer < ctx.currentJumpData.hangtimeDuration)
+        //{
+        //    if (ctx.pressingJump)
+        //    {
+        //        ctx.gravMultiplier = 0;
+        //        ctx.jumpApexTimer += Time.deltaTime;
 
-                if (ctx.jumpApexTimer >= ctx.currentJumpData.hangtimeDuration)
-                {
-                    ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
-                }
-            }
-            else
-            {
-                ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
-            }
-        }
+        //        if (ctx.jumpApexTimer >= ctx.currentJumpData.hangtimeDuration)
+        //        {
+        //            ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+        //    }
+        //}
 
 
 

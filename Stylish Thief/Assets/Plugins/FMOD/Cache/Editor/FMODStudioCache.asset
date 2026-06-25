@@ -180,6 +180,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 0
+--- !u!114 &-5734506097602109596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfx events/sfx interactions/explosion
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfx events/sfx interactions/explosion
+  Guid:
+    Data1: -1574059756
+    Data2: 1326619976
+    Data3: 944018852
+    Data4: -1168415261
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 0
 --- !u!114 &-5527423533788863655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,11 +351,38 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639179934598757981
+  lastModified: 639180005872130425
   FileSizes:
   - Name: 
-    Value: 2298
+    Value: 2490
   Exists: 1
+--- !u!114 &-3813843646994200724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfx events/sfx enemy/shooter_shooting
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfx events/sfx enemy/shooter_shooting
+  Guid:
+    Data1: -537164054
+    Data2: 1129194288
+    Data3: 692328885
+    Data4: 1540255360
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 80
+  Length: 1533
 --- !u!114 &-3525073966530070271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,9 +417,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/sfx events/sfx interactions/BANG
+  m_Name: event:/sfx events/sfx interactions/bANG
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/sfx events/sfx interactions/BANG
+  Path: event:/sfx events/sfx interactions/bANG
   Guid:
     Data1: -564815379
     Data2: 1113409830
@@ -390,9 +444,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/sfx events/sfx interactions/BING
+  m_Name: event:/sfx events/sfx interactions/bING
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/sfx events/sfx interactions/BING
+  Path: event:/sfx events/sfx interactions/bING
   Guid:
     Data1: -1054387493
     Data2: 1316713310
@@ -501,6 +555,10 @@ MonoBehaviour:
   - {fileID: -2665422561129580962}
   - {fileID: 1031176162113344767}
   - {fileID: -3032037564144007316}
+  - {fileID: -5734506097602109596}
+  - {fileID: 7949507550130886018}
+  - {fileID: 3188170040506350877}
+  - {fileID: -3813843646994200724}
   EditorParameters:
   - {fileID: 808413082084937723}
   - {fileID: -3525073966530070271}
@@ -513,7 +571,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4038847268614741242}
   cacheVersion: 131848
-  cacheTime: 639179934598757981
+  cacheTime: 639180005872130425
   SerializableEventsDict:
   - key: event:/sfx events/sfx player/jump
     index: 0
@@ -559,12 +617,20 @@ MonoBehaviour:
     index: 20
   - key: event:/sfx events/sfx player/Dash
     index: 21
-  - key: event:/sfx events/sfx interactions/BING
+  - key: event:/sfx events/sfx interactions/bING
     index: 22
-  - key: event:/sfx events/sfx interactions/BOOM, BABY!
+  - key: event:/sfx events/sfx interactions/boOM, BABY!
     index: 23
-  - key: event:/sfx events/sfx interactions/BANG
+  - key: event:/sfx events/sfx interactions/bANG
     index: 24
+  - key: event:/sfx events/sfx interactions/explosion
+    index: 25
+  - key: event:/sfx events/sfx enemy/rocket_flying
+    index: 26
+  - key: event:/sfx events/sfx interactions/boioioing
+    index: 27
+  - key: event:/sfx events/sfx enemy/shooter_shooting
+    index: 28
 --- !u!114 &634026846015066856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,9 +693,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/sfx events/sfx interactions/BOOM, BABY!
+  m_Name: event:/sfx events/sfx interactions/boOM, BABY!
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/sfx events/sfx interactions/BOOM, BABY!
+  Path: event:/sfx events/sfx interactions/boOM, BABY!
   Guid:
     Data1: 2112340968
     Data2: 1285510090
@@ -752,6 +818,33 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
+  Length: 0
+--- !u!114 &3188170040506350877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfx events/sfx interactions/boioioing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfx events/sfx interactions/boioioing
+  Guid:
+    Data1: -855189712
+    Data2: 1202964140
+    Data3: 398077609
+    Data4: -2072863359
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 80
   Length: 0
 --- !u!114 &3876719708637669695
 MonoBehaviour:
@@ -1042,6 +1135,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5576
+--- !u!114 &7949507550130886018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfx events/sfx enemy/rocket_flying
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfx events/sfx enemy/rocket_flying
+  Guid:
+    Data1: -1637987307
+    Data2: 1139194034
+    Data3: -1662877277
+    Data4: 1428413795
+  Banks:
+  - {fileID: 8104597693844846538}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 8300
 --- !u!114 &8104597693844846538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,7 +1177,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639179934598702839
+  lastModified: 639180005872053343
   FileSizes: []
   Exists: 1
 --- !u!114 &8625324660404955621

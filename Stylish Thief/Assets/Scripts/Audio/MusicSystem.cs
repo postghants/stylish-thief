@@ -27,7 +27,7 @@ public class MusicSystem : MonoBehaviour
 
     void Update()
     {
-        if (spreeManagerReference.Score > 49999)
+        if (spreeManagerReference.Score > 60000)
         {
             RuntimeManager.StudioSystem.setParameterByName("Home_Run", 1);
         }

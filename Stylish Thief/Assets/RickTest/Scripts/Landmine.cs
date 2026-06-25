@@ -14,14 +14,16 @@ public class Landmine : MonoBehaviour
     
     [Header("References, don't touch")]
     [Tooltip("Internal no touchy")] [SerializeField] private GameObject explosion;
-    private MeshRenderer mesh;
+    [SerializeField] private GameObject visual;
+    private Light light;
+    [SerializeField] private GameObject vfxPrefab;
 
     bool triggered;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mesh = GetComponent<MeshRenderer>();
         currentTime = 0;
+        light = GetComponentInChildren<Light>();
     }
 
     // Update is called once per frame
@@ -29,6 +31,7 @@ public class Landmine : MonoBehaviour
     {
         if (triggered)
         {
+            light.enabled = true;
             if (currentTime < timeBeforeBoom)
             {
                 currentTime += Time.deltaTime;
@@ -36,10 +39,11 @@ public class Landmine : MonoBehaviour
             else
             {
                 currentTime = 0;
-                mesh.enabled = false;
+                visual.SetActive(false);
                 explosion.SetActive(true);
                 CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
                 Destroy(gameObject, LengthOfBoom);
+                GameObject vfx = Instantiate(vfxPrefab, transform.position, Quaternion.identity);
             }
         }
         

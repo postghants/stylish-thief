@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 // Holds and updates other enemy components
@@ -12,6 +11,8 @@ public abstract class EnemyController : Actor
     public EnemyAttack currentAttack;
     public List<AnimationNameTitlePair> animations;
     public Animator anim;
+    public float inactiveDistance = 100;
+    public bool behaviourActive;
 
     protected virtual void Start()
     {
@@ -26,6 +27,22 @@ public abstract class EnemyController : Actor
 
     protected virtual void Update()
     {
+        if (Vector3.Distance(ctx.player.transform.position, transform.position) > inactiveDistance)
+        {
+            if (behaviourActive)
+            {
+                targeting.OnBehaviourDeactivate();
+                behaviourActive = false;
+            }
+
+            return;
+        }
+        else if (!behaviourActive)
+        {
+            behaviourActive = true;
+            targeting.OnBehaviourReactivate();
+        }
+
         targeting.OnUpdate(Time.deltaTime);
         if (currentAttack != null)
         {
@@ -38,8 +55,8 @@ public abstract class EnemyController : Actor
     }
 
     public virtual void SetMovement(EnemyMovement movement)
-    { 
-        if(currentMovement.disableTransition) { return; }
+    {
+        if (currentMovement.disableTransition) { return; }
         currentMovement.OnExit();
         Debug.Log("Setting movement to " + movement);
         movement.OnEnter();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class DistanceTargeting : EnemyTargeting
 {
@@ -19,9 +20,9 @@ public class DistanceTargeting : EnemyTargeting
 
     public override void OnUpdate(float deltaTime)
     {
-        if(ctr.currentAttack != null) { return; }
-        if(ctr.currentMovement == idle) { Idle(); }
-        if(ctr.currentMovement == chase) { Chase(); }
+        if (ctr.currentAttack != null) { return; }
+        if (ctr.currentMovement == idle) { Idle(); }
+        if (ctr.currentMovement == chase) { Chase(); }
     }
 
     private void Idle()
@@ -39,7 +40,7 @@ public class DistanceTargeting : EnemyTargeting
         {
             ctr.Attack(attack);
         }
-        if(sqrDistance > loseDistance * loseDistance)
+        if (sqrDistance > loseDistance * loseDistance)
         {
             ctr.SetMovement(idle);
         }
@@ -49,5 +50,28 @@ public class DistanceTargeting : EnemyTargeting
     public override void OnExitAttack(EnemyAttack attack)
     {
         ctr.SetMovement(chase);
+    }
+
+    public override void OnBehaviourDeactivate()
+    {
+        if (ctr.currentAttack == null)
+        {
+            ctr.currentMovement.OnBehaviourDeactivate();
+        }
+        else
+        {
+            ctr.currentAttack.OnBehaviourDeactivate();
+        }
+    }
+    public override void OnBehaviourReactivate()
+    {
+        if (ctr.currentAttack == null)
+        {
+            ctr.currentMovement.OnBehaviourReactivate();
+        }
+        else
+        {
+            ctr.currentAttack.OnBehaviourReactivate();
+        }
     }
 }

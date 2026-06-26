@@ -68,4 +68,19 @@ public class AgentChasePlayer : EnemyMovement
         animationCodeNames.Add("Run");
         base.Reset();
     }
+    public override void OnBehaviourDeactivate()
+    {
+        if (agent.enabled)
+        {
+            agent.enabled = false;
+        }
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+        if (!agent.enabled)
+        {
+            agent.enabled = true;
+        }
+    }
 }

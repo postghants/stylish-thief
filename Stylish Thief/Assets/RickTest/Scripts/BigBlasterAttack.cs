@@ -57,6 +57,16 @@ public class BigBlasterAttack : EnemyAttack
     {
         base.Reset();
     }
+
+    public override void OnBehaviourDeactivate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 

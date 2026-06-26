@@ -83,7 +83,7 @@ public class LungeAttack : EnemyAttack
 
     public void OnHit()
     {
-        if(ctr.currentAttack == this)
+        if (ctr.currentAttack == this)
         {
             if (!ctr.ctx.player.ctx.iFramesOn)
             {
@@ -112,4 +112,11 @@ public class LungeAttack : EnemyAttack
         base.Reset();
     }
 
+    public override void OnBehaviourDeactivate()
+    {
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+    }
 }

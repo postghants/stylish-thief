@@ -19,4 +19,6 @@ public abstract class EnemyAttack : MonoBehaviour
             ctr.AddAnimationNames(animationCodeNames);
         }
     }
+    public abstract void OnBehaviourDeactivate();
+    public abstract void OnBehaviourReactivate();
 }

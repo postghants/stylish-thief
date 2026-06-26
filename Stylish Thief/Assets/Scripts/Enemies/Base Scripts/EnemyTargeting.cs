@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class EnemyTargeting : MonoBehaviour
 {
@@ -17,4 +18,7 @@ public abstract class EnemyTargeting : MonoBehaviour
     {
         ctr = GetComponent<EnemyController>();
     }
+
+    public abstract void OnBehaviourDeactivate();
+    public abstract void OnBehaviourReactivate();
 }

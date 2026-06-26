@@ -9,6 +9,7 @@ public class Missile : MonoBehaviour
     public float speed;
     public float turnSpeed;
     public float explosionLength;
+    public float noiseRange;
     public PlayerStateDriver player;
     private Vector3 target;
     [SerializeField] private DamageDealer explosion;
@@ -35,12 +36,18 @@ public class Missile : MonoBehaviour
     }
     public void BlowUp()
     {
-        RuntimeManager.PlayOneShotAttached(onBlowup, gameObject);
-        visual.SetActive(false);
-        speed = 0;
-        explosion.gameObject.SetActive(true);
-        GameObject vfx = Instantiate(vfxPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject, explosionLength);
+        if (visual.activeSelf)
+        {
+            if (Vector3.Distance(transform.position, player.transform.position) < noiseRange)
+            {
+                RuntimeManager.PlayOneShotAttached(onBlowup, gameObject);
+            }
+            visual.SetActive(false);
+            speed = 0;
+            explosion.gameObject.SetActive(true);
+            GameObject vfx = Instantiate(vfxPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject, explosionLength);
+        }
     }
 }
 //To do later:

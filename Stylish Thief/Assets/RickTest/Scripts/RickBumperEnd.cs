@@ -47,8 +47,8 @@ public class RickBumperEnd : MonoBehaviour
                 //player.SetVelocity(transform.forward * endSpeed);
                 player.ctx.hasGrabbed = false;
                 player.gameObject.GetComponent<ActorPhysics>().gravity = -Vector3.up;
-                launchingBit.fsTimer = 0;
-                launchingBit.countFailsafe = false;
+                //launchingBit.fsTimer = 0;
+                //launchingBit.countFailsafe = false;
             }
         }
     }

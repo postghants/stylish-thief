@@ -44,7 +44,7 @@ public class AttackSpawner : MonoBehaviour
         }
         else
         {
-            attack.transform.parent = transform;
+            //attack.transform.parent = transform;
         }
     }
 }

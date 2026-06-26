@@ -1,5 +1,6 @@
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using FMODUnity;
 
 public class Landmine : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Landmine : MonoBehaviour
     [SerializeField] private GameObject visual;
     private Light light;
     [SerializeField] private GameObject vfxPrefab;
+
+    [SerializeField] EventReference onExplode;
 
     bool triggered;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,5 +56,6 @@ public class Landmine : MonoBehaviour
     {
         triggered = true;
         Debug.Log("BEEP");
+        RuntimeManager.PlayOneShotAttached(onExplode, gameObject);
     }
 }

@@ -1,3 +1,5 @@
+using FMODUnity;
+using FMOD.Studio;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,6 +14,7 @@ public class Missile : MonoBehaviour
     [SerializeField] private DamageDealer explosion;
     [SerializeField] private GameObject visual;
     [SerializeField] private GameObject vfxPrefab;
+    [SerializeField] EventReference onBlowup;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +35,7 @@ public class Missile : MonoBehaviour
     }
     public void BlowUp()
     {
+        RuntimeManager.PlayOneShotAttached(onBlowup, gameObject);
         visual.SetActive(false);
         speed = 0;
         explosion.gameObject.SetActive(true);

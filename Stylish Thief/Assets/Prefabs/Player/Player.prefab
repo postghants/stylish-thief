@@ -15830,6 +15830,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7890810014726497259, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: -7890810014726497259, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 590565908bd2b794580bdfc6b9cae7ab, type: 3}
       propertyPath: m_Name
       value: Robin Main File Idle,Run, Grab Export
@@ -15903,35 +15911,56 @@ MonoBehaviour:
       Data2: 1247220039
       Data3: 980144034
       Data4: 902832051
-    Path: event:/left_footstep
+    Path: event:/sfx events/sfx player/left_footstep
   footstepRightEvent:
     Guid:
       Data1: -960488152
       Data2: 1090313440
       Data3: -1180372035
       Data4: -27207080
-    Path: event:/right_footstep
+    Path: event:/sfx events/sfx player/right_footstep
   onJumpEvent:
     Guid:
       Data1: -526397677
       Data2: 1311755693
       Data3: 890144933
       Data4: -1429861228
-    Path: event:/jump
+    Path: event:/sfx events/sfx player/jump
   onGrabEvent:
     Guid:
       Data1: 1362505161
       Data2: 1341944431
       Data3: 1157851535
       Data4: 1809422228
-    Path: event:/grab
+    Path: event:/sfx events/sfx player/grab
   onBumpEvent:
     Guid:
       Data1: 737487761
       Data2: 1219444782
       Data3: -1462997096
       Data4: 909930509
-    Path: event:/bump
+    Path: event:/sfx events/sfx player/bump
+  onLedgeEvent:
+    Guid:
+      Data1: -1182381680
+      Data2: 1074183495
+      Data3: 1697038721
+      Data4: -181162227
+    Path: event:/sfx events/sfx player/ledge_grab
+  onDashEvent:
+    Guid:
+      Data1: -1164978021
+      Data2: 1090524165
+      Data3: -194805864
+      Data4: 108413610
+    Path: event:/sfx events/sfx player/Dash
+  onLandingEvent:
+    Guid:
+      Data1: -911489358
+      Data2: 1303675184
+      Data3: 2034723240
+      Data4: -570034162
+    Path: event:/sfx events/sfx player/landing
 --- !u!95 &2467910005956807573
 Animator:
   serializedVersion: 7

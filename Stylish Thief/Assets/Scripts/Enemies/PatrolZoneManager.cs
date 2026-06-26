@@ -132,6 +132,13 @@ public class PatrolZoneManager : MonoBehaviour
     {
         zones.AddRange(FindObjectsByType<PatrolZone>(FindObjectsSortMode.None));
     }
+
+    [ContextMenu("Reset Zone List")]
+    private void ResetZoneList()
+    {
+        zones.Clear();
+        zones.AddRange(FindObjectsByType<PatrolZone>(FindObjectsSortMode.None));
+    }
 }
 
 namespace PZP

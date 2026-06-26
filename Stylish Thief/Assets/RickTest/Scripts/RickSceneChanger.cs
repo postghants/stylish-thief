@@ -25,4 +25,12 @@ public class RickSceneChanger : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    public void DisablePauseScreen()
+    {
+        if (GetComponentInParent<PauseScreen>() != null)
+        {
+            GetComponentInParent<PauseScreen>().gameObject.SetActive(false);
+            Debug.Log("Pause Screen disabled");
+        }
+    }
 }

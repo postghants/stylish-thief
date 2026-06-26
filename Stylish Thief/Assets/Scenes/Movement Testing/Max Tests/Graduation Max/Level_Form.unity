@@ -128025,6 +128025,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 307807395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &550529894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 550529897}
+  - component: {fileID: 550529896}
+  - component: {fileID: 550529895}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &550529895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550529894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1198782b280d0e4993f99cc67718f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicSystem
+  spreeManagerReference: {fileID: 1957038843}
+--- !u!114 &550529896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550529894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioBankLoader
+  LoadEvent: 1
+  UnloadEvent: 2
+  Banks:
+  - Master
+  - Master.strings
+  CollisionTag: 
+  PreloadSamples: 0
+--- !u!4 &550529897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550529894}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.635, y: 1.062, z: 2.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &551591111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 457399649602938282, guid: cacd357121b0cc447a731f398a8a5a6c, type: 3}
@@ -174997,7 +175062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a474691edf0ef547b02657db3571650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  musicalState: 1
+  musicalState: 2
 --- !u!54 &756813437
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -175112,7 +175177,7 @@ Transform:
   m_GameObject: {fileID: 756813433}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1351, y: 36.5, z: -6.8}
+  m_LocalPosition: {x: -1351, y: -0.5, z: -6.8}
   m_LocalScale: {x: 313.40662, y: 10.763763, z: 355.52808}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -455360,6 +455425,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4112998439884974717, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
   m_PrefabInstance: {fileID: 1957038838}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1957038843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
+  m_PrefabInstance: {fileID: 1957038838}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957038839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a940dc46f0b2974683f060cb84287c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrimeSpreeManager
 --- !u!1001 &1957686170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -506397,3 +506473,4 @@ SceneRoots:
   - {fileID: 1831400551}
   - {fileID: 1068583142}
   - {fileID: 756813441}
+  - {fileID: 550529897}

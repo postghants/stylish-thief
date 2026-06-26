@@ -1,8 +1,13 @@
+using FMODUnity;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
 public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
@@ -23,7 +28,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     [Header("Countdown internal")]
     public bool frozen;
     public float startTime = 0;
-    PlayerStateDriver playerInstance;
+    public PlayerStateDriver playerInstance;
 
     [Header("References")]
     [SerializeField] private List<Transform> valuableLocations;
@@ -40,6 +45,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public float Multiplier = 1;
     public List<Valuable> Valuables;
     private Queue<GameObject> crimeBuffer = new();
+
+    //tom's score delay
+    private float targetTime = 0.5f;
+
+    [Header("FMOD Events")]
+    //tom timer toggle
+    [SerializeField] EventReference bigCrimeEvent;
+    [SerializeField] EventReference smallCrimeEvent;
 
     private void Start()
     {
@@ -62,10 +75,16 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
             if (ChaseTimer >= 60)
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
+                chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
             }
             else
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
+                chaseUI.timerBar.SetFill(ChaseTimer / maxChaseTime);
+            }
+            if (ChaseTimer > maxChaseTime)
+            {
+                ChaseTimer = maxChaseTime;
             }
             ChaseTimer -= Time.deltaTime;
 
@@ -91,6 +110,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 startTime += Time.deltaTime;
                 //Debug.Log(startTime);
                 chaseUI.countDownText.text = Mathf.Round(5 - startTime).ToString();
+                playerInstance.ctx.anim.Play("Countdown");
                 playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.frozen);
                 frozen = true;
             }
@@ -99,6 +119,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 if (frozen)
                 {
                     playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.grounded);
+                    playerInstance.ctx.anim.Play("Idle");
                     Debug.Log("GO");
                     ChaseTimer = maxChaseTime;
                     chaseUI.countDownReact.DoReaction(false, 1, 2);
@@ -143,6 +164,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     public void CollectedValuable(Valuable collected)
     {
+        RuntimeManager.PlayOneShotAttached(bigCrimeEvent, gameObject);
         if (ChaseTimer == 0)
         {
             StartSpree();
@@ -173,6 +195,42 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         AddComboCount();
     }
     public void DoMinorCrime(float score, string crimeName, GameObject obj)
+    {
+        if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
+        AddScore(score * Multiplier, crimeName);
+        AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+    }
+    public void DoMinorTheftCrime(float score, string crimeName, GameObject obj)
+    {
+        if (ChaseTimer == 0) { return; }
+
+        if (obj != null)
+        {
+            if (crimeBuffer.Contains(obj)) { return; }
+
+            crimeBuffer.Enqueue(obj);
+            if (crimeBuffer.Count > crimeBufferLength) { crimeBuffer.Dequeue(); }
+        }
+
+        AddScore(score * Multiplier, crimeName);
+        //AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        //chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+    }
+    public void DoTheftCrime(float score, string crimeName, GameObject obj)
     {
         if (ChaseTimer == 0) { return; }
 
@@ -262,5 +320,14 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     {
         SpawnNewValuables(new(), valuablesToSpawn);
     }
-
+    private IEnumerator CrimeDelayTimer(float score, string crimeName)
+    {
+        yield return new WaitForSecondsRealtime(targetTime);
+        AddScore(score * Multiplier, crimeName);
+        AddComboCount();
+        chaseUI.crimeReact.DoReaction(true, 2, .25f);
+        chaseUI.multReact.DoReaction(true, 0, 0);
+        chaseUI.rewardReact.DoReaction(true, 2, 1);
+        RuntimeManager.PlayOneShotAttached(smallCrimeEvent, gameObject);
+    }
 }

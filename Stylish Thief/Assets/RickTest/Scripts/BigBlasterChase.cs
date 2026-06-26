@@ -7,7 +7,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BigBlasterChase : EnemyMovement
 {
-    public GameObject testTarget;
 
     [Header("Movement")]
     public float maxSpeed;
@@ -28,6 +27,7 @@ public class BigBlasterChase : EnemyMovement
     [Header("References")]
     private NavMeshAgent agent;
     private ActorPhysics rb;
+    [SerializeField] private ParticleSystem bulletParticles;
     [SerializeField] private Transform rotationTf;
     [SerializeField] private GameObject projectile;
 
@@ -108,14 +108,27 @@ public class BigBlasterChase : EnemyMovement
                         }
                     }
                 }
-                if (agent.pathPending || agent.pathStatus.ToString() == "Invalid")
+                if (agent.hasPath)
                 {
                     timer += deltaTime;
                     Debug.Log("Counting: " + timer);
                     if (timer >= failSafeTime)
                     {
                         timer = 0;
-                        agent.SetDestination(ctr.ctx.player.transform.position);
+                        Debug.Log("FIRE");
+                        targetSet = false;
+                        StartCoroutine(ShootAnimationCoroutine());
+
+                        lookPos = ctr.ctx.player.transform.position;
+                        lookPos.y = rotationTf.transform.position.y;
+                        rotationTf.transform.LookAt(lookPos);
+                        if (projectile != null)
+                        {
+                            if (!projectile.activeSelf)
+                            {
+                                projectile.SetActive(true);
+                            }
+                        }
                     }
                 }
                 else
@@ -162,14 +175,16 @@ public class BigBlasterChase : EnemyMovement
         {
             if (playerZone != null)
             {
-                if (patrolZonePath == null || patrolZonePath.Count == 0 || playerZone != patrolZonePath[^1])
+                if (projectile != null && !projectile.activeSelf)
                 {
-                    patrolZonePath = PatrolZoneManager.instance.FindShortestPath(ctr.ctx.activeZone, playerZone, maxJumpDist);
+                    if (patrolZonePath == null || patrolZonePath.Count == 0 || playerZone != patrolZonePath[^1])
+                    {
+                        patrolZonePath = PatrolZoneManager.instance.FindShortestPath(ctr.ctx.activeZone, playerZone, maxJumpDist);
+                    }
+                    ChaseOutsideZone();
                 }
-                ChaseOutsideZone();
             }
         }
-        testTarget.transform.position = patrolZoneTarget;
     }
     public override void OnExit()
     {
@@ -181,9 +196,10 @@ public class BigBlasterChase : EnemyMovement
     {
         var blast = projectile.GetComponent<BigBlast>();
         ctr.PlayAnimation("Aim");
-        yield return new WaitForSeconds(blast.telegraphTime);
+        yield return new WaitForSeconds(blast.telegraphTime + 0.1f);
         ctr.SetAnimationTrigger("Shoot");
-        yield return new WaitForSeconds(blast.lingerTime);
+        bulletParticles.Play();
+        yield return new WaitForSeconds(blast.lingerTime - 0.1f);
         ctr.SetAnimationTrigger("Getup");
         yield return new WaitForSeconds(postShootDelay);
 
@@ -255,5 +271,21 @@ public class BigBlasterChase : EnemyMovement
         animationCodeNames.Add("Shoot");
         animationCodeNames.Add("Getup");
         base.Reset();
+    }
+
+    public override void OnBehaviourDeactivate()
+    {
+        if (agent.enabled)
+        {
+            agent.enabled = false;
+        }
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+        if (!agent.enabled && !isJumping)
+        {
+            agent.enabled = true;
+        }
     }
 }

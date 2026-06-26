@@ -158,4 +158,20 @@ public class AgentJumpChase : EnemyMovement
         animationCodeNames.Add("Jump");
         base.Reset();
     }
+
+    public override void OnBehaviourDeactivate()
+    {
+        if (agent.enabled)
+        {
+            agent.enabled = false;
+        }
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+        if (!agent.enabled && !isJumping)
+        {
+            agent.enabled = true;
+        }
+    }
 }

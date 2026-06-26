@@ -42,7 +42,7 @@ namespace HSM
             State t = GetTransition(deltaTime);
             if (t != null)
             {
-                Machine.Sequencer.RequestTransition(this, t);
+                Machine.Sequencer.RequestTransition(Leaf(), t);
                 return;
             }
             ActiveChild?.Update(deltaTime);

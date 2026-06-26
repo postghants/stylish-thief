@@ -8,45 +8,65 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 713850515814410216, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_Radius
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 885439052184932840, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 6967712871034110678, guid: e34a04f2baac0854bb1daaa84eed063b, type: 3}
+      objectReference: {fileID: 6659699028095979648, guid: b84a8722a7e3aa1468008537d83f1fab, type: 3}
     - target: {fileID: 3147243636071933218, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 9ad1fa756dc9b8c44a888594d1d07676, type: 2}
+      objectReference: {fileID: 2100000, guid: 9f99664d684960f4fae3adb6998d5a52, type: 2}
     - target: {fileID: 3507667602866603255, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_Name
       value: Munt
       objectReference: {fileID: 0}
+    - target: {fileID: 3713801430709853677, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316257917737295437, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: Value
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4469014966223161329, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
       propertyPath: InitialModule.startColor.maxGradient.key0.g
@@ -112,8 +132,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.6745098
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 4371966867990960436, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 6042784105309664169, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4660567031908438355, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
@@ -123,6 +145,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6732557815498601103}
   m_SourcePrefab: {fileID: 100100000, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+--- !u!1 &271925206680183597 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5466211971363890595, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
+  m_PrefabInstance: {fileID: 5196573819787298446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &626098610970875869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4660567031908438355, guid: 5e993fdd864f95744bd9dc411b827673, type: 3}
@@ -141,6 +168,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rotationSpeed: 80
+  givenTime: 1
+  respawnTime: 45
+  givenScore: 100
+  crimeName: Minor Theft
+  theftIsMinor: 1
+  onCollectEvent:
+    Guid:
+      Data1: 115418221
+      Data2: 1314484416
+      Data3: 727699879
+      Data4: 1218809611
+    Path: event:/sfx events/sfx UI/score_event
+  particles: {fileID: 271925206680183597}
 --- !u!114 &6732557815498601103
 MonoBehaviour:
   m_ObjectHideFlags: 0

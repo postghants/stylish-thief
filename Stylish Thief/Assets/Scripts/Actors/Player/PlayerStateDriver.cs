@@ -36,7 +36,7 @@ public class PlayerStateDriver : Actor, IDamageable
         if (ctx.spawnSpreeUI)
         {
             GameObject ui = Instantiate(ctx.playerUIPrefab);
-            ctx.healthBar = ui.GetComponentInChildren<HealthBar>();
+            ctx.healthBar = ui.GetComponentInChildren<UIBar>();
             if (CrimeSpreeManager.instance != null)
             {
                 CrimeSpreeManager.instance.chaseUI = ui.GetComponentInChildren<ChaseUI>(true);
@@ -75,7 +75,7 @@ public class PlayerStateDriver : Actor, IDamageable
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
         Debug.Log(Root.Leaf());
-        if (ctx.iFramesOn)
+        if (ctx.iFramesOn && Root.Leaf().ToString() != "HSM.PlayerStunnedAirborne" && Root.Leaf().ToString() != "HSM.PlayerStunned")
         {
             if (ctx.iFrameTimer < ctx.invincibilityLength)
             {
@@ -278,10 +278,11 @@ public class PlayerStateDriver : Actor, IDamageable
     //IDamageable
     public void TakeDamage(float damage)
     {
-        if (!ctx.iFramesOn)
+        //if (!ctx.iFramesOn)
         {
             ctx.iFramesOn = true;
             ctx.currentHealth -= damage;
+            CrimeSpreeManager.instance.ChaseTimer -= damage;
             if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
@@ -385,6 +386,7 @@ public class PlayerContext
     [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
     [Tooltip("Duration of stun state")] public float stunDuration;
     [Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
+    public bool setSpeedToZero;
 
 
     [Header("Harsh Landing")]
@@ -433,7 +435,7 @@ public class PlayerContext
     public Animator anim;
     [HideInInspector] public Transform cam;
     public CinemachineOrbitalFollow orbitalFollow;
-    [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public UIBar healthBar;
     public Material playerMat;
     public ParticleManager particleManager;
     public PlayerAnimEventHandler playerAnimEventHandler;

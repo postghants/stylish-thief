@@ -12,6 +12,10 @@ public class RickBumperEnd : MonoBehaviour
     void Start()
     {
         prefabPlayer = playerPrefab.GetComponent<PlayerStateDriver>();
+        if (launchingBit == null)
+        {
+            launchingBit = GetComponentInParent<RickBumper>();
+        }
     }
 
     // Update is called once per frame

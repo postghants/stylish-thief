@@ -83,10 +83,13 @@ public class LungeAttack : EnemyAttack
 
     public void OnHit()
     {
-        if(ctr.currentAttack == this)
+        if (ctr.currentAttack == this)
         {
-            ctr.ctx.player.TakeDamage(grabDamage);
-            ctr.ctx.player.TakeKnockback(rb.velocity * grabKbVelocityMult + rb.velocity.normalized * grabKbHorizontal + Vector3.up * grabKbVertical);
+            if (!ctr.ctx.player.ctx.iFramesOn)
+            {
+                ctr.ctx.player.TakeDamage(grabDamage);
+                ctr.ctx.player.TakeKnockback(rb.velocity * grabKbVelocityMult + rb.velocity.normalized * grabKbHorizontal + Vector3.up * grabKbVertical);
+            }
         }
     }
 
@@ -109,4 +112,11 @@ public class LungeAttack : EnemyAttack
         base.Reset();
     }
 
+    public override void OnBehaviourDeactivate()
+    {
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+    }
 }

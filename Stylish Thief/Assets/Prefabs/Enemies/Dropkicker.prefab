@@ -148,6 +148,8 @@ MonoBehaviour:
   - animationStateName: GetUp
     codeName: JumpAttackRecoverTrigger
   anim: {fileID: 7701932483693231848}
+  inactiveDistance: 100
+  behaviourActive: 0
 --- !u!114 &1433264015749678258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +257,7 @@ MonoBehaviour:
   grabDamage: 35
   grabKbHorizontal: 1
   grabKbVertical: 6.07
+  doHitStop: 0
   rotationTf: {fileID: 1897221708054848152}
   grabHitbox: {fileID: 8911614486229242761}
 --- !u!1 &6028908635302692823
@@ -447,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
-  m_Material: {fileID: 2100000, guid: 9d371c67e06540d428adb5c5b21888cc, type: 2}
+  m_Material: {fileID: 2100000, guid: 1c03444ec2e7b594187d613bd97fc217, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 180

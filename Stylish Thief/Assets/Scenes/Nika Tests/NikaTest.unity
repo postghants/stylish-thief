@@ -1700,7 +1700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
   patrolZone: {fileID: 714902637}
   spawnOnlyOnce: 1
-  spawnOnStart: 0
+  spawnOnStart: 1
   spawnOnEnterPatrolZone: 0
   enemySpawnInfo:
   - enemy: {fileID: 8493037400413003749, guid: 2a8ccb956d782db479c12da095224102, type: 3}
@@ -4033,12 +4033,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: doCountdown
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: patrolZones
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1066176661}
     - target: {fileID: 6556351053450197771, guid: ccfd7f43f8cbbda42b424a87821b1987, type: 3}
       propertyPath: maxChaseTime
       value: 1e+9
@@ -4189,8 +4189,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.disableStun
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.maxLedgeHeight
       value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.baseJumpData.hangtimeDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5692928195147020320, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: m_Name

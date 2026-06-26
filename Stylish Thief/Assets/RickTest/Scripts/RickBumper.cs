@@ -65,6 +65,11 @@ public class RickBumper : MonoBehaviour
             if (fsTimer < failsafeTime)
             {
                 fsTimer += Time.deltaTime;
+                if (player.ctx.cmd.deceleration == prefabPlayer.ctx.airMoveData.deceleration  || player.gameObject.GetComponent<ActorPhysics>().gravity == -Vector3.up)
+                {
+                    fsTimer = 0; ;
+                    countFailsafe = false;
+                }
             }
             else
             {

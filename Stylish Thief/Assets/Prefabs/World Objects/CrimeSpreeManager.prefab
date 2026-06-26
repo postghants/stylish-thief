@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a940dc46f0b2974683f060cb84287c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrimeSpreeManager
-  maxChaseTime: 10
+  maxChaseTime: 90
   valuablesToSpawn: 3
   uiLingerTime: 4
   multPerCombo: 0.1
@@ -57,6 +57,7 @@ MonoBehaviour:
   patrolZones: {fileID: 0}
   frozen: 0
   startTime: 0
+  playerInstance: {fileID: 0}
   valuableLocations:
   - {fileID: 0}
   - {fileID: 0}

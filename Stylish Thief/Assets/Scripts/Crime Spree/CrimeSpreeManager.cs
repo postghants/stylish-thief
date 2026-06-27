@@ -65,6 +65,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
             patrolZones.SetActive(false);
         }
         gameOver = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()

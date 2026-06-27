@@ -272,6 +272,8 @@ public class PlayerStateDriver : Actor, IDamageable
     private void Die()
     {
         Instantiate(ctx.gameOverUIPrefab);
+
+        Cursor.lockState = CursorLockMode.None;
         enabled = false;
     }
 

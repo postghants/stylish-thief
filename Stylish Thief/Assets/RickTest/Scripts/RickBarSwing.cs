@@ -98,7 +98,7 @@ public class RickBarSwing : MonoBehaviour
                     player.EnableControls();
                     //player.ctx.airMoveData.deceleration = 4;
                     player.ctx.cmd.deceleration = 4;
-                    player = null;
+                    //player = null;
                 }
             }
         }
@@ -128,6 +128,7 @@ public class RickBarSwing : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer != 6) { return; }
         player.gameObject.GetComponentInChildren<PlayerAnimEventHandler>().gameObject.transform.localPosition = localModelPosition;
         player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne);
         hanging = false;
@@ -139,7 +140,7 @@ public class RickBarSwing : MonoBehaviour
             player.EnableControls();
             //player.ctx.airMoveData.deceleration = 4;
             player.ctx.cmd.deceleration = 4;
-            player = null;
+            //player = null;
         }
     }
     private void CalculateAngles()

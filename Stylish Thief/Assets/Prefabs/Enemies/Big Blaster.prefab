@@ -4986,6 +4986,8 @@ MonoBehaviour:
   - animationStateName: Idle
     codeName: Idle
   anim: {fileID: 2286642265383269110}
+  inactiveDistance: 100
+  behaviourActive: 0
 --- !u!114 &3709177089521478732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5276,6 +5278,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8891248145199440870, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2286642265383269110}
+    - targetCorrespondingSourceObject: {fileID: 8891248145199440870, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2268142494881864010}
   m_SourcePrefab: {fileID: 100100000, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}
 --- !u!4 &2717435170679170143 stripped
 Transform:
@@ -5309,6 +5314,53 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2268142494881864010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386025563936030437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce995c2814484904285c120ba0ae6310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAudioHandler
+  fmodEvent1:
+    Guid:
+      Data1: -537164054
+      Data2: 1129194288
+      Data3: 692328885
+      Data4: 1540255360
+    Path: event:/sfx events/sfx enemy/shooter_shooting
+  fmodEvent2:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  fmodEvent3:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  fmodEvent4:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  fmodEvent5:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!4 &4410701041325505462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7542524841381602997, guid: 9cd72d78e88a67f499134349786bf3ba, type: 3}

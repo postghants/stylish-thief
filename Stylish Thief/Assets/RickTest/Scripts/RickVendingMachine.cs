@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using FMODUnity;
 
 public class RickVendingMachine : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class RickVendingMachine : MonoBehaviour
     float remainingItems;
     [Tooltip("What should spawn when it is hit?")] public GameObject canPrefab;
     GameObject can;
+
+    [SerializeField] EventReference onBingEvent;
+    [SerializeField] EventReference onBangEvent;
+    [SerializeField] EventReference onBoomEvent;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +47,7 @@ public class RickVendingMachine : MonoBehaviour
                 {
                     can = Instantiate(canPrefab, transform.parent.transform.position, Quaternion.identity);
                     remainingItems--;
+                    RuntimeManager.PlayOneShotAttached(onBingEvent, gameObject);
                     CrimeSpreeManager.instance.DoMinorCrime(tamperScore, tamperCrime, null);
                 }
                 else if (remainingItems == 1)
@@ -48,6 +55,7 @@ public class RickVendingMachine : MonoBehaviour
                     can = Instantiate(canPrefab, transform.parent.transform.position, Quaternion.identity);
                     can = Instantiate(canPrefab, transform.parent.transform.position + new Vector3(0, 0, 1), Quaternion.identity);
                     can = Instantiate(canPrefab, transform.parent.transform.position - new Vector3(0, 0, 1), Quaternion.identity);
+                    RuntimeManager.PlayOneShotAttached(onBangEvent, gameObject);
                     remainingItems--;
                     CrimeSpreeManager.instance.DoMinorCrime(tamperScore, tamperCrime, null);
                 }
@@ -57,6 +65,7 @@ public class RickVendingMachine : MonoBehaviour
                     can = Instantiate(canPrefab, transform.parent.transform.position + new Vector3(-1, 0, 1), Quaternion.identity);
                     can = Instantiate(canPrefab, transform.parent.transform.position - new Vector3(1, 0, 1), Quaternion.identity);
                     CrimeSpreeManager.instance.DoMinorCrime(breakScore, breakCrime, null);
+                    RuntimeManager.PlayOneShotAttached(onBoomEvent, gameObject);
                     Destroy(gameObject.transform.parent.gameObject);
                 }
             }

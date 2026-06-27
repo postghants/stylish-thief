@@ -142,11 +142,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collection
   rotationSpeed: 60
-  givenTime: 60
+  givenTime: 70
   respawnTime: 120
   givenScore: 3000
   crimeName: GRAND THEFT
   theftIsMinor: 0
+  onCollectEvent:
+    Guid:
+      Data1: 1214268647
+      Data2: 1086968407
+      Data3: -1181440121
+      Data4: -1908698740
+    Path: event:/sfx events/sfx UI/big_crime
   particles: {fileID: 6466389284264405968}
 --- !u!114 &7907910608644079072
 MonoBehaviour:

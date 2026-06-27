@@ -136,4 +136,12 @@ public class JumpAttack : EnemyAttack
         animationCodeNames.Add("JumpAttackRecoverTrigger");
         base.Reset();
     }
+
+    public override void OnBehaviourDeactivate()
+    {
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+    }
 }

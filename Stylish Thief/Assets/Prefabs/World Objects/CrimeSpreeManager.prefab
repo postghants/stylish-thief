@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a940dc46f0b2974683f060cb84287c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrimeSpreeManager
-  maxChaseTime: 10
+  maxChaseTime: 90
   valuablesToSpawn: 3
   uiLingerTime: 4
   multPerCombo: 0.1
@@ -57,6 +57,7 @@ MonoBehaviour:
   patrolZones: {fileID: 0}
   frozen: 0
   startTime: 0
+  playerInstance: {fileID: 0}
   valuableLocations:
   - {fileID: 0}
   - {fileID: 0}
@@ -73,6 +74,20 @@ MonoBehaviour:
   ComboTimer: 0
   Multiplier: 1
   Valuables: []
+  bigCrimeEvent:
+    Guid:
+      Data1: 1214268647
+      Data2: 1086968407
+      Data3: -1181440121
+      Data4: -1908698740
+    Path: event:/sfx events/sfx UI/big_crime
+  smallCrimeEvent:
+    Guid:
+      Data1: 115418221
+      Data2: 1314484416
+      Data3: 727699879
+      Data4: 1218809611
+    Path: event:/sfx events/sfx UI/score_event
 --- !u!1 &6270329988146535049
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,10 +49,18 @@ MonoBehaviour:
   speed: 20
   turnSpeed: 2
   explosionLength: 0.5
+  noiseRange: 30
   player: {fileID: 0}
   explosion: {fileID: 8626699006927613810}
   visual: {fileID: 6879708943032323317}
   vfxPrefab: {fileID: 6892666274494531276, guid: 61c363c1a2895d349b3ffbcb7dc6783b, type: 3}
+  onBlowup:
+    Guid:
+      Data1: -1574059756
+      Data2: 1326619976
+      Data3: 944018852
+      Data4: -1168415261
+    Path: event:/sfx events/sfx interactions/explosion
 --- !u!1 &2441048374155868251
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventTrigger
   mask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 193
   OnTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -355,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31784f22a67963044a0850f347bfd126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
-  damage: 50
+  damage: 30
   turnColliderOff: 1
   coll: {fileID: 8702213283331294513}
 --- !u!1001 &6032794922116460964

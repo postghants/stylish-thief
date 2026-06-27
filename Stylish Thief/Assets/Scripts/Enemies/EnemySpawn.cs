@@ -9,6 +9,7 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] private bool spawnOnStart;
     [SerializeField] private bool spawnOnEnterPatrolZone;
     private PlayerStateDriver player;
+    [SerializeField] private GameObject enemy;
 
     [SerializeField] private List<EnemySpawnInfo> enemySpawnInfo;
 
@@ -64,7 +65,10 @@ public class EnemySpawn : MonoBehaviour
 
     public void SpawnEnemy(EnemySpawnInfo spawnInfo)
     {
-        Instantiate(spawnInfo.enemy.gameObject, transform.position, Quaternion.identity).GetComponent<EnemyController>().Initialize(patrolZone, player);
+        Instantiate(spawnInfo.enemy.gameObject, patrolZone.ClosestPoint(transform.position), Quaternion.identity).GetComponent<EnemyController>().Initialize(patrolZone, player);
+        /*enemy = Instantiate(spawnInfo.enemy.gameObject, patrolZone.ClosestPoint(transform.position), Quaternion.identity);
+        enemy.GetComponent<EnemyController>().ctx.activeZone = patrolZone;
+        enemy.GetComponent<EnemyController>().ctx.player = player;*/
     }
 }
 

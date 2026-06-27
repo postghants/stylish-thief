@@ -78,6 +78,7 @@ public class RickBumper : MonoBehaviour
                 player.EnableControls();
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
                 player.gameObject.GetComponent<ActorPhysics>().gravity = -Vector3.up;
+                player.ctx.useGravity = true;
                 player.ctx.cmd.deceleration = prefabPlayer.ctx.airMoveData.deceleration;
                 player.ctx.cmd.maxSpeedDeceleration = prefabPlayer.ctx.airMoveData.maxSpeedDeceleration;
                 //player.SetVelocity(transform.forward * endSpeed);
@@ -93,7 +94,8 @@ public class RickBumper : MonoBehaviour
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
-            player.gameObject.GetComponent<ActorPhysics>().gravity = Vector3.zero;
+            //player.gameObject.GetComponent<ActorPhysics>().gravity = Vector3.zero;
+            player.ctx.useGravity = false;
             player.DisableControls();
             player.ctx.cmd.deceleration = 0;
             player.ctx.cmd.maxSpeedDeceleration = 0;

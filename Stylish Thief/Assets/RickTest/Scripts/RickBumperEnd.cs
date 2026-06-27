@@ -42,6 +42,7 @@ public class RickBumperEnd : MonoBehaviour
                 player.EnableControls();
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.falling);
                 player.gameObject.GetComponent<ActorPhysics>().gravity = -Vector3.up;
+                player.ctx.useGravity = true;
                 player.ctx.cmd.deceleration = prefabPlayer.ctx.airMoveData.deceleration;
                 player.ctx.cmd.maxSpeedDeceleration = prefabPlayer.ctx.airMoveData.maxSpeedDeceleration;
                 //player.SetVelocity(transform.forward * endSpeed);

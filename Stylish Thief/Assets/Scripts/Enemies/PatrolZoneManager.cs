@@ -15,7 +15,7 @@ public class PatrolZoneManager : MonoBehaviour
     public List<Node> nodes = new();
     public List<NodePair> pairs = new();
 
-    private void Start()
+    private void Awake()
     {
         if (zones.Count <= 1) { return; }
 

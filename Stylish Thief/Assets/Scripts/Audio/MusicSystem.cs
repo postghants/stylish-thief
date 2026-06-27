@@ -63,6 +63,15 @@ public class MusicSystem : MonoBehaviour
         //pausedInstance.release();
         //pausedInstance.clearHandle();
     }
+    public void DeleteMusic()
+    {
+        musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        musicInstance.release();
+        musicInstance.clearHandle();
+        pausedInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        pausedInstance.release();
+        pausedInstance.clearHandle();
+    }
 }
 
 

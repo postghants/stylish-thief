@@ -29,7 +29,7 @@ public class RickSceneChanger : MonoBehaviour
     {
         if (GetComponentInParent<PauseScreen>() != null)
         {
-            GetComponentInParent<PauseScreen>().gameObject.SetActive(false);
+            GetComponentInParent<PauseScreen>().pauseScreen.gameObject.SetActive(false);
             Debug.Log("Pause Screen disabled");
         }
     }

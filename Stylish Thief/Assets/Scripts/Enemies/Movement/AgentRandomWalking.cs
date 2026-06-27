@@ -72,4 +72,19 @@ public class RandomWalking : EnemyMovement
         animationCodeNames.Add("Idle");
         base.Reset();
     }
+    public override void OnBehaviourDeactivate()
+    {
+        if (agent.enabled)
+        {
+            agent.enabled = false;
+        }
+    }
+
+    public override void OnBehaviourReactivate()
+    {
+        if (!agent.enabled)
+        {
+            agent.enabled = true;
+        }
+    }
 }

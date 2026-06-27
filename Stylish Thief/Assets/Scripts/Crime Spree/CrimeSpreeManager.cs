@@ -110,6 +110,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 startTime += Time.deltaTime;
                 //Debug.Log(startTime);
                 chaseUI.countDownText.text = Mathf.Round(5 - startTime).ToString();
+                playerInstance.ctx.anim.Play("Countdown");
                 playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.frozen);
                 frozen = true;
             }
@@ -118,6 +119,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 if (frozen)
                 {
                     playerInstance.Machine.ChangeState(playerInstance.Root.Leaf(), playerInstance.Root.grounded);
+                    playerInstance.ctx.anim.Play("Idle");
                     Debug.Log("GO");
                     ChaseTimer = maxChaseTime;
                     chaseUI.countDownReact.DoReaction(false, 1, 2);

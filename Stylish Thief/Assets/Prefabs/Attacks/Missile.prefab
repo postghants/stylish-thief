@@ -49,6 +49,7 @@ MonoBehaviour:
   speed: 20
   turnSpeed: 2
   explosionLength: 0.5
+  noiseRange: 30
   player: {fileID: 0}
   explosion: {fileID: 8626699006927613810}
   visual: {fileID: 6879708943032323317}
@@ -60,13 +61,6 @@ MonoBehaviour:
       Data3: 944018852
       Data4: -1168415261
     Path: event:/sfx events/sfx interactions/explosion
-  onFly:
-    Guid:
-      Data1: -1637987307
-      Data2: 1139194034
-      Data3: -1662877277
-      Data4: 1428413795
-    Path: event:/sfx events/sfx enemy/rocket_flying
 --- !u!1 &2441048374155868251
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31784f22a67963044a0850f347bfd126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
-  damage: 50
+  damage: 30
   turnColliderOff: 1
   coll: {fileID: 8702213283331294513}
 --- !u!1001 &6032794922116460964

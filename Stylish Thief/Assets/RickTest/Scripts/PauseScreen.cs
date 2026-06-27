@@ -5,6 +5,7 @@ using System.Collections;
 public class PauseScreen : MonoBehaviour
 {
     public GameObject pauseScreen;
+    public bool stopMusicOnPauseScreens;
     private InputAction pause;
     public MusicSystem musicSystemReference;
     private float targetTime = 0.6f;
@@ -22,14 +23,23 @@ public class PauseScreen : MonoBehaviour
         {
             if (pauseScreen.activeSelf)
             {
-                musicSystemReference.PauseAudioHandler();
-                StartCoroutine(PauseTimer());
+                if (stopMusicOnPauseScreens)
+                {
+                    musicSystemReference.PauseAudioHandler();
+                    StartCoroutine(PauseTimer());
+
+                }
             }
             else
             {
-                musicSystemReference.PauseAudioHandler();
-                pauseScreen.SetActive(true);
                 Time.timeScale = 0;
+                pauseScreen.SetActive(true);
+                if (stopMusicOnPauseScreens)
+                {
+                    musicSystemReference.PauseAudioHandler();
+
+                }
+                
             }
         }
     }
@@ -39,7 +49,9 @@ public class PauseScreen : MonoBehaviour
         yield return new WaitForSecondsRealtime(targetTime);
         pauseScreen.SetActive(false);
         Time.timeScale = 1;
-        Debug.Log("Pauze voorbij!!!!");
     }
-    
+    public void ActivateSelf()
+    {
+        pauseScreen.SetActive(true);
+    }
 }

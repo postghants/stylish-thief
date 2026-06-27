@@ -28,8 +28,10 @@ public class PauseScreen : MonoBehaviour
         {
             if (setFirstObject)
             {
-                eventSystem.SetSelectedGameObject(button);
-
+                if (button != null && eventSystem != null)
+                {
+                    eventSystem.SetSelectedGameObject(button);
+                }
             }
         }
             

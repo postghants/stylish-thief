@@ -45,6 +45,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     public float Multiplier = 1;
     public List<Valuable> Valuables;
     private Queue<GameObject> crimeBuffer = new();
+    bool gameOver;
 
     //tom's score delay
     private float targetTime = 0.5f;
@@ -63,6 +64,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         {
             patrolZones.SetActive(false);
         }
+        gameOver = false;
     }
 
     private void Update()
@@ -71,7 +73,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         if (!frozen)
         {
             if (ChaseTimer == 0) { return; }
-
+            if (gameOver) { return; }
+            if (ChaseTimer < 0 ) { EndSpree(); gameOver = true; Debug.Log("End Spree!!!!!!!"); return; }
             if (ChaseTimer >= 60)
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
@@ -97,7 +100,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
                 }
             }
 
-            if (ChaseTimer < 0) { EndSpree(); Debug.Log("End Spree!!!!!!!"); }
+            
         }
     }
     public void Countdown()
@@ -151,7 +154,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         ComboTimer = 0;
         chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
         StartCoroutine(UILinger());
-        playerInstance.TakeDamage(99999);
+        playerInstance.TakeDamage(999999999);
     }
 
     private IEnumerator UILinger()

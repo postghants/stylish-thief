@@ -11,11 +11,11 @@ public class RickTextUpdater : MonoBehaviour
         CrimeSpreeManager manager = FindFirstObjectByType<CrimeSpreeManager>();
         if (manager.ChaseTimer <= 0)
         {
-            text.text = "Aw... The guards gave up.";
+            text.text = "That's all, folks!";
         }
         else
         {
-            text.text = "You've been caught!";
+            text.text = "That's all, folks!";
         }
     }
 

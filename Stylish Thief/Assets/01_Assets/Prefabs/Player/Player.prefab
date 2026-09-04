@@ -5304,6 +5304,77 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    umbrellaAcceleration:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.3574096
+        value: 0.12408982
+        inSlope: 1.1408318
+        outSlope: 1.1408318
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.66683793
+        value: 1.0012941
+        inSlope: -0.0049332604
+        outSlope: -0.0049332604
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.78739077
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0.008163315
+        outSlope: 0.008163315
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.5934271
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    umbrellaSpeed: 40
+    umbrellaDuration: 1
+    umbrellaFloatSpeed: 10
+    umbrellaFloatAccelDuration: 5
+    umbrellaMaxDuration: 20
+    umbrellaFloatAcceleration:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     intUmbrellaMoveData:
       acceleration: 35
       deceleration: 4
@@ -5579,11 +5650,6 @@ MonoBehaviour:
     playerAnimEventHandler: {fileID: 0}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
-    baseColor: {r: 1, g: 0.5497308, b: 0, a: 0}
-    airColor: {r: 0.9818569, g: 1, b: 0.1745283, a: 0}
-    grabColor: {r: 0.9433962, g: 0.74264276, b: 0.28924885, a: 0}
-    slidingColor: {r: 1, g: 0.5497308, b: 0, a: 0}
-    stunnedColor: {r: 0.9818569, g: 1, b: 0.1745283, a: 0}
     animRunSpeed: 7
     animIdleSpeed: 5
     currentHealth: 0

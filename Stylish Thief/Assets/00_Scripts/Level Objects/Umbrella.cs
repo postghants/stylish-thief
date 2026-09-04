@@ -18,13 +18,11 @@ public class Umbrella : MonoBehaviour
     {
         if (other.gameObject.layer == 6)
         {
-            Debug.Log("Touched!");
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
             {
-                player.ctx.hasGrabbed = false;
+                player.transform.position += new Vector3(0, .2f, 0);
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.umbrellaLaunch);
-                Debug.Log("Grabbed!");
             }
         }
     }

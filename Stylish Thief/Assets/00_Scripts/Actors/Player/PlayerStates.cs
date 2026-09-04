@@ -1183,8 +1183,6 @@ namespace HSM
     public class IntUmbrellaLaunch : State
     {
         readonly PlayerContext ctx;
-        float upSpeed = 0f;
-        float duration = 5f;
         float timer = 0f;
         //public AnimationCurve turnDeceleration;
 
@@ -1198,32 +1196,28 @@ namespace HSM
         {
             ctx.cmd = ctx.intUmbrellaMoveData;
             ctx.useGravity = false;
+            ctx.hasGrabbed = true;
         }
         protected override void OnUpdate(float deltaTime)
         {
-            if (timer < duration)
+            if (timer < ctx.umbrellaDuration)
             {
                 timer += deltaTime;
-                Debug.Log(timer);
             }
             Vector3 flightSpeed = ctx.rb.velocity;
-            flightSpeed.y = upSpeed;
+            flightSpeed.y = ctx.umbrellaAcceleration.Evaluate(timer / ctx.umbrellaDuration) * ctx.umbrellaSpeed;
             ctx.rb.velocity = flightSpeed;
-            upSpeed += deltaTime * 5;
         }
         protected override void OnExit()
         {
             timer = 0;
-            upSpeed = 0f;
-            ctx.useGravity = true;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            if (timer >= duration)
+            if (timer >= ctx.umbrellaDuration)
             {
-                //return ((PlayerAirborne)Parent).umbrellaGlide;
-                return ctx.player.Root;
+                return ((PlayerAirborne)Parent).umbrellaGlide;
             }
             return null;
         }
@@ -1233,27 +1227,43 @@ namespace HSM
     public class IntUmbrellaGlide : State
     {
         readonly PlayerContext ctx;
+        float timer = 0f;
 
         public IntUmbrellaGlide(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
+            Parent = parent;
         }
 
         protected override void OnEnter()
         {
-            
+            ctx.cmd = ctx.intUmbrellaMoveData;
+            ctx.useGravity = false;
+            ctx.hasGrabbed = false;
         }
         protected override void OnUpdate(float deltaTime)
         {
-
+            if (timer < ctx.umbrellaFloatAccelDuration)
+            {
+                timer += deltaTime;
+            }
+            Vector3 floatSpeed = ctx.rb.velocity;
+            floatSpeed.y = ctx.umbrellaFloatAcceleration.Evaluate(timer / ctx.umbrellaFloatAccelDuration) * -ctx.umbrellaFloatSpeed;
+            ctx.rb.velocity = floatSpeed;
+            Debug.Log(floatSpeed.y);
         }
         protected override void OnExit()
         {
-
+            timer = 0;
+            ctx.useGravity = true;
         }
 
         protected override State GetTransition(float deltaTime)
         {
+            if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump)
+            {
+                return ctx.player.Root;
+            }
             return null;
         }
     }

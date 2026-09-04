@@ -336,8 +336,15 @@ public class PlayerContext
     //[Tooltip("Acceleration when airborne.")] public float airAccel;
     //[Tooltip("Friction applied when airborne.")] public float airFriction;
 
-    [Header("Int Umbrella Movement")]
-    public MoveData intUmbrellaMoveData;
+    [Header("Int Umbrella")]
+    [FoldoutGroup("Int Umbrella")] public AnimationCurve umbrellaAcceleration;
+    [FoldoutGroup("Int Umbrella")] public float umbrellaSpeed;
+    [FoldoutGroup("Int Umbrella")] public float umbrellaDuration;
+    [FoldoutGroup("Int Umbrella")] public float umbrellaFloatSpeed;
+    [FoldoutGroup("Int Umbrella")] public float umbrellaFloatAccelDuration;
+    [FoldoutGroup("Int Umbrella")] public float umbrellaMaxDuration;
+    [FoldoutGroup("Int Umbrella")] public AnimationCurve umbrellaFloatAcceleration;
+    [FoldoutGroup("Int Umbrella")] public MoveData intUmbrellaMoveData;
 
     [Header("Jump")]
     public JumpData baseJumpData;

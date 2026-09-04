@@ -5304,6 +5304,48 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    intUmbrellaMoveData:
+      acceleration: 35
+      deceleration: 4
+      minWalkSpeed: 0
+      maxSpeed: 15
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 3
+      modelTurnDelay: 0
+      turnDecelerationMult: 0
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.31741244
+          value: 0.059404656
+          inSlope: 0.6135431
+          outSlope: 0.6135431
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.5136485
+          outWeight: 0.19364356
+        - serializedVersion: 3
+          time: 1
+          value: 0.9996414
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.06333327
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     baseJumpData:
       jumpImpulse: 15
       cuttable: 1
@@ -5531,7 +5573,6 @@ MonoBehaviour:
     anim: {fileID: 6728575028680813074}
     cam: {fileID: 0}
     orbitalFollow: {fileID: 0}
-    spreeManager: {fileID: 0}
     healthBar: {fileID: 0}
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
     particleManager: {fileID: 7529127243591585783}
@@ -16024,6 +16065,27 @@ MonoBehaviour:
       Data3: -1462997096
       Data4: 909930509
     Path: event:/bump
+  onLedgeEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  onDashEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  onLandingEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!95 &6728575028680813074
 Animator:
   serializedVersion: 7

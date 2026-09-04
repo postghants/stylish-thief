@@ -337,6 +337,9 @@ public class PlayerContext
     //[Tooltip("Acceleration when airborne.")] public float airAccel;
     //[Tooltip("Friction applied when airborne.")] public float airFriction;
 
+    [Header("Int Umbrella Movement")]
+    public MoveData intUmbrellaMoveData;
+
     [Header("Jump")]
     public JumpData baseJumpData;
     public bool disableJump;

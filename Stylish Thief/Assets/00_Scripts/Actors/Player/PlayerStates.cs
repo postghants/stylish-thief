@@ -384,7 +384,7 @@ namespace HSM
                     {
                         origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
                     }
-                    
+
                     Vector3 cast1Origin = origin;
                     if (ctx.rb.isGrounded)
                     {
@@ -422,7 +422,7 @@ namespace HSM
                             }
                         }
                     }
-                    
+
                 }
             }
 
@@ -697,7 +697,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.particleManager.StartGroup("Run"); 
+            ctx.particleManager.StartGroup("Run");
             if (ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && ctx.rb.velocity.y == 0)
             {
                 ctx.player.SetTrigger("StartWalk");
@@ -723,7 +723,7 @@ namespace HSM
             {
                 ctx.anim.SetBool("OverRunSpeed", horizontalVel.magnitude > ctx.animRunSpeed);
             }
-            else if(horizontalVel.magnitude < ctx.animIdleSpeed && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Ledge Grab"))
+            else if (horizontalVel.magnitude < ctx.animIdleSpeed && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !ctx.anim.GetCurrentAnimatorStateInfo(0).IsName("Ledge Grab"))
             {
                 ctx.player.SetTrigger("StartIdle");
             }
@@ -864,6 +864,8 @@ namespace HSM
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
         public readonly PlayerPrePound prePound;
+        public readonly IntUmbrellaLaunch umbrellaLaunch;
+        public readonly IntUmbrellaGlide umbrellaGlide;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -876,6 +878,8 @@ namespace HSM
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
             prePound = new(m, this, ctx);
+            umbrellaLaunch = new(m, this, ctx);
+            umbrellaGlide = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -1009,7 +1013,7 @@ namespace HSM
                 ctx.rb.velocity.y = Mathf.Clamp(ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
             }
 
-                ctx.cmd = ctx.prePoundMove;
+            ctx.cmd = ctx.prePoundMove;
             ctx.gravMultiplier = ctx.prePoundGrav;
 
             ctx.player.SetTrigger("StartBagThrow");
@@ -1169,6 +1173,87 @@ namespace HSM
             }
             Jump.CalculateGravity(ctx);
 
+            return null;
+        }
+    }
+
+    //From here on all classes are states used for level interactions! These are all refered to as Int[Something]
+
+    //The upward motion when grabbing an umbrella.
+    public class IntUmbrellaLaunch : State
+    {
+        readonly PlayerContext ctx;
+        float upSpeed = 0f;
+        float duration = 5f;
+        float timer = 0f;
+        //public AnimationCurve turnDeceleration;
+
+        public IntUmbrellaLaunch(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.intUmbrellaMoveData;
+            ctx.useGravity = false;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < duration)
+            {
+                timer += deltaTime;
+                Debug.Log(timer);
+            }
+            Vector3 flightSpeed = ctx.rb.velocity;
+            flightSpeed.y = upSpeed;
+            ctx.rb.velocity = flightSpeed;
+            upSpeed += deltaTime * 5;
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            upSpeed = 0f;
+            ctx.useGravity = true;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= duration)
+            {
+                //return ((PlayerAirborne)Parent).umbrellaGlide;
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+
+    //The glide following IntUmbrellaLaunch.
+    public class IntUmbrellaGlide : State
+    {
+        readonly PlayerContext ctx;
+
+        public IntUmbrellaGlide(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+        }
+
+        protected override void OnEnter()
+        {
+            
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+
+        }
+        protected override void OnExit()
+        {
+
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
             return null;
         }
     }

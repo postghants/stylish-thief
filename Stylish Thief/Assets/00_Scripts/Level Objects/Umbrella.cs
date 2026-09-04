@@ -22,6 +22,7 @@ public class Umbrella : MonoBehaviour
             if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
             {
                 player.transform.position += new Vector3(0, .2f, 0);
+                player.ctx.rb.isGrounded = false;
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.umbrellaLaunch);
             }
         }

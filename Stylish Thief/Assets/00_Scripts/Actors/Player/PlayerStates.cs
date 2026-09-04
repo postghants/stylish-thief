@@ -1211,11 +1211,12 @@ namespace HSM
         protected override void OnExit()
         {
             timer = 0;
+            ctx.useGravity = true;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            if (timer >= ctx.umbrellaDuration)
+            if (timer >= ctx.umbrellaDuration || ctx.rb.isGrounded)
             {
                 return ((PlayerAirborne)Parent).umbrellaGlide;
             }
@@ -1240,6 +1241,7 @@ namespace HSM
             ctx.cmd = ctx.intUmbrellaMoveData;
             ctx.useGravity = false;
             ctx.hasGrabbed = false;
+            ctx.currentlyJumping = true;
         }
         protected override void OnUpdate(float deltaTime)
         {
@@ -1256,11 +1258,12 @@ namespace HSM
         {
             timer = 0;
             ctx.useGravity = true;
+            ctx.disableJump = false;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump)
+            if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump || ctx.rb.isGrounded)
             {
                 return ctx.player.Root;
             }

@@ -1,3 +1,4 @@
+using Alchemy.Inspector;
 using HSM;
 using System;
 using System.Collections;
@@ -111,9 +112,9 @@ public class PlayerStateDriver : Actor, IDamageable
 
     public void SetTrigger(string name)
     {
-        foreach(var trigger in ctx.anim.parameters)
+        foreach (var trigger in ctx.anim.parameters)
         {
-            if(trigger.type == AnimatorControllerParameterType.Trigger)
+            if (trigger.type == AnimatorControllerParameterType.Trigger)
             {
                 ctx.anim.ResetTrigger(trigger.name);
             }
@@ -312,15 +313,13 @@ public class PlayerStateDriver : Actor, IDamageable
 [Serializable]
 public class PlayerContext
 {
-    [Header("Status")]
-    public float maxHealth = 100;
-    public float regenRate = 10;
-    public float regenDelay = 1.5f;
-    public float invincibilityLength;
+    [FoldoutGroup("Status")] public float maxHealth = 100;
+    [FoldoutGroup("Status")] public float regenRate = 10;
+    [FoldoutGroup("Status")] public float regenDelay = 1.5f;
+    [FoldoutGroup("Status")] public float invincibilityLength;
 
-    [Header("General")]
-    public float timeScale = 1;
-    public bool spawnSpreeUI = true;
+    [FoldoutGroup("General")] public float timeScale = 1;
+    [FoldoutGroup("General")] public bool spawnSpreeUI = true;
 
     [Header("Grounded Movement")]
     public MoveData groundMoveData;
@@ -342,165 +341,144 @@ public class PlayerContext
 
     [Header("Jump")]
     public JumpData baseJumpData;
-    public bool disableJump;
-    public float coyoteTime;
-    [Tooltip("Jump input buffer time")] public float jumpBuffer;
+    [FoldoutGroup("Jump")] public bool disableJump;
+    [FoldoutGroup("Jump")] public float coyoteTime;
+    [FoldoutGroup("Jump")][Tooltip("Jump input buffer time")] public float jumpBuffer;
 
-    [Header("Grab")]
-    public bool disableGrab;
-    [Tooltip("Speed added when entering grab")] public float grabSpeed;
-    [Tooltip("Time before grab ends")] public float grabDuration;
-    [Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
-    [Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
-    [Tooltip("Time until player can move after grab")] public float grabEndLag;
+    [FoldoutGroup("Grab")] public bool disableGrab;
+    [FoldoutGroup("Grab")][Tooltip("Speed added when entering grab")] public float grabSpeed;
+    [FoldoutGroup("Grab")][Tooltip("Time before grab ends")] public float grabDuration;
+    [FoldoutGroup("Grab")][Tooltip("Target speed at the end of the grab")] public float grabEndSpeed;
+    [FoldoutGroup("Grab")][Tooltip("Time spent decelerating after grab")] public float grabDeceleration;
+    [FoldoutGroup("Grab")][Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Grab Targeting")]
-    public float maxGrabTargetAngle;
-    public float maxGrabTargetDistanceHorizontal;
-    public float maxGrabTargetDistanceUp;
-    public float maxGrabTargetDistanceDown;
+    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetAngle;
+    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceHorizontal;
+    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceUp;
+    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceDown;
 
-    [Header("Vault")]
-    public bool disableVault;
-    public float ledgeCheckDistance;
-    public float maxLedgeHeight;
-    public float maxLedgeHeightGround;
-    public float vaultMaxDuration;
-    public MoveData vaultMoveData;
+    [FoldoutGroup("Vault")] public bool disableVault;
+    [FoldoutGroup("Vault")] public float ledgeCheckDistance;
+    [FoldoutGroup("Vault")] public float maxLedgeHeight;
+    [FoldoutGroup("Vault")] public float maxLedgeHeightGround;
+    [FoldoutGroup("Vault")] public float vaultMaxDuration;
+    [FoldoutGroup("Vault")] public MoveData vaultMoveData;
 
-    public bool disableVaultJump;
-    public JumpData vaultJump;
+    [FoldoutGroup("Vault Jump")] public bool disableVaultJump;
+    [FoldoutGroup("Vault Jump")] public JumpData vaultJump;
 
-    [Header("Slide")]
-    public bool disableSlide;
-    public bool disableAirborneSlide;
-    [Tooltip("Minimum duration of slide state")] public float minSlideTime;
-    [Tooltip("Friction applied when sliding")] public float slideFriction;
-    [Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
-    [Tooltip("Maximum horizontal impact angle for a bonk")] public float maxSlideBonkAngle;
+    [FoldoutGroup("Slide")] public bool disableSlide;
+    [FoldoutGroup("Slide")] public bool disableAirborneSlide;
+    [FoldoutGroup("Slide")][Tooltip("Minimum duration of slide state")] public float minSlideTime;
+    [FoldoutGroup("Slide")][Tooltip("Friction applied when sliding")] public float slideFriction;
+    [FoldoutGroup("Slide")][Tooltip("Multiplier applied to movement input while sliding")] public float slideMoveMult;
+    [FoldoutGroup("Slide")][Tooltip("Maximum horizontal impact angle for a bonk")] public float maxSlideBonkAngle;
 
-    [Header("Slide Jump")]
-    public bool disableSlideJump;
-    public JumpData slideJumpData;
+    [FoldoutGroup("Slide Jump")] public bool disableSlideJump;
+    [FoldoutGroup("Slide Jump")] public JumpData slideJumpData;
 
-    [Header("Stunned")]
-    public bool disableStun;
-    public bool useStunDeceleration = true;
-    [Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
-    [Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
-    [Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
-    [Tooltip("Duration of stun state")] public float stunDuration;
-    [Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
-    public bool setSpeedToZero;
+    [FoldoutGroup("Stunned")] public bool disableStun;
+    [FoldoutGroup("Stunned")] public bool useStunDeceleration = true;
+    [FoldoutGroup("Stunned")][Tooltip("Multiplier applied to speed when entering stun")] public float stunDeceleration;
+    [FoldoutGroup("Stunned")][Tooltip("If speed is lower than this when entering stun, this speed is applied")] public float stunMinSpeed;
+    [FoldoutGroup("Stunned")][Tooltip("Speed added to Y velocity when entering stun")] public float stunUpwardSpeed;
+    [FoldoutGroup("Stunned")][Tooltip("Duration of stun state")] public float stunDuration;
+    [FoldoutGroup("Stunned")][Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
+    [FoldoutGroup("Stunned")] public bool setSpeedToZero;
 
 
-    [Header("Harsh Landing")]
-    public float harshLandingDuration;
-    public float harshLandingDamage;
-    public MoveData harshLandingData;
+    [FoldoutGroup("Harsh Landing")] public float harshLandingDuration;
+    [FoldoutGroup("Harsh Landing")] public float harshLandingDamage;
+    [FoldoutGroup("Harsh Landing")] public MoveData harshLandingData;
 
-    [Header("Very Bad Landing")]
-    public float veryBadLandingDuration;
-    public float veryBadLandingDamage;
-    public MoveData veryBadLandingData;
+    [FoldoutGroup("Very Bad Landing")] public float veryBadLandingDuration;
+    [FoldoutGroup("Very Bad Landing")] public float veryBadLandingDamage;
+    [FoldoutGroup("Very Bad Landing")] public MoveData veryBadLandingData;
 
     [Header("Roll")]
-    public bool disableRoll;
-    public float rollTiming;
-    [Tooltip("Speed added when entering roll")] public float rollSpeed;
-    [Tooltip("Time before roll ends")] public float rollDuration;
-    [Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
-    [Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
-    [Tooltip("Time until player can move after roll")] public float rollEndLag;
-    public bool disableRollJump;
-    public JumpData rollJump;
+    [FoldoutGroup("Roll")] public bool disableRoll;
+    [FoldoutGroup("Roll")] public float rollTiming;
+    [FoldoutGroup("Roll")][Tooltip("Speed added when entering roll")] public float rollSpeed;
+    [FoldoutGroup("Roll")][Tooltip("Time before roll ends")] public float rollDuration;
+    [FoldoutGroup("Roll")][Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
+    [FoldoutGroup("Roll")][Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
+    [FoldoutGroup("Roll")][Tooltip("Time until player can move after roll")] public float rollEndLag;
+    [FoldoutGroup("Roll")] public bool disableRollJump;
+    [FoldoutGroup("Roll")] public JumpData rollJump;
 
-    [Header("Bag Throw")]
-    public bool disablePound;
-    public bool additive;
-    public bool poundAccelerate;
-    public float prePoundUpBoost;
-    public float prePoundDuration;
-    public float prePoundGrav;
-    public MoveData prePoundMove;
-    public float poundSpeedDown;
-    public float poundSpeedFw;
-    public float downAcceleration;
-    public float forwardAcceleration;
-    public float poundLandDelay;
-    public float poundLandSpeed;
+    [FoldoutGroup("Bag Throw")] public bool disablePound;
+    [FoldoutGroup("Bag Throw")] public bool additive;
+    [FoldoutGroup("Bag Throw")] public bool poundAccelerate;
+    [FoldoutGroup("Bag Throw")] public float prePoundUpBoost;
+    [FoldoutGroup("Bag Throw")] public float prePoundDuration;
+    [FoldoutGroup("Bag Throw")] public float prePoundGrav;
+    [FoldoutGroup("Bag Throw")] public MoveData prePoundMove;
+    [FoldoutGroup("Bag Throw")] public float poundSpeedDown;
+    [FoldoutGroup("Bag Throw")] public float poundSpeedFw;
+    [FoldoutGroup("Bag Throw")] public float downAcceleration;
+    [FoldoutGroup("Bag Throw")] public float forwardAcceleration;
+    [FoldoutGroup("Bag Throw")] public float poundLandDelay;
+    [FoldoutGroup("Bag Throw")] public float poundLandSpeed;
 
-    [Header("Camera Move")]
-    [Tooltip("Total pan time")] public float panTime = 0.2f;
-    [Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
+    [FoldoutGroup("Camera Move")][Tooltip("Total pan time")] public float panTime = 0.2f;
+    [FoldoutGroup("Camera Move")][Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
-    [Header("References")]
-    [HideInInspector] public PlayerStateDriver player;
-    public ActorPhysics rb;
-    public Animator anim;
-    [HideInInspector] public Transform cam;
-    public CinemachineOrbitalFollow orbitalFollow;
-    [HideInInspector] public UIBar healthBar;
-    public Material playerMat;
-    public ParticleManager particleManager;
-    public PlayerAnimEventHandler playerAnimEventHandler;
+    [FoldoutGroup("References")][HideInInspector] public PlayerStateDriver player;
+    [FoldoutGroup("References")]public ActorPhysics rb;
+    [FoldoutGroup("References")]public Animator anim;
+    [FoldoutGroup("References")][HideInInspector] public Transform cam;
+    [FoldoutGroup("References")]public CinemachineOrbitalFollow orbitalFollow;
+    [FoldoutGroup("References")][HideInInspector] public UIBar healthBar;
+    [FoldoutGroup("References")]public Material playerMat;
+    [FoldoutGroup("References")]public ParticleManager particleManager;
+    [FoldoutGroup("References")] public PlayerAnimEventHandler playerAnimEventHandler;
 
-    [Header("Prefabs")]
-    public GameObject playerUIPrefab;
-    public GameObject gameOverUIPrefab;
+    [FoldoutGroup("Prefabs")]public GameObject playerUIPrefab;
+    [FoldoutGroup("Prefabs")] public GameObject gameOverUIPrefab;
 
-    [Header("State colors")]
-    public Color baseColor;
-    public Color airColor;
-    public Color grabColor;
-    public Color slidingColor;
-    public Color stunnedColor;
+    [FoldoutGroup("Animation Variables")]public float animRunSpeed;
+    [FoldoutGroup("Animation Variables")] public float animIdleSpeed;
 
-    [Header("Animation variables")]
-    public float animRunSpeed;
-    public float animIdleSpeed;
+    [FoldoutGroup("Internal")][ReadOnly]public float currentHealth;
+    [FoldoutGroup("Internal")][ReadOnly]public float iFrameTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public bool iFramesOn;
+    [FoldoutGroup("Internal")][ReadOnly]public Vector3 moveDirection;
+    [FoldoutGroup("Internal")][ReadOnly]public Vector3 facing;
+    [FoldoutGroup("Internal")][ReadOnly]public float coyoteTimeCounter;
+    [FoldoutGroup("Internal")][ReadOnly]public float jumpBufferCounter;
+    [FoldoutGroup("Internal")][ReadOnly]public float rollBufferCounter;
+    [FoldoutGroup("Internal")][ReadOnly]public bool currentlyJumping;
+    [FoldoutGroup("Internal")][ReadOnly]public float baseGrav;
+    [FoldoutGroup("Internal")][ReadOnly]public float gravMultiplier;
+    [FoldoutGroup("Internal")][ReadOnly]public float jumpSpeed;
+    [FoldoutGroup("Internal")][ReadOnly]public float landingSpeed;
+    [FoldoutGroup("Internal")][ReadOnly]public Vector3 currentVelocity;
+    [FoldoutGroup("Internal")][ReadOnly]public bool useGravity = true;
+    [FoldoutGroup("Internal")][ReadOnly]public bool hasGrabbed;
+    [FoldoutGroup("Internal")][ReadOnly]public float grabTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float rollTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public bool desiredRoll;
+    [FoldoutGroup("Internal")][ReadOnly]public float stunTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float airStunTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float slideTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float regenTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float jumpTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float jumpApexTimer;
+    [FoldoutGroup("Internal")][ReadOnly]public float blockJump;
+    [FoldoutGroup("Internal")][ReadOnly]public float currentMoveMult;
+    [FoldoutGroup("Internal")][ReadOnly]public float currentJumpMoveMult = 1;
+    [FoldoutGroup("Internal")][ReadOnly]public MoveData cmd;
+    [FoldoutGroup("Internal")][ReadOnly]public JumpData currentJumpData;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isStunned;
 
-    [Header("Internal NO TOUCHY")]
-    public float currentHealth;
-    public float iFrameTimer;
-    public bool iFramesOn;
-    public Vector3 moveDirection;
-    public Vector3 facing;
-    public float coyoteTimeCounter;
-    public float jumpBufferCounter;
-    public float rollBufferCounter;
-    public bool currentlyJumping;
-    public float baseGrav;
-    public float gravMultiplier;
-    public float jumpSpeed;
-    public float landingSpeed;
-    public Vector3 currentVelocity;
-    public bool useGravity = true;
-    public bool hasGrabbed;
-    public float grabTimer;
-    public float rollTimer;
-    public bool desiredRoll;
-    public float stunTimer;
-    public float airStunTimer;
-    public float slideTimer;
-    public float regenTimer;
-    public float jumpTimer;
-    public float jumpApexTimer;
-    public float blockJump;
-    public float currentMoveMult;
-    public float currentJumpMoveMult = 1;
-    public MoveData cmd;
-    public JumpData currentJumpData;
-    public bool isStunned;
-
-    [Header("Input values")]
-    public Vector2 moveInputValue;
-    public bool desiredJump;
-    public bool pressingJump;
-    public bool desiredGrab;
-    public bool pressingGrab;
-    public bool pressingPound;
-    public bool pressingTrick;
+    [FoldoutGroup("Input values")][ReadOnly]public Vector2 moveInputValue;
+    [FoldoutGroup("Input values")][ReadOnly]public bool desiredJump;
+    [FoldoutGroup("Input values")][ReadOnly]public bool pressingJump;
+    [FoldoutGroup("Input values")][ReadOnly]public bool desiredGrab;
+    [FoldoutGroup("Input values")][ReadOnly]public bool pressingGrab;
+    [FoldoutGroup("Input values")][ReadOnly]public bool pressingPound;
+    [FoldoutGroup("Input values")][ReadOnly] public bool pressingTrick;
 
 }
 

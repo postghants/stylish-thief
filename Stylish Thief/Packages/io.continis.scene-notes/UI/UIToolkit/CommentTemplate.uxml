@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/io.continis.scene-notes/UI/UIToolkit/SceneNoteStyles.uss?fileID=7433441132597879392&amp;guid=ca3a36e5c37f44db5a4086e1fac8b3a5&amp;type=3#SceneNoteStyles" />
+    <ui:VisualElement class="CommentBox Comment">
+        <ui:VisualElement class="comments-author-row">
+            <ui:Label tabindex="-1" text="Ciro" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="comments-author-info"/>
+            <ui:Label tabindex="-1" text="said on" display-tooltip-when-elided="true" class="comments-author-info"/>
+            <ui:Label tabindex="-1" text="00:00:00" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Date" class="comments-author-info"/>
+            <ui:VisualElement style="flex-grow: 1;"/>
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="DeleteCommentBtn" class="DeleteBtn delete-comment-button"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="Separator"/>
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Contents" binding-path="contents" class="comments-content"/>
+        <ui:Image name="CommentScreenshot" scale-mode="ScaleToFit" class="screenshot-thumbnail" style="display: none;"/>
+    </ui:VisualElement>
+</ui:UXML>

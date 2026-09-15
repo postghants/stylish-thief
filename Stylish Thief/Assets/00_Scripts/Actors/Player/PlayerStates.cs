@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace HSM
 {
@@ -866,6 +867,7 @@ namespace HSM
         public readonly PlayerPrePound prePound;
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
+        public readonly IntPoleSpin poleSpin;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -880,6 +882,7 @@ namespace HSM
             prePound = new(m, this, ctx);
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
+            poleSpin = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -1197,6 +1200,7 @@ namespace HSM
             ctx.cmd = ctx.intUmbrellaMoveData;
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
+            ctx.player.SetTrigger("IntStartUmbrella");
         }
         protected override void OnUpdate(float deltaTime)
         {
@@ -1242,6 +1246,7 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = false;
             ctx.currentlyJumping = true;
+            //start glide animation
         }
         protected override void OnUpdate(float deltaTime)
         {
@@ -1259,12 +1264,74 @@ namespace HSM
             timer = 0;
             ctx.useGravity = true;
             ctx.disableJump = false;
+            ctx.player.SetTrigger("IntEndUmbrella");
         }
 
         protected override State GetTransition(float deltaTime)
         {
             if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump || ctx.rb.isGrounded)
             {
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+    public class IntPoleSpin : State
+    {
+        readonly PlayerContext ctx;
+        float timer = 0f;
+        Vector3 speed = Vector3.zero;
+        float speedMagnitude;
+
+        public IntPoleSpin(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.intPoleMoveData;
+            ctx.useGravity = false;
+            ctx.hasGrabbed = true;
+            ctx.currentlyJumping = false;
+            //start pole spin animation
+            speed = ctx.rb.velocity;
+            speed.y = 0;
+            speedMagnitude = speed.magnitude;
+            ctx.rb.velocity = Vector3.zero;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (speedMagnitude > ctx.groundMoveData.maxSpeed)
+            {
+                if (timer < ctx.speedPreservationTime)
+                {
+                    timer += deltaTime;
+                }
+                else
+                {
+                    speedMagnitude = ctx.groundMoveData.maxSpeed;
+                    Debug.Log("Speed lost!");
+                }
+            }
+            speed = ctx.moveDirection * speedMagnitude;
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            ctx.useGravity = true;
+            ctx.disableJump = false;
+            ctx.hasGrabbed = false;
+            ctx.rb.velocity = speed;
+            ctx.facing = ctx.moveDirection;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.desiredJump || ctx.desiredGrab)
+            {
+                ctx.desiredGrab = false;
                 return ctx.player.Root;
             }
             return null;

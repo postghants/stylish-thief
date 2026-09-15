@@ -346,6 +346,10 @@ public class PlayerContext
     [FoldoutGroup("Int Umbrella")] public AnimationCurve umbrellaFloatAcceleration;
     [FoldoutGroup("Int Umbrella")] public MoveData intUmbrellaMoveData;
 
+    [Header("Int Vertical Pole")]
+    [FoldoutGroup("Int Vertical Pole")] public float speedPreservationTime;
+    [FoldoutGroup("Int Vertical Pole")] public MoveData intPoleMoveData;
+
     [Header("Jump")]
     public JumpData baseJumpData;
     [FoldoutGroup("Jump")] public bool disableJump;

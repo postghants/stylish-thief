@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,11 +29,28 @@ public class ActorPhysics : MonoBehaviour
     public float currentGroundAngle;
     public float landingSpeed;
 
+    public MovingPlatformRef movingPlatformRef;
+    public Vector3 platformVelocity;
+
     public delegate void OnCollision(RaycastHit hit, Vector3 impactVelocity);
     public OnCollision onCollision;
 
     private Queue<RaycastHit> hits = new();
     private Queue<Vector3> impactVelocities = new();
+
+    public void Tick(float deltaTime, bool doGravityPass)
+    {
+        if (movingPlatformRef != null)
+        {
+            Debug.Log($"{velocity} + {movingPlatformRef.GetVelocity()}");
+            Move(deltaTime * (velocity + movingPlatformRef.GetVelocity()), doGravityPass);
+            movingPlatformRef.UpdatePosition(velocity);
+        }
+        else
+        {
+            Move(deltaTime * (velocity), doGravityPass);
+        }
+    }
 
     public void Move(Vector3 moveAmount, bool doGravityPass)
     {
@@ -177,7 +195,7 @@ public class ActorPhysics : MonoBehaviour
         return Vector3.ProjectOnPlane(leftover, normal).normalized * leftover.magnitude;
     }
 
-    public bool IsGrounded(Vector3 pos)
+    public bool IsGrounded(Vector3 pos, out Collider ground)
     {
         Bounds bounds = environmentCollider.bounds;
         bounds.Expand(-2 * skinWidth);
@@ -202,31 +220,51 @@ public class ActorPhysics : MonoBehaviour
                 }
                 else
                 {
+                    ground = hit.collider;
                     return true;
                 }
             }
         }
-        if(snapDown)
+        if (snapDown)
         {
-            if(validHits.Count == 0) { return false; }
-            RaycastHit best = validHits[0];
-            foreach(var hit in validHits)
+            if (validHits.Count == 0)
             {
-                if(best.distance > hit.distance)
+                ground = null;
+                return false;
+            }
+            RaycastHit best = validHits[0];
+            foreach (var hit in validHits)
+            {
+                if (best.distance > hit.distance)
                 {
                     best = hit;
                 }
             }
             transform.Translate(0, -(best.distance - skinWidth), 0);
+            ground = best.collider;
             return true;
         }
+        ground = null;
         return false;
+    }
+
+    public bool IsGrounded(Vector3 pos)
+    {
+        return IsGrounded(pos, out var ground);
+    }
+
+    public bool IsGrounded(out Collider ground)
+    {
+        Vector3 pos = environmentCollider.transform.position;
+        bool grounded = IsGrounded(pos, out var g);
+        ground = g;
+        return grounded;
     }
 
     public bool IsGrounded()
     {
         Vector3 pos = environmentCollider.transform.position;
-        return IsGrounded(pos);
+        return IsGrounded(pos, out var g);
     }
 
     public PatrolZone CurrentZone()
@@ -234,11 +272,45 @@ public class ActorPhysics : MonoBehaviour
         var colliders = Physics.OverlapBox(environmentCollider.transform.position, environmentCollider.bounds.extents);
         foreach (var collider in colliders)
         {
-            if(collider.TryGetComponent(out PatrolZone zone))
+            if (collider.TryGetComponent(out PatrolZone zone))
             {
-                return zone; 
+                return zone;
             }
         }
         return null;
+    }
+
+    public void SetMovingPlatformRef(Collider ground)
+    {
+        if (ground != null && ground.TryGetComponent(out MovingPlatform platform))
+        {
+            if (movingPlatformRef == null)
+            {
+                //make new ref
+                var mpr = new GameObject("MovingPlatformRef");
+                mpr.transform.parent = platform.transform;
+                mpr.transform.SetPositionAndRotation(transform.position, platform.transform.rotation);
+                movingPlatformRef = mpr.AddComponent<MovingPlatformRef>();
+                movingPlatformRef.movingPlatform = platform.gameObject;
+                movingPlatformRef.Init();
+            }
+            else if (movingPlatformRef.movingPlatform != platform.gameObject)
+            {
+                //replace ref and destroy old one
+                var mpr = new GameObject("MovingPlatformRef");
+                mpr.transform.parent = platform.transform;
+                mpr.transform.SetPositionAndRotation(transform.position, platform.transform.rotation);
+                Destroy(movingPlatformRef);
+                movingPlatformRef = mpr.AddComponent<MovingPlatformRef>();
+                movingPlatformRef.movingPlatform = platform.gameObject;
+                movingPlatformRef.Init();
+            }
+        }
+        else if(movingPlatformRef != null)
+        {
+            //apply platform velocity and destroy ref
+            velocity += movingPlatformRef.GetVelocity();
+            Destroy(movingPlatformRef.gameObject);
+        }
     }
 }

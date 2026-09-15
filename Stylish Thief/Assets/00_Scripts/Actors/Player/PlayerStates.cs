@@ -1146,7 +1146,7 @@ namespace HSM
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            ctx.rb.Move(deltaTime * ctx.rb.velocity, doGravityPass);
+            ctx.rb.Tick(deltaTime, doGravityPass);
         }
 
         protected override State GetInitialState() => airborne;

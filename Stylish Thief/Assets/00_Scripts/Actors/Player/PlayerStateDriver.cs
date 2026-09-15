@@ -51,9 +51,9 @@ public class PlayerStateDriver : Actor, IDamageable
 
     private void Update()
     {
-
         // Perform physics checks
-        ctx.rb.isGrounded = ctx.rb.IsGrounded();
+        ctx.rb.isGrounded = ctx.rb.IsGrounded(out var ground);
+        ctx.rb.SetMovingPlatformRef(ground);
         ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
         Jump.JumpBuffer(ctx);
         RollBuffer(ctx);

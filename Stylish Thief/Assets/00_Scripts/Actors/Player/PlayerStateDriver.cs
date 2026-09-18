@@ -350,6 +350,14 @@ public class PlayerContext
     [FoldoutGroup("Int Vertical Pole")] public float speedPreservationTime;
     [FoldoutGroup("Int Vertical Pole")] public MoveData intPoleMoveData;
 
+    [Header("Int Parry")]
+    [FoldoutGroup("Int Parry")] public float parryBoost;
+    [FoldoutGroup("Int Parry")] public float parryLength;
+    [FoldoutGroup("Int Parry")] public JumpData intParryJumpData;
+    [FoldoutGroup("Int Parry")] public MoveData intParryMoveData;
+    [FoldoutGroup("Int Parry")][Tooltip("INTERNAL DON'T TOUCH")] public float parryCount;
+    [FoldoutGroup("Int Parry")][Tooltip("INTERNAL DON'T TOUCH")] public Vector3 savedVelocity;
+
     [Header("Jump")]
     public JumpData baseJumpData;
     [FoldoutGroup("Jump")] public bool disableJump;

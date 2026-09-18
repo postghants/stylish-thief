@@ -868,6 +868,7 @@ namespace HSM
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
         public readonly IntPoleSpin poleSpin;
+        public readonly IntParry parry;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -883,6 +884,7 @@ namespace HSM
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
             poleSpin = new(m, this, ctx);
+            parry = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -1276,6 +1278,7 @@ namespace HSM
             return null;
         }
     }
+
     public class IntPoleSpin : State
     {
         readonly PlayerContext ctx;
@@ -1334,6 +1337,69 @@ namespace HSM
                 ctx.desiredGrab = false;
                 return ctx.player.Root;
             }
+            return null;
+        }
+    }
+
+    public class IntParry : State
+    {
+        readonly PlayerContext ctx;
+        float entrySpeed;
+        bool jumped;
+
+        public IntParry(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.parryCount++;
+            ctx.savedVelocity = ctx.rb.velocity;
+            ctx.savedVelocity.y = 0;
+            entrySpeed = ctx.savedVelocity.magnitude;
+            ctx.cmd = ctx.intParryMoveData;
+            ctx.currentJumpData = ctx.intParryJumpData;
+            ctx.hasGrabbed = false;
+            //ANIMAITON TRIGGER
+            ctx.disablePound = true;
+            ctx.disableRoll = true;
+            ctx.rb.isGrounded = true;
+            Jump.PerformJump(ctx);
+            ctx.rb.isGrounded = false;
+            jumped = true;
+            Vector3 velocity = ctx.rb.velocity;
+            velocity.x = 0;
+            velocity.z = 0;
+            ctx.rb.velocity = velocity;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            ctx.rb.IsGrounded();
+        }
+        protected override void OnExit()
+        {
+            ctx.disablePound = false;
+            ctx.disableRoll = false;
+            jumped = false;
+
+            if (ctx.rb.isGrounded)
+            {
+                Vector3 velocity = ctx.facing * (entrySpeed + (ctx.parryCount * ctx.parryBoost));
+                velocity.y = 0;
+                ctx.rb.velocity = velocity;
+                Debug.Log(ctx.rb.velocity);
+                ctx.parryCount = 0;
+            }
+            if (ctx.desiredGrab)
+            {
+                Debug.Log(ctx.rb.velocity);
+            }
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
             return null;
         }
     }

@@ -7,11 +7,21 @@ public class Card_Behavior : MonoBehaviour
     public float speed;
     public float fallspeed;
     public float acceleration;
+    public Vector3 direction;
+
+    private void Start()
+    {
+        direction = transform.forward;
+    }
 
     void Update()
     {
-        this.transform.Rotate(rotation * 1 * Time.deltaTime);
-        transform.position += new Vector3(0, (fallspeed + acceleration) * Time.deltaTime, speed * Time.deltaTime);
+        fallspeed += acceleration * Time.deltaTime;
+        this.transform.Rotate(rotation * Time.deltaTime);
+        Vector3 movement = speed * Time.deltaTime * direction;
+        movement.y += fallspeed * Time.deltaTime;
+
+        transform.position += movement;
     }
 
     private void OnCollisionEnter(Collision other)

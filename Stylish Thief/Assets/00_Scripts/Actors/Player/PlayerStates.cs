@@ -308,8 +308,9 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
-            //ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
+
+            ctx.OnGrab.Invoke(ctx);
 
             ctx.player.SetTrigger("StartGrab");
 
@@ -337,10 +338,7 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
-
-
-            ctx.particleManager.StartGroup("Grab");
-        }
+            }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
@@ -977,7 +975,7 @@ namespace HSM
                     return null;
                 }
 
-                ctx.particleManager.StartGroup("Land");
+                ctx.OnLand.Invoke(ctx);
 
                 if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
                 {

@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class Card_Behavior : MonoBehaviour
+public class Card_Platform : MonoBehaviour
 {
     public GameObject Dealer;
     public Vector3 rotation;
@@ -32,8 +33,17 @@ public class Card_Behavior : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            speed = 0;
+            acceleration = 0;
+            StartCoroutine(DestroyAfterSeconds(4));
         }
+    }
+
+    private IEnumerator DestroyAfterSeconds(float time)
+    {
+        yield return new WaitForSeconds(4f);
+        Destroy(this.gameObject);
+
     }
 
 }

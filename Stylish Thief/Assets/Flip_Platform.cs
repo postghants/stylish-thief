@@ -4,7 +4,7 @@ using System.Collections;
 public class Flip_Platform : MonoBehaviour
 {
     public GameObject FlipPlat;
-    public float FlipSpeed = 200f;
+    public float FlipSpeed = 1000f;
     public Vector3 rotate;
 
     void Start()
@@ -12,13 +12,19 @@ public class Flip_Platform : MonoBehaviour
         StartCoroutine(Flipping());
     }
 
+
     public IEnumerator Flipping()
     {
-        while (rotate != new Vector3(FlipSpeed * Time.deltaTime, 0f, 0f))
+
+        while (FlipPlat.transform.rotation.eulerAngles.x > -180 && FlipPlat.transform.rotation.eulerAngles.x < 180)
         {
-            transform.Rotate(new Vector3(FlipSpeed * Time.deltaTime, 0f, 0f));
+            FlipPlat.transform.Rotate(new Vector3(FlipSpeed * Time.deltaTime, 0f, 0f));
+            yield return null;
         }
+
+        FlipPlat.transform.rotation = Quaternion.identity;
         yield return new WaitForSeconds(3f);
+        
         StartCoroutine(Flipping());
     }
 }

@@ -164,7 +164,7 @@ namespace HSM
                 }
 
                 //tom toevoeging
-                ctx.playerAnimEventHandler.Bump();
+                ctx.playerAnimEventHandler?.Bump();
 
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;

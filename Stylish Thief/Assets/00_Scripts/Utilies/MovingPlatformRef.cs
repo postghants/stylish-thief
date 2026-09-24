@@ -8,15 +8,15 @@ public class MovingPlatformRef : MonoBehaviour
     private Vector3 previousPos;
     private Quaternion previousRot;
 
-    public GameObject movingPlatform;
+    public MovingPlatform movingPlatform;
 
     public void Init()
     {
         currentPos = transform.position;
-        currentRot = transform.rotation;
+        previousPos = transform.position - movingPlatform.GetVelocity(transform.position);
 
-        previousPos = transform.position;
-        previousRot = transform.rotation;
+        currentRot = transform.rotation;
+        previousRot = movingPlatform.GetPreviousRot();
     }
 
     public Vector3 GetVelocity()
@@ -26,13 +26,14 @@ public class MovingPlatformRef : MonoBehaviour
 
     public void UpdatePosition(Vector3 velocity)
     {
+        velocity.y = 0;
         previousPos = currentPos + velocity * Time.deltaTime;
         previousRot = currentRot;
 
-        velocity.y = 0;
         transform.position += velocity * Time.deltaTime;
         currentPos = transform.position;
         currentRot = transform.rotation;
+        previousPos.y = currentPos.y;
 
     }
 }

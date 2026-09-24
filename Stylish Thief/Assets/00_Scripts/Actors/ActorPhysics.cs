@@ -20,6 +20,9 @@ public class ActorPhysics : MonoBehaviour
     public float minStairWidth = 0.1f;
     public Vector3 gravity;
 
+    [Header("Moving Platform settings")]
+    public float movingPlatformCatchUpAccel = 5;
+
     [Header("References")]
     public Collider environmentCollider;
 
@@ -40,15 +43,19 @@ public class ActorPhysics : MonoBehaviour
 
     public void Tick(float deltaTime, bool doGravityPass)
     {
-        if (movingPlatformRef != null)
+        if (velocity.sqrMagnitude > 0)
         {
-            Debug.Log($"{velocity} + {movingPlatformRef.GetVelocity()}");
-            Move(deltaTime * (velocity + movingPlatformRef.GetVelocity()), doGravityPass);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        if (movingPlatformRef != null && isGrounded)
+        {
+            //Debug.Log($"{velocity} + {movingPlatformRef.GetVelocity()}");
+            Move(deltaTime * new Vector3(0, velocity.y, 0), doGravityPass);
             movingPlatformRef.UpdatePosition(velocity);
         }
         else
         {
-            Move(deltaTime * (velocity), doGravityPass);
+            Move(deltaTime * velocity, doGravityPass);
         }
     }
 
@@ -287,30 +294,39 @@ public class ActorPhysics : MonoBehaviour
             if (movingPlatformRef == null)
             {
                 //make new ref
-                var mpr = new GameObject("MovingPlatformRef");
-                mpr.transform.parent = platform.transform;
-                mpr.transform.SetPositionAndRotation(transform.position, platform.transform.rotation);
-                movingPlatformRef = mpr.AddComponent<MovingPlatformRef>();
-                movingPlatformRef.movingPlatform = platform.gameObject;
-                movingPlatformRef.Init();
+                CreateMovingPlatformRef(platform);
             }
-            else if (movingPlatformRef.movingPlatform != platform.gameObject)
+            else if (movingPlatformRef.movingPlatform.gameObject != platform.gameObject)
             {
                 //replace ref and destroy old one
-                var mpr = new GameObject("MovingPlatformRef");
-                mpr.transform.parent = platform.transform;
-                mpr.transform.SetPositionAndRotation(transform.position, platform.transform.rotation);
-                Destroy(movingPlatformRef);
-                movingPlatformRef = mpr.AddComponent<MovingPlatformRef>();
-                movingPlatformRef.movingPlatform = platform.gameObject;
-                movingPlatformRef.Init();
+                DestroyMovingPlatformRef();
+                CreateMovingPlatformRef(platform);
             }
         }
         else if(movingPlatformRef != null)
         {
             //apply platform velocity and destroy ref
-            velocity += movingPlatformRef.GetVelocity();
-            Destroy(movingPlatformRef.gameObject);
+            DestroyMovingPlatformRef();
         }
+    }
+
+    private void CreateMovingPlatformRef(MovingPlatform platform)
+    {
+        var mpr = new GameObject("MovingPlatformRef");
+        mpr.transform.parent = platform.transform;
+        mpr.transform.SetPositionAndRotation(transform.position, platform.transform.rotation);
+        movingPlatformRef = mpr.AddComponent<MovingPlatformRef>();
+        movingPlatformRef.movingPlatform = platform;
+        movingPlatformRef.Init();
+        
+        transform.parent = mpr.transform;
+        velocity -= movingPlatformRef.GetVelocity();
+    }
+
+    public void DestroyMovingPlatformRef()
+    {
+        transform.parent = null;
+        velocity += movingPlatformRef.GetVelocity();
+        Destroy(movingPlatformRef.gameObject);
     }
 }

@@ -9,11 +9,11 @@ public class ProjectileFwdMovement : MonoBehaviour
     void Start()
     {
         projectile = GetComponent<Projectile>();
-        projectile.velocity.x += speed * Time.deltaTime;
+        projectile.velocity.z += speed;
     }
 
     void Update()
     {
-        projectile.velocity.x += acceleration * Time.deltaTime;
+        projectile.velocity.z += acceleration * Time.deltaTime;
     }
 }

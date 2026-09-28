@@ -5433,6 +5433,46 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    parryBoost: 0
+    parryLength: 0
+    intParryJumpData:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
+    intParryMoveData:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    parryCount: 0
+    savedVelocity: {x: 0, y: 0, z: 0}
     baseJumpData:
       jumpImpulse: 15
       cuttable: 1
@@ -5649,8 +5689,22 @@ MonoBehaviour:
         m_RotationOrder: 4
     poundSpeedDown: 30
     poundSpeedFw: 30
-    downAcceleration: 60
-    forwardAcceleration: 60
+    poundAcceleration: 60
+    poundMove:
+      acceleration: 99
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 99
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     poundLandDelay: 1
     poundLandSpeed: 0
     panTime: 0.2

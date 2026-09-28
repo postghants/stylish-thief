@@ -435,8 +435,8 @@ public class PlayerContext
     [FoldoutGroup("Bag Throw")] public MoveData prePoundMove;
     [FoldoutGroup("Bag Throw")] public float poundSpeedDown;
     [FoldoutGroup("Bag Throw")] public float poundSpeedFw;
-    [FoldoutGroup("Bag Throw")] public float downAcceleration;
-    [FoldoutGroup("Bag Throw")] public float forwardAcceleration;
+    [FoldoutGroup("Bag Throw")] public float poundAcceleration;
+    [FoldoutGroup("Bag Throw")] public MoveData poundMove;
     [FoldoutGroup("Bag Throw")] public float poundLandDelay;
     [FoldoutGroup("Bag Throw")] public float poundLandSpeed;
 

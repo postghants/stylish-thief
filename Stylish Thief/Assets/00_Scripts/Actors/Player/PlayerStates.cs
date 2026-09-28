@@ -1055,11 +1055,13 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
+            ctx.cmd = ctx.poundMove;
             //ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
             //ctx.rb.velocity.y = -ctx.poundSpeedDown;
 
-            velocity = ctx.facing * ctx.poundSpeedFw;
+            velocity = ctx.facing.normalized * ctx.poundSpeedFw;
             velocity.y = -ctx.poundSpeedDown;
+            Debug.Log(velocity);
             ctx.rb.velocity = velocity;
         }
 
@@ -1081,9 +1083,9 @@ namespace HSM
         {
             if (ctx.poundAccelerate)
             {
-                velocity.x += ctx.facing.x * ctx.downAcceleration * deltaTime;
-                velocity.z += ctx.facing.z * ctx.downAcceleration * deltaTime;
-                velocity.y -= ctx.downAcceleration * deltaTime;
+                velocity.x += ctx.facing.normalized.x * ctx.poundAcceleration * deltaTime;
+                velocity.z += ctx.facing.normalized.z * ctx.poundAcceleration * deltaTime;
+                velocity.y += -ctx.poundAcceleration * deltaTime;
                 ctx.rb.velocity = velocity;
             }
             if (ctx.rb.velocity.y <= -ctx.baseJumpData.fastFallSpeed)

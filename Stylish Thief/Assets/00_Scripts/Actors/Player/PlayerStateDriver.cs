@@ -358,6 +358,11 @@ public class PlayerContext
     [FoldoutGroup("Int Parry")][Tooltip("INTERNAL DON'T TOUCH")] public float parryCount;
     [FoldoutGroup("Int Parry")][Tooltip("INTERNAL DON'T TOUCH")] public Vector3 savedVelocity;
 
+    [Header("Int Drowning")]
+    [FoldoutGroup("Int Drowning")] public float drowningTime;
+    [FoldoutGroup("Int Drowning")] public MoveData intDrowningMovement;
+    [FoldoutGroup("Int Drowning")] public JumpData intDrowningJumpData;
+
     [Header("Jump")]
     public JumpData baseJumpData;
     [FoldoutGroup("Jump")] public bool disableJump;

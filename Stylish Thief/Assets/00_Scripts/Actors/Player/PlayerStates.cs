@@ -869,6 +869,7 @@ namespace HSM
         public readonly IntUmbrellaGlide umbrellaGlide;
         public readonly IntPoleSpin poleSpin;
         public readonly IntParry parry;
+        public readonly IntDrowning drowning;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -885,6 +886,7 @@ namespace HSM
             umbrellaGlide = new(m, this, ctx);
             poleSpin = new(m, this, ctx);
             parry = new(m, this, ctx);
+            drowning = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -1402,6 +1404,47 @@ namespace HSM
 
         protected override State GetTransition(float deltaTime)
         {
+            return null;
+        }
+    }
+
+    public class IntDrowning : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public IntDrowning(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.intDrowningMovement;
+            ctx.currentJumpData = ctx.intDrowningJumpData;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.drowningTime)
+            {
+                timer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.drowningTime)
+            {
+                timer = 0;
+                //REPLACE BELOW WITH TELEPORTING TO THE LAST SAFE LOCATION
+                ctx.rb.transform.position = new Vector3(0, 10, 0);
+                return ctx.player.Root;
+            }
             return null;
         }
     }

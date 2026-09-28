@@ -5473,6 +5473,43 @@ MonoBehaviour:
         m_RotationOrder: 4
     parryCount: 0
     savedVelocity: {x: 0, y: 0, z: 0}
+    drowningTime: 3
+    intDrowningMovement:
+      acceleration: 1
+      deceleration: 50
+      minWalkSpeed: 0
+      maxSpeed: 8
+      maxSpeedDeceleration: 16
+      turnSpeedMult: 0
+      modelTurnDelay: 1
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    intDrowningJumpData:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 2
+      maxFallSpeed: 6
+      fastFallSpeed: 999
     baseJumpData:
       jumpImpulse: 15
       cuttable: 1

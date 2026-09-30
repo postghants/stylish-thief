@@ -24,13 +24,13 @@ public class MovingPlatformRef : MonoBehaviour
         return (currentPos - previousPos) / Time.deltaTime;
     }
 
-    public void UpdatePosition(Vector3 velocity)
+    public void UpdatePosition(Vector3 movement)
     {
-        velocity.y = 0;
-        previousPos = currentPos + velocity * Time.deltaTime;
+        movement.y = 0;
+        previousPos = currentPos + movement;
         previousRot = currentRot;
 
-        transform.position += velocity * Time.deltaTime;
+        transform.position += movement;
         currentPos = transform.position;
         currentRot = transform.rotation;
         previousPos.y = currentPos.y;

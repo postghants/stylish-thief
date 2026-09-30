@@ -35,7 +35,6 @@ public class MovingPlatform : MonoBehaviour
             velocity += currentPos - previousPos;
         }
 
-
         if(previousRot != currentRot)
         {
             Vector3 offset = childPoint - transform.position;

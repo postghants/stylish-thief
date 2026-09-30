@@ -55,7 +55,7 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Perform physics checks
         ctx.rb.isGrounded = ctx.rb.IsGrounded(out var ground);

@@ -285,7 +285,10 @@ public class PlayerStateDriver : Actor, IDamageable
         {
             ctx.iFramesOn = true;
             ctx.currentHealth -= damage;
-            CrimeSpreeManager.instance.ChaseTimer -= damage;
+            if (CrimeSpreeManager.instance != null)
+            {
+                CrimeSpreeManager.instance.ChaseTimer -= damage;
+            }
             if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
@@ -362,6 +365,13 @@ public class PlayerContext
     [FoldoutGroup("Int Drowning")] public float drowningTime;
     [FoldoutGroup("Int Drowning")] public MoveData intDrowningMovement;
     [FoldoutGroup("Int Drowning")] public JumpData intDrowningJumpData;
+
+    [Header("Int Bar Swing")]
+    [FoldoutGroup("Int Bar Swing")] public float barSpeedPreservationTime;
+    [FoldoutGroup("Int Bar Swing")] public float barMinimumSpeed;
+    [FoldoutGroup("Int Bar Swing")] public bool convertYSpeed;
+    [FoldoutGroup("Int Bar Swing")] public MoveData intBarSwingMovement;
+    [FoldoutGroup("Int Bar Swing")] public JumpData intBarSwingJumpData;
 
     [Header("Jump")]
     public JumpData baseJumpData;
@@ -449,59 +459,59 @@ public class PlayerContext
     [FoldoutGroup("Camera Move")][Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
     [FoldoutGroup("References")][HideInInspector] public PlayerStateDriver player;
-    [FoldoutGroup("References")]public ActorPhysics rb;
-    [FoldoutGroup("References")]public Animator anim;
+    [FoldoutGroup("References")] public ActorPhysics rb;
+    [FoldoutGroup("References")] public Animator anim;
     [FoldoutGroup("References")][HideInInspector] public Transform cam;
-    [FoldoutGroup("References")]public CinemachineOrbitalFollow orbitalFollow;
+    [FoldoutGroup("References")] public CinemachineOrbitalFollow orbitalFollow;
     [FoldoutGroup("References")][HideInInspector] public UIBar healthBar;
-    [FoldoutGroup("References")]public Material playerMat;
-    [FoldoutGroup("References")]public ParticleManager particleManager;
+    [FoldoutGroup("References")] public Material playerMat;
+    [FoldoutGroup("References")] public ParticleManager particleManager;
     [FoldoutGroup("References")] public PlayerAnimEventHandler playerAnimEventHandler;
 
-    [FoldoutGroup("Prefabs")]public GameObject playerUIPrefab;
+    [FoldoutGroup("Prefabs")] public GameObject playerUIPrefab;
     [FoldoutGroup("Prefabs")] public GameObject gameOverUIPrefab;
 
-    [FoldoutGroup("Animation Variables")]public float animRunSpeed;
+    [FoldoutGroup("Animation Variables")] public float animRunSpeed;
     [FoldoutGroup("Animation Variables")] public float animIdleSpeed;
 
-    [FoldoutGroup("Internal")][ReadOnly]public float currentHealth;
-    [FoldoutGroup("Internal")][ReadOnly]public float iFrameTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public bool iFramesOn;
-    [FoldoutGroup("Internal")][ReadOnly]public Vector3 moveDirection;
-    [FoldoutGroup("Internal")][ReadOnly]public Vector3 facing;
-    [FoldoutGroup("Internal")][ReadOnly]public float coyoteTimeCounter;
-    [FoldoutGroup("Internal")][ReadOnly]public float jumpBufferCounter;
-    [FoldoutGroup("Internal")][ReadOnly]public float rollBufferCounter;
-    [FoldoutGroup("Internal")][ReadOnly]public bool currentlyJumping;
-    [FoldoutGroup("Internal")][ReadOnly]public float baseGrav;
-    [FoldoutGroup("Internal")][ReadOnly]public float gravMultiplier;
-    [FoldoutGroup("Internal")][ReadOnly]public float jumpSpeed;
-    [FoldoutGroup("Internal")][ReadOnly]public float landingSpeed;
-    [FoldoutGroup("Internal")][ReadOnly]public Vector3 currentVelocity;
-    [FoldoutGroup("Internal")][ReadOnly]public bool useGravity = true;
-    [FoldoutGroup("Internal")][ReadOnly]public bool hasGrabbed;
-    [FoldoutGroup("Internal")][ReadOnly]public float grabTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float rollTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public bool desiredRoll;
-    [FoldoutGroup("Internal")][ReadOnly]public float stunTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float airStunTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float slideTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float regenTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float jumpTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float jumpApexTimer;
-    [FoldoutGroup("Internal")][ReadOnly]public float blockJump;
-    [FoldoutGroup("Internal")][ReadOnly]public float currentMoveMult;
-    [FoldoutGroup("Internal")][ReadOnly]public float currentJumpMoveMult = 1;
-    [FoldoutGroup("Internal")][ReadOnly]public MoveData cmd;
-    [FoldoutGroup("Internal")][ReadOnly]public JumpData currentJumpData;
+    [FoldoutGroup("Internal")][ReadOnly] public float currentHealth;
+    [FoldoutGroup("Internal")][ReadOnly] public float iFrameTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public bool iFramesOn;
+    [FoldoutGroup("Internal")][ReadOnly] public Vector3 moveDirection;
+    [FoldoutGroup("Internal")][ReadOnly] public Vector3 facing;
+    [FoldoutGroup("Internal")][ReadOnly] public float coyoteTimeCounter;
+    [FoldoutGroup("Internal")][ReadOnly] public float jumpBufferCounter;
+    [FoldoutGroup("Internal")][ReadOnly] public float rollBufferCounter;
+    [FoldoutGroup("Internal")][ReadOnly] public bool currentlyJumping;
+    [FoldoutGroup("Internal")][ReadOnly] public float baseGrav;
+    [FoldoutGroup("Internal")][ReadOnly] public float gravMultiplier;
+    [FoldoutGroup("Internal")][ReadOnly] public float jumpSpeed;
+    [FoldoutGroup("Internal")][ReadOnly] public float landingSpeed;
+    [FoldoutGroup("Internal")][ReadOnly] public Vector3 currentVelocity;
+    [FoldoutGroup("Internal")][ReadOnly] public bool useGravity = true;
+    [FoldoutGroup("Internal")][ReadOnly] public bool hasGrabbed;
+    [FoldoutGroup("Internal")][ReadOnly] public float grabTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float rollTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public bool desiredRoll;
+    [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float regenTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float jumpTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float jumpApexTimer;
+    [FoldoutGroup("Internal")][ReadOnly] public float blockJump;
+    [FoldoutGroup("Internal")][ReadOnly] public float currentMoveMult;
+    [FoldoutGroup("Internal")][ReadOnly] public float currentJumpMoveMult = 1;
+    [FoldoutGroup("Internal")][ReadOnly] public MoveData cmd;
+    [FoldoutGroup("Internal")][ReadOnly] public JumpData currentJumpData;
     [FoldoutGroup("Internal")][ReadOnly] public bool isStunned;
 
-    [FoldoutGroup("Input values")][ReadOnly]public Vector2 moveInputValue;
-    [FoldoutGroup("Input values")][ReadOnly]public bool desiredJump;
-    [FoldoutGroup("Input values")][ReadOnly]public bool pressingJump;
-    [FoldoutGroup("Input values")][ReadOnly]public bool desiredGrab;
-    [FoldoutGroup("Input values")][ReadOnly]public bool pressingGrab;
-    [FoldoutGroup("Input values")][ReadOnly]public bool pressingPound;
+    [FoldoutGroup("Input values")][ReadOnly] public Vector2 moveInputValue;
+    [FoldoutGroup("Input values")][ReadOnly] public bool desiredJump;
+    [FoldoutGroup("Input values")][ReadOnly] public bool pressingJump;
+    [FoldoutGroup("Input values")][ReadOnly] public bool desiredGrab;
+    [FoldoutGroup("Input values")][ReadOnly] public bool pressingGrab;
+    [FoldoutGroup("Input values")][ReadOnly] public bool pressingPound;
     [FoldoutGroup("Input values")][ReadOnly] public bool pressingTrick;
 
 }

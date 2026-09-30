@@ -934,7 +934,6 @@ GameObject:
   m_Component:
   - component: {fileID: 66025213}
   - component: {fileID: 66025214}
-  - component: {fileID: 66025215}
   m_Layer: 0
   m_Name: 1
   m_TagString: Untagged
@@ -978,18 +977,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &66025215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 66025212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41214f6139a6f54cae3c25cf8b99a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!43 &72348727
 Mesh:
   m_ObjectHideFlags: 0
@@ -7136,7 +7123,6 @@ GameObject:
   m_Component:
   - component: {fileID: 266023187}
   - component: {fileID: 266023188}
-  - component: {fileID: 266023189}
   m_Layer: 0
   m_Name: 6
   m_TagString: Untagged
@@ -7180,18 +7166,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &266023189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 266023186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41214f6139a6f54cae3c25cf8b99a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Number_Detector
 --- !u!43 &271196554
 Mesh:
   m_ObjectHideFlags: 0
@@ -25805,7 +25779,6 @@ GameObject:
   m_Component:
   - component: {fileID: 783166977}
   - component: {fileID: 783166978}
-  - component: {fileID: 783166979}
   m_Layer: 0
   m_Name: 3
   m_TagString: Untagged
@@ -25849,18 +25822,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &783166979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783166976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41214f6139a6f54cae3c25cf8b99a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Number_Detector
 --- !u!1 &807325097
 GameObject:
   m_ObjectHideFlags: 0
@@ -26374,11 +26335,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 1177291462}
-  ExplosionForce: 75
+  ExplosionForce: 50
   ExplosionRadius: 5
-  ForwardForce: 200
   UpwardsMod: 1
-  rotation: 50
   DiceNumber: 0
 --- !u!54 &856257338
 Rigidbody:
@@ -39783,7 +39742,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1128730385}
   - component: {fileID: 1128730386}
-  - component: {fileID: 1128730387}
   m_Layer: 0
   m_Name: 5
   m_TagString: Untagged
@@ -39827,18 +39785,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1128730387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128730384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41214f6139a6f54cae3c25cf8b99a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Number_Detector
 --- !u!1 &1135479750
 GameObject:
   m_ObjectHideFlags: 0
@@ -42514,85 +42460,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1563300675}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!1 &1206315456
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1206315459}
-  - component: {fileID: 1206315458}
-  - component: {fileID: 1206315457}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1206315457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206315456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
---- !u!114 &1206315458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206315456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &1206315459
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206315456}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1207467670
 Mesh:
   m_ObjectHideFlags: 0
@@ -51359,7 +51226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1455818580}
   - component: {fileID: 1455818581}
-  - component: {fileID: 1455818582}
   m_Layer: 0
   m_Name: 4
   m_TagString: Untagged
@@ -51403,18 +51269,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1455818582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455818579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41214f6139a6f54cae3c25cf8b99a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Number_Detector
 --- !u!43 &1475941887
 Mesh:
   m_ObjectHideFlags: 0
@@ -76877,7 +76731,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2016135527}
   - component: {fileID: 2016135528}
-  - component: {fileID: 2016135529}
   m_Layer: 0
   m_Name: 2
   m_TagString: Untagged
@@ -76921,18 +76774,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2016135529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016135526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41214f6139a6f54cae3c25cf8b99a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Number_Detector
 --- !u!43 &2024474718
 Mesh:
   m_ObjectHideFlags: 0
@@ -85654,4 +85495,3 @@ SceneRoots:
   - {fileID: 5008445390868024086}
   - {fileID: 4337650052310535121}
   - {fileID: 856257342}
-  - {fileID: 1206315459}

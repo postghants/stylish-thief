@@ -24,7 +24,7 @@ public class Card_Wall : MonoBehaviour
     {
         if (col.gameObject.layer == 6)
         {
-            if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing")
+            if (player.Root.Leaf().ToString() == "HSM.PlayerGrabbing" || player.Root.Leaf().ToString() == "HSM.PlayerPound")
             {
                 Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, ExplosionRadius);
 

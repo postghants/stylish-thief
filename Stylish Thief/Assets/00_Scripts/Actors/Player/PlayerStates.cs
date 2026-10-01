@@ -166,7 +166,7 @@ namespace HSM
                 }
 
                 //tom toevoeging
-                ctx.playerAnimEventHandler.Bump();
+                ctx.playerAnimEventHandler?.Bump();
 
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
@@ -310,8 +310,9 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
-            //ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
+
+            ctx.OnGrab.Invoke(ctx);
 
             ctx.player.SetTrigger("StartGrab");
 
@@ -339,10 +340,7 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
-
-
-            ctx.particleManager.StartGroup("Grab");
-        }
+            }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
@@ -987,7 +985,7 @@ namespace HSM
                     return null;
                 }
 
-                ctx.particleManager.StartGroup("Land");
+                ctx.OnLand.Invoke(ctx);
 
                 if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
                 {
@@ -1158,7 +1156,7 @@ namespace HSM
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            ctx.rb.Move(deltaTime * ctx.rb.velocity, doGravityPass);
+            ctx.rb.Tick(deltaTime, doGravityPass);
         }
 
         protected override State GetInitialState() => airborne;

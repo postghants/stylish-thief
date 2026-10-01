@@ -2,6 +2,7 @@ using Alchemy.Inspector;
 using HSM;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,7 @@ public class PlayerStateDriver : Actor, IDamageable
     public PlayerContext ctx;
     public PlayerRoot Root;
     public StateMachine Machine;
+    public PlayerJuice Juice;
 
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -27,6 +29,10 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.cam = Camera.main.transform;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.currentHealth = ctx.maxHealth;
+
+        // Initialize player juice
+        Juice = new();
+        Juice.Init(ctx);
 
         // Initialize state machine
         Root = new(null, ctx);
@@ -49,11 +55,11 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-
         // Perform physics checks
-        ctx.rb.isGrounded = ctx.rb.IsGrounded();
+        ctx.rb.isGrounded = ctx.rb.IsGrounded(out var ground);
+        ctx.rb.SetMovingPlatformRef(ground);
         ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
         Jump.JumpBuffer(ctx);
         RollBuffer(ctx);
@@ -514,6 +520,11 @@ public class PlayerContext
     [FoldoutGroup("Input values")][ReadOnly] public bool pressingPound;
     [FoldoutGroup("Input values")][ReadOnly] public bool pressingTrick;
 
+    //Events
+    public PlayerEvent OnJump;
+    public PlayerEvent OnGrab;
+    public PlayerEvent OnLand;
+
 }
 
 [Serializable]
@@ -558,3 +569,5 @@ public class JumpData
     public float maxFallSpeed;
     public float fastFallSpeed;
 }
+
+public delegate void PlayerEvent(PlayerContext ctx);

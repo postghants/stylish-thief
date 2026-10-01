@@ -1,5 +1,8 @@
+using Beans.Unity.Mathematics;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 //Physics behaviour specifically made for actors.
 public class ActorPhysics : MonoBehaviour
@@ -19,6 +22,10 @@ public class ActorPhysics : MonoBehaviour
     public float minStairWidth = 0.1f;
     public Vector3 gravity;
 
+    [Header("Moving Platform settings")]
+    public float movingWallDetectDist = 0.3f;
+    public float pushOut = 0.5f;
+
     [Header("References")]
     public Collider environmentCollider;
 
@@ -28,11 +35,30 @@ public class ActorPhysics : MonoBehaviour
     public float currentGroundAngle;
     public float landingSpeed;
 
+    public MovingPlatformRef movingPlatformRef;
+    public Vector3 platformVelocity;
+
     public delegate void OnCollision(RaycastHit hit, Vector3 impactVelocity);
     public OnCollision onCollision;
 
     private Queue<RaycastHit> hits = new();
     private Queue<Vector3> impactVelocities = new();
+
+    public void Tick(float deltaTime, bool doGravityPass)
+    {
+        if (velocity.sqrMagnitude > 0)
+        {
+            transform.rotation = Quaternion.identity;
+        }
+        if (movingPlatformRef != null && isGrounded)
+        {
+            MoveOnPlatform(velocity * deltaTime + movingPlatformRef.GetVelocity() * deltaTime, doGravityPass, deltaTime);
+        }
+        else
+        {
+            Move(deltaTime * velocity, doGravityPass);
+        }
+    }
 
     public void Move(Vector3 moveAmount, bool doGravityPass)
     {
@@ -60,6 +86,46 @@ public class ActorPhysics : MonoBehaviour
 
     }
 
+    public void MoveOnPlatform(Vector3 moveAmount, bool doGravityPass, float deltaTime)
+    {
+        moveAmount = CollideAndSlide(moveAmount, transform.position, 0, false, moveAmount);
+
+        // do a gravity pass if 
+        if (IsGrounded(environmentCollider.transform.position + moveAmount) && doGravityPass)
+        {
+            Vector3 gravityMoveAmount = gravity * Time.fixedDeltaTime;
+            if (isGrounded && velocity.y == 0 && currentGroundAngle > 0.1f)
+            {
+                gravityMoveAmount.y -= velocity.magnitude * groundCheckSpeedMult;
+            }
+            moveAmount += CollideAndSlide(gravityMoveAmount, transform.position + moveAmount, 0, true, gravity * Time.fixedDeltaTime);
+        }
+        transform.Translate(0, moveAmount.y, 0);
+        moveAmount -= movingPlatformRef.GetVelocity() * deltaTime;
+        movingPlatformRef.UpdatePosition(moveAmount);
+
+
+        Bounds bounds = environmentCollider.bounds;
+        bounds.Expand(-2 * skinWidth);
+        bounds.Expand(new Vector3(movingWallDetectDist, -skinWidth * 4, movingWallDetectDist));
+        Collider[] colliders = Physics.OverlapBox(transform.position, bounds.extents, Quaternion.identity, collisionLayerMask, QueryTriggerInteraction.Ignore);
+        foreach (Collider collider in colliders)
+        {
+            Physics.Raycast(transform.position, collider.transform.position - transform.position, out RaycastHit hit, 10, collisionLayerMask);
+            Vector3 move = hit.normal;
+            move.y = 0;
+            move = move.normalized * pushOut;
+            movingPlatformRef.UpdatePosition(move);
+        }
+
+        for (int i = hits.Count - 1; i >= 0; i--)
+        {
+            if (onCollision == null) { break; }
+            onCollision?.Invoke(hits.Dequeue(), impactVelocities.Dequeue());
+        }
+        hits.Clear();
+    }
+
     protected Vector3 CollideAndSlide(Vector3 vel, Vector3 pos, int depth, bool gravityPass, Vector3 velInit)
     {
         if (depth >= maxBounces)
@@ -73,6 +139,7 @@ public class ActorPhysics : MonoBehaviour
         float dist = vel.magnitude + skinWidth;
         if (Physics.BoxCast(pos, bounds.extents, vel.normalized, out RaycastHit hit, Quaternion.identity, dist, collisionLayerMask, QueryTriggerInteraction.Ignore))
         {
+            if(hit.collider.GetComponent<MovingPlatform>()) { return vel; }
             Vector3 snapToSurface = vel.normalized * (hit.distance - skinWidth);
             Vector3 leftover = vel - snapToSurface;
             float verticalAngle = Vector3.Angle(Vector3.up, hit.normal);
@@ -177,7 +244,7 @@ public class ActorPhysics : MonoBehaviour
         return Vector3.ProjectOnPlane(leftover, normal).normalized * leftover.magnitude;
     }
 
-    public bool IsGrounded(Vector3 pos)
+    public bool IsGrounded(Vector3 pos, out Collider ground)
     {
         Bounds bounds = environmentCollider.bounds;
         bounds.Expand(-2 * skinWidth);
@@ -202,31 +269,51 @@ public class ActorPhysics : MonoBehaviour
                 }
                 else
                 {
+                    ground = hit.collider;
                     return true;
                 }
             }
         }
-        if(snapDown)
+        if (snapDown)
         {
-            if(validHits.Count == 0) { return false; }
-            RaycastHit best = validHits[0];
-            foreach(var hit in validHits)
+            if (validHits.Count == 0)
             {
-                if(best.distance > hit.distance)
+                ground = null;
+                return false;
+            }
+            RaycastHit best = validHits[0];
+            foreach (var hit in validHits)
+            {
+                if (best.distance > hit.distance)
                 {
                     best = hit;
                 }
             }
             transform.Translate(0, -(best.distance - skinWidth), 0);
+            ground = best.collider;
             return true;
         }
+        ground = null;
         return false;
+    }
+
+    public bool IsGrounded(Vector3 pos)
+    {
+        return IsGrounded(pos, out var ground);
+    }
+
+    public bool IsGrounded(out Collider ground)
+    {
+        Vector3 pos = environmentCollider.transform.position;
+        bool grounded = IsGrounded(pos, out var g);
+        ground = g;
+        return grounded;
     }
 
     public bool IsGrounded()
     {
         Vector3 pos = environmentCollider.transform.position;
-        return IsGrounded(pos);
+        return IsGrounded(pos, out var g);
     }
 
     public PatrolZone CurrentZone()
@@ -234,11 +321,102 @@ public class ActorPhysics : MonoBehaviour
         var colliders = Physics.OverlapBox(environmentCollider.transform.position, environmentCollider.bounds.extents);
         foreach (var collider in colliders)
         {
-            if(collider.TryGetComponent(out PatrolZone zone))
+            if (collider.TryGetComponent(out PatrolZone zone))
             {
-                return zone; 
+                return zone;
             }
         }
         return null;
+    }
+
+    public void SetMovingPlatformRef(Collider ground)
+    {
+        //check for moving walls
+        //Collider[] colliders = new Collider[16];
+        //Bounds bounds = environmentCollider.bounds;
+        //bounds.Expand(-2 * skinWidth);
+        //bounds.Expand(new Vector3(movingWallDetectDist, -skinWidth * 4, movingWallDetectDist));
+        //int wallCount = Physics.OverlapBoxNonAlloc(transform.position, bounds.extents, colliders, Quaternion.identity, collisionLayerMask, QueryTriggerInteraction.Ignore);
+        //if (wallCount > 0)
+        //{
+        //    for (int i = 0; i < wallCount; i++)
+        //    {
+        //        if (colliders[i].gameObject.TryGetComponent(out MovingPlatform wall))
+        //        {
+        //            Debug.Log("Yeah");
+        //            if (movingPlatformRef == null)
+        //            {
+        //                //make new ref
+        //                CreateMovingPlatformRef(wall, Vector3.zero);
+        //            }
+        //            else if (movingPlatformRef.movingPlatform.gameObject != wall.gameObject)
+        //            {
+        //                //replace ref and destroy old one
+        //                Vector3 previousVel = movingPlatformRef.GetVelocity();
+        //                DestroyMovingPlatformRef(false);
+        //                CreateMovingPlatformRef(wall, previousVel);
+        //            }
+
+        //            return;
+        //        }
+        //    }
+        //}
+
+        if (ground != null && ground.TryGetComponent(out MovingPlatform platform))
+        {
+            if(velocity.y > platform.GetVelocity(transform.position).y) { return; }
+            if (movingPlatformRef == null)
+            {
+                //make new ref
+                CreateMovingPlatformRef(platform, Vector3.zero);
+            }
+            else if (movingPlatformRef.movingPlatform.gameObject != platform.gameObject)
+            {
+                //replace ref and destroy old one
+                Vector3 previousVel = movingPlatformRef.GetVelocity();
+                DestroyMovingPlatformRef(false);
+                CreateMovingPlatformRef(platform, previousVel);
+            }
+        }
+        else if (movingPlatformRef != null)
+        {
+            //apply platform velocity and destroy ref
+            DestroyMovingPlatformRef(true);
+        }
+    }
+
+    private void CreateMovingPlatformRef(MovingPlatform platform, Vector3 previousPlatVelocity)
+    {
+        var mpr = new GameObject("MovingPlatformRef");
+        mpr.transform.parent = platform.transform;
+        mpr.transform.SetPositionAndRotation(transform.position, platform.transform.rotation);
+        movingPlatformRef = mpr.AddComponent<MovingPlatformRef>();
+        movingPlatformRef.movingPlatform = platform;
+        movingPlatformRef.Init();
+
+        transform.parent = mpr.transform;
+        velocity -= movingPlatformRef.GetVelocity() - previousPlatVelocity;
+    }
+
+    public void DestroyMovingPlatformRef(bool applyVel)
+    {
+        transform.parent = null;
+        if (applyVel)
+        {
+            velocity += movingPlatformRef.GetVelocity();
+        }
+        Destroy(movingPlatformRef.gameObject);
+    }
+
+    public Vector3 GetAbsoluteVel()
+    {
+        if (movingPlatformRef == null)
+        {
+            return velocity;
+        }
+        else
+        {
+            return velocity + movingPlatformRef.GetVelocity();
+        }
     }
 }

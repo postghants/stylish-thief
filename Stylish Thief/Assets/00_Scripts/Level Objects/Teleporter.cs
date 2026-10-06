@@ -8,8 +8,6 @@ public class Teleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("banana");
-
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();

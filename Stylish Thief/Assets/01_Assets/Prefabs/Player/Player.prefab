@@ -5764,7 +5764,7 @@ MonoBehaviour:
     additive: 0
     poundAccelerate: 1
     prePoundUpBoost: 2
-    prePoundDuration: 0.4
+    prePoundDuration: 0.6
     prePoundGrav: 0
     prePoundMove:
       acceleration: 0
@@ -5781,8 +5781,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    poundSpeedDown: 30
-    poundSpeedFw: 30
+    poundSpeedDown: 15
+    poundSpeedFw: 15
     poundAcceleration: 60
     poundMove:
       acceleration: 99
@@ -5915,11 +5915,15 @@ MonoBehaviour:
   maxStairHeight: 0.15
   minStairWidth: 0.1
   gravity: {x: 0, y: -1, z: 0}
+  movingWallDetectDist: 0.3
+  pushOut: 0.25
   environmentCollider: {fileID: 7895177472267553196}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
   landingSpeed: 0
+  movingPlatformRef: {fileID: 0}
+  platformVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &5133514560630397958
 GameObject:
   m_ObjectHideFlags: 0

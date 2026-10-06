@@ -863,7 +863,6 @@ namespace HSM
         public readonly PlayerSlidingAirborne slidingAirborne;
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
-        public readonly PlayerPrePound prePound;
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
         public readonly IntPoleSpin poleSpin;
@@ -881,7 +880,6 @@ namespace HSM
             slidingAirborne = new(m, this, ctx);
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
-            prePound = new(m, this, ctx);
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
             poleSpin = new(m, this, ctx);
@@ -960,9 +958,9 @@ namespace HSM
                 {
                     return grabbing;
                 }
-                if (ctx.pressingPound && !ctx.disablePound && Leaf() != prePound)
+                if (ctx.pressingPound && !ctx.disablePound)
                 {
-                    return prePound;
+                    return ((PlayerRoot)Parent).fixedSpeed.prePound;
                 }
 
                 if (ctx.grabTimer > 0 || Leaf() == vaulting)
@@ -1003,6 +1001,7 @@ namespace HSM
     {
         private PlayerContext ctx;
         private float timer;
+        private Vector3 startSpeed;
         public PlayerPrePound(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -1012,6 +1011,7 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            startSpeed = ctx.rb.velocity;
             if (ctx.additive)
             {
                 ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
@@ -1035,6 +1035,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
+            ctx.rb.velocity = startSpeed * (ctx.prePoundDuration - timer);
 
             if (timer >= ctx.prePoundDuration)
             {
@@ -1101,12 +1102,14 @@ namespace HSM
     public class PlayerFixedSpeed : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerPrePound prePound;
         public readonly PlayerPound pound;
         public PlayerFixedSpeed(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
 
+            prePound = new(m, this, ctx);
             pound = new(m, this, ctx);
         }
     }

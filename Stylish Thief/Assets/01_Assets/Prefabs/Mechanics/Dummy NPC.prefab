@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 360717603340178636}
   - component: {fileID: 7177193137945416078}
   - component: {fileID: 7360789152671140480}
+  - component: {fileID: 1739298022364092268}
   m_Layer: 0
   m_Name: Dummy NPC
   m_TagString: Untagged
@@ -127,5 +128,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0130fa730b6c3a4a9420feeeb452aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  crime: Annoying Someone
+  givenScore: 300
   parryHeight: 1
   parryDelay: 5
+--- !u!114 &1739298022364092268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555329910920475028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls: []

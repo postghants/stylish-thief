@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9133180908868324936}
   - component: {fileID: 8275768746421091727}
   - component: {fileID: 8581039711094468867}
+  - component: {fileID: 1700339920178568970}
   m_Layer: 0
   m_Name: Train car (3)
   m_TagString: Untagged
@@ -136,6 +137,18 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0.03
+--- !u!114 &1700339920178568970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651226075023996232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c7005502b39d747a48db4b3ad356a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &1863703625163798420
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +162,7 @@ GameObject:
   - component: {fileID: 6787812877805005726}
   - component: {fileID: 6925759781301123907}
   - component: {fileID: 7739731666542556505}
+  - component: {fileID: 2271443721763689338}
   m_Layer: 0
   m_Name: Train car (2)
   m_TagString: Untagged
@@ -272,6 +286,18 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0.02
+--- !u!114 &2271443721763689338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863703625163798420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c7005502b39d747a48db4b3ad356a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &2121936291332359614
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,6 +311,7 @@ GameObject:
   - component: {fileID: 1449935867652801411}
   - component: {fileID: 4510684436774408518}
   - component: {fileID: 6198960923749299269}
+  - component: {fileID: 4201006927174476410}
   m_Layer: 0
   m_Name: Train car (4)
   m_TagString: Untagged
@@ -408,6 +435,18 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0.04
+--- !u!114 &4201006927174476410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121936291332359614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c7005502b39d747a48db4b3ad356a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &2667679464183250806
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +921,7 @@ GameObject:
   - component: {fileID: 2402339502312327918}
   - component: {fileID: 8590563417435170469}
   - component: {fileID: 4893444172576985957}
+  - component: {fileID: 7987814261741442826}
   m_Layer: 0
   m_Name: Train car
   m_TagString: Untagged
@@ -1005,6 +1045,18 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0
+--- !u!114 &7987814261741442826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606850459845558258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c7005502b39d747a48db4b3ad356a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &7847255531350809626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +1070,7 @@ GameObject:
   - component: {fileID: 5338781490881626131}
   - component: {fileID: 6280559179149938930}
   - component: {fileID: 4873655042171035023}
+  - component: {fileID: 6845886143334437740}
   m_Layer: 0
   m_Name: Train car (1)
   m_TagString: Untagged
@@ -1141,6 +1194,18 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0.01
+--- !u!114 &6845886143334437740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847255531350809626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c7005502b39d747a48db4b3ad356a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &7878541680428457032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,6 +1219,7 @@ GameObject:
   - component: {fileID: 5322688820423735318}
   - component: {fileID: 4081054837075370069}
   - component: {fileID: 2762389615795731052}
+  - component: {fileID: 605824965982657552}
   m_Layer: 0
   m_Name: Train car (5)
   m_TagString: Untagged
@@ -1277,3 +1343,15 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0.05
+--- !u!114 &605824965982657552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878541680428457032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c7005502b39d747a48db4b3ad356a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform

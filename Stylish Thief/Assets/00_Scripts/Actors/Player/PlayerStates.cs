@@ -1264,7 +1264,6 @@ namespace HSM
             Vector3 floatSpeed = ctx.rb.velocity;
             floatSpeed.y = ctx.umbrellaFloatAcceleration.Evaluate(timer / ctx.umbrellaFloatAccelDuration) * -ctx.umbrellaFloatSpeed;
             ctx.rb.velocity = floatSpeed;
-            Debug.Log(floatSpeed.y);
         }
         protected override void OnExit()
         {

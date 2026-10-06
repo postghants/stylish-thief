@@ -175,7 +175,21 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8689472331043758888}
+    - targetCorrespondingSourceObject: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 554330005634219290}
   m_SourcePrefab: {fileID: 100100000, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+--- !u!114 &3644918721904514779 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6070613700938812023, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
+  m_PrefabInstance: {fileID: 7397862481774369964}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751430408462996581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a260224bcde8d6e42b4cb84a934093af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &6751430408462996581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4259167836769667273, guid: 2bedbca5359dbc5409ab314c44fcb483, type: 3}
@@ -197,3 +211,30 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &554330005634219290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751430408462996581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3644918721904514779}
+        m_TargetAssemblyTypeName: KickableObject, Assembly-CSharp
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

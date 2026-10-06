@@ -295,6 +295,10 @@ public class PlayerStateDriver : Actor, IDamageable
             {
                 CrimeSpreeManager.instance.ChaseTimer -= damage;
             }
+            if (NeoCrimeSpreeManager.instance != null)
+            {
+                NeoCrimeSpreeManager.instance.currentSpreeTime -= damage;
+            }
             if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);

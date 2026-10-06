@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5852124318467811832}
   - component: {fileID: 3252076615181706507}
   - component: {fileID: 6949748397928071047}
+  - component: {fileID: 3203493095400464284}
   m_Layer: 0
   m_Name: Umbrella
   m_TagString: Untagged
@@ -129,6 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1618ea9bf26b1741a7e2a4b7394acf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  crime: Umbrella Theft
+  givenScore: 500
 --- !u!54 &6949748397928071047
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -156,6 +159,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 94
   m_CollisionDetection: 0
+--- !u!114 &3203493095400464284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95541949011603500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5603286280073547467
 PrefabInstance:
   m_ObjectHideFlags: 0

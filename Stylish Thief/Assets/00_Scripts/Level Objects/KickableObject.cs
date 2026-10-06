@@ -8,7 +8,7 @@ public class KickableObject : MonoBehaviour
     BoxCollider coll;
     PlayerStateDriver player;
     bool kicked;
-    [Tooltip("How many points does the player get from this?")] public float givenScore;
+    [Tooltip("How many points does the player get from this?")] public int givenScore;
     [Tooltip("What is the name of this crime?")] public string crime;
     [Tooltip("How hard is this object kicked forward?")] public float force;
     [Tooltip("How hard is this object kicked up?")] public float upForce;
@@ -17,6 +17,12 @@ public class KickableObject : MonoBehaviour
     [Tooltip("Where should this object's center move when kicked? This determines the middle of its rotation. Recommended to leave at 0, 0, 0 in most cases.")] public Vector3 centerAfterHit;
     [Tooltip("What should this object's scale change to when kicked? Recommended to leave at 0, 0, 0 in most cases.")] public Vector3 sizeAfterHit;
     [Tooltip("Where should this object's visual 3D model move when pushed? Recommended to leave at 0, 0, 0 in most cases.")] public Vector3 visualPositionAfterHit;
+
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+    private Vector3 initialCollCenter;
+    private Vector3 initialCollSize;
+    private Crime crimeScript;
 
     //tom fmod EventReference
     [SerializeField] EventReference kickCanEvent;
@@ -27,6 +33,12 @@ public class KickableObject : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<BoxCollider>();
+
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+        initialCollCenter = coll.center;
+        initialCollSize = coll.size;
+        crimeScript = GetComponent<Crime>();
     }
 
     // Update is called once per frame
@@ -56,10 +68,25 @@ public class KickableObject : MonoBehaviour
 
             if (!kicked)
             {
-                CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
+                //CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
+                crimeScript.DoMiniCrime(crime, givenScore);
             }
             kicked = true;
-            Destroy(gameObject, destroyTime);
+            //Destroy(gameObject, destroyTime);
         }
+    }
+    public void Reset()
+    {
+        Debug.Log("Resetting");
+        transform.position = startPosition;
+        transform.rotation = startRotation;
+        coll.center = initialCollCenter;
+        initialCollSize = coll.size;
+        coll.isTrigger = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        gameObject.layer = 0;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        kicked = false;
     }
 }

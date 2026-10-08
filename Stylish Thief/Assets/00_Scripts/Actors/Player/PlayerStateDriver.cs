@@ -98,11 +98,11 @@ public class PlayerStateDriver : Actor, IDamageable
 
     public void TakeKnockback(Vector3 knockback)
     {
-        //if (!ctx.iFramesOn)
+        if (!ctx.iFramesOn)
         {
-            ctx.rb.velocity += knockback;
+            ctx.rb.velocity = knockback;
             Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
-            ctx.iFramesOn = true;
+            //ctx.iFramesOn = true;
         }
     }
 
@@ -278,19 +278,21 @@ public class PlayerStateDriver : Actor, IDamageable
 
     private void Die()
     {
-        Instantiate(ctx.gameOverUIPrefab);
+        Debug.Log("You're using the old Die function. Please swap to 'NeoCrimeSpreeManager.instance.LoseSpree();'");
+        //Instantiate(ctx.gameOverUIPrefab);
 
-        Cursor.lockState = CursorLockMode.None;
-        enabled = false;
+        //Cursor.lockState = CursorLockMode.None;
+        //enabled = false;
     }
 
     //IDamageable
     public void TakeDamage(float damage)
     {
+        Debug.Log("You're using the old TakeDamage function. Please swap to 'NeoCrimeSpreeManager.instance.DealDamage(damage);'. There is no need to check for iFramesOn.");
         //if (!ctx.iFramesOn)
         {
             ctx.iFramesOn = true;
-            ctx.currentHealth -= damage;
+            //ctx.currentHealth -= damage;
             if (CrimeSpreeManager.instance != null)
             {
                 CrimeSpreeManager.instance.ChaseTimer -= damage;
@@ -299,11 +301,11 @@ public class PlayerStateDriver : Actor, IDamageable
             {
                 NeoCrimeSpreeManager.instance.currentSpreeTime -= damage;
             }
-            if (ctx.healthBar != null)
+            /*if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
             }
-            ctx.regenTimer = 0;
+            ctx.regenTimer = 0;*/
             if (ctx.currentHealth <= 0)
             {
                 ctx.iFramesOn = false;

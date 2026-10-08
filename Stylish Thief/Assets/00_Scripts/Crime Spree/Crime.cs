@@ -30,15 +30,16 @@ public class Crime : MonoBehaviour
     }
     public void DoMiniCrime(string crimeName, int crimeValue)
     {
-        Debug.Log(crimeName); //To be turned into a UI response and to be logged
+        manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
         manager.AddPoints(crimeValue);
         manager.currentSpreeTime += manager.crimeData.miniGainedTime / 100 * manager.maxSpreeTime;
         resetTimer = manager.crimeData.miniResetTime; count = true;
+        manager.ResetComboTimer(manager.crimeData.miniComboAddition);
         //Mini UI response
     }
     public void DoMinorCrime(string crimeName, int crimeValue)
     {
-        Debug.Log(crimeName); //To be turned into a UI response and to be logged
+        manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
         manager.AddPoints(crimeValue);
         manager.currentSpreeTime += manager.crimeData.minorGainedTime / 100 * manager.maxSpreeTime;
         resetTimer = manager.crimeData.minorResetTime; count = true;
@@ -47,28 +48,31 @@ public class Crime : MonoBehaviour
     }
     public void DoMiddleCrime(string crimeName, int crimeValue)
     {
-        Debug.Log(crimeName); //To be turned into a UI response and to be logged
+        manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
         manager.AddPoints(crimeValue);
         manager.currentSpreeTime += manager.crimeData.middleGainedTime / 100 * manager.maxSpreeTime;
         resetTimer = manager.crimeData.middleResetTime; count = true;
         manager.ResetComboTimer(manager.crimeData.middleComboAddition);
+        if (!manager.activeSpree) { manager.activeSpree = true; }
         //Middle UI response
     }
     public void DoMajorCrime(string crimeName, int crimeValue)
     {
-        Debug.Log(crimeName); //To be turned into a UI response and to be logged
+        manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
         manager.AddPoints(crimeValue);
         manager.currentSpreeTime += manager.crimeData.majorGainedTime / 100 * manager.maxSpreeTime;
         resetTimer = manager.crimeData.majorResetTime; count = true;
         manager.ResetComboTimer(manager.crimeData.majorComboAddition);
+        if (!manager.activeSpree) { manager.activeSpree = true; }
         //Major UI response
     }
     public void DoMegaCrime(string crimeName, int crimeValue)
     {
-        Debug.Log(crimeName); //To be turned into a UI response and to be logged
+        manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
         manager.AddPoints(crimeValue);
         manager.currentSpreeTime = manager.maxSpreeTime;
-        manager.ResetComboTimer(manager.crimeData.megaComboAddition); 
+        manager.ResetComboTimer(manager.crimeData.megaComboAddition);
+        if (!manager.activeSpree) { manager.activeSpree = true; }
         //Comically bombastic UI response!
     }
 }

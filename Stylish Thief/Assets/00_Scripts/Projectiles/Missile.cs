@@ -20,7 +20,7 @@ public class Missile : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = CrimeSpreeManager.instance.playerInstance;
+        player = NeoCrimeSpreeManager.instance.player;
     }
 
     // Update is called once per frame

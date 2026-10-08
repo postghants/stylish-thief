@@ -27,6 +27,7 @@ public class Dice_Roll : MonoBehaviour
         if (DiceNumber != 0 && rb.angularVelocity == Vector3.zero)
         {
             Debug.Log(DiceNumber);
+            GetComponentInParent<Dice_Door_Manager>().RolledNumber = DiceNumber;
         }
 
     }

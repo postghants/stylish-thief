@@ -1,14 +1,5 @@
-using FMODUnity;
-using JetBrains.Annotations;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using Random = UnityEngine.Random;
 
 public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
 {

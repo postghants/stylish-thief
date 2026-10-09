@@ -75,4 +75,30 @@ public class Crime : MonoBehaviour
         if (!manager.activeSpree) { manager.activeSpree = true; }
         //Comically bombastic UI response!
     }
+    /// <summary>
+    /// Tier 1 through 5 are mini, minor, middle, major, and mega respectively. Update this tooltip if other tiers are made
+    /// </summary>
+    public void DoCrimeOfTier(int tier, string crimeName, int crimeValue)
+    {
+        if (tier == 1)
+        {
+            DoMiniCrime(crimeName, crimeValue);
+        }
+        else if (tier == 2)
+        {
+             DoMinorCrime(crimeName, crimeValue);
+        }
+        else if (tier == 3)
+        {
+            DoMiddleCrime(crimeName, crimeValue);
+        }
+        else if (tier == 4)
+        {
+            DoMajorCrime(crimeName, crimeValue);
+        }
+        else if (tier == 5)
+        {
+            DoMegaCrime (crimeName, crimeValue);
+        }
+    }
 }

@@ -30,8 +30,17 @@ public class CrimeSpreeHUD : MonoBehaviour
             points.text = manager.points.ToString();
             gainedPoints.text = "+" + manager.lastGainedPointsRaw.ToString();
             crimeName.text = manager.lastCrimeCommitted;
-            float number = manager.currentMultiplier;
-            multiplier.text = "<size=40%>x<size=100%>" + number.ToString();
+            
+            float decimalNumber = manager.currentMultiplier - Mathf.CeilToInt(manager.currentMultiplier);
+            float number = manager.currentMultiplier - decimalNumber;
+            if (manager.combo < 100)
+            {
+                multiplier.text = "<size=40%>x1.<size=100%>" + manager.combo.ToString();
+            }
+            else
+            {
+                multiplier.text = "<size=40%>x<size=100%>" + manager.currentMultiplier.ToString();
+            }
         }
     }
 }

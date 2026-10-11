@@ -5801,6 +5801,27 @@ MonoBehaviour:
         m_RotationOrder: 4
     poundLandDelay: 1
     poundLandSpeed: 0
+    poundWallBounce:
+      jumpImpulse: 5
+      cuttable: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 1
+      setSpeedSpeed: -4
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -5812,6 +5833,7 @@ MonoBehaviour:
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
     particleManager: {fileID: 7529127243591585783}
     playerAnimEventHandler: {fileID: 2577875006501607645}
+    bagHitbox: {fileID: 5277981362991357100}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
     animRunSpeed: 7
@@ -10876,6 +10898,81 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!1 &5865759077702098534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880291401443635522}
+  - component: {fileID: 5277981362991357100}
+  - component: {fileID: 4094598064338331117}
+  m_Layer: 6
+  m_Name: BagThrowHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &880291401443635522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865759077702098534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.00000026822093, y: -0.70090944, z: 0.00000029802325, w: 0.71325034}
+  m_LocalPosition: {x: -0.045, y: 0.109, z: 1.1183333}
+  m_LocalScale: {x: 0.8333332, y: 0.8333333, z: 0.8333332}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8092761614624209396}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
+--- !u!65 &5277981362991357100
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865759077702098534}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4094598064338331117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865759077702098534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60db274893e65ba45b1cc13549d123c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventTrigger
+  mask:
+    serializedVersion: 2
+    m_Bits: 2097153
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6920411876884935970
 GameObject:
   m_ObjectHideFlags: 0
@@ -16234,6 +16331,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3178139177689143027}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 880291401443635522}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1

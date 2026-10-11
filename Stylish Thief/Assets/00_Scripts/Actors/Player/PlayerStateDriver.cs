@@ -81,7 +81,7 @@ public class PlayerStateDriver : Actor, IDamageable
         }
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
-        Debug.Log(Root.Leaf());
+        //Debug.Log(Root.Leaf());
         if (ctx.iFramesOn && Root.Leaf().ToString() != "HSM.PlayerStunnedAirborne" && Root.Leaf().ToString() != "HSM.PlayerStunned")
         {
             if (ctx.iFrameTimer < ctx.invincibilityLength)
@@ -460,7 +460,8 @@ public class PlayerContext
     [FoldoutGroup("Bag Throw")] public MoveData poundMove;
     [FoldoutGroup("Bag Throw")] public float poundLandDelay;
     [FoldoutGroup("Bag Throw")] public float poundLandSpeed;
-
+    [FoldoutGroup("Bag Throw")] public JumpData poundWallBounce;
+    
     [FoldoutGroup("Camera Move")][Tooltip("Total pan time")] public float panTime = 0.2f;
     [FoldoutGroup("Camera Move")][Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
@@ -473,6 +474,7 @@ public class PlayerContext
     [FoldoutGroup("References")] public Material playerMat;
     [FoldoutGroup("References")] public ParticleManager particleManager;
     [FoldoutGroup("References")] public PlayerAnimEventHandler playerAnimEventHandler;
+    [FoldoutGroup("References")] public Collider bagHitbox;
 
     [FoldoutGroup("Prefabs")] public GameObject playerUIPrefab;
     [FoldoutGroup("Prefabs")] public GameObject gameOverUIPrefab;

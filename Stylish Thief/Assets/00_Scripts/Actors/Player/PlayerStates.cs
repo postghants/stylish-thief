@@ -266,7 +266,9 @@ namespace HSM
         {
             if (ctx.pressingTrick && !ctx.disableVaultJump)
             {
-                ctx.rb.velocity = startVel;
+                ctx.rb.velocity.x = startVel.x;
+                ctx.rb.velocity.z = startVel.z;
+                ctx.currentVelocity = ctx.rb.velocity;
                 ctx.currentJumpData = ctx.vaultJump;
                 Jump.PerformJump(ctx);
                 ctx.player.SetTrigger("LedgeGrabToVault");
@@ -313,9 +315,7 @@ namespace HSM
             addedCollisionEvent = false;
 
             ctx.OnGrab.Invoke(ctx);
-
             ctx.player.SetTrigger("StartGrab");
-
 
             var grabbables = Physics.OverlapSphere(ctx.rb.transform.position, ctx.maxGrabTargetDistanceHorizontal);
             float bestAngle = 360;
@@ -393,7 +393,7 @@ namespace HSM
                                 ctx.rb.transform.position = origin;
 
 
-                                Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                                Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                 return;
                             }
                         }
@@ -411,7 +411,7 @@ namespace HSM
                                 ctx.rb.transform.position = origin;
 
 
-                                Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                                Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                 return;
                             }
                         }

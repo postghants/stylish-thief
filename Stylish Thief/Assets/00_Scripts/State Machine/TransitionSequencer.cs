@@ -21,9 +21,9 @@ namespace HSM {
         public void RequestTransition(State from, State to)
         {
             Machine.ChangeState(from, to);
-            if(to == null || from  == null) { return; };
-            if(sequencer != null) { pending = (from, to); return; }
-            BeginTransition(from, to);
+            //if(to == null || from  == null) { return; };
+            //if(sequencer != null) { pending = (from, to); return; }
+            //BeginTransition(from, to);
         }
 
         static List<PhaseStep> GatherPhaseSteps(List<State> chain, bool deactivate)

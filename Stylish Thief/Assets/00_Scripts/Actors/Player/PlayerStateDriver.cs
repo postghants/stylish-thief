@@ -55,11 +55,11 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-
         // Perform physics checks
-        ctx.rb.isGrounded = ctx.rb.IsGrounded();
+        ctx.rb.isGrounded = ctx.rb.IsGrounded(out var ground);
+        ctx.rb.SetMovingPlatformRef(ground);
         ctx.anim.SetBool("Grounded", ctx.rb.isGrounded);
         Jump.JumpBuffer(ctx);
         RollBuffer(ctx);
@@ -81,7 +81,7 @@ public class PlayerStateDriver : Actor, IDamageable
         }
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
-        Debug.Log(Root.Leaf());
+        //Debug.Log(Root.Leaf());
         if (ctx.iFramesOn && Root.Leaf().ToString() != "HSM.PlayerStunnedAirborne" && Root.Leaf().ToString() != "HSM.PlayerStunned")
         {
             if (ctx.iFrameTimer < ctx.invincibilityLength)
@@ -291,7 +291,10 @@ public class PlayerStateDriver : Actor, IDamageable
         {
             ctx.iFramesOn = true;
             ctx.currentHealth -= damage;
-            CrimeSpreeManager.instance.ChaseTimer -= damage;
+            if (CrimeSpreeManager.instance != null)
+            {
+                CrimeSpreeManager.instance.ChaseTimer -= damage;
+            }
             if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
@@ -363,6 +366,18 @@ public class PlayerContext
     [FoldoutGroup("Int Parry")] public MoveData intParryMoveData;
     [FoldoutGroup("Int Parry")][Tooltip("INTERNAL DON'T TOUCH")] public float parryCount;
     [FoldoutGroup("Int Parry")][Tooltip("INTERNAL DON'T TOUCH")] public Vector3 savedVelocity;
+
+    [Header("Int Drowning")]
+    [FoldoutGroup("Int Drowning")] public float drowningTime;
+    [FoldoutGroup("Int Drowning")] public MoveData intDrowningMovement;
+    [FoldoutGroup("Int Drowning")] public JumpData intDrowningJumpData;
+
+    [Header("Int Bar Swing")]
+    [FoldoutGroup("Int Bar Swing")] public float barSpeedPreservationTime;
+    [FoldoutGroup("Int Bar Swing")] public float barMinimumSpeed;
+    [FoldoutGroup("Int Bar Swing")] public bool convertYSpeed;
+    [FoldoutGroup("Int Bar Swing")] public MoveData intBarSwingMovement;
+    [FoldoutGroup("Int Bar Swing")] public JumpData intBarSwingJumpData;
 
     [Header("Jump")]
     public JumpData baseJumpData;
@@ -441,11 +456,12 @@ public class PlayerContext
     [FoldoutGroup("Bag Throw")] public MoveData prePoundMove;
     [FoldoutGroup("Bag Throw")] public float poundSpeedDown;
     [FoldoutGroup("Bag Throw")] public float poundSpeedFw;
-    [FoldoutGroup("Bag Throw")] public float downAcceleration;
-    [FoldoutGroup("Bag Throw")] public float forwardAcceleration;
+    [FoldoutGroup("Bag Throw")] public float poundAcceleration;
+    [FoldoutGroup("Bag Throw")] public MoveData poundMove;
     [FoldoutGroup("Bag Throw")] public float poundLandDelay;
     [FoldoutGroup("Bag Throw")] public float poundLandSpeed;
-
+    [FoldoutGroup("Bag Throw")] public JumpData poundWallBounce;
+    
     [FoldoutGroup("Camera Move")][Tooltip("Total pan time")] public float panTime = 0.2f;
     [FoldoutGroup("Camera Move")][Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
@@ -458,6 +474,7 @@ public class PlayerContext
     [FoldoutGroup("References")] public Material playerMat;
     [FoldoutGroup("References")] public ParticleManager particleManager;
     [FoldoutGroup("References")] public PlayerAnimEventHandler playerAnimEventHandler;
+    [FoldoutGroup("References")] public Collider bagHitbox;
 
     [FoldoutGroup("Prefabs")] public GameObject playerUIPrefab;
     [FoldoutGroup("Prefabs")] public GameObject gameOverUIPrefab;

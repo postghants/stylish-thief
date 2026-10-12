@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 2676293978660086810}
   - component: {fileID: 6658448391003692522}
   - component: {fileID: 497836852373340736}
+  - component: {fileID: 1819429586202424554}
   m_Layer: 0
   m_Name: Launching Bit
   m_TagString: Untagged
@@ -219,7 +220,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190353103608127376}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90993d367060931468d2347d248e33a1, type: 3}
   m_Name: 
@@ -239,6 +240,20 @@ MonoBehaviour:
   cycleTime: 0.5
   targets:
   - {fileID: 142906706359550415}
+--- !u!114 &1819429586202424554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190353103608127376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547738d946777ac4bb8f3e92ac22174e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  speed: 0
+  target: {fileID: 0}
 --- !u!1 &2978683389191439156
 GameObject:
   m_ObjectHideFlags: 0

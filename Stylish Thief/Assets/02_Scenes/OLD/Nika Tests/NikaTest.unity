@@ -4733,6 +4733,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.grabDeceleration
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundAcceleration
       value: 40
       objectReference: {fileID: 0}
@@ -4743,6 +4747,14 @@ PrefabInstance:
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundWallBounce.setSpeedSpeed
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.poundWallBounce.jumpMovementMult
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.poundWallBounce.jumpMovementMultTime
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5692928195147020320, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: m_Name

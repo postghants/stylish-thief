@@ -336,9 +336,12 @@ namespace HSM
                 }
             }
 
-            Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
-            if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
+            float speed = ctx.rb.velocity.magnitude;
+            Vector2 horizontalVel = (new Vector2(ctx.facing.x, ctx.facing.z)).normalized * speed;
+            if (speed < ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            initialVelocity = horizontalVel;
+            targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
             ctx.rb.velocity.y = 0;
         }
 
@@ -357,15 +360,6 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (ctx.rb.isGrounded)
-            {
-                Debug.Log("Grounded Grabbing");
-
-            }
-            else
-            {
-
-            }
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
             Bounds bounds = ctx.rb.environmentCollider.bounds;
@@ -468,8 +462,6 @@ namespace HSM
                     isDecelerating = true;
                     ctx.player.SetTrigger("EndGrab");
                     Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                    initialVelocity = horizontalVel;
-                    targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
                 }
                 if (ctx.grabTimer <= ctx.grabDuration + ctx.grabDeceleration)
                 {
@@ -1108,444 +1100,447 @@ namespace HSM
     }
 
     public class PlayerFixedSpeed : State
-{
-    readonly PlayerContext ctx;
-    public readonly PlayerPrePound prePound;
-    public readonly PlayerPound pound;
-    public PlayerFixedSpeed(StateMachine m, State parent, PlayerContext ctx) : base(m)
     {
-        this.ctx = ctx;
-        Parent = parent;
-
-        prePound = new(m, this, ctx);
-        pound = new(m, this, ctx);
-    }
-}
-
-// Root class. Does important physics stuff at the end of every update cycle.
-public class PlayerRoot : State
-{
-    readonly PlayerContext ctx;
-    public readonly PlayerGrounded grounded;
-    public readonly PlayerAirborne airborne;
-    public readonly PlayerFrozen frozen;
-    public readonly PlayerFixedSpeed fixedSpeed;
-
-    public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
-    {
-        grounded = new(m, this, ctx);
-        airborne = new(m, this, ctx);
-        frozen = new(m, this, ctx);
-        fixedSpeed = new(m, this, ctx);
-        this.ctx = ctx;
-    }
-
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (Leaf() == frozen) { return; }
-        if (ctx.regenTimer >= ctx.regenDelay)
+        readonly PlayerContext ctx;
+        public readonly PlayerPrePound prePound;
+        public readonly PlayerPound pound;
+        public PlayerFixedSpeed(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
-            if (ctx.currentHealth < ctx.maxHealth)
+            this.ctx = ctx;
+            Parent = parent;
+
+            prePound = new(m, this, ctx);
+            pound = new(m, this, ctx);
+        }
+    }
+
+    // Root class. Does important physics stuff at the end of every update cycle.
+    public class PlayerRoot : State
+    {
+        readonly PlayerContext ctx;
+        public readonly PlayerGrounded grounded;
+        public readonly PlayerAirborne airborne;
+        public readonly PlayerFrozen frozen;
+        public readonly PlayerFixedSpeed fixedSpeed;
+
+        public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
+        {
+            grounded = new(m, this, ctx);
+            airborne = new(m, this, ctx);
+            frozen = new(m, this, ctx);
+            fixedSpeed = new(m, this, ctx);
+            this.ctx = ctx;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (Leaf() == frozen) { return; }
+            if (ctx.regenTimer >= ctx.regenDelay)
             {
-                ctx.currentHealth = Mathf.Clamp(ctx.currentHealth + ctx.regenRate * deltaTime, 0, ctx.maxHealth);
-                ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
-            }
-        }
-        else
-        {
-            ctx.regenTimer += deltaTime;
-        }
-
-        Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-        if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
-        {
-            horizontalVel -= horizontalVel * ctx.cmd.maxSpeedDeceleration * deltaTime;
-            ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
-        }
-
-        if (ctx.rb.velocity.sqrMagnitude < 0.001f) { ctx.rb.velocity = Vector3.zero; }
-
-        bool doGravityPass = !ctx.currentlyJumping;
-
-        ctx.rb.Tick(deltaTime, doGravityPass);
-    }
-
-    protected override State GetInitialState() => airborne;
-    protected override State GetTransition(float deltaTime)
-    {
-
-        if (Leaf() == frozen) { return null; }
-        ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
-        if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
-        {
-            if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
-            {
-                if (ctx.disableSlideJump)
+                if (ctx.currentHealth < ctx.maxHealth)
                 {
-                    return null;
+                    ctx.currentHealth = Mathf.Clamp(ctx.currentHealth + ctx.regenRate * deltaTime, 0, ctx.maxHealth);
+                    ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
                 }
-                ctx.currentJumpData = ctx.slideJumpData;
             }
-            else if (!ctx.disableJump)
+            else
             {
-                ctx.currentJumpData = ctx.baseJumpData;
+                ctx.regenTimer += deltaTime;
             }
-            Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
+
+            Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+            if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
+            {
+                horizontalVel -= horizontalVel * ctx.cmd.maxSpeedDeceleration * deltaTime;
+                ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            }
+
+            if (ctx.rb.velocity.sqrMagnitude < 0.001f) { ctx.rb.velocity = Vector3.zero; }
+
+            bool doGravityPass = !ctx.currentlyJumping;
+
+            ctx.rb.Tick(deltaTime, doGravityPass);
         }
-        Jump.CalculateGravity(ctx);
 
-        return null;
-    }
-}
-
-//From here on all classes are states used for level interactions! These are all refered to as Int[Something]
-
-//The upward motion when grabbing an umbrella.
-public class IntUmbrellaLaunch : State
-{
-    readonly PlayerContext ctx;
-    float timer = 0f;
-    //public AnimationCurve turnDeceleration;
-
-    public IntUmbrellaLaunch(StateMachine m, State parent, PlayerContext ctx) : base(m)
-    {
-        this.ctx = ctx;
-        Parent = parent;
-    }
-
-    protected override void OnEnter()
-    {
-        ctx.cmd = ctx.intUmbrellaMoveData;
-        ctx.useGravity = false;
-        ctx.hasGrabbed = true;
-        ctx.player.SetTrigger("IntStartUmbrella");
-    }
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (timer < ctx.umbrellaDuration)
+        protected override State GetInitialState() => airborne;
+        protected override State GetTransition(float deltaTime)
         {
-            timer += deltaTime;
+
+            if (Leaf() == frozen) { return null; }
+            ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
+            if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
+            {
+                if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)
+                {
+                    if (ctx.disableSlideJump)
+                    {
+                        return null;
+                    }
+                    ctx.currentJumpData = ctx.slideJumpData;
+                }
+                else if (!ctx.disableJump)
+                {
+                    ctx.currentJumpData = ctx.baseJumpData;
+                }
+                if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
+                {
+                    Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
+                }
+            }
+            Jump.CalculateGravity(ctx);
+
+            return null;
         }
-        Vector3 flightSpeed = ctx.rb.velocity;
-        flightSpeed.y = ctx.umbrellaAcceleration.Evaluate(timer / ctx.umbrellaDuration) * ctx.umbrellaSpeed;
-        ctx.rb.velocity = flightSpeed;
-    }
-    protected override void OnExit()
-    {
-        timer = 0;
-        ctx.useGravity = true;
     }
 
-    protected override State GetTransition(float deltaTime)
+    //From here on all classes are states used for level interactions! These are all refered to as Int[Something]
+
+    //The upward motion when grabbing an umbrella.
+    public class IntUmbrellaLaunch : State
     {
-        if (timer >= ctx.umbrellaDuration)
+        readonly PlayerContext ctx;
+        float timer = 0f;
+        //public AnimationCurve turnDeceleration;
+
+        public IntUmbrellaLaunch(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
-            return ((PlayerAirborne)Parent).umbrellaGlide;
+            this.ctx = ctx;
+            Parent = parent;
         }
-        return null;
-    }
-}
 
-//The glide following IntUmbrellaLaunch.
-public class IntUmbrellaGlide : State
-{
-    readonly PlayerContext ctx;
-    float timer = 0f;
-
-    public IntUmbrellaGlide(StateMachine m, State parent, PlayerContext ctx) : base(m)
-    {
-        this.ctx = ctx;
-        Parent = parent;
-    }
-
-    protected override void OnEnter()
-    {
-        ctx.cmd = ctx.intUmbrellaMoveData;
-        ctx.useGravity = false;
-        ctx.hasGrabbed = false;
-        ctx.currentlyJumping = true;
-        //start glide animation
-    }
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (timer < ctx.umbrellaFloatAccelDuration)
+        protected override void OnEnter()
         {
-            timer += deltaTime;
+            ctx.cmd = ctx.intUmbrellaMoveData;
+            ctx.useGravity = false;
+            ctx.hasGrabbed = true;
+            ctx.player.SetTrigger("IntStartUmbrella");
         }
-        Vector3 floatSpeed = ctx.rb.velocity;
-        floatSpeed.y = ctx.umbrellaFloatAcceleration.Evaluate(timer / ctx.umbrellaFloatAccelDuration) * -ctx.umbrellaFloatSpeed;
-        ctx.rb.velocity = floatSpeed;
-        Debug.Log(floatSpeed.y);
-    }
-    protected override void OnExit()
-    {
-        timer = 0;
-        ctx.useGravity = true;
-        ctx.disableJump = false;
-        ctx.player.SetTrigger("IntEndUmbrella");
-    }
-
-    protected override State GetTransition(float deltaTime)
-    {
-        if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump || ctx.rb.isGrounded)
+        protected override void OnUpdate(float deltaTime)
         {
-            return ctx.player.Root;
+            if (timer < ctx.umbrellaDuration)
+            {
+                timer += deltaTime;
+            }
+            Vector3 flightSpeed = ctx.rb.velocity;
+            flightSpeed.y = ctx.umbrellaAcceleration.Evaluate(timer / ctx.umbrellaDuration) * ctx.umbrellaSpeed;
+            ctx.rb.velocity = flightSpeed;
         }
-        return null;
-    }
-}
-
-public class IntPoleSpin : State
-{
-    readonly PlayerContext ctx;
-    float timer = 0f;
-    Vector3 speed = Vector3.zero;
-    float speedMagnitude;
-
-    public IntPoleSpin(StateMachine m, State parent, PlayerContext ctx) : base(m)
-    {
-        this.ctx = ctx;
-        Parent = parent;
-    }
-
-    protected override void OnEnter()
-    {
-        ctx.cmd = ctx.intPoleMoveData;
-        ctx.useGravity = false;
-        ctx.hasGrabbed = true;
-        ctx.currentlyJumping = false;
-        //start pole spin animation
-        speed = ctx.rb.velocity;
-        speed.y = 0;
-        speedMagnitude = speed.magnitude;
-        ctx.rb.velocity = Vector3.zero;
-    }
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (speedMagnitude > ctx.groundMoveData.maxSpeed)
+        protected override void OnExit()
         {
-            if (timer < ctx.speedPreservationTime)
+            timer = 0;
+            ctx.useGravity = true;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.umbrellaDuration)
+            {
+                return ((PlayerAirborne)Parent).umbrellaGlide;
+            }
+            return null;
+        }
+    }
+
+    //The glide following IntUmbrellaLaunch.
+    public class IntUmbrellaGlide : State
+    {
+        readonly PlayerContext ctx;
+        float timer = 0f;
+
+        public IntUmbrellaGlide(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.intUmbrellaMoveData;
+            ctx.useGravity = false;
+            ctx.hasGrabbed = false;
+            ctx.currentlyJumping = true;
+            //start glide animation
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.umbrellaFloatAccelDuration)
+            {
+                timer += deltaTime;
+            }
+            Vector3 floatSpeed = ctx.rb.velocity;
+            floatSpeed.y = ctx.umbrellaFloatAcceleration.Evaluate(timer / ctx.umbrellaFloatAccelDuration) * -ctx.umbrellaFloatSpeed;
+            ctx.rb.velocity = floatSpeed;
+            Debug.Log(floatSpeed.y);
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            ctx.useGravity = true;
+            ctx.disableJump = false;
+            ctx.player.SetTrigger("IntEndUmbrella");
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump || ctx.rb.isGrounded)
+            {
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+
+    public class IntPoleSpin : State
+    {
+        readonly PlayerContext ctx;
+        float timer = 0f;
+        Vector3 speed = Vector3.zero;
+        float speedMagnitude;
+
+        public IntPoleSpin(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.intPoleMoveData;
+            ctx.useGravity = false;
+            ctx.hasGrabbed = true;
+            ctx.currentlyJumping = false;
+            //start pole spin animation
+            speed = ctx.rb.velocity;
+            speed.y = 0;
+            speedMagnitude = speed.magnitude;
+            ctx.rb.velocity = Vector3.zero;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (speedMagnitude > ctx.groundMoveData.maxSpeed)
+            {
+                if (timer < ctx.speedPreservationTime)
+                {
+                    timer += deltaTime;
+                }
+                else
+                {
+                    speedMagnitude = ctx.groundMoveData.maxSpeed;
+                    Debug.Log("Speed lost!");
+                }
+            }
+            speed = ctx.moveDirection * speedMagnitude;
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            ctx.useGravity = true;
+            ctx.disableJump = false;
+            ctx.hasGrabbed = false;
+            ctx.rb.velocity = speed;
+            ctx.facing = ctx.moveDirection;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.desiredJump || ctx.desiredGrab)
+            {
+                ctx.desiredGrab = false;
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+
+    public class IntParry : State
+    {
+        readonly PlayerContext ctx;
+        float entrySpeed;
+        bool jumped;
+
+        public IntParry(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.parryCount++;
+            ctx.savedVelocity = ctx.rb.velocity;
+            ctx.savedVelocity.y = 0;
+            entrySpeed = ctx.savedVelocity.magnitude;
+            ctx.cmd = ctx.intParryMoveData;
+            ctx.currentJumpData = ctx.intParryJumpData;
+            ctx.hasGrabbed = false;
+            //ANIMAITON TRIGGER
+            ctx.disablePound = true;
+            ctx.disableRoll = true;
+            ctx.rb.isGrounded = true;
+            Jump.PerformJump(ctx);
+            ctx.rb.isGrounded = false;
+            jumped = true;
+            Vector3 velocity = ctx.rb.velocity;
+            velocity.x = 0;
+            velocity.z = 0;
+            ctx.rb.velocity = velocity;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            ctx.rb.IsGrounded();
+        }
+        protected override void OnExit()
+        {
+            ctx.disablePound = false;
+            ctx.disableRoll = false;
+            jumped = false;
+
+            if (ctx.rb.isGrounded)
+            {
+                Vector3 velocity = ctx.facing.normalized * (entrySpeed + (ctx.parryCount * ctx.parryBoost));
+                velocity.y = 0;
+                ctx.rb.velocity = velocity;
+                Debug.Log(ctx.rb.velocity);
+                ctx.parryCount = 0;
+            }
+            if (ctx.desiredGrab)
+            {
+                Debug.Log(ctx.rb.velocity);
+            }
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            return null;
+        }
+    }
+
+    public class IntDrowning : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public IntDrowning(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.intDrowningMovement;
+            ctx.currentJumpData = ctx.intDrowningJumpData;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.drowningTime)
+            {
+                timer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.drowningTime)
+            {
+                timer = 0;
+                //REPLACE BELOW WITH TELEPORTING TO THE LAST SAFE LOCATION
+                ctx.rb.transform.position = new Vector3(0, 10, 0);
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+
+    public class IntBarSwing : State
+    {
+        readonly PlayerContext ctx;
+        private InputAction jump;
+        private InputAction trick;
+        private InputAction grab;
+        private Vector3 entryVelocity;
+        private float timer;
+
+        public IntBarSwing(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.useGravity = false;
+            entryVelocity = ctx.rb.velocity;
+            if (!ctx.convertYSpeed)
+            {
+                entryVelocity.y = 0;
+            }
+            ctx.rb.velocity = Vector3.zero;
+            ctx.cmd = ctx.intBarSwingMovement;
+            ctx.hasGrabbed = true;
+            ctx.player.SetTrigger("StartBarSwing");
+
+            jump = InputSystem.actions.FindAction("Jump");
+            trick = InputSystem.actions.FindAction("Trick");
+            grab = InputSystem.actions.FindAction("Grab");
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
+            {
+                Vector3 flippedRotation = ctx.playerAnimEventHandler.transform.rotation.eulerAngles;
+                flippedRotation.y += 180;
+                ctx.playerAnimEventHandler.transform.rotation = Quaternion.Euler(flippedRotation);
+            }
+            if (timer < ctx.barSpeedPreservationTime)
             {
                 timer += deltaTime;
             }
             else
             {
-                speedMagnitude = ctx.groundMoveData.maxSpeed;
-                Debug.Log("Speed lost!");
+                entryVelocity = Vector3.zero;
             }
         }
-        speed = ctx.moveDirection * speedMagnitude;
-    }
-    protected override void OnExit()
-    {
-        timer = 0;
-        ctx.useGravity = true;
-        ctx.disableJump = false;
-        ctx.hasGrabbed = false;
-        ctx.rb.velocity = speed;
-        ctx.facing = ctx.moveDirection;
-    }
-
-    protected override State GetTransition(float deltaTime)
-    {
-        if (ctx.desiredJump || ctx.desiredGrab)
+        protected override void OnExit()
         {
-            ctx.desiredGrab = false;
-            return ctx.player.Root;
-        }
-        return null;
-    }
-}
-
-public class IntParry : State
-{
-    readonly PlayerContext ctx;
-    float entrySpeed;
-    bool jumped;
-
-    public IntParry(StateMachine m, State parent, PlayerContext ctx) : base(m)
-    {
-        this.ctx = ctx;
-        Parent = parent;
-    }
-
-    protected override void OnEnter()
-    {
-        ctx.parryCount++;
-        ctx.savedVelocity = ctx.rb.velocity;
-        ctx.savedVelocity.y = 0;
-        entrySpeed = ctx.savedVelocity.magnitude;
-        ctx.cmd = ctx.intParryMoveData;
-        ctx.currentJumpData = ctx.intParryJumpData;
-        ctx.hasGrabbed = false;
-        //ANIMAITON TRIGGER
-        ctx.disablePound = true;
-        ctx.disableRoll = true;
-        ctx.rb.isGrounded = true;
-        Jump.PerformJump(ctx);
-        ctx.rb.isGrounded = false;
-        jumped = true;
-        Vector3 velocity = ctx.rb.velocity;
-        velocity.x = 0;
-        velocity.z = 0;
-        ctx.rb.velocity = velocity;
-    }
-    protected override void OnUpdate(float deltaTime)
-    {
-        ctx.rb.IsGrounded();
-    }
-    protected override void OnExit()
-    {
-        ctx.disablePound = false;
-        ctx.disableRoll = false;
-        jumped = false;
-
-        if (ctx.rb.isGrounded)
-        {
-            Vector3 velocity = ctx.facing.normalized * (entrySpeed + (ctx.parryCount * ctx.parryBoost));
-            velocity.y = 0;
-            ctx.rb.velocity = velocity;
-            Debug.Log(ctx.rb.velocity);
-            ctx.parryCount = 0;
-        }
-        if (ctx.desiredGrab)
-        {
-            Debug.Log(ctx.rb.velocity);
-        }
-    }
-
-    protected override State GetTransition(float deltaTime)
-    {
-        return null;
-    }
-}
-
-public class IntDrowning : State
-{
-    readonly PlayerContext ctx;
-    private float timer;
-
-    public IntDrowning(StateMachine m, State parent, PlayerContext ctx) : base(m)
-    {
-        this.ctx = ctx;
-        Parent = parent;
-    }
-
-    protected override void OnEnter()
-    {
-        ctx.cmd = ctx.intDrowningMovement;
-        ctx.currentJumpData = ctx.intDrowningJumpData;
-    }
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (timer < ctx.drowningTime)
-        {
-            timer += deltaTime;
-        }
-    }
-    protected override void OnExit()
-    {
-        timer = 0;
-    }
-
-    protected override State GetTransition(float deltaTime)
-    {
-        if (timer >= ctx.drowningTime)
-        {
-            timer = 0;
-            //REPLACE BELOW WITH TELEPORTING TO THE LAST SAFE LOCATION
-            ctx.rb.transform.position = new Vector3(0, 10, 0);
-            return ctx.player.Root;
-        }
-        return null;
-    }
-}
-
-public class IntBarSwing : State
-{
-    readonly PlayerContext ctx;
-    private InputAction jump;
-    private InputAction trick;
-    private InputAction grab;
-    private Vector3 entryVelocity;
-    private float timer;
-
-    public IntBarSwing(StateMachine m, State parent, PlayerContext ctx) : base(m)
-    {
-        this.ctx = ctx;
-        Parent = parent;
-    }
-
-    protected override void OnEnter()
-    {
-        ctx.useGravity = false;
-        entryVelocity = ctx.rb.velocity;
-        if (!ctx.convertYSpeed)
-        {
-            entryVelocity.y = 0;
-        }
-        ctx.rb.velocity = Vector3.zero;
-        ctx.cmd = ctx.intBarSwingMovement;
-        ctx.hasGrabbed = true;
-        ctx.player.SetTrigger("StartBarSwing");
-
-        jump = InputSystem.actions.FindAction("Jump");
-        trick = InputSystem.actions.FindAction("Trick");
-        grab = InputSystem.actions.FindAction("Grab");
-    }
-    protected override void OnUpdate(float deltaTime)
-    {
-        if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
-        {
-            Vector3 flippedRotation = ctx.playerAnimEventHandler.transform.rotation.eulerAngles;
-            flippedRotation.y += 180;
-            ctx.playerAnimEventHandler.transform.rotation = Quaternion.Euler(flippedRotation);
-        }
-        if (timer < ctx.barSpeedPreservationTime)
-        {
-            timer += deltaTime;
-        }
-        else
-        {
-            entryVelocity = Vector3.zero;
-        }
-    }
-    protected override void OnExit()
-    {
-        if (ctx.desiredJump)
-        {
-            ctx.useGravity = true;
-            ctx.rb.isGrounded = true;
-            ctx.currentJumpData = ctx.intBarSwingJumpData;
-            Jump.PerformJump(ctx);
-            Vector3 velocity = ctx.playerAnimEventHandler.transform.forward * ctx.barMinimumSpeed;
-            if (entryVelocity.magnitude > ctx.barMinimumSpeed)
+            if (ctx.desiredJump)
             {
-                velocity = ctx.playerAnimEventHandler.transform.forward * entryVelocity.magnitude;
+                ctx.useGravity = true;
+                ctx.rb.isGrounded = true;
+                ctx.currentJumpData = ctx.intBarSwingJumpData;
+                Jump.PerformJump(ctx);
+                Vector3 velocity = ctx.playerAnimEventHandler.transform.forward * ctx.barMinimumSpeed;
+                if (entryVelocity.magnitude > ctx.barMinimumSpeed)
+                {
+                    velocity = ctx.playerAnimEventHandler.transform.forward * entryVelocity.magnitude;
+                }
+                Debug.Log(entryVelocity.magnitude);
+                velocity.y = 0;
+                ctx.rb.velocity += velocity;
             }
-            Debug.Log(entryVelocity.magnitude);
-            velocity.y = 0;
-            ctx.rb.velocity += velocity;
+            if (ctx.rb.isGrounded)
+            {
+                ctx.useGravity = true;
+            }
+            timer = 0;
+            ctx.hasGrabbed = false;
         }
-        if (ctx.rb.isGrounded)
-        {
-            ctx.useGravity = true;
-        }
-        timer = 0;
-        ctx.hasGrabbed = false;
-    }
 
-    protected override State GetTransition(float deltaTime)
-    {
-        if (ctx.rb.isGrounded)
+        protected override State GetTransition(float deltaTime)
         {
-            return ctx.player.Root;
+            if (ctx.rb.isGrounded)
+            {
+                return ctx.player.Root;
+            }
+            else if (ctx.desiredJump)
+            {
+                return ctx.player.Root.airborne;
+            }
+            return null;
         }
-        else if (ctx.desiredJump)
-        {
-            return ctx.player.Root.airborne;
-        }
-        return null;
     }
-}
 }

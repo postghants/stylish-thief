@@ -11,26 +11,25 @@ public class Jump
 
     public static void PerformJump(PlayerContext ctx)
     {
-        if ((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) //If grounded or if you still have coyote time
+
+        ctx.OnJump.Invoke(ctx);
+        ctx.currentlyJumping = true;
+        ctx.desiredJump = false;
+        ctx.jumpBufferCounter = 0;
+        ctx.landingSpeed = 0;
+        ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
+        if (ctx.currentJumpData.setSpeed)
         {
-            ctx.OnJump.Invoke(ctx);
-            ctx.currentlyJumping = true;
-            ctx.desiredJump = false;
-            ctx.jumpBufferCounter = 0;
-            ctx.landingSpeed = 0;
-            ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
-            if (ctx.currentJumpData.setSpeed)
-            {
-                ctx.currentVelocity = ctx.facing * ctx.currentJumpData.setSpeedSpeed;
-            }
-            ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
-            ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
-            ctx.rb.StartCoroutine(SetMovementMult(ctx));
-            if(ctx.currentJumpData == ctx.baseJumpData)
-            {
-                ctx.player.SetTrigger("StartLiftoff");
-            }
+            ctx.currentVelocity = ctx.facing * ctx.currentJumpData.setSpeedSpeed;
         }
+        ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
+        ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
+        ctx.rb.StartCoroutine(SetMovementMult(ctx));
+        if (ctx.currentJumpData == ctx.baseJumpData)
+        {
+            ctx.player.SetTrigger("StartLiftoff");
+        }
+
         if (ctx.jumpBuffer == 0)
         {
             ctx.desiredJump = false;
@@ -103,14 +102,14 @@ public class Jump
                 && !animStateInfo.IsName("Bonk") && !animStateInfo.IsName("Bonk Loop")
                 && !animStateInfo.IsName("Grab") && !animStateInfo.IsName("Grab Loop") && !animStateInfo.IsName("Grab End")
                 && !animStateInfo.IsName("Ledge Grab") && !animStateInfo.IsName("Vault") && !animStateInfo.IsName("Vault Jump Loop")
-                && !animStateInfo.IsName("Bag Throw") && !animStateInfo.IsName("Bag Throw Loop") 
+                && !animStateInfo.IsName("Bag Throw") && !animStateInfo.IsName("Bag Throw Loop")
                 && !animStateInfo.IsName("Fall") && !animStateInfo.IsName("Fall Loop") && !animStateInfo.IsName("Fast Fall") && !animStateInfo.IsName("Fast Fall Loop")
                 && !animStateInfo.IsName("IntEndUmbrella") && !animStateInfo.IsName("IntStartUmbrella"))
             {
                 ctx.player.SetTrigger("StartFall");
             }
-            
-                ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+
+            ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
         }
 
         ////Check for hangtime

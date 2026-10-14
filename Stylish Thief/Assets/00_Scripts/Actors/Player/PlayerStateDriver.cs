@@ -445,12 +445,17 @@ public class PlayerContext
     [Header("Roll")]
     [FoldoutGroup("Roll")] public bool disableRoll;
     [FoldoutGroup("Roll")] public float rollTiming;
-    [FoldoutGroup("Roll")][Tooltip("Speed added when entering roll")] public float rollSpeed;
-    [FoldoutGroup("Roll")][Tooltip("Time before roll ends")] public float rollDuration;
-    [FoldoutGroup("Roll")][Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
-    [FoldoutGroup("Roll")][Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
-    [FoldoutGroup("Roll")][Tooltip("Time until player can move after roll")] public float rollEndLag;
-    [FoldoutGroup("Roll")] public bool disableRollJump;
+    //[FoldoutGroup("Roll")][Tooltip("Speed added when entering roll")] public float rollSpeed;
+    //[FoldoutGroup("Roll")][Tooltip("Time before roll ends")] public float rollDuration;
+    //[FoldoutGroup("Roll")][Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
+    //[FoldoutGroup("Roll")][Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
+    //[FoldoutGroup("Roll")][Tooltip("Time until player can move after roll")] public float rollEndLag;
+
+    [FoldoutGroup("Roll")][Tooltip("Minimum speed at which you can Roll")] public float rollMinSpeed;
+    [FoldoutGroup("Roll")][Tooltip("How strongly to convert your fall speed to horizontal speed. Set to 0 to not count fall speed. Set to 1 for 1 to 1 conversion")] public float rollYConversionStrength;
+    [FoldoutGroup("Roll")][Tooltip("The shortest time a Roll can last if it's above the minimum speed")] public float rollMinTime;
+    //[FoldoutGroup("Roll")] public bool disableRollJump;
+    [FoldoutGroup("Roll")] public MoveData rollMoveData;
     [FoldoutGroup("Roll")] public JumpData rollJump;
 
     [FoldoutGroup("Bag Throw")] public bool disablePound;
@@ -498,7 +503,8 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public float baseGrav;
     [FoldoutGroup("Internal")][ReadOnly] public float gravMultiplier;
     [FoldoutGroup("Internal")][ReadOnly] public float jumpSpeed;
-    [FoldoutGroup("Internal")][ReadOnly] public float landingSpeed;
+    [FoldoutGroup("Internal")][ReadOnly][Tooltip("Used for the harsh landing. Updates outside of PlayerStates and PlayerStateDriver. Wiped upon entering harsh landing")] public float landingSpeed;
+    [FoldoutGroup("Internal")][ReadOnly][Tooltip("Used for the roll. Updates in PlayerStates when in the Airborne state and useGravity is true. Wiped upon entering PlayerAirborne and PlayerRoll")] public Vector3 lastLandingVelocity;
     [FoldoutGroup("Internal")][ReadOnly] public Vector3 currentVelocity;
     [FoldoutGroup("Internal")][ReadOnly] public bool useGravity = true;
     [FoldoutGroup("Internal")][ReadOnly] public bool hasGrabbed;

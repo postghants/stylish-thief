@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -340,7 +341,7 @@ namespace HSM
             if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
             ctx.rb.velocity.y = 0;
-            }
+        }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
@@ -493,10 +494,9 @@ namespace HSM
     public class PlayerRolling : State
     {
         readonly PlayerContext ctx;
-        private bool isDecelerating;
-        private Vector2 initialVelocity;
-        private Vector2 targetVelocity;
-        private bool addedCollisionEvent = false;
+
+        private Vector3 rollVelocity;
+        private float timer = 0;
         public PlayerRolling(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -505,22 +505,22 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.cmd = ctx.airMoveData;
+            ctx.cmd = ctx.rollMoveData;
             ctx.useGravity = false;
-            ctx.rollTimer = 0.001f;
-            addedCollisionEvent = false;
             ctx.pressingJump = false;
-            ctx.blockJump = 1;
+            //ctx.blockJump = 1;
 
             ctx.player.SetTrigger("StartRoll");
 
-            Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
-            if (horizontalVel.sqrMagnitude < ctx.rollSpeed * ctx.rollSpeed) { horizontalVel = horizontalVel.normalized * ctx.rollSpeed; }
-            ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
-            ctx.rb.velocity.y = 0;
+            Debug.Log(ctx.rb.velocity.y);
+            rollVelocity = ctx.rb.velocity;
+            rollVelocity.y = rollVelocity.y * ctx.rollYConversionStrength;
+            rollVelocity = ctx.facing.normalized * rollVelocity.magnitude;
+            rollVelocity.y = 0;
+            ctx.rb.velocity = rollVelocity;
         }
 
-        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
+        /*private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
         {
             //if (Leaf() != ((PlayerAirborne)Parent).rollbing)
             //{
@@ -531,39 +531,48 @@ namespace HSM
             {
                 PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
             }
-        }
+        }*/
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (!addedCollisionEvent && !ctx.disableStun)
+            /*if (!addedCollisionEvent && !ctx.disableStun)
             {
                 addedCollisionEvent = true;
                 ctx.rb.onCollision += OnCollision;
+            }*/
+            if (timer < ctx.rollMinTime)
+            {
+                timer += deltaTime;
             }
+
         }
 
         protected override void OnExit()
         {
-            ctx.blockJump--;
+            timer = 0;
+
+
+            //ctx.blockJump--;
             ctx.rollTimer = 0;
-            try
-            {
-                if (!ctx.disableStun)
-                {
-                    ctx.rb.onCollision -= OnCollision;
-                }
-            }
-            catch { }
             ctx.useGravity = true;
-            isDecelerating = false;
-            initialVelocity = Vector2.zero;
-            targetVelocity = Vector2.zero;
-            //ctx.playerMat.color = ctx.airColor;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            ctx.rollTimer += deltaTime;
+            if (rollVelocity.magnitude < ctx.rollMinSpeed)
+            {
+                ctx.player.SetTrigger("EndRoll");
+                return Parent;
+            }
+            else if (!ctx.pressingTrick && timer >= ctx.rollMinTime)
+            {
+                ctx.player.SetTrigger("EndRoll");
+                return Parent;
+            }
+
+
+
+            /*ctx.rollTimer += deltaTime;
 
             if (ctx.pressingJump && !ctx.disableRollJump)
             {
@@ -591,6 +600,65 @@ namespace HSM
                     ctx.player.SetTrigger("EndRoll");
                     return Parent;
                 }
+
+
+                
+            }*/
+            return null;
+        }
+    }
+
+    public class PlayerRoll : State
+    {
+        readonly PlayerContext ctx;
+        private Vector3 entryVelocity;
+        private float speed;
+        private float timer;
+
+        public PlayerRoll(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            if (ctx.lastLandingVelocity.y != 0)
+            {
+                entryVelocity = ctx.lastLandingVelocity;
+                speed = entryVelocity.magnitude;
+            }
+            else
+            {
+                speed = ctx.rb.velocity.magnitude;
+            }
+            ctx.lastLandingVelocity = Vector3.zero;
+            ctx.cmd = ctx.rollMoveData;
+            ctx.rb.velocity = ctx.facing * speed;
+            ctx.player.SetTrigger("StartRoll");
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.rollMinTime)
+            {
+                timer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            ctx.player.SetTrigger("EndRoll");
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.rb.velocity.magnitude < ctx.rollMinSpeed)
+            {
+                return ctx.player.Root;
+            }
+            if (!ctx.pressingTrick && timer >= ctx.rollMinTime)
+            {
+                return ctx.player.Root;
             }
             return null;
         }
@@ -614,11 +682,11 @@ namespace HSM
             ctx.blockJump++;
             ctx.isStunned = true;
 
-            if (!ctx.disableRoll && ctx.rollBufferCounter > 0 && ctx.rollBufferCounter < ctx.rollTiming)
+            /*if (!ctx.disableRoll && ctx.rollBufferCounter > 0 && ctx.rollBufferCounter < ctx.rollTiming)
             {
                 Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
                 return;
-            }
+            }*/
 
             if (ctx.rollBufferCounter > ctx.rollTiming)
             {
@@ -753,7 +821,7 @@ namespace HSM
         public readonly PlayerIdle idle;
         public readonly PlayerStunned stunned;
         public readonly PlayerHarshLanded harshLanded;
-        public readonly PlayerRolling rolling;
+        public readonly PlayerRoll rolling;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -833,6 +901,13 @@ namespace HSM
                 }
                 return ((PlayerRoot)Parent).airborne;
             }
+            if (ctx.rb.isGrounded && ctx.desiredRoll && !ctx.disableRoll)
+            {
+                if (ctx.rb.velocity.magnitude > ctx.rollMinSpeed)
+                {
+                    return ((PlayerRoot)Parent).grounded.rolling;
+                }
+            }
             return null;
         }
     }
@@ -893,6 +968,7 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
+            ctx.lastLandingVelocity = Vector3.zero;
             //ctx.playerMat.color = ctx.airColor;
         }
 
@@ -943,6 +1019,10 @@ namespace HSM
                 {
                     ctx.rb.velocity.y = -ctx.currentJumpData.maxFallSpeed;
                 }
+                if (ctx.rb.velocity.y < 0)
+                {
+                    ctx.lastLandingVelocity = ctx.rb.velocity;
+                }
             }
         }
 
@@ -987,9 +1067,17 @@ namespace HSM
 
                 ctx.OnLand.Invoke(ctx);
 
-                if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
+                if (ctx.desiredRoll && !ctx.disableRoll)
                 {
-                    return ((PlayerRoot)Parent).grounded.harshLanded;
+                    ctx.landingSpeed = 0;
+                    return ((PlayerRoot)Parent).grounded.rolling;
+                }
+                else
+                {
+                    if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
+                    {
+                        return ((PlayerRoot)Parent).grounded.harshLanded;
+                    }
                 }
 
                 return ((PlayerRoot)Parent).grounded;
@@ -1184,356 +1272,6 @@ namespace HSM
             Jump.CalculateGravity(ctx);
 
             return null;
-        }
-    }
-
-    //From here on all classes are states used for level interactions! These are all refered to as Int[Something]
-
-    //The upward motion when grabbing an umbrella.
-    public class IntUmbrellaLaunch : State
-    {
-        readonly PlayerContext ctx;
-        float timer = 0f;
-        //public AnimationCurve turnDeceleration;
-
-        public IntUmbrellaLaunch(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.intUmbrellaMoveData;
-            ctx.useGravity = false;
-            ctx.hasGrabbed = true;
-            ctx.player.SetTrigger("IntStartUmbrella");
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (timer < ctx.umbrellaDuration)
-            {
-                timer += deltaTime;
-            }
-            Vector3 flightSpeed = ctx.rb.velocity;
-            flightSpeed.y = ctx.umbrellaAcceleration.Evaluate(timer / ctx.umbrellaDuration) * ctx.umbrellaSpeed;
-            ctx.rb.velocity = flightSpeed;
-        }
-        protected override void OnExit()
-        {
-            timer = 0;
-            ctx.useGravity = true;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (timer >= ctx.umbrellaDuration)
-            {
-                return ((PlayerAirborne)Parent).umbrellaGlide;
-            }
-            return null;
-        }
-    }
-
-    //The glide following IntUmbrellaLaunch.
-    public class IntUmbrellaGlide : State
-    {
-        readonly PlayerContext ctx;
-        float timer = 0f;
-
-        public IntUmbrellaGlide(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.intUmbrellaMoveData;
-            ctx.useGravity = false;
-            ctx.hasGrabbed = false;
-            ctx.currentlyJumping = true;
-            //start glide animation
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (timer < ctx.umbrellaFloatAccelDuration)
-            {
-                timer += deltaTime;
-            }
-            Vector3 floatSpeed = ctx.rb.velocity;
-            floatSpeed.y = ctx.umbrellaFloatAcceleration.Evaluate(timer / ctx.umbrellaFloatAccelDuration) * -ctx.umbrellaFloatSpeed;
-            ctx.rb.velocity = floatSpeed;
-        }
-        protected override void OnExit()
-        {
-            timer = 0;
-            ctx.useGravity = true;
-            ctx.disableJump = false;
-            ctx.player.SetTrigger("IntEndUmbrella");
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump || ctx.rb.isGrounded)
-            {
-                return ctx.player.Root;
-            }
-            return null;
-        }
-    }
-
-    public class IntPoleSpin : State
-    {
-        readonly PlayerContext ctx;
-        float timer = 0f;
-        Vector3 speed = Vector3.zero;
-        float speedMagnitude;
-
-        public IntPoleSpin(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.intPoleMoveData;
-            ctx.useGravity = false;
-            ctx.hasGrabbed = true;
-            ctx.currentlyJumping = false;
-            //start pole spin animation
-            speed = ctx.rb.velocity;
-            speed.y = 0;
-            speedMagnitude = speed.magnitude;
-            ctx.rb.velocity = Vector3.zero;
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (speedMagnitude > ctx.groundMoveData.maxSpeed)
-            {
-                if (timer < ctx.speedPreservationTime)
-                {
-                    timer += deltaTime;
-                }
-                else
-                {
-                    speedMagnitude = ctx.groundMoveData.maxSpeed;
-                    Debug.Log("Speed lost!");
-                }
-            }
-            speed = ctx.moveDirection * speedMagnitude;
-        }
-        protected override void OnExit()
-        {
-            timer = 0;
-            ctx.useGravity = true;
-            ctx.disableJump = false;
-            ctx.hasGrabbed = false;
-            ctx.rb.velocity = speed;
-            ctx.facing = ctx.moveDirection;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (ctx.desiredJump || ctx.desiredGrab)
-            {
-                ctx.desiredGrab = false;
-                return ctx.player.Root;
-            }
-            return null;
-        }
-    }
-
-    public class IntParry : State
-    {
-        readonly PlayerContext ctx;
-        float entrySpeed;
-        bool jumped;
-
-        public IntParry(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.parryCount++;
-            ctx.savedVelocity = ctx.rb.velocity;
-            ctx.savedVelocity.y = 0;
-            entrySpeed = ctx.savedVelocity.magnitude;
-            ctx.cmd = ctx.intParryMoveData;
-            ctx.currentJumpData = ctx.intParryJumpData;
-            ctx.hasGrabbed = false;
-            //ANIMAITON TRIGGER
-            ctx.disablePound = true;
-            ctx.disableRoll = true;
-            ctx.rb.isGrounded = true;
-            Jump.PerformJump(ctx);
-            ctx.rb.isGrounded = false;
-            jumped = true;
-            Vector3 velocity = ctx.rb.velocity;
-            velocity.x = 0;
-            velocity.z = 0;
-            ctx.rb.velocity = velocity;
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            ctx.rb.IsGrounded();
-        }
-        protected override void OnExit()
-        {
-            ctx.disablePound = false;
-            ctx.disableRoll = false;
-            jumped = false;
-
-            if (ctx.rb.isGrounded)
-            {
-                Vector3 velocity = ctx.facing.normalized * (entrySpeed + (ctx.parryCount * ctx.parryBoost));
-                velocity.y = 0;
-                ctx.rb.velocity = velocity;
-                Debug.Log(ctx.rb.velocity);
-                ctx.parryCount = 0;
-            }
-            if (ctx.desiredGrab)
-            {
-                Debug.Log(ctx.rb.velocity);
-            }
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            return null;
-        }
-    }
-
-    public class IntDrowning : State
-    {
-        readonly PlayerContext ctx;
-        private float timer;
-
-        public IntDrowning(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.intDrowningMovement;
-            ctx.currentJumpData = ctx.intDrowningJumpData;
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (timer < ctx.drowningTime)
-            {
-                timer += deltaTime;
-            }
-        }
-        protected override void OnExit()
-        {
-            timer = 0;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (timer >= ctx.drowningTime)
-            {
-                timer = 0;
-                //REPLACE BELOW WITH TELEPORTING TO THE LAST SAFE LOCATION
-                ctx.rb.transform.position = new Vector3(0, 10, 0);
-                return ctx.player.Root;
-            }
-            return null;
-        }
-    }
-
-    public class IntBarSwing : State
-    {
-        readonly PlayerContext ctx;
-        private InputAction jump;
-        private InputAction trick;
-        private InputAction grab;
-        private Vector3 entryVelocity;
-        private float timer;
-
-        public IntBarSwing(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.useGravity = false;
-            entryVelocity = ctx.rb.velocity;
-            if (!ctx.convertYSpeed)
-            {
-                entryVelocity.y = 0;
-            }
-            ctx.rb.velocity = Vector3.zero;
-            ctx.cmd = ctx.intBarSwingMovement;
-            ctx.hasGrabbed = true;
-            ctx.player.SetTrigger("StartBarSwing");
-
-            jump = InputSystem.actions.FindAction("Jump");
-            trick = InputSystem.actions.FindAction("Trick");
-            grab = InputSystem.actions.FindAction("Grab");
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
-            {
-                Vector3 flippedRotation = ctx.playerAnimEventHandler.transform.rotation.eulerAngles;
-                flippedRotation.y += 180;
-                ctx.playerAnimEventHandler.transform.rotation = Quaternion.Euler(flippedRotation);
-            }
-            if (timer < ctx.barSpeedPreservationTime)
-            {
-                timer += deltaTime;
-            }
-            else
-            {
-                entryVelocity = Vector3.zero;
-            }
-        }
-        protected override void OnExit()
-        {
-            if (ctx.desiredJump)
-            {
-                ctx.useGravity = true;
-                ctx.rb.isGrounded = true;
-                ctx.currentJumpData = ctx.intBarSwingJumpData;
-                Jump.PerformJump(ctx);
-                Vector3 velocity = ctx.playerAnimEventHandler.transform.forward * ctx.barMinimumSpeed;
-                if (entryVelocity.magnitude > ctx.barMinimumSpeed)
-                {
-                    velocity = ctx.playerAnimEventHandler.transform.forward * entryVelocity.magnitude;
-                }
-                Debug.Log(entryVelocity.magnitude);
-                velocity.y = 0;
-                ctx.rb.velocity += velocity;
-            }
-            if (ctx.rb.isGrounded)
-            {
-                ctx.useGravity = true;
-            }
-            timer = 0;
-            ctx.hasGrabbed = false;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (ctx.rb.isGrounded)
-            {
-                return ctx.player.Root;
-            }
-            else if (ctx.desiredJump)
-            {
-                return ctx.player.Root.airborne;
-            }
-                return null;
         }
     }
 }

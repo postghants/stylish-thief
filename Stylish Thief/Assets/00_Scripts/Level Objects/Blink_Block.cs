@@ -6,7 +6,7 @@ public class Blink_Block : MonoBehaviour
 {
     public Collider Col;
     public Renderer Ren;
-
+    public float Wait;
 
     void Start() 
     {
@@ -20,7 +20,7 @@ public class Blink_Block : MonoBehaviour
             Col.enabled = false;
             Ren.enabled = false;
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(Wait);
         }
         else
         {
@@ -29,7 +29,7 @@ public class Blink_Block : MonoBehaviour
         Col.enabled = true;
         Ren.enabled = true;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(Wait);
         StartCoroutine(Blinking());
     }
 }

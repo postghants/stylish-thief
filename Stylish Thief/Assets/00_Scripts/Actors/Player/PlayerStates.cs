@@ -1489,9 +1489,9 @@ namespace HSM
         {
             if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
             {
-                Vector3 flippedRotation = ctx.playerAnimEventHandler.transform.rotation.eulerAngles;
+                Vector3 flippedRotation = ctx.anim.transform.rotation.eulerAngles;
                 flippedRotation.y += 180;
-                ctx.playerAnimEventHandler.transform.rotation = Quaternion.Euler(flippedRotation);
+                ctx.anim.transform.rotation = Quaternion.Euler(flippedRotation);
             }
             if (timer < ctx.barSpeedPreservationTime)
             {

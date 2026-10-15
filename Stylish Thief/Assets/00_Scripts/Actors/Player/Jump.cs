@@ -98,13 +98,7 @@ public class Jump
             //}
 
             var animStateInfo = ctx.anim.GetCurrentAnimatorStateInfo(0);
-            if (!animStateInfo.IsName("Liftoff") && !animStateInfo.IsName("Jump Upwards") && !animStateInfo.IsName("Stall")
-                && !animStateInfo.IsName("Bonk") && !animStateInfo.IsName("Bonk Loop")
-                && !animStateInfo.IsName("Grab") && !animStateInfo.IsName("Grab Loop") && !animStateInfo.IsName("Grab End")
-                && !animStateInfo.IsName("Ledge Grab") && !animStateInfo.IsName("Vault") && !animStateInfo.IsName("Vault Jump Loop")
-                && !animStateInfo.IsName("Bag Throw") && !animStateInfo.IsName("Bag Throw Loop")
-                && !animStateInfo.IsName("Fall") && !animStateInfo.IsName("Fall Loop") && !animStateInfo.IsName("Fast Fall") && !animStateInfo.IsName("Fast Fall Loop")
-                && !animStateInfo.IsName("IntEndUmbrella") && !animStateInfo.IsName("IntStartUmbrella"))
+            if (!animStateInfo.IsTag("DontStartFall"))
             {
                 ctx.player.SetTrigger("StartFall");
             }

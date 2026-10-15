@@ -1,4 +1,3 @@
-using FMODUnity;
 using UnityEngine;
 
 public class KickableObject : MonoBehaviour
@@ -17,9 +16,6 @@ public class KickableObject : MonoBehaviour
     [Tooltip("Where should this object's center move when kicked? This determines the middle of its rotation. Recommended to leave at 0, 0, 0 in most cases.")] public Vector3 centerAfterHit;
     [Tooltip("What should this object's scale change to when kicked? Recommended to leave at 0, 0, 0 in most cases.")] public Vector3 sizeAfterHit;
     [Tooltip("Where should this object's visual 3D model move when pushed? Recommended to leave at 0, 0, 0 in most cases.")] public Vector3 visualPositionAfterHit;
-
-    //tom fmod EventReference
-    [SerializeField] EventReference kickCanEvent;
 
     //public float scaleMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,9 +46,6 @@ public class KickableObject : MonoBehaviour
             targetDir = -targetDir - new Vector3(0, -targetDir.y, 0) + new Vector3(0, upForce, 0);
             rb.linearVelocity = targetDir.normalized * force;
             rb.angularVelocity = Random.insideUnitSphere * rotationalForce;
-
-            //tom audio event
-            RuntimeManager.PlayOneShotAttached(kickCanEvent, gameObject);
 
             if (!kicked)
             {

@@ -1,4 +1,3 @@
-using FMODUnity;
 using UnityEngine;
 
 public class Collection : MonoBehaviour
@@ -9,8 +8,6 @@ public class Collection : MonoBehaviour
     public float givenScore;
     public string crimeName;
     public bool theftIsMinor;
-
-    [SerializeField] EventReference onCollectEvent;
 
     float currentTime;
 
@@ -54,7 +51,6 @@ public class Collection : MonoBehaviour
         light.enabled = false;
         particles.SetActive(false);
         currentTime = 0;
-        RuntimeManager.PlayOneShotAttached(onCollectEvent, gameObject);
 
         if (theftIsMinor)
         {

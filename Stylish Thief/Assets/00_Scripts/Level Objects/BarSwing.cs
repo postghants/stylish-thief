@@ -5,27 +5,17 @@ public class BarSwing : MonoBehaviour
     private PlayerStateDriver player;
     private Vector3 entryRotation;
     private Quaternion barStartRotation;
-    private PlayerAnimEventHandler eventHandler;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private Transform animator;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
-            eventHandler = player.GetComponentInChildren<PlayerAnimEventHandler>();
+            animator = player.ctx.anim.transform;
 
             player.transform.position = transform.position;
-            entryRotation = eventHandler.transform.rotation.eulerAngles;
+            entryRotation = animator.transform.rotation.eulerAngles;
             barStartRotation = transform.rotation;
             CalculateAngles();
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.barSwing);
@@ -37,11 +27,11 @@ public class BarSwing : MonoBehaviour
 
         if ((difference > 90 && difference < 270) || (difference < -90 && difference > -270))
         {
-            eventHandler.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+            animator.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
         }
         else
         {
-            eventHandler.transform.rotation = transform.rotation;
+            animator.transform.rotation = transform.rotation;
         }
     }
 }

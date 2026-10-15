@@ -473,7 +473,6 @@ public class PlayerContext
     [FoldoutGroup("References")][HideInInspector] public UIBar healthBar;
     [FoldoutGroup("References")] public Material playerMat;
     [FoldoutGroup("References")] public ParticleManager particleManager;
-    [FoldoutGroup("References")] public PlayerAnimEventHandler playerAnimEventHandler;
     [FoldoutGroup("References")] public Collider bagHitbox;
 
     [FoldoutGroup("Prefabs")] public GameObject playerUIPrefab;

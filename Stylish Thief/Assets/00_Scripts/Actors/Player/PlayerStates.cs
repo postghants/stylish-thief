@@ -165,9 +165,6 @@ namespace HSM
                     newVel *= ctx.stunDeceleration;
                 }
 
-                //tom toevoeging
-                ctx.playerAnimEventHandler?.Bump();
-
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
                 ctx.isStunned = true;
@@ -1513,10 +1510,10 @@ namespace HSM
                 ctx.rb.isGrounded = true;
                 ctx.currentJumpData = ctx.intBarSwingJumpData;
                 Jump.PerformJump(ctx);
-                Vector3 velocity = ctx.playerAnimEventHandler.transform.forward * ctx.barMinimumSpeed;
+                Vector3 velocity = ctx.anim.transform.forward * ctx.barMinimumSpeed;
                 if (entryVelocity.magnitude > ctx.barMinimumSpeed)
                 {
-                    velocity = ctx.playerAnimEventHandler.transform.forward * entryVelocity.magnitude;
+                    velocity = ctx.anim.transform.forward * entryVelocity.magnitude;
                 }
                 Debug.Log(entryVelocity.magnitude);
                 velocity.y = 0;

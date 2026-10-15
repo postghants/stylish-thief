@@ -1,4 +1,3 @@
-using FMODUnity;
 using UnityEngine;
 
 public class RickBird : MonoBehaviour
@@ -16,9 +15,6 @@ public class RickBird : MonoBehaviour
     [Header("Internal no touchy")]
     [Tooltip("Do not touch! Leave at 0!")] public float verticalSpeed = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    //tom audio
-    [SerializeField] EventReference birdFlyEvent;
 
     void Start()
     {
@@ -44,7 +40,6 @@ public class RickBird : MonoBehaviour
     }
     public void FlyAway(Transform player)
     {
-        RuntimeManager.PlayOneShotAttached(birdFlyEvent, gameObject);
         sitting.SetActive(false);
         flying.SetActive(true);
         trigger = GetComponentInParent<RickBirdTrigger>();

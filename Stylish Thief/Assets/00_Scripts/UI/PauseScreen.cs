@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 public class PauseScreen : MonoBehaviour
 {
     public GameObject pauseScreen;
-    public bool stopMusicOnPauseScreens;
     private InputAction pause;
-    public MusicSystem musicSystemReference;
     private float targetTime = 0.6f;
     public bool lockMouseOnExit;
     public bool setFirstObject;
@@ -39,14 +37,13 @@ public class PauseScreen : MonoBehaviour
         {
             if (pauseScreen.activeSelf)
             {
-                if (stopMusicOnPauseScreens)
+
+                pauseScreen.SetActive(false);
+                Time.timeScale = 1;
+
+                if (lockMouseOnExit)
                 {
-                    musicSystemReference.PauseAudioHandler();
-                    StartCoroutine(PauseTimer());
-                    if (lockMouseOnExit)
-                    {
-                        Cursor.lockState = CursorLockMode.Locked;
-                    }
+                    Cursor.lockState = CursorLockMode.Locked;
                 }
             }
             else
@@ -54,25 +51,9 @@ public class PauseScreen : MonoBehaviour
 
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-                pauseScreen.SetActive(true);
-                if (stopMusicOnPauseScreens)
-                {
-                    musicSystemReference.PauseAudioHandler();
-
-                }
-                
+                pauseScreen.SetActive(true);             
             }
         }
-    }
-
-    public IEnumerator PauseTimer()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        yield return new WaitForSecondsRealtime(targetTime);
-        pauseScreen.SetActive(false);
-
-        
-        Time.timeScale = 1;
     }
     public void ActivateSelf()
     {

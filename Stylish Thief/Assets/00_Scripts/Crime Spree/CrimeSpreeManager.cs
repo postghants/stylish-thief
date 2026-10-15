@@ -1,4 +1,3 @@
-using FMODUnity;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -49,11 +48,6 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     //tom's score delay
     private float targetTime = 0.5f;
-
-    [Header("FMOD Events")]
-    //tom timer toggle
-    [SerializeField] EventReference bigCrimeEvent;
-    [SerializeField] EventReference smallCrimeEvent;
 
     private void Start()
     {
@@ -168,7 +162,6 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
 
     public void CollectedValuable(Valuable collected)
     {
-        RuntimeManager.PlayOneShotAttached(bigCrimeEvent, gameObject);
         if (ChaseTimer == 0)
         {
             StartSpree();
@@ -324,6 +317,8 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
     {
         SpawnNewValuables(new(), valuablesToSpawn);
     }
+
+    //Tom: volgens mij doet deze op het moment niks? oorspronkelijk was dit om de score later in het scherm te laten verschijnen zodat de UI + het UI geluid losgekoppeld is van de actie.
     private IEnumerator CrimeDelayTimer(float score, string crimeName)
     {
         yield return new WaitForSecondsRealtime(targetTime);
@@ -332,6 +327,5 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         chaseUI.crimeReact.DoReaction(true, 2, .25f);
         chaseUI.multReact.DoReaction(true, 0, 0);
         chaseUI.rewardReact.DoReaction(true, 2, 1);
-        RuntimeManager.PlayOneShotAttached(smallCrimeEvent, gameObject);
     }
 }

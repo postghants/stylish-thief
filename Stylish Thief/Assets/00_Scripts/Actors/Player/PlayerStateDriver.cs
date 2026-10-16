@@ -433,30 +433,26 @@ public class PlayerContext
     [FoldoutGroup("Stunned")][Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
     [FoldoutGroup("Stunned")] public bool setSpeedToZero;
 
-
     [FoldoutGroup("Harsh Landing")] public float harshLandingDuration;
-    [FoldoutGroup("Harsh Landing")] public float harshLandingDamage;
     [FoldoutGroup("Harsh Landing")] public MoveData harshLandingData;
 
-    [FoldoutGroup("Very Bad Landing")] public float veryBadLandingDuration;
-    [FoldoutGroup("Very Bad Landing")] public float veryBadLandingDamage;
-    [FoldoutGroup("Very Bad Landing")] public MoveData veryBadLandingData;
+    [Header("Tumbling")]
+    [FoldoutGroup("Tumbling")] public JumpData tumblingJumpData;
+    [FoldoutGroup("Tumbling")] public MoveData tumblingMoveData;
+    [FoldoutGroup("Tumbling")] public float minimumHarshLandingSpeed;
 
     [Header("Roll")]
     [FoldoutGroup("Roll")] public bool disableRoll;
     [FoldoutGroup("Roll")] public float rollTiming;
-    //[FoldoutGroup("Roll")][Tooltip("Speed added when entering roll")] public float rollSpeed;
-    //[FoldoutGroup("Roll")][Tooltip("Time before roll ends")] public float rollDuration;
-    //[FoldoutGroup("Roll")][Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
-    //[FoldoutGroup("Roll")][Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
-    //[FoldoutGroup("Roll")][Tooltip("Time until player can move after roll")] public float rollEndLag;
-
     [FoldoutGroup("Roll")][Tooltip("Minimum speed at which you can Roll")] public float rollMinSpeed;
     [FoldoutGroup("Roll")][Tooltip("How strongly to convert your fall speed to horizontal speed. Set to 0 to not count fall speed. Set to 1 for 1 to 1 conversion")] public float rollYConversionStrength;
     [FoldoutGroup("Roll")][Tooltip("The shortest time a Roll can last if it's above the minimum speed")] public float rollMinTime;
-    //[FoldoutGroup("Roll")] public bool disableRollJump;
     [FoldoutGroup("Roll")] public MoveData rollMoveData;
-    [FoldoutGroup("Roll")] public JumpData rollJump;
+    [FoldoutGroup("Roll")] public bool disableRollJump;
+    [FoldoutGroup("Roll")][Tooltip("How strongly to convert your Roll speed to vertical speed. Set to 0 to not count roll speed. Set to 1 for 1 to 1 conversion")] public float rollJumpConversionStrength;
+    [FoldoutGroup("Roll")][Tooltip("From what speed can you Grab during the Roll Jump? Should be close to 0. Enter a positive number")] public float rollJumpGrabSpeedLimit;
+    [FoldoutGroup("Roll")] public JumpData rollJumpData;
+    [FoldoutGroup("Roll")] public MoveData rollJumpMoveData;
 
     [FoldoutGroup("Bag Throw")] public bool disablePound;
     [FoldoutGroup("Bag Throw")] public bool additive;
@@ -511,6 +507,8 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public float grabTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float rollTimer;
     [FoldoutGroup("Internal")][ReadOnly] public bool desiredRoll;
+    [FoldoutGroup("Internal")][ReadOnly] public bool hasRollJumped;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;

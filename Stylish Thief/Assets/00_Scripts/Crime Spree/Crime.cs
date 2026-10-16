@@ -24,7 +24,6 @@ public class Crime : MonoBehaviour
         else if (count)
         {
             resetCrime?.Invoke();
-            Debug.Log("Invoking");
             count = false;
         }
     }

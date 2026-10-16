@@ -1,7 +1,4 @@
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace HSM
 {
@@ -484,6 +481,10 @@ namespace HSM
                     //{
                     //    return ((PlayerRoot)Machine.Root).grounded;
                     //}
+                    if (ctx.isTumbling)
+                    {
+                        return ((PlayerAirborne)Parent).tumble;
+                    }
                     return Parent;
                 }
             }
@@ -494,128 +495,12 @@ namespace HSM
     public class PlayerRolling : State
     {
         readonly PlayerContext ctx;
-
-        private Vector3 rollVelocity;
-        private float timer = 0;
-        public PlayerRolling(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.rollMoveData;
-            ctx.useGravity = false;
-            ctx.pressingJump = false;
-            //ctx.blockJump = 1;
-
-            ctx.player.SetTrigger("StartRoll");
-
-            Debug.Log(ctx.rb.velocity.y);
-            rollVelocity = ctx.rb.velocity;
-            rollVelocity.y = rollVelocity.y * ctx.rollYConversionStrength;
-            rollVelocity = ctx.facing.normalized * rollVelocity.magnitude;
-            rollVelocity.y = 0;
-            ctx.rb.velocity = rollVelocity;
-        }
-
-        /*private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
-        {
-            //if (Leaf() != ((PlayerAirborne)Parent).rollbing)
-            //{
-            //    ctx.rb.onCollision -= OnCollision;
-            //    return;
-            //}
-            if (!ctx.disableStun)
-            {
-                PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
-            }
-        }*/
-
-        protected override void OnUpdate(float deltaTime)
-        {
-            /*if (!addedCollisionEvent && !ctx.disableStun)
-            {
-                addedCollisionEvent = true;
-                ctx.rb.onCollision += OnCollision;
-            }*/
-            if (timer < ctx.rollMinTime)
-            {
-                timer += deltaTime;
-            }
-
-        }
-
-        protected override void OnExit()
-        {
-            timer = 0;
-
-
-            //ctx.blockJump--;
-            ctx.rollTimer = 0;
-            ctx.useGravity = true;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (rollVelocity.magnitude < ctx.rollMinSpeed)
-            {
-                ctx.player.SetTrigger("EndRoll");
-                return Parent;
-            }
-            else if (!ctx.pressingTrick && timer >= ctx.rollMinTime)
-            {
-                ctx.player.SetTrigger("EndRoll");
-                return Parent;
-            }
-
-
-
-            /*ctx.rollTimer += deltaTime;
-
-            if (ctx.pressingJump && !ctx.disableRollJump)
-            {
-                ctx.currentJumpData = ctx.rollJump;
-                ctx.player.SetTrigger("RollToJump");
-                Jump.PerformJump(ctx);
-            }
-            if (ctx.rollTimer > ctx.rollDuration)
-            {
-                if (!isDecelerating)
-                {
-                    isDecelerating = true;
-                    Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                    initialVelocity = horizontalVel;
-                    targetVelocity = horizontalVel.normalized * ctx.rollEndSpeed;
-                }
-                if (ctx.rollTimer <= ctx.rollDuration + ctx.rollDeceleration)
-                {
-                    var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.rollTimer - ctx.rollDuration) / ctx.rollDeceleration);
-                    ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
-                }
-                if (ctx.rollTimer > ctx.rollDuration + ctx.rollDeceleration + ctx.rollEndLag)
-                {
-                    ctx.rollTimer = 0;
-                    ctx.player.SetTrigger("EndRoll");
-                    return Parent;
-                }
-
-
-                
-            }*/
-            return null;
-        }
-    }
-
-    public class PlayerRoll : State
-    {
-        readonly PlayerContext ctx;
         private Vector3 entryVelocity;
         private float speed;
         private float timer;
+        private bool jumping;
 
-        public PlayerRoll(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        public PlayerRolling(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
@@ -625,8 +510,19 @@ namespace HSM
         {
             if (ctx.lastLandingVelocity.y != 0)
             {
-                entryVelocity = ctx.lastLandingVelocity;
-                speed = entryVelocity.magnitude;
+                //entryVelocity = ctx.lastLandingVelocity;
+                //entryVelocity.y = entryVelocity.y * ctx.rollYConversionStrength;
+                //speed = entryVelocity.magnitude;
+
+                Vector2 horizontalVelocity = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                if (-ctx.lastLandingVelocity.y > horizontalVelocity.magnitude)
+                {
+                    speed = -ctx.lastLandingVelocity.y * ctx.rollYConversionStrength;
+                }
+                else
+                {
+                    speed = horizontalVelocity.magnitude;
+                }
             }
             else
             {
@@ -648,6 +544,18 @@ namespace HSM
         {
             timer = 0;
             ctx.player.SetTrigger("EndRoll");
+            if (jumping)
+            {
+                jumping = false;
+                ctx.hasRollJumped = true;
+                Debug.Log("Doing the things");
+                ctx.currentJumpData = ctx.rollJumpData;
+                ctx.rollJumpData.jumpImpulse = ctx.rb.velocity.magnitude * ctx.rollJumpConversionStrength;
+                Jump.PerformJump(ctx);
+                ctx.cmd = ctx.rollJumpMoveData;
+                ctx.rb.velocity.x = 0;
+                ctx.rb.velocity.z = 0;
+            }
         }
 
         protected override State GetTransition(float deltaTime)
@@ -660,16 +568,24 @@ namespace HSM
             {
                 return ctx.player.Root;
             }
+            if (!ctx.disableRollJump)
+            {
+                if (ctx.desiredJump || ctx.pressingJump)
+                {
+                    jumping = true;
+                    return ctx.player.Root.airborne.rollJump;
+                }
+            }
             return null;
         }
     }
 
-    public class PlayerHarshLanded : State
+    public class PlayerRollJumping : State
     {
         readonly PlayerContext ctx;
-        private float timer;
-        private bool isVeryBad;
-        public PlayerHarshLanded(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        private bool hasGoneUp;
+
+        public PlayerRollJumping(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
@@ -677,49 +593,125 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            timer = 0;
-            ctx.landingSpeed = 0;
-            ctx.blockJump++;
-            ctx.isStunned = true;
+            ctx.cmd = ctx.rollJumpMoveData;
+            ctx.currentJumpData = ctx.rollJumpData;
 
-            /*if (!ctx.disableRoll && ctx.rollBufferCounter > 0 && ctx.rollBufferCounter < ctx.rollTiming)
-            {
-                Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
-                return;
-            }*/
-
-            if (ctx.rollBufferCounter > ctx.rollTiming)
-            {
-                ctx.player.TakeDamage(ctx.veryBadLandingDamage);
-                ctx.cmd = ctx.veryBadLandingData;
-                isVeryBad = true;
-                ctx.player.SetTrigger("StartVeryBadLanding");
-            }
-            else
-            {
-                ctx.player.TakeDamage(ctx.harshLandingDamage);
-                ctx.cmd = ctx.harshLandingData;
-                isVeryBad = false;
-                ctx.player.SetTrigger("StartBadLanding");
-            }
-
+            ctx.disablePound = true;
+            ctx.disableGrab = true;
         }
-
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ctx.rb.velocity.y > 0)
+            {
+                hasGoneUp = true;
+            }
+            if (ctx.rb.velocity.y < -ctx.rollJumpGrabSpeedLimit)
+            {
+                ctx.disableGrab = false;
+            }
+        }
         protected override void OnExit()
         {
-            ctx.blockJump = 0;
-            ctx.isStunned = false;
+            hasGoneUp = false;
+            ctx.disablePound = false;
+            ctx.disableGrab = false;
+            ctx.isTumbling = true;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            timer += deltaTime;
-            if (!isVeryBad && timer >= ctx.harshLandingDuration || isVeryBad && timer >= ctx.veryBadLandingDuration)
+            if (ctx.rb.velocity.y <= 0 && hasGoneUp)
             {
-                ctx.player.SetTrigger("EndBadLanding");
-                ctx.blockJump--;
-                ctx.cmd = ctx.groundMoveData;
-                return ((PlayerGrounded)Parent).moving;
+                return ctx.player.Root.airborne.tumble;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerTumbling : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerTumbling(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.tumblingMoveData;
+            ctx.currentJumpData = ctx.tumblingJumpData;
+            ctx.isTumbling = true;
+
+            ctx.disablePound = true;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+
+        }
+        protected override void OnExit()
+        {
+            ctx.disablePound = false;
+            if (!ctx.desiredGrab)
+            {
+                ctx.isTumbling = false;
+            }
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.rb.isGrounded) //This never runs because its parent always sees this condition first and acts on it by transitioning before this class ever notices
+            {
+                Debug.Log("The thing runs!!!!!");
+                return ((PlayerRoot)Parent).grounded.harshLanded;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerHarshLanding : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerHarshLanding(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.blockJump++;
+            ctx.isStunned = true;
+            ctx.player.SetTrigger("StartBadLanding");
+            ctx.cmd = ctx.harshLandingData;
+            ctx.disableRoll = true;
+            Debug.Log("Blam!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.harshLandingDuration)
+            {
+                timer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            ctx.blockJump = 0;
+            ctx.isStunned = false;
+            ctx.cmd = ctx.groundMoveData;
+            timer = 0;
+            ctx.disableRoll = false;
+            ctx.player.SetTrigger("EndBadLanding");
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.harshLandingDuration)
+            {
+                return ctx.player.Root;
             }
             return null;
         }
@@ -820,8 +812,8 @@ namespace HSM
         public readonly PlayerMoving moving;
         public readonly PlayerIdle idle;
         public readonly PlayerStunned stunned;
-        public readonly PlayerHarshLanded harshLanded;
-        public readonly PlayerRoll rolling;
+        public readonly PlayerHarshLanding harshLanded;
+        public readonly PlayerRolling rolling;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -841,6 +833,8 @@ namespace HSM
             ctx.hasGrabbed = false;
             ctx.cmd = ctx.groundMoveData;
             ctx.currentMoveMult = 1;
+
+            Debug.Log("Grounded runs before Roll");
             //ctx.playerMat.color = ctx.baseColor;
             // Do animations or whatever
         }
@@ -903,9 +897,13 @@ namespace HSM
             }
             if (ctx.rb.isGrounded && ctx.desiredRoll && !ctx.disableRoll)
             {
-                if (ctx.rb.velocity.magnitude > ctx.rollMinSpeed)
+                if (ctx.rb.velocity.magnitude > ctx.rollMinSpeed && !ctx.hasRollJumped)
                 {
                     return ((PlayerRoot)Parent).grounded.rolling;
+                }
+                else if (ctx.hasRollJumped)
+                {
+                    ctx.hasRollJumped = false;
                 }
             }
             return null;
@@ -939,6 +937,9 @@ namespace HSM
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
         public readonly PlayerPrePound prePound;
+        public readonly PlayerRollJumping rollJump;
+        public readonly PlayerTumbling tumble;
+
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
         public readonly IntPoleSpin poleSpin;
@@ -957,12 +958,14 @@ namespace HSM
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
             prePound = new(m, this, ctx);
+            barSwing = new(m, this, ctx);
+            rollJump = new(m, this, ctx);
+            tumble = new(m, this, ctx);
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
             poleSpin = new(m, this, ctx);
             parry = new(m, this, ctx);
             drowning = new(m, this, ctx);
-            barSwing = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -1067,17 +1070,22 @@ namespace HSM
 
                 ctx.OnLand.Invoke(ctx);
 
-                if (ctx.desiredRoll && !ctx.disableRoll)
+                if (!ctx.isTumbling)
                 {
-                    ctx.landingSpeed = 0;
-                    return ((PlayerRoot)Parent).grounded.rolling;
+                    if (ctx.desiredRoll && !ctx.disableRoll && !ctx.hasRollJumped)
+                    {
+                        ctx.landingSpeed = 0;
+                        return ((PlayerRoot)Parent).grounded.rolling;
+                    }
                 }
-                else
+                else if (-ctx.landingSpeed > ctx.minimumHarshLandingSpeed)
                 {
-                    if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
+                    /*if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
                     {
                         return ((PlayerRoot)Parent).grounded.harshLanded;
-                    }
+                    }*/
+                    ctx.landingSpeed = 0;
+                    return ((PlayerRoot)Parent).grounded.harshLanded;
                 }
 
                 return ((PlayerRoot)Parent).grounded;

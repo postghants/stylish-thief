@@ -1,4 +1,3 @@
-using FMODUnity;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 

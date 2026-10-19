@@ -441,6 +441,12 @@ public class PlayerContext
     [FoldoutGroup("Tumbling")] public MoveData tumblingMoveData;
     [FoldoutGroup("Tumbling")] public float minimumHarshLandingSpeed;
 
+    [Header("Tricks")]
+    [FoldoutGroup("Tricks")] public bool disableGroundTrick;
+    [FoldoutGroup("Tricks")] public bool disableAirTrick;
+    [FoldoutGroup("Tricks")] public float groundTrickLength;
+    [FoldoutGroup("Tricks")] public float airTrickLength;
+
     [Header("Roll")]
     [FoldoutGroup("Roll")] public bool disableRoll;
     [FoldoutGroup("Roll")] public float rollTiming;
@@ -509,6 +515,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public bool desiredRoll;
     [FoldoutGroup("Internal")][ReadOnly] public bool hasRollJumped;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;

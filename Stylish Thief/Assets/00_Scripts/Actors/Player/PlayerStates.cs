@@ -598,6 +598,7 @@ namespace HSM
 
             ctx.disablePound = true;
             ctx.disableGrab = true;
+            ctx.disableAirTrick = true;
         }
         protected override void OnUpdate(float deltaTime)
         {
@@ -615,6 +616,7 @@ namespace HSM
             hasGoneUp = false;
             ctx.disablePound = false;
             ctx.disableGrab = false;
+            ctx.disableAirTrick = false;
             ctx.isTumbling = true;
         }
 
@@ -665,6 +667,102 @@ namespace HSM
             {
                 Debug.Log("The thing runs!!!!!");
                 return ((PlayerRoot)Parent).grounded.harshLanded;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerGroundedTricking : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerGroundedTricking(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.blockJump++;
+            ctx.isStunned = true;
+            ctx.player.SetTrigger("LedgeGrabToVault");
+            ctx.cmd = ctx.harshLandingData;
+            ctx.disableRoll = true;
+            NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.groundTrickLength)
+            {
+                timer += deltaTime;
+
+                NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            }
+        }
+        protected override void OnExit()
+        {
+            ctx.blockJump = 0;
+            ctx.isStunned = false;
+            ctx.cmd = ctx.groundMoveData;
+            timer = 0;
+            ctx.disableRoll = false;
+            NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.groundTrickLength)
+            {
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerAirTricking : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerAirTricking(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.player.SetTrigger("StartBarSwing");
+            ctx.disableRoll = true;
+            ctx.disableGrab = true;
+            ctx.disablePound = true;
+            ctx.desiredRoll = true;
+            ctx.isTricking = true;
+            timer = 0;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.airTrickLength)
+            {
+                timer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            ctx.disableRoll = false;
+            ctx.disableGrab = false;
+            ctx.disablePound = false;
+            ctx.isTricking = false;
+            NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.airTrickLength)
+            {
+                return ctx.player.Root.airborne;
             }
             return null;
         }
@@ -814,6 +912,7 @@ namespace HSM
         public readonly PlayerStunned stunned;
         public readonly PlayerHarshLanding harshLanded;
         public readonly PlayerRolling rolling;
+        public readonly PlayerGroundedTricking groundTricking;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -826,6 +925,7 @@ namespace HSM
             stunned = new(m, this, ctx);
             harshLanded = new(m, this, ctx);
             rolling = new(m, this, ctx);
+            groundTricking = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -906,6 +1006,10 @@ namespace HSM
                     ctx.hasRollJumped = false;
                 }
             }
+            if (ctx.rb.isGrounded && ctx.desiredRoll && ctx.rb.velocity.magnitude < ctx.rollMinSpeed && !ctx.disableGroundTrick)
+            {
+                return ((PlayerRoot)Parent).grounded.groundTricking;
+            }
             return null;
         }
     }
@@ -939,6 +1043,7 @@ namespace HSM
         public readonly PlayerPrePound prePound;
         public readonly PlayerRollJumping rollJump;
         public readonly PlayerTumbling tumble;
+        public readonly PlayerAirTricking airTricking;
 
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
@@ -961,6 +1066,8 @@ namespace HSM
             barSwing = new(m, this, ctx);
             rollJump = new(m, this, ctx);
             tumble = new(m, this, ctx);
+            airTricking = new(m, this, ctx);
+
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
             poleSpin = new(m, this, ctx);
@@ -1032,6 +1139,15 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
+
+            /*if (ctx.isTricking)
+            {
+                ctx.disableRoll = false;
+                ctx.disableGrab = false;
+                ctx.disablePound = false;
+                ctx.isTricking = false;
+                NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            }*/
         }
 
         protected override State GetInitialState() => falling;
@@ -1052,6 +1168,10 @@ namespace HSM
                 {
                     return null;
                 }
+                if (ctx.desiredRoll && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick)
+                {
+                    return airTricking;
+                }
             }
             if (ctx.rb.isGrounded)
             {
@@ -1067,9 +1187,6 @@ namespace HSM
                     }
                     return null;
                 }
-
-                ctx.OnLand.Invoke(ctx);
-
                 if (!ctx.isTumbling)
                 {
                     if (ctx.desiredRoll && !ctx.disableRoll && !ctx.hasRollJumped)
@@ -1087,6 +1204,12 @@ namespace HSM
                     ctx.landingSpeed = 0;
                     return ((PlayerRoot)Parent).grounded.harshLanded;
                 }
+                if (ctx.isTricking)
+                {
+                    return ((PlayerRoot)Parent).grounded.harshLanded;
+                }
+
+                ctx.OnLand.Invoke(ctx);
 
                 return ((PlayerRoot)Parent).grounded;
 

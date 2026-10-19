@@ -5939,7 +5939,6 @@ MonoBehaviour:
     healthBar: {fileID: 0}
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
     particleManager: {fileID: 7529127243591585783}
-    playerAnimEventHandler: {fileID: 2577875006501607645}
     bagHitbox: {fileID: 5277981362991357100}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
@@ -16448,9 +16447,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2577875006501607645}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6728575028680813074}
   m_SourcePrefab: {fileID: 100100000, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
 --- !u!4 &8092761614624209396 stripped
@@ -16463,74 +16459,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
   m_PrefabInstance: {fileID: 8630579906912902687}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2577875006501607645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8864372020807721806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50ae27712a18af64e9200492f2bddce3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  footstepLeftEvent:
-    Guid:
-      Data1: -960653007
-      Data2: 1247220039
-      Data3: 980144034
-      Data4: 902832051
-    Path: event:/left_footstep
-  footstepRightEvent:
-    Guid:
-      Data1: -960488152
-      Data2: 1090313440
-      Data3: -1180372035
-      Data4: -27207080
-    Path: event:/right_footstep
-  onJumpEvent:
-    Guid:
-      Data1: -526397677
-      Data2: 1311755693
-      Data3: 890144933
-      Data4: -1429861228
-    Path: event:/jump
-  onGrabEvent:
-    Guid:
-      Data1: 1362505161
-      Data2: 1341944431
-      Data3: 1157851535
-      Data4: 1809422228
-    Path: event:/grab
-  onBumpEvent:
-    Guid:
-      Data1: 737487761
-      Data2: 1219444782
-      Data3: -1462997096
-      Data4: 909930509
-    Path: event:/bump
-  onLedgeEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  onDashEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  onLandingEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!95 &6728575028680813074
 Animator:
   serializedVersion: 7

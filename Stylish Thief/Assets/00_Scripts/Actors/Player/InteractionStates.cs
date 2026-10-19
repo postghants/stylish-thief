@@ -299,9 +299,9 @@ namespace HSM
         {
             if (trick.WasPerformedThisFrame() || grab.WasPerformedThisFrame())
             {
-                Vector3 flippedRotation = ctx.playerAnimEventHandler.transform.rotation.eulerAngles;
+                Vector3 flippedRotation = ctx.anim.transform.rotation.eulerAngles;
                 flippedRotation.y += 180;
-                ctx.playerAnimEventHandler.transform.rotation = Quaternion.Euler(flippedRotation);
+                ctx.anim.transform.rotation = Quaternion.Euler(flippedRotation);
             }
             if (timer < ctx.barSpeedPreservationTime)
             {
@@ -320,10 +320,10 @@ namespace HSM
                 ctx.rb.isGrounded = true;
                 ctx.currentJumpData = ctx.intBarSwingJumpData;
                 Jump.PerformJump(ctx);
-                Vector3 velocity = ctx.playerAnimEventHandler.transform.forward * ctx.barMinimumSpeed;
+                Vector3 velocity = ctx.anim.transform.forward * ctx.barMinimumSpeed;
                 if (entryVelocity.magnitude > ctx.barMinimumSpeed)
                 {
-                    velocity = ctx.playerAnimEventHandler.transform.forward * entryVelocity.magnitude;
+                    velocity = ctx.anim.transform.forward * entryVelocity.magnitude;
                 }
                 Debug.Log(entryVelocity.magnitude);
                 velocity.y = 0;

@@ -69,7 +69,7 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
         {
             if (ChaseTimer == 0) { return; }
             if (gameOver) { return; }
-            if (ChaseTimer < 0 ) { EndSpree(); gameOver = true; Debug.Log("End Spree!!!!!!!"); return; }
+            if (ChaseTimer < 0) { EndSpree(); gameOver = true; Debug.Log("End Spree!!!!!!!"); return; }
             if (ChaseTimer >= 60)
             {
                 chaseUI.timerText.text = TimeSpan.FromSeconds(ChaseTimer).ToString("ss");
@@ -89,13 +89,13 @@ public class CrimeSpreeManager : Singleton<CrimeSpreeManager>
             if (ComboCount > 0 && comboTime != 0)
             {
                 ComboTimer += Time.deltaTime;
-                if(ComboTimer >= comboTime)
+                if (ComboTimer >= comboTime)
                 {
                     ResetComboCount();
                 }
             }
 
-            
+
         }
     }
     public void Countdown()

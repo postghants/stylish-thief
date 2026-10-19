@@ -8,8 +8,8 @@ public class RickNumberUpdater : MonoBehaviour
     void Start()
     {
         text = GetComponent<TMP_Text>();
-        CrimeSpreeManager manager = FindFirstObjectByType<CrimeSpreeManager>();
-        text.text = manager.Score.ToString();
+        NeoCrimeSpreeManager manager = FindFirstObjectByType<NeoCrimeSpreeManager>();
+        text.text = manager.points.ToString();
     }
 
     // Update is called once per frame

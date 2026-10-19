@@ -105,11 +105,11 @@ public class PlayerStateDriver : Actor, IDamageable
 
     public void TakeKnockback(Vector3 knockback)
     {
-        //if (!ctx.iFramesOn)
+        if (!ctx.iFramesOn)
         {
-            ctx.rb.velocity += knockback;
+            ctx.rb.velocity = knockback;
             Machine.ChangeState(Root.Leaf(), Root.airborne.stunnedAirborne);
-            ctx.iFramesOn = true;
+            //ctx.iFramesOn = true;
         }
     }
 
@@ -310,28 +310,34 @@ public class PlayerStateDriver : Actor, IDamageable
 
     private void Die()
     {
-        Instantiate(ctx.gameOverUIPrefab);
+        Debug.Log("You're using the old Die function. Please swap to 'NeoCrimeSpreeManager.instance.LoseSpree();'");
+        //Instantiate(ctx.gameOverUIPrefab);
 
-        Cursor.lockState = CursorLockMode.None;
-        enabled = false;
+        //Cursor.lockState = CursorLockMode.None;
+        //enabled = false;
     }
 
     //IDamageable
     public void TakeDamage(float damage)
     {
+        Debug.Log("You're using the old TakeDamage function. Please swap to 'NeoCrimeSpreeManager.instance.DealDamage(damage);'. There is no need to check for iFramesOn.");
         //if (!ctx.iFramesOn)
         {
             ctx.iFramesOn = true;
-            ctx.currentHealth -= damage;
+            //ctx.currentHealth -= damage;
             if (CrimeSpreeManager.instance != null)
             {
                 CrimeSpreeManager.instance.ChaseTimer -= damage;
             }
-            if (ctx.healthBar != null)
+            if (NeoCrimeSpreeManager.instance != null)
+            {
+                NeoCrimeSpreeManager.instance.currentSpreeTime -= damage;
+            }
+            /*if (ctx.healthBar != null)
             {
                 ctx.healthBar.SetFill(ctx.currentHealth / ctx.maxHealth);
             }
-            ctx.regenTimer = 0;
+            ctx.regenTimer = 0;*/
             if (ctx.currentHealth <= 0)
             {
                 ctx.iFramesOn = false;
@@ -460,25 +466,32 @@ public class PlayerContext
     [FoldoutGroup("Stunned")][Tooltip("Maximum duration of the stun in the air")] public float airStunDuration;
     [FoldoutGroup("Stunned")] public bool setSpeedToZero;
 
-
     [FoldoutGroup("Harsh Landing")] public float harshLandingDuration;
-    [FoldoutGroup("Harsh Landing")] public float harshLandingDamage;
     [FoldoutGroup("Harsh Landing")] public MoveData harshLandingData;
 
-    [FoldoutGroup("Very Bad Landing")] public float veryBadLandingDuration;
-    [FoldoutGroup("Very Bad Landing")] public float veryBadLandingDamage;
-    [FoldoutGroup("Very Bad Landing")] public MoveData veryBadLandingData;
+    [Header("Tumbling")]
+    [FoldoutGroup("Tumbling")] public JumpData tumblingJumpData;
+    [FoldoutGroup("Tumbling")] public MoveData tumblingMoveData;
+    [FoldoutGroup("Tumbling")] public float minimumHarshLandingSpeed;
+
+    [Header("Tricks")]
+    [FoldoutGroup("Tricks")] public bool disableGroundTrick;
+    [FoldoutGroup("Tricks")] public bool disableAirTrick;
+    [FoldoutGroup("Tricks")] public float groundTrickLength;
+    [FoldoutGroup("Tricks")] public float airTrickLength;
 
     [Header("Roll")]
     [FoldoutGroup("Roll")] public bool disableRoll;
     [FoldoutGroup("Roll")] public float rollTiming;
-    [FoldoutGroup("Roll")][Tooltip("Speed added when entering roll")] public float rollSpeed;
-    [FoldoutGroup("Roll")][Tooltip("Time before roll ends")] public float rollDuration;
-    [FoldoutGroup("Roll")][Tooltip("Target speed at the end of the roll")] public float rollEndSpeed;
-    [FoldoutGroup("Roll")][Tooltip("Time spent decelerating after roll")] public float rollDeceleration;
-    [FoldoutGroup("Roll")][Tooltip("Time until player can move after roll")] public float rollEndLag;
+    [FoldoutGroup("Roll")][Tooltip("Minimum speed at which you can Roll")] public float rollMinSpeed;
+    [FoldoutGroup("Roll")][Tooltip("How strongly to convert your fall speed to horizontal speed. Set to 0 to not count fall speed. Set to 1 for 1 to 1 conversion")] public float rollYConversionStrength;
+    [FoldoutGroup("Roll")][Tooltip("The shortest time a Roll can last if it's above the minimum speed")] public float rollMinTime;
+    [FoldoutGroup("Roll")] public MoveData rollMoveData;
     [FoldoutGroup("Roll")] public bool disableRollJump;
-    [FoldoutGroup("Roll")] public JumpData rollJump;
+    [FoldoutGroup("Roll")][Tooltip("How strongly to convert your Roll speed to vertical speed. Set to 0 to not count roll speed. Set to 1 for 1 to 1 conversion")] public float rollJumpConversionStrength;
+    [FoldoutGroup("Roll")][Tooltip("From what speed can you Grab during the Roll Jump? Should be close to 0. Enter a positive number")] public float rollJumpGrabSpeedLimit;
+    [FoldoutGroup("Roll")] public JumpData rollJumpData;
+    [FoldoutGroup("Roll")] public MoveData rollJumpMoveData;
 
     [FoldoutGroup("Bag Throw")] public bool disablePound;
     [FoldoutGroup("Bag Throw")] public bool additive;
@@ -527,13 +540,17 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public float baseGrav;
     [FoldoutGroup("Internal")][ReadOnly] public float gravMultiplier;
     [FoldoutGroup("Internal")][ReadOnly] public float jumpSpeed;
-    [FoldoutGroup("Internal")][ReadOnly] public float landingSpeed;
+    [FoldoutGroup("Internal")][ReadOnly][Tooltip("Used for the harsh landing. Updates outside of PlayerStates and PlayerStateDriver. Wiped upon entering harsh landing")] public float landingSpeed;
+    [FoldoutGroup("Internal")][ReadOnly][Tooltip("Used for the roll. Updates in PlayerStates when in the Airborne state and useGravity is true. Wiped upon entering PlayerAirborne and PlayerRoll")] public Vector3 lastLandingVelocity;
     [FoldoutGroup("Internal")][ReadOnly] public Vector3 currentVelocity;
     [FoldoutGroup("Internal")][ReadOnly] public bool useGravity = true;
     [FoldoutGroup("Internal")][ReadOnly] public bool hasGrabbed;
     [FoldoutGroup("Internal")][ReadOnly] public float grabTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float rollTimer;
     [FoldoutGroup("Internal")][ReadOnly] public bool desiredRoll;
+    [FoldoutGroup("Internal")][ReadOnly] public bool hasRollJumped;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;

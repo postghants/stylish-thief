@@ -1048,8 +1048,6 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.cmd = ctx.poundMove;
-            //ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
-            //ctx.rb.velocity.y = -ctx.poundSpeedDown;
 
             velocity = ctx.facing.normalized * ctx.poundSpeedFw;
             velocity.y = -ctx.poundSpeedDown;
@@ -1060,12 +1058,14 @@ namespace HSM
         {
             if (ctx.rb.isGrounded)
             {
-                //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
-                //{
+                if (ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
+                {
+                    ctx.player.SetTrigger("StartBagThrowBounce");
+                    ctx.currentJumpData = ctx.poundBounceJump;
+                    Jump.PerformJump(ctx);
+                    return ((PlayerRoot)Parent.Parent).grounded;
+                }
                 return ((PlayerRoot)Parent.Parent).grounded;
-                //}
-                //implement land state later
-                //return ((PlayerRoot)Parent.Parent).grounded;
             }
 
             Vector3 direction = ctx.bagHitbox.transform.position - ctx.player.transform.position;
@@ -1120,6 +1120,8 @@ namespace HSM
         public readonly PlayerFrozen frozen;
         public readonly PlayerFixedSpeed fixedSpeed;
 
+        private float bhopTimer;
+
         public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
         {
             grounded = new(m, this, ctx);
@@ -1145,6 +1147,8 @@ namespace HSM
                 ctx.regenTimer += deltaTime;
             }
 
+            
+
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
             if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
             {
@@ -1164,6 +1168,20 @@ namespace HSM
         {
 
             if (Leaf() == frozen) { return null; }
+
+            if (ActiveChild == grounded)
+            {
+                bhopTimer += deltaTime;
+                if (bhopTimer > ctx.bhopTime)
+                {
+                    ctx.bhopCount = 0;
+                }
+            }
+            if(ActiveChild == airborne && bhopTimer > 0)
+            {
+                bhopTimer = 0;
+                ctx.bhopCount++;
+            }
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
             {

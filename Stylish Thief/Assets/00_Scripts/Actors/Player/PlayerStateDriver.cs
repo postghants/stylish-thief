@@ -77,7 +77,14 @@ public class PlayerStateDriver : Actor, IDamageable
         // Face model forward
         if (ctx.rb.velocity.sqrMagnitude > 0)
         {
-            ctx.anim.transform.LookAt(ctx.anim.transform.position + (new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z) + ctx.anim.transform.forward * ctx.cmd.modelTurnDelay));
+            if (animationControlHolder != null)
+            {
+                ctx.anim.transform.rotation = rotationToSet;
+            }
+            else
+            {
+                ctx.anim.transform.LookAt(ctx.anim.transform.position + (new Vector3(ctx.rb.velocity.x, 0, ctx.rb.velocity.z) + ctx.anim.transform.forward * ctx.cmd.modelTurnDelay));
+            }
         }
 
         Machine.Update(Time.deltaTime * ctx.timeScale);
@@ -118,6 +125,8 @@ public class PlayerStateDriver : Actor, IDamageable
 
     public void SetTrigger(string name)
     {
+        if (animationControlHolder != null && !animationControlHolder.overrideTriggers.Contains(name)) { return; }
+
         foreach (var trigger in ctx.anim.parameters)
         {
             if (trigger.type == AnimatorControllerParameterType.Trigger)
@@ -127,6 +136,29 @@ public class PlayerStateDriver : Actor, IDamageable
         }
         ctx.anim.SetTrigger(name);
     }
+
+    private AnimationControlHolder animationControlHolder;
+    public void GiveAnimationControlTo(AnimationControlHolder holder)
+    {
+        if (animationControlHolder != null) { return; }
+        animationControlHolder = holder;
+        rotationToSet = ctx.anim.transform.rotation;
+    }
+
+    public void ReleaseAnimationControl(AnimationControlHolder holder)
+    {
+        if (holder == animationControlHolder)
+        {
+            animationControlHolder = null;
+        }
+    }
+
+    private Quaternion rotationToSet;
+    public void SetAnimRotation(Quaternion newRot)
+    {
+        rotationToSet = newRot;
+    }
+
 
     private int disableControlCounter;
     public void DisableControls()
@@ -329,6 +361,7 @@ public class PlayerContext
 
     [FoldoutGroup("General")] public float timeScale = 1;
     [FoldoutGroup("General")] public bool spawnSpreeUI = true;
+    [FoldoutGroup("General")] public float bhopTime = 0.2f;
 
     [Header("Grounded Movement")]
     public MoveData groundMoveData;
@@ -461,7 +494,8 @@ public class PlayerContext
     [FoldoutGroup("Bag Throw")] public float poundLandDelay;
     [FoldoutGroup("Bag Throw")] public float poundLandSpeed;
     [FoldoutGroup("Bag Throw")] public JumpData poundWallBounce;
-    
+    [FoldoutGroup("Bag Throw")] public JumpData poundBounceJump;
+
     [FoldoutGroup("Camera Move")][Tooltip("Total pan time")] public float panTime = 0.2f;
     [FoldoutGroup("Camera Move")][Tooltip("Amount of Y-axis rotation applied")] public float panAngle = 90;
 
@@ -512,6 +546,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public MoveData cmd;
     [FoldoutGroup("Internal")][ReadOnly] public JumpData currentJumpData;
     [FoldoutGroup("Internal")][ReadOnly] public bool isStunned;
+    [FoldoutGroup("Internal")][ReadOnly] public int bhopCount;
 
     [FoldoutGroup("Input values")][ReadOnly] public Vector2 moveInputValue;
     [FoldoutGroup("Input values")][ReadOnly] public bool desiredJump;

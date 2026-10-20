@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}" SchemaVersion="133">
+	<Containers>
+		<WorkUnit Name="Player Movement Containers" ID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}" PersistMode="Standalone">
+			<ChildrenList>
+				<RandomSequenceContainer Name="Jump Random Container" ID="{E242F72C-3B19-4DC6-A3D6-058AAE8668F6}" ShortID="439535282">
+					<PropertyList>
+						<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="beta_jump-001" ID="{E75030B1-DFCC-438B-A573-D1F846921B05}" ShortID="407077850">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_jump-001" ID="{DF3913B8-8C04-4902-BDF9-B3EBB14E2060}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.14547"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.14547"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>beta_jump-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="199501263"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_jump-001" ID="{DF3913B8-8C04-4902-BDF9-B3EBB14E2060}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_jump-002" ID="{94989FF1-F81F-4600-AEA2-980A4133468A}" ShortID="183426377">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_jump-002" ID="{AC62C98D-2A8F-4DE5-99F0-8F2776C2B37D}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.16369"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.16369"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>beta_jump-002.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1007922957"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_jump-002" ID="{AC62C98D-2A8F-4DE5-99F0-8F2776C2B37D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_jump-003" ID="{84EAEF16-CAD9-4893-8044-A5A664C90F8C}" ShortID="735468908">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_jump-003" ID="{74DABA3E-2428-4EFB-8985-442D675A422B}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.13939"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.13939"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>beta_jump-003.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="885507443"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_jump-003" ID="{74DABA3E-2428-4EFB-8985-442D675A422B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_jump-004" ID="{3C2A9F2B-2E30-4A35-BC7A-077891F1E05C}" ShortID="442929260">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_jump-004" ID="{A13BAFD7-3E11-4C7E-BF39-2F38633F0ADE}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.18046"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.18046"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>beta_jump-004.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="564200249"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_jump-004" ID="{A13BAFD7-3E11-4C7E-BF39-2F38633F0ADE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_jump-005" ID="{9CA38731-C487-48D4-BF5D-779A429E9EFF}" ShortID="37288806">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_jump-005" ID="{052E8111-47A4-4ECF-A7DA-E6CA2C5F77E1}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.13119"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.13119"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>beta_jump-005.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="969418624"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_jump-005" ID="{052E8111-47A4-4ECF-A7DA-E6CA2C5F77E1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="Left Footstep Random Container" ID="{4E58D764-116D-43D3-B64C-7C81DE56B742}" ShortID="764395657">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="beta_foostep_left1" ID="{68A0B984-985E-4944-BD28-645DC34481ED}" ShortID="869056882">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left1" ID="{D1999C57-FF26-47DA-906A-E7C783EE96E7}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="307444206"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left1" ID="{D1999C57-FF26-47DA-906A-E7C783EE96E7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_left2" ID="{7CABA9AE-34EE-425A-BB69-74A323ED8096}" ShortID="434831650">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left2" ID="{778DAAC1-63F4-454A-916F-14A0B85D086D}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="991970505"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left2" ID="{778DAAC1-63F4-454A-916F-14A0B85D086D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_left3" ID="{E527DE5E-BA7D-4540-A309-95D91C38EB4C}" ShortID="195080863">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left3" ID="{57FC6687-006F-4450-8F75-7A6DF0F2295B}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="271629009"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left3" ID="{57FC6687-006F-4450-8F75-7A6DF0F2295B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_left4" ID="{5A7B2BA5-075C-4F4D-A95A-AA29DF06CAC6}" ShortID="1068551549">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left4" ID="{01B51F27-B4E0-4C52-9C3D-45A615F85DCD}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left4.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="707715577"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left4" ID="{01B51F27-B4E0-4C52-9C3D-45A615F85DCD}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_left5" ID="{AEDCC56B-942F-484B-A074-2A8B4508D350}" ShortID="391658015">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left5" ID="{B5F1A0CF-8147-4A6B-B818-07AAB7B5F424}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left5.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="762929995"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left5" ID="{B5F1A0CF-8147-4A6B-B818-07AAB7B5F424}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_left6" ID="{C995B1B6-9357-4A36-B6E5-689DA5495AF8}" ShortID="1053637748">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left6" ID="{5094EA7E-DE6B-434D-9808-2654C8CE8BA2}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left6.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="120523343"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left6" ID="{5094EA7E-DE6B-434D-9808-2654C8CE8BA2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_left7" ID="{849264D9-7CA8-449A-8242-E80F31F6957D}" ShortID="471650001">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_left7" ID="{CB349058-D042-414F-B320-F42994382E84}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_left7.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="92736197"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_left7" ID="{CB349058-D042-414F-B320-F42994382E84}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="Right Footstep Random Container" ID="{6E70BA02-5EE4-4A00-9D2D-8B93BBF6B423}" ShortID="342508853">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="beta_foostep_right1" ID="{CCDD32C5-3722-4E40-B89A-5F8B7645FEC0}" ShortID="775441532">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right1" ID="{FE3A6866-5CD7-4062-8DF7-4CF138C04CFF}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1071119792"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right1" ID="{FE3A6866-5CD7-4062-8DF7-4CF138C04CFF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right2" ID="{36AB549C-EC10-4EBF-8F82-CC9CBD6905D5}" ShortID="3561980">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right2" ID="{52363DEE-E299-4F1B-A032-7F110E9E8B35}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="137463352"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right2" ID="{52363DEE-E299-4F1B-A032-7F110E9E8B35}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right3" ID="{92D3C5BF-8841-41EA-B92F-38721AF56A09}" ShortID="942545178">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right3" ID="{2F8EC2BE-49DB-4A04-B211-42486AC2B3D7}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1044657240"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right3" ID="{2F8EC2BE-49DB-4A04-B211-42486AC2B3D7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right4" ID="{82FCC91D-DCB2-4986-85CD-292FABB7206E}" ShortID="426683350">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right4" ID="{CCC722A1-D271-48F1-9065-2EAE7F7B5B6D}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right4.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="134542018"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right4" ID="{CCC722A1-D271-48F1-9065-2EAE7F7B5B6D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right5" ID="{7A1CF7FF-0388-4CE6-98F3-40B0741D6E89}" ShortID="922977309">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right5" ID="{B4FC459A-C346-48C2-94AE-A979B8D64EC0}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right5.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="88990329"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right5" ID="{B4FC459A-C346-48C2-94AE-A979B8D64EC0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right6" ID="{93ACB475-E934-4698-897B-738BD731EB1D}" ShortID="182572597">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right6" ID="{60D03839-296D-4B5C-8242-311921C7E02A}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right6.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="590224231"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right6" ID="{60D03839-296D-4B5C-8242-311921C7E02A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right7" ID="{95924A4B-B0FA-4C58-A0AE-623CAD331AAB}" ShortID="986557941">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right7" ID="{5E92B27C-C2C5-4666-9125-14A2C91E4359}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right7.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="388959286"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right7" ID="{5E92B27C-C2C5-4666-9125-14A2C91E4359}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="beta_foostep_right8" ID="{C7F1446E-D158-464B-9AD0-440A27B99065}" ShortID="1027200628">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="beta_foostep_right8" ID="{775B5D3F-8CB8-4C6F-A9A4-1B7C37AB53C6}">
+									<Language>SFX</Language>
+									<AudioFile>beta_foostep_right8.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="659957985"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="beta_foostep_right8" ID="{775B5D3F-8CB8-4C6F-A9A4-1B7C37AB53C6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</Containers>
+</WwiseDocument>

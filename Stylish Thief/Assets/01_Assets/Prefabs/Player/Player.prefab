@@ -5173,7 +5173,7 @@ GameObject:
   - component: {fileID: 5516163521354773594}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5417,6 +5417,183 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    speedPreservationTime: 2
+    intPoleMoveData:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    parryBoost: 10
+    parryLength: 0
+    intParryJumpData:
+      jumpImpulse: 7
+      cuttable: 0
+      maxMaxSpeedTime: 0.05
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 100
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
+    intParryMoveData:
+      acceleration: 40
+      deceleration: 1
+      minWalkSpeed: 0
+      maxSpeed: 10
+      maxSpeedDeceleration: 1
+      turnSpeedMult: 1
+      modelTurnDelay: 0
+      turnDecelerationMult: 0
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.31741244
+          value: 0.059404656
+          inSlope: 0.6135431
+          outSlope: 0.6135431
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.5136485
+          outWeight: 0.19364356
+        - serializedVersion: 3
+          time: 1
+          value: 0.9996414
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.06333327
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    parryCount: 0
+    savedVelocity: {x: 0, y: 0, z: 0}
+    drowningTime: 3
+    intDrowningMovement:
+      acceleration: 1
+      deceleration: 50
+      minWalkSpeed: 0
+      maxSpeed: 8
+      maxSpeedDeceleration: 16
+      turnSpeedMult: 0
+      modelTurnDelay: 1
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    intDrowningJumpData:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 2
+      maxFallSpeed: 6
+      fastFallSpeed: 999
+    barSpeedPreservationTime: 1
+    barMinimumSpeed: 20
+    convertYSpeed: 1
+    intBarSwingMovement:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 100
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 0
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    intBarSwingJumpData:
+      jumpImpulse: 15
+      cuttable: 1
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 1
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 20
+      jumpMovementMult: 0.2
+      jumpMovementMultTime: 0.5
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
     baseJumpData:
       jumpImpulse: 15
       cuttable: 1
@@ -5530,7 +5707,6 @@ MonoBehaviour:
     airStunDuration: 2
     setSpeedToZero: 1
     harshLandingDuration: 1
-    harshLandingDamage: -10
     harshLandingData:
       acceleration: 0
       deceleration: 25
@@ -5564,13 +5740,123 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    veryBadLandingDuration: 2
-    veryBadLandingDamage: -20
-    veryBadLandingData:
-      acceleration: 0
-      deceleration: 25
+    tumblingJumpData:
+      jumpImpulse: 15
+      cuttable: 1
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 1
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
+    tumblingMoveData:
+      acceleration: 35
+      deceleration: 4
       minWalkSpeed: 0
-      maxSpeed: 0.01
+      maxSpeed: 15
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 3
+      modelTurnDelay: 0
+      turnDecelerationMult: 0
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.31741244
+          value: 0.059404656
+          inSlope: 0.6135431
+          outSlope: 0.6135431
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.5136485
+          outWeight: 0.19364356
+        - serializedVersion: 3
+          time: 1
+          value: 0.9996414
+          inSlope: 1.2319243
+          outSlope: 1.2319243
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.06333327
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    minimumHarshLandingSpeed: 30
+    disableGroundTrick: 0
+    disableAirTrick: 0
+    groundTrickLength: 1
+    airTrickLength: 1
+    disableRoll: 0
+    rollTiming: 0.2
+    rollMinSpeed: 2
+    rollYConversionStrength: 1
+    rollMinTime: 0
+    rollMoveData:
+      acceleration: 60
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 15
+      maxSpeedDeceleration: 0.08
+      turnSpeedMult: 1
+      modelTurnDelay: 0
+      turnDecelerationMult: 0
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    disableRollJump: 0
+    rollJumpConversionStrength: 1
+    rollJumpGrabSpeedLimit: 5
+    rollJumpData:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
+    rollJumpMoveData:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
       maxSpeedDeceleration: 0
       turnSpeedMult: 0
       modelTurnDelay: 0
@@ -5581,40 +5867,11 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    disableRoll: 0
-    rollTiming: 0.2
-    rollSpeed: 30
-    rollDuration: 0.3
-    rollEndSpeed: 20
-    rollDeceleration: 0
-    rollEndLag: 0
-    disableRollJump: 0
-    rollJump:
-      jumpImpulse: 25
-      cuttable: 0
-      maxMaxSpeedTime: 0.1
-      minMaxSpeedTime: 0.05
-      cutJump: 0
-      useCutoffGravMult: 0
-      cutoffGravMult: 0
-      cutSpeed: 0
-      upwardDeceleration: 60
-      upwardDecelApexThreshold: 5
-      upwardDecelApex: 30
-      hangtimeDuration: 0.2
-      setSpeed: 1
-      setSpeedSpeed: 27
-      horizontalBoost: 0
-      jumpMovementMult: 0.3
-      jumpMovementMultTime: 10
-      downwardAccel: 60
-      maxFallSpeed: 55
-      fastFallSpeed: 49
     disablePound: 0
     additive: 0
     poundAccelerate: 1
     prePoundUpBoost: 2
-    prePoundDuration: 0.4
+    prePoundDuration: 0.6
     prePoundGrav: 0
     prePoundMove:
       acceleration: 0
@@ -5631,12 +5888,47 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    poundSpeedDown: 30
-    poundSpeedFw: 30
-    downAcceleration: 60
-    forwardAcceleration: 60
+    poundSpeedDown: 15
+    poundSpeedFw: 15
+    poundAcceleration: 60
+    poundMove:
+      acceleration: 99
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 99
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     poundLandDelay: 1
     poundLandSpeed: 0
+    poundWallBounce:
+      jumpImpulse: 5
+      cuttable: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 1
+      setSpeedSpeed: -4
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -5647,7 +5939,7 @@ MonoBehaviour:
     healthBar: {fileID: 0}
     playerMat: {fileID: 2100000, guid: 391b251522d194a4fb29872d1dca8e55, type: 2}
     particleManager: {fileID: 7529127243591585783}
-    playerAnimEventHandler: {fileID: 0}
+    bagHitbox: {fileID: 5277981362991357100}
     playerUIPrefab: {fileID: 3834941263190503595, guid: 59f3b58d90fc22548ab6afb0af003d9c, type: 3}
     gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
     animRunSpeed: 7
@@ -5665,12 +5957,16 @@ MonoBehaviour:
     gravMultiplier: 0
     jumpSpeed: 1
     landingSpeed: 0
+    lastLandingVelocity: {x: 0, y: 0, z: 0}
     currentVelocity: {x: 0, y: 0, z: 0}
     useGravity: 1
     hasGrabbed: 0
     grabTimer: 0
     rollTimer: 0
     desiredRoll: 0
+    hasRollJumped: 0
+    isTumbling: 0
+    isTricking: 0
     stunTimer: 0
     airStunTimer: 0
     slideTimer: 0
@@ -5751,11 +6047,15 @@ MonoBehaviour:
   maxStairHeight: 0.15
   minStairWidth: 0.1
   gravity: {x: 0, y: -1, z: 0}
+  movingWallDetectDist: 0.3
+  pushOut: 0.25
   environmentCollider: {fileID: 7895177472267553196}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   currentGroundAngle: 0
   landingSpeed: 0
+  movingPlatformRef: {fileID: 0}
+  platformVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &5133514560630397958
 GameObject:
   m_ObjectHideFlags: 0
@@ -10708,6 +11008,81 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!1 &5865759077702098534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880291401443635522}
+  - component: {fileID: 5277981362991357100}
+  - component: {fileID: 4094598064338331117}
+  m_Layer: 6
+  m_Name: BagThrowHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &880291401443635522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865759077702098534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.00000026822093, y: -0.70090944, z: 0.00000029802325, w: 0.71325034}
+  m_LocalPosition: {x: -0.045, y: 0.109, z: 1.1183333}
+  m_LocalScale: {x: 0.8333332, y: 0.8333333, z: 0.8333332}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8092761614624209396}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
+--- !u!65 &5277981362991357100
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865759077702098534}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4094598064338331117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865759077702098534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60db274893e65ba45b1cc13549d123c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventTrigger
+  mask:
+    serializedVersion: 2
+    m_Bits: 2097153
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6920411876884935970
 GameObject:
   m_ObjectHideFlags: 0
@@ -16046,7 +16421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       propertyPath: m_Name
-      value: Robin Tas Texture Test 2 (1)
+      value: RobinModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16066,13 +16441,16 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3178139177689143027}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 880291401443635522}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2577875006501607645}
+      addedObject: {fileID: 6728575028680813074}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6728575028680813074}
+      addedObject: {fileID: 4518069575538980142}
   m_SourcePrefab: {fileID: 100100000, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
 --- !u!4 &8092761614624209396 stripped
 Transform:
@@ -16084,74 +16462,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
   m_PrefabInstance: {fileID: 8630579906912902687}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2577875006501607645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8864372020807721806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50ae27712a18af64e9200492f2bddce3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  footstepLeftEvent:
-    Guid:
-      Data1: -960653007
-      Data2: 1247220039
-      Data3: 980144034
-      Data4: 902832051
-    Path: event:/left_footstep
-  footstepRightEvent:
-    Guid:
-      Data1: -960488152
-      Data2: 1090313440
-      Data3: -1180372035
-      Data4: -27207080
-    Path: event:/right_footstep
-  onJumpEvent:
-    Guid:
-      Data1: -526397677
-      Data2: 1311755693
-      Data3: 890144933
-      Data4: -1429861228
-    Path: event:/jump
-  onGrabEvent:
-    Guid:
-      Data1: 1362505161
-      Data2: 1341944431
-      Data3: 1157851535
-      Data4: 1809422228
-    Path: event:/grab
-  onBumpEvent:
-    Guid:
-      Data1: 737487761
-      Data2: 1219444782
-      Data3: -1462997096
-      Data4: 909930509
-    Path: event:/bump
-  onLedgeEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  onDashEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  onLandingEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!95 &6728575028680813074
 Animator:
   serializedVersion: 7
@@ -16174,6 +16484,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4518069575538980142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864372020807721806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 081ba5efc2ce5c043ae3acd7a6b6a67c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WwiseEventTrigger
+  jumpSoundEvent: Jump_Event
 --- !u!1001 &8753386828389301881
 PrefabInstance:
   m_ObjectHideFlags: 0

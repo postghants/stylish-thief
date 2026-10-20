@@ -1,27 +1,49 @@
 Event	ID	Name			Wwise Object Path	Notes
+	505559691	Landing_Event			\Player Movement Events\Landing_Event	
 	623275868	Jump_Event			\Player Movement Events\Jump_Event	
+	763920020	Dash_Event			\Player Movement Events\Dash_Event	
 	2306741778	Left_Footstep_Event			\Player Movement Events\Left_Footstep_Event	
 	4014281127	Right_Footstep_Event			\Player Movement Events\Right_Footstep_Event	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	88990329	beta_foostep_right5	.cache\26\{2697A31D-F94E-492D-F74C-E06578AA011E}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right5		33508
-	92736197	beta_foostep_left7	.cache\E7\{E76C7557-EA56-E8E1-34FB-956DCDB90092}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left7		33948
-	120523343	beta_foostep_left6	.cache\30\{30DABC41-DAB4-98AE-9C69-424AA881720D}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left6		33768
-	134542018	beta_foostep_right4	.cache\3A\{3A4DDBF6-DED0-9722-D9C0-52106D41A4F2}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right4		33508
-	137463352	beta_foostep_right2	.cache\B7\{B711AB93-640D-38E0-870E-BF4F1CCF1559}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right2		33508
-	199501263	beta_jump-001	.cache\6E\{6E32E758-49CE-0AB4-622A-F15E24AFC6B7}.wem		\Containers\Player Movement Containers\Jump Random Container\beta_jump-001		85500
-	271629009	beta_foostep_left3	.cache\1E\{1EF2962D-C71B-FD44-EC38-245A64FA0AB1}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left3		34260
-	307444206	beta_foostep_left1	.cache\C4\{C4908967-02E5-7075-0FB9-61A6FDA74D55}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left1		34260
-	388959286	beta_foostep_right7	.cache\57\{572EB665-194F-1C2B-1F72-9330C9E3D0A2}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right7		33508
-	564200249	beta_jump-004	.cache\4B\{4BB36855-1BD7-D1F0-3077-3F601D072A94}.wem		\Containers\Player Movement Containers\Jump Random Container\beta_jump-004		69336
-	590224231	beta_foostep_right6	.cache\1E\{1E95EB2A-B0FB-E508-2161-DD277E39E749}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right6		33508
-	659957985	beta_foostep_right8	.cache\F3\{F3EE8889-CDDF-F2A1-BC52-840037634379}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right8		33508
-	707715577	beta_foostep_left4	.cache\20\{20EB6C35-0249-199C-C717-2D0E6E74B81B}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left4		33768
-	762929995	beta_foostep_left5	.cache\AE\{AE19C869-41FA-FDC7-6F61-0AE12F6D002E}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left5		33768
-	885507443	beta_jump-003	.cache\B7\{B75549CD-71CA-F58F-CC9E-5F4848F3973A}.wem		\Containers\Player Movement Containers\Jump Random Container\beta_jump-003		74076
-	969418624	beta_jump-005	.cache\74\{7417995D-1789-EB7B-184C-064E5AA522B8}.wem		\Containers\Player Movement Containers\Jump Random Container\beta_jump-005		81944
-	991970505	beta_foostep_left2	.cache\B0\{B0FEB6E5-32E2-A7BE-9FDA-9A45E1956E27}.wem		\Containers\Player Movement Containers\Left Footstep Random Container\beta_foostep_left2		34260
-	1007922957	beta_jump-002	.cache\EA\{EAC79C71-79B1-9E46-D22A-85F8DDFACE54}.wem		\Containers\Player Movement Containers\Jump Random Container\beta_jump-002		88300
-	1044657240	beta_foostep_right3	.cache\4F\{4F254CDB-CC51-D41D-ADEE-9E054463EEB8}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right3		33508
-	1071119792	beta_foostep_right1	.cache\A9\{A96C6D58-65E5-ED63-62EE-9E1B0C5461F2}.wem		\Containers\Player Movement Containers\Right Footstep Random Container\beta_foostep_right1		33512
+	2865122	footstep_right-006	.cache\F7\{F7E8B99F-3AF9-15F7-3789-770B96EDD954}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-006		23614
+	19833510	footstep_left-010	.cache\67\{6711F350-8FE5-69F9-63B6-7EE9CF63C890}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-010		23616
+	70815133	footstep_left-006	.cache\FD\{FD7ABFF3-3B0C-4231-50A0-8A69F7594040}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-006		25860
+	74712230	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10)	.cache\02\{02418BF9-5FD4-53B8-A78C-E4226568E622}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10)		22030
+	119752549	footstep_right-004	.cache\01\{01CAC431-CF10-0270-8116-6B20F5F19689}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-004		25284
+	165549124	footstep_left-009	.cache\E2\{E2F8205F-AEFD-BD86-4E6A-9D7E2888629D}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-009		25182
+	199501263	beta_jump-001	.cache\B6\{B6590880-FB8A-4530-00C8-623CA2D6F6C2}.wem		\Containers\Player Movement Containers\Jump\Jump Vocals Random Container\beta_jump-001		85500
+	200672475	footstep_right-011	.cache\2F\{2F2E0486-812C-B74F-C84C-50B9A28812FF}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-011		25224
+	263656600	Foley_Jump	.cache\90\{90B62E07-2D36-F9D7-7FE9-763B6F794D0D}.wem		\Containers\Player Movement Containers\Jump\Foley_Jump		51300
+	281786983	footstep_right-005	.cache\DE\{DEC1FB2F-E604-EEE3-5FCC-E783DA7DD4EC}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-005		22206
+	304815543	footstep_right-010	.cache\83\{83D02641-493D-240D-E61C-FAC9467BB69A}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-010		23094
+	388151324	footstep_left-014	.cache\CC\{CC34CF8B-61C3-96EE-6BC1-294CA62E101B}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-014		23346
+	394596120	footstep_left-005	.cache\2F\{2FA85573-FFC4-3D9C-9B44-83168B819DC0}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-005		23744
+	425884829	footstep_right-003	.cache\5C\{5CB65E88-0DBB-83DC-D1B2-AE5174CA964C}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-003		23168
+	441637915	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(8)	.cache\E1\{E10C01DE-42FB-989A-FF0A-EA3F7871DFE5}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(8)		28550
+	460315107	footstep_right-009	.cache\3C\{3CD48CC7-ED39-C9B7-DAB8-28BB4A8C763B}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-009		24138
+	498116928	footstep_left-007	.cache\E4\{E475439B-2A1D-20D1-C8A8-83FDF541C38D}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-007		22428
+	500025315	footstep_right-008	.cache\EF\{EFE4B15E-2DEA-33C1-1F77-AD96C611C3BB}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-008		24138
+	509512861	Weapon Sword Whips 01	.cache\C7\{C734B6FC-ACBD-CA9E-03BE-9BC2470B0180}.wem		\Containers\Player Movement Containers\Dash Woosh Random Container\Weapon Sword Whips 01		57888
+	552259111	footstep_left-001	.cache\5C\{5C5AF753-846B-B22B-7490-D9C2B263D1C7}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-001		23386
+	564200249	beta_jump-004	.cache\B8\{B84D5E98-6C1D-A7CE-ECFE-F4CC0BB3E5E4}.wem		\Containers\Player Movement Containers\Jump\Jump Vocals Random Container\beta_jump-004		69336
+	576448717	footstep_left-002	.cache\9E\{9EF4CD72-9E67-2651-FEFF-EB54E0B1436B}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-002		23360
+	581163779	footstep_left-012	.cache\EF\{EFA2B881-C786-4A15-0077-B1E046B41E68}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-012		23518
+	582172572	footstep_right-007	.cache\25\{258F2BE3-E9B8-46D2-9B2E-7AD3963F58BE}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-007		23092
+	592050086	footstep_right-002	.cache\C1\{C1BEA511-FA8B-8BA4-95FB-C00E3A8D1296}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-002		21438
+	643322395	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(9)	.cache\E6\{E6FEE092-AB3F-4F35-9376-DFC5B9E7AAF8}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(9)		24716
+	670219797	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(7)	.cache\03\{0398EC43-C932-7E84-E969-AC1C49547E5A}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(7)		28370
+	692823205	footstep_left-008	.cache\55\{5508C94A-6CB8-9E45-6405-924B6B13FD12}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-008		25182
+	778671190	footstep_right-013	.cache\6D\{6DA97E0E-8DE0-92F1-7CE3-F1B2BB88A771}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-013		23616
+	802591313	footstep_left-013	.cache\C7\{C77F8977-F188-0ADC-63B6-8B16A88FDADF}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-013		23816
+	847428279	Foley Stick Bamboo Stick Skinny Whipping 01	.cache\8A\{8AE20257-61EB-F577-577E-996D7C74E957}.wem		\Containers\Player Movement Containers\Dash Woosh Random Container\Foley Stick Bamboo Stick Skinny Whipping 01		45676
+	875242688	Weapon Whips 01	.cache\A8\{A814F373-CA61-4976-8023-81249C111CFD}.wem		\Containers\Player Movement Containers\Dash Woosh Random Container\Weapon Whips 01		37208
+	885507443	beta_jump-003	.cache\D9\{D97E17BF-22A8-62C3-7602-327AA2EA8C4C}.wem		\Containers\Player Movement Containers\Jump\Jump Vocals Random Container\beta_jump-003		74076
+	888072978	footstep_left-011	.cache\07\{0702CAB8-9807-15E8-26F4-9871DA36E4C9}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-011		24660
+	912829703	footstep_right-012	.cache\75\{759A3B4E-7EC0-EA1E-9DAC-0798B8A86058}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-012		22172
+	969418624	beta_jump-005	.cache\70\{70D702AD-3FA7-28F6-5EA3-CD4CD5CD6A75}.wem		\Containers\Player Movement Containers\Jump\Jump Vocals Random Container\beta_jump-005		81944
+	983982163	footstep_right-001	.cache\67\{67F7F60E-6D1D-22CD-D1F0-D3409C2C77DF}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-001		24618
+	1007922957	beta_jump-002	.cache\53\{534873E3-BAC0-A5AB-316B-C21485100BC8}.wem		\Containers\Player Movement Containers\Jump\Jump Vocals Random Container\beta_jump-002		88300
+	1028031470	footstep_left-004	.cache\ED\{ED720387-0535-11A2-879B-69775BA56EC7}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-004		26628
+	1043930085	footstep_left-003	.cache\84\{841EC2CA-93DE-8EF6-EF62-48616CA09783}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-003		25860
 

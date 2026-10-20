@@ -13,7 +13,9 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID DASH_EVENT = 763920020U;
         static const AkUniqueID JUMP_EVENT = 623275868U;
+        static const AkUniqueID LANDING_EVENT = 505559691U;
         static const AkUniqueID LEFT_FOOTSTEP_EVENT = 2306741778U;
         static const AkUniqueID RIGHT_FOOTSTEP_EVENT = 4014281127U;
     } // namespace EVENTS

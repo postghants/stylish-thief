@@ -8,7 +8,21 @@
 						<Action Name="" ID="{FD5B9A9A-F667-4BB3-824B-49811CA853F1}" ShortID="820047117">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Jump Random Container" ID="{E242F72C-3B19-4DC6-A3D6-058AAE8668F6}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Jump Vocals Random Container" ID="{E242F72C-3B19-4DC6-A3D6-058AAE8668F6}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{DF3A19FE-DC05-49F3-A797-B17C1ADAD8DB}" ShortID="712785675">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Jump Woosh Random Container" ID="{EB7E8108-A491-49DF-B191-C1F530CA621A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{05B5C9D0-5600-4B90-8DF2-07FBDC5BAAE9}" ShortID="799104867">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Foley_Jump" ID="{AD16EC17-6544-4CC5-A597-44AF93B2FE35}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -31,6 +45,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Right Footstep Random Container" ID="{6E70BA02-5EE4-4A00-9D2D-8B93BBF6B423}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Landing_Event" ID="{EE72B72C-7D62-4460-B4AB-6445A387AC9E}">
+					<ChildrenList>
+						<Action Name="" ID="{530785A2-3F1B-4CB5-83B8-031BDB6063A9}" ShortID="869141283">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Foley_Landing" ID="{CBFEE28F-DFCB-4A8D-B172-1FE6D6BD384D}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Dash_Event" ID="{3EBD5391-A089-4735-916E-5FF454F1F8CA}">
+					<ChildrenList>
+						<Action Name="" ID="{EB8C961E-B364-469F-82B7-B9ABAC00ECB0}" ShortID="949863804">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Dash Woosh Random Container" ID="{3ED6CA83-BDA4-4B9D-AB31-881ADD181E47}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

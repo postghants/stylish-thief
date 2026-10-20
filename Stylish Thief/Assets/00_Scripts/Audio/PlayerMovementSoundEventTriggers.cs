@@ -17,4 +17,14 @@ public void TriggerWwiseRightFootstepEvent()
     {
         AkUnitySoundEngine.PostEvent("Left_Footstep_Event", gameObject);
     }
+
+    public void TriggerWwiseLandingEvent()
+    {
+        AkUnitySoundEngine.PostEvent("Landing_Event", gameObject);
+    }
+
+    public void TriggerWwiseDashEvent()
+    {
+        AkUnitySoundEngine.PostEvent("Dash_Event", gameObject);
+    }
 }

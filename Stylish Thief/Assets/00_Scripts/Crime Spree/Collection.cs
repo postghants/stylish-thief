@@ -1,4 +1,3 @@
-using FMODUnity;
 using UnityEngine;
 
 public class Collection : MonoBehaviour
@@ -6,11 +5,9 @@ public class Collection : MonoBehaviour
     public float rotationSpeed;
     public float givenTime;
     public float respawnTime;
-    public float givenScore;
+    public int givenScore;
     public string crimeName;
     public bool theftIsMinor;
-
-    [SerializeField] EventReference onCollectEvent;
 
     float currentTime;
 
@@ -18,6 +15,7 @@ public class Collection : MonoBehaviour
     Collider collider;
     Light light;
     [SerializeField] GameObject particles;
+    private Crime crime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,23 +23,13 @@ public class Collection : MonoBehaviour
         collider = GetComponentInChildren<Collider>();
         light = GetComponentInChildren<Light>();
         particles.SetActive(true);
+        crime = GetComponent<Crime>();
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-        if (currentTime <= respawnTime)
-        {
-            currentTime += Time.deltaTime;
-        }
-        else
-        {
-            renderer.enabled = true;
-            collider.enabled = true;
-            light.enabled = true;
-            particles.SetActive(true);
-        }
     }
     public void Collect()
     {
@@ -54,15 +42,21 @@ public class Collection : MonoBehaviour
         light.enabled = false;
         particles.SetActive(false);
         currentTime = 0;
-        RuntimeManager.PlayOneShotAttached(onCollectEvent, gameObject);
 
         if (theftIsMinor)
         {
-            CrimeSpreeManager.instance.DoMinorTheftCrime(givenScore, crimeName, null);
+            crime.DoMinorCrime(crimeName, givenScore);
         }
         else
         {
-            CrimeSpreeManager.instance.DoTheftCrime(givenScore, crimeName, gameObject);
+            crime.DoMajorCrime(crimeName, givenScore);
         }
+    }
+    public void Reset()
+    {
+        renderer.enabled = true;
+        collider.enabled = true;
+        light.enabled = true;
+        particles.SetActive(true);
     }
 }

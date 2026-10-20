@@ -41,6 +41,11 @@ namespace HSM
     {
         public float seconds = 0.2f;
 
+        public DelayActivationActivity(float seconds)
+        {
+            this.seconds = seconds;
+        }
+
         public override async Task ActivateAsync(CancellationToken ct)
         {
             await Task.Delay(TimeSpan.FromSeconds(seconds), ct);

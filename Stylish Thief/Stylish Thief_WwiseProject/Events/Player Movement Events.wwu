@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{763A2AF7-297E-47E8-9F94-0CF2CCDFC0C4}" SchemaVersion="133">
+	<Events>
+		<WorkUnit Name="Player Movement Events" ID="{763A2AF7-297E-47E8-9F94-0CF2CCDFC0C4}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Jump_Event" ID="{182B6EBA-F328-4DAD-929B-6722AF7B971D}">
+					<ChildrenList>
+						<Action Name="" ID="{FD5B9A9A-F667-4BB3-824B-49811CA853F1}" ShortID="820047117">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Jump Random Container" ID="{E242F72C-3B19-4DC6-A3D6-058AAE8668F6}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Left_Footstep_Event" ID="{FCAD2B6E-4D55-4AA5-8418-EFD7E63C760F}">
+					<ChildrenList>
+						<Action Name="" ID="{8164F899-66B5-4E27-993A-7FF6084ACD10}" ShortID="616156863">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Left Footstep Random Container" ID="{4E58D764-116D-43D3-B64C-7C81DE56B742}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Right_Footstep_Event" ID="{99582002-A377-495C-B5F5-8E7F9E3C8604}">
+					<ChildrenList>
+						<Action Name="" ID="{40E17FA9-62E5-44BB-A617-2EA97BD99D02}" ShortID="794133742">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Right Footstep Random Container" ID="{6E70BA02-5EE4-4A00-9D2D-8B93BBF6B423}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

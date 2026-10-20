@@ -25,15 +25,15 @@ public class DamageDealer : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
+            NeoCrimeSpreeManager.instance.DealDamage(damage);
+            player.ctx.player.TakeKnockback(Vector3.zero);
+            
             if (!player.ctx.iFramesOn)
             {
-                player.TakeDamage(damage);
                 if (turnColliderOff)
                 {
                     if (coll != null) { coll.enabled = false; }
                 }
-                Debug.Log("hello hi hello");
-                player.ctx.player.TakeKnockback(Vector3.zero);
             }
         }
     }

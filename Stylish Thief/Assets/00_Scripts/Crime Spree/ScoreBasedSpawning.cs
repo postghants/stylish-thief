@@ -5,21 +5,21 @@ using static RickBingo;
 
 public class ScoreBasedSpawning : MonoBehaviour
 {
-    private CrimeSpreeManager manager;
+    private NeoCrimeSpreeManager manager;
     [SerializeField] private List<ScoreBasedSpawnInfo> scoreBasedSpawnInfo;
     private float recordedScore;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        manager = GetComponentInParent<CrimeSpreeManager>();
+        manager = GetComponentInParent<NeoCrimeSpreeManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (manager.Score > recordedScore)
+        if (manager.points > recordedScore)
         {
-            recordedScore = manager.Score;
+            recordedScore = manager.points;
             SpawnThings();
         }
     }

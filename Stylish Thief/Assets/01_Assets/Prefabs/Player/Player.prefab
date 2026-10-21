@@ -5220,6 +5220,7 @@ MonoBehaviour:
     invincibilityLength: 0.75
     timeScale: 1
     spawnSpreeUI: 1
+    bhopTime: 0.2
     groundMoveData:
       acceleration: 40
       deceleration: 8
@@ -5806,8 +5807,8 @@ MonoBehaviour:
     minimumHarshLandingSpeed: 30
     disableGroundTrick: 0
     disableAirTrick: 0
-    groundTrickLength: 1
-    airTrickLength: 1
+    groundTrickLength: 0.75
+    airTrickLength: 0.75
     disableRoll: 0
     rollTiming: 0.2
     rollMinSpeed: 2
@@ -5929,6 +5930,27 @@ MonoBehaviour:
       downwardAccel: 60
       maxFallSpeed: 55
       fastFallSpeed: 49
+    poundBounceJump:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -6013,6 +6035,7 @@ MonoBehaviour:
       maxFallSpeed: 0
       fastFallSpeed: 0
     isStunned: 0
+    bhopCount: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0

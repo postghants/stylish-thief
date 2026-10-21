@@ -236,7 +236,7 @@ public class PlayerStateDriver : Actor, IDamageable
     }
     public void OnTrickStart(InputAction.CallbackContext c)
     {
-        ctx.desiredRoll = true;
+        ctx.desiredTrick = true;
         ctx.pressingTrick = true;
         ctx.rollBufferCounter = 0;
     }
@@ -246,12 +246,12 @@ public class PlayerStateDriver : Actor, IDamageable
     }
     public static void RollBuffer(PlayerContext ctx)
     {
-        if (ctx.desiredRoll)
+        if (ctx.desiredTrick)
         {
             ctx.rollBufferCounter += Time.deltaTime;
             if (ctx.rollBufferCounter > ctx.rollTiming)
             {
-                ctx.desiredRoll = false;
+                ctx.desiredTrick = false;
             }
         }
     }
@@ -479,6 +479,7 @@ public class PlayerContext
     [FoldoutGroup("Tricks")] public bool disableAirTrick;
     [FoldoutGroup("Tricks")] public float groundTrickLength;
     [FoldoutGroup("Tricks")] public float airTrickLength;
+    [FoldoutGroup("Tricks")] public float airTrickGrabBuffer;
 
     [Header("Roll")]
     [FoldoutGroup("Roll")] public bool disableRoll;
@@ -547,7 +548,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public bool hasGrabbed;
     [FoldoutGroup("Internal")][ReadOnly] public float grabTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float rollTimer;
-    [FoldoutGroup("Internal")][ReadOnly] public bool desiredRoll;
+    [FoldoutGroup("Internal")][ReadOnly] public bool desiredTrick;
     [FoldoutGroup("Internal")][ReadOnly] public bool hasRollJumped;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;

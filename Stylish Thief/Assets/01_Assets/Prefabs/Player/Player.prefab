@@ -5219,14 +5219,14 @@ MonoBehaviour:
     regenDelay: 0
     invincibilityLength: 0.75
     timeScale: 1
-    spawnSpreeUI: 1
+    spawnSpreeUI: 0
     bhopTime: 0.2
     groundMoveData:
       acceleration: 40
       deceleration: 8
       minWalkSpeed: 0
       maxSpeed: 15
-      maxSpeedDeceleration: 1
+      maxSpeedDeceleration: 0.1
       turnSpeedMult: 10
       modelTurnDelay: 0
       turnDecelerationMult: 0
@@ -5809,6 +5809,7 @@ MonoBehaviour:
     disableAirTrick: 0
     groundTrickLength: 0.75
     airTrickLength: 0.75
+    airTrickGrabBuffer: 0.1
     disableRoll: 0
     rollTiming: 0.2
     rollMinSpeed: 2
@@ -16519,7 +16520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081ba5efc2ce5c043ae3acd7a6b6a67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WwiseEventTrigger
-  jumpSoundEvent: Jump_Event
 --- !u!1001 &8753386828389301881
 PrefabInstance:
   m_ObjectHideFlags: 0

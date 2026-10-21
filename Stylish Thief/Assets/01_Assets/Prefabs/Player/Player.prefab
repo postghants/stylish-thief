@@ -16444,7 +16444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       propertyPath: m_Name
-      value: Robin Tas Texture Test 2 (1)
+      value: RobinModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16471,6 +16471,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6728575028680813074}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4518069575538980142}
   m_SourcePrefab: {fileID: 100100000, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
 --- !u!4 &8092761614624209396 stripped
 Transform:
@@ -16504,6 +16507,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4518069575538980142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864372020807721806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 081ba5efc2ce5c043ae3acd7a6b6a67c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WwiseEventTrigger
+  jumpSoundEvent: Jump_Event
 --- !u!1001 &8753386828389301881
 PrefabInstance:
   m_ObjectHideFlags: 0

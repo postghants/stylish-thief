@@ -11,6 +11,19 @@
 
 namespace AK
 {
+    namespace EVENTS
+    {
+        static const AkUniqueID JUMP_EVENT = 623275868U;
+        static const AkUniqueID LEFT_FOOTSTEP_EVENT = 2306741778U;
+        static const AkUniqueID RIGHT_FOOTSTEP_EVENT = 4014281127U;
+    } // namespace EVENTS
+
+    namespace BANKS
+    {
+        static const AkUniqueID INIT = 1355168291U;
+        static const AkUniqueID PLAYER_MOVEMENT_BANK = 2236566543U;
+    } // namespace BANKS
+
     namespace BUSSES
     {
         static const AkUniqueID MAIN_AUDIO_BUS = 2246998526U;

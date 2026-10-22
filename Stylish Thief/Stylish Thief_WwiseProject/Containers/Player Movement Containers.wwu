@@ -526,6 +526,13 @@
 				<Folder Name="Footsteps" ID="{472B4E6B-594F-4CAA-92DD-B579CD43A4C6}" ShortID="62419002">
 					<ChildrenList>
 						<RandomSequenceContainer Name="Left Footstep Random Container" ID="{4E58D764-116D-43D3-B64C-7C81DE56B742}" ShortID="764395657">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -846,6 +853,13 @@
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="Right Footstep Random Container" ID="{6E70BA02-5EE4-4A00-9D2D-8B93BBF6B423}" ShortID="342508853">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -1266,6 +1280,161 @@
 						</Sound>
 					</ChildrenList>
 				</RandomSequenceContainer>
+				<Sound Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" ShortID="556150445">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Lowpass" Type="int16">
+							<ValueList>
+								<Value>44</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MaxSoundPerInstance" Type="int16">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>400</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UseMaxSoundPerInstance" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02" ID="{DA63E3D7-272C-47D9-B544-B32E0377443C}">
+							<Language>SFX</Language>
+							<AudioFile>Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="559081286"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02" ID="{DA63E3D7-272C-47D9-B544-B32E0377443C}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Rolling2" ID="{2870D2C1-16F6-4AD6-BCA8-E3B960D57F14}" ShortID="612825852">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>-340</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}">
+							<Language>SFX</Language>
+							<AudioFile>Foley Tire Rolling Over Gravel 01.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="547757811"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Engine Rev" ID="{20A3898A-9100-4612-B6C0-113FF9DFFB72}" ShortID="73060858">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>-280</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Whoopee Whistle, Cheap Toy" ID="{FB3E4455-716B-4756-8F00-33E42931DACA}">
+							<PropertyList>
+								<Property Name="FadeInDuration" Type="Real64" Value="0.02642"/>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.89745"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.13596"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>Whoopee Whistle, Cheap Toy.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="105677078"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Whoopee Whistle, Cheap Toy" ID="{FB3E4455-716B-4756-8F00-33E42931DACA}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" ShortID="27123974">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>500</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}">
+							<Language>SFX</Language>
+							<AudioFile>VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="362193023"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</Containers>

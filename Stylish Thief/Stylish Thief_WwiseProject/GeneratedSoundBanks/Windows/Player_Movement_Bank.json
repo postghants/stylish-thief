@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7ACAEFF9-FAB3-4DEB-ACB7-262C43670519}",
     "Language": "SFX",
-    "Hash": "{D947F866-CCF1-44C9-F324-CD9C00B5D3F7}",
+    "Hash": "{EE492AB8-9EE5-0C21-DCFB-596E773BC07B}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Player_Movement_Bank",
     "ShortName": "Player_Movement_Bank",
     "Path": "Player_Movement_Bank.bnk",
@@ -46,6 +46,14 @@
       "Location": "Memory",
       "ShortName": "SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10).wav",
       "CachePath": "02/{02418BF9-5FD4-53B8-A78C-E4226568E622}.wem"
+     },
+     {
+      "Id": "105677078",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Whoopee Whistle, Cheap Toy.wav",
+      "CachePath": "AE/{AED82E13-24C6-74FA-5B26-1C3C45A537C7}.wem"
      },
      {
       "Id": "119752549",
@@ -104,6 +112,14 @@
       "CachePath": "83/{83D02641-493D-240D-E61C-FAC9467BB69A}.wem"
      },
      {
+      "Id": "362193023",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012.wav",
+      "CachePath": "C3/{C3DCA658-396B-1995-B55E-0918F24D4FB9}.wem"
+     },
+     {
       "Id": "388151324",
       "Language": "SFX",
       "Streaming": "false",
@@ -118,6 +134,14 @@
       "Location": "Memory",
       "ShortName": "footstep_left-005.wav",
       "CachePath": "2F/{2FA85573-FFC4-3D9C-9B44-83168B819DC0}.wem"
+     },
+     {
+      "Id": "405824073",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Hideout_schets_top_layer_looping.wav",
+      "CachePath": "00/{00C1E60E-BE3E-A581-A4C4-61630E3E47EC}.wem"
      },
      {
       "Id": "425884829",
@@ -168,12 +192,28 @@
       "CachePath": "C7/{C734B6FC-ACBD-CA9E-03BE-9BC2470B0180}.wem"
      },
      {
+      "Id": "547757811",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Foley Tire Rolling Over Gravel 01.wav",
+      "CachePath": "21/{216D22EF-B728-7E97-EA32-CD917054B176}.wem"
+     },
+     {
       "Id": "552259111",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "footstep_left-001.wav",
       "CachePath": "5C/{5C5AF753-846B-B22B-7490-D9C2B263D1C7}.wem"
+     },
+     {
+      "Id": "559081286",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02.wav",
+      "CachePath": "98/{9853B540-861B-1411-2437-2E534ED55D9F}.wem"
      },
      {
       "Id": "564200249",
@@ -214,6 +254,14 @@
       "Location": "Memory",
       "ShortName": "footstep_right-002.wav",
       "CachePath": "C1/{C1BEA511-FA8B-8BA4-95FB-C00E3A8D1296}.wem"
+     },
+     {
+      "Id": "633105048",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Hideout_schets_base_layer_looping.wav",
+      "CachePath": "72/{72A477F3-DDDB-D250-E1F6-B74843AEBA2B}.wem"
      },
      {
       "Id": "643322395",
@@ -466,6 +514,21 @@
       ]
      },
      {
+      "Id": "2932040671",
+      "Name": "Play_Music",
+      "ObjectPath": "\\Events\\Player Movement Events\\Play_Music",
+      "GUID": "{7C7119C5-A6CE-4ABE-B259-C9DB59DCCF22}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "405824073"
+       },
+       {
+        "Id": "633105048"
+       }
+      ]
+     },
+     {
       "Id": "4014281127",
       "Name": "Right_Footstep_Event",
       "ObjectPath": "\\Events\\Player Movement Events\\Right_Footstep_Event",
@@ -514,10 +577,49 @@
         "Id": "983982163"
        }
       ]
+     },
+     {
+      "Id": "3696591592",
+      "Name": "Start_Rolling_Event",
+      "ObjectPath": "\\Events\\Player Movement Events\\Start_Rolling_Event",
+      "GUID": "{5EC62D83-250E-4D30-9166-717A670F2918}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "105677078"
+       },
+       {
+        "Id": "362193023"
+       },
+       {
+        "Id": "547757811"
+       },
+       {
+        "Id": "559081286"
+       }
+      ]
+     },
+     {
+      "Id": "445167262",
+      "Name": "Stop_Rolling_Event",
+      "ObjectPath": "\\Events\\Player Movement Events\\Stop_Rolling_Event",
+      "GUID": "{03ED48E3-A929-429A-86E3-DB2A5C1400D3}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     }
+    ],
+    "GameParameters": [
+     {
+      "Id": "3739137597",
+      "Name": "Location_Check",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Location_Check",
+      "GUID": "{CC47DCE7-8AD3-46EA-8707-1870E4E69F8C}"
      }
     ]
    }
   ],
-  "FileHash": "{CCC53805-4980-9077-387E-088336D926DD}"
+  "FileHash": "{C7E0CCF8-B25C-FBBF-E70B-24276174AA75}"
  }
 }

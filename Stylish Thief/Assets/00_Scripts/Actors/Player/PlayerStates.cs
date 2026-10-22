@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HSM
@@ -521,6 +522,9 @@ namespace HSM
             ctx.cmd = ctx.rollMoveData;
             ctx.rb.velocity = ctx.facing * speed;
             ctx.player.SetTrigger("StartRoll");
+
+            //Tom's Wwise trigger
+            AkUnitySoundEngine.PostEvent("Start_Rolling_Event", ctx.player.gameObject);
         }
         protected override void OnUpdate(float deltaTime)
         {
@@ -533,6 +537,10 @@ namespace HSM
         {
             timer = 0;
             ctx.player.SetTrigger("EndRoll");
+
+            //Tom's Wwise trigger
+            AkUnitySoundEngine.PostEvent("Stop_Rolling_Event", ctx.player.gameObject);
+
             if (jumping)
             {
                 jumping = false;

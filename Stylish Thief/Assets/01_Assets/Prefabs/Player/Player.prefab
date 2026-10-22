@@ -5220,6 +5220,7 @@ MonoBehaviour:
     invincibilityLength: 0.75
     timeScale: 1
     spawnSpreeUI: 1
+    bhopTime: 0.2
     groundMoveData:
       acceleration: 40
       deceleration: 8
@@ -5929,6 +5930,27 @@ MonoBehaviour:
       downwardAccel: 60
       maxFallSpeed: 55
       fastFallSpeed: 49
+    poundBounceJump:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -6013,6 +6035,7 @@ MonoBehaviour:
       maxFallSpeed: 0
       fastFallSpeed: 0
     isStunned: 0
+    bhopCount: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0
@@ -16496,7 +16519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081ba5efc2ce5c043ae3acd7a6b6a67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WwiseEventTrigger
-  jumpSoundEvent: Jump_Event
 --- !u!1001 &8753386828389301881
 PrefabInstance:
   m_ObjectHideFlags: 0

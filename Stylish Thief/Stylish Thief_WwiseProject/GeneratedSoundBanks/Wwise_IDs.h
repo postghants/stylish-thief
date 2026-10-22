@@ -17,8 +17,16 @@ namespace AK
         static const AkUniqueID JUMP_EVENT = 623275868U;
         static const AkUniqueID LANDING_EVENT = 505559691U;
         static const AkUniqueID LEFT_FOOTSTEP_EVENT = 2306741778U;
+        static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID RIGHT_FOOTSTEP_EVENT = 4014281127U;
+        static const AkUniqueID START_ROLLING_EVENT = 3696591592U;
+        static const AkUniqueID STOP_ROLLING_EVENT = 445167262U;
     } // namespace EVENTS
+
+    namespace GAME_PARAMETERS
+    {
+        static const AkUniqueID LOCATION_CHECK = 3739137597U;
+    } // namespace GAME_PARAMETERS
 
     namespace BANKS
     {

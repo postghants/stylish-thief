@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class PlayerMovementSoundEventTriggers : MonoBehaviour
 {
-public void TriggerWwiseJumpEvent()
+    public void TriggerWwiseJumpEvent()
     {
         AkUnitySoundEngine.PostEvent("Jump_Event", gameObject);
     }
 
-public void TriggerWwiseRightFootstepEvent()
+    public void TriggerWwiseRightFootstepEvent()
     {
         AkUnitySoundEngine.PostEvent("Right_Footstep_Event", gameObject);
     }

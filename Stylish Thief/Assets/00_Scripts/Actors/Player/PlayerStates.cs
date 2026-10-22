@@ -252,22 +252,37 @@ namespace HSM
             base.OnEnter();
             timer = 0;
             startVel = ctx.rb.velocity;
-            ctx.cmd = ctx.vaultMoveData;
+            ctx.cmd = ctx.ledgeGrabMoveData;
             ctx.rb.velocity = Vector3.zero;
             ctx.player.SetTrigger("StartLedgeGrab");
 
             ctx.desiredTrick = false;
+            ctx.isTricking = false;
         }
 
         protected override void OnExit()
         {
-            if (ctx.pressingTrick && !ctx.disableVaultJump)
+            if (ctx.pressingTrick && !ctx.disableVault)
             {
+                ctx.desiredTrick = false;
+                ctx.isTricking = false;
+
                 ctx.rb.velocity.x = startVel.x;
                 ctx.rb.velocity.z = startVel.z;
+                Debug.Log(startVel.magnitude);
+
+                ctx.rb.velocity.x += ctx.rb.velocity.normalized.x * ctx.vaultAddedSpeed;
+                ctx.rb.velocity.z += ctx.rb.velocity.normalized.z * ctx.vaultAddedSpeed;
+                if (new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude < ctx.vaultMinimumSpeed)
+                {
+                    ctx.rb.velocity.x = ctx.rb.velocity.normalized.x * ctx.vaultMinimumSpeed;
+                    ctx.rb.velocity.z = ctx.rb.velocity.normalized.z * ctx.vaultMinimumSpeed;
+                }
                 ctx.currentVelocity = ctx.rb.velocity;
-                ctx.currentJumpData = ctx.vaultJump;
+
+                ctx.currentJumpData = ctx.vaultJumpData;
                 Jump.PerformJump(ctx);
+
                 ctx.player.SetTrigger("LedgeGrabToVault");
                 ctx.particleManager.StartGroup("Vault");
             }
@@ -281,7 +296,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if ((ctx.pressingTrick && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
+            if ((ctx.pressingTrick && !ctx.disableVault) || timer >= ctx.ledgeGrabMaxDuration)
             {
                 return Parent;
             }
@@ -362,7 +377,7 @@ namespace HSM
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-ctx.rb.skinWidth * 2);
 
-            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
+            if (!ctx.disableLedgeGrab && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
             {
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
                 {
@@ -501,6 +516,9 @@ namespace HSM
         protected override void OnEnter()
         {
             ctx.desiredJump = false;
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            ctx.disableAirTrick = true;
             if (!ctx.pressingJump)
             {
                 hasReleasedJump = true;
@@ -540,12 +558,20 @@ namespace HSM
             {
                 hasReleasedJump = true;
             }
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            ctx.disableAirTrick = true;
         }
         protected override void OnExit()
         {
             timer = 0;
             hasReleasedJump = false;
             ctx.player.SetTrigger("EndRoll");
+
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            ctx.disableAirTrick = false;
+
             if (jumping)
             {
                 jumping = false;
@@ -557,6 +583,8 @@ namespace HSM
                 ctx.cmd = ctx.rollJumpMoveData;
                 ctx.rb.velocity.x = 0;
                 ctx.rb.velocity.z = 0;
+
+                ctx.disableAirTrick = true;
             }
         }
 
@@ -801,7 +829,7 @@ namespace HSM
             ctx.player.SetTrigger("StartBadLanding");
             ctx.cmd = ctx.harshLandingData;
             ctx.disableRoll = true;
-            Debug.Log("Blam!!!!!!!!!!!!!!!!!!!!!!!!");
+            ctx.lastLandingVelocity = Vector3.zero;
         }
         protected override void OnUpdate(float deltaTime)
         {

@@ -437,15 +437,17 @@ public class PlayerContext
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceUp;
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceDown;
 
-    [FoldoutGroup("Vault")] public bool disableVault;
-    [FoldoutGroup("Vault")] public float ledgeCheckDistance;
-    [FoldoutGroup("Vault")] public float maxLedgeHeight;
-    [FoldoutGroup("Vault")] public float maxLedgeHeightGround;
-    [FoldoutGroup("Vault")] public float vaultMaxDuration;
-    [FoldoutGroup("Vault")] public MoveData vaultMoveData;
+    [FoldoutGroup("Ledge Grab")] public bool disableLedgeGrab;
+    [FoldoutGroup("Ledge Grab")] public float ledgeCheckDistance;
+    [FoldoutGroup("Ledge Grab")] public float maxLedgeHeight;
+    [FoldoutGroup("Ledge Grab")] public float maxLedgeHeightGround;
+    [FoldoutGroup("Ledge Grab")] public float ledgeGrabMaxDuration;
+    [FoldoutGroup("Ledge Grab")] public MoveData ledgeGrabMoveData;
 
-    [FoldoutGroup("Vault Jump")] public bool disableVaultJump;
-    [FoldoutGroup("Vault Jump")] public JumpData vaultJump;
+    [FoldoutGroup("Vault")] public bool disableVault;
+    [FoldoutGroup("Vault")] public float vaultMinimumSpeed;
+    [FoldoutGroup("Vault")] public float vaultAddedSpeed;
+    [FoldoutGroup("Vault")] public JumpData vaultJumpData;
 
     [FoldoutGroup("Slide")] public bool disableSlide;
     [FoldoutGroup("Slide")] public bool disableAirborneSlide;

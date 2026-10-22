@@ -255,6 +255,8 @@ namespace HSM
             ctx.cmd = ctx.vaultMoveData;
             ctx.rb.velocity = Vector3.zero;
             ctx.player.SetTrigger("StartLedgeGrab");
+
+            ctx.desiredTrick = false;
         }
 
         protected override void OnExit()
@@ -331,7 +333,7 @@ namespace HSM
                 }
             }
 
-            float speed = ctx.rb.velocity.magnitude;
+            float speed = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude;
             Vector2 horizontalVel = (new Vector2(ctx.facing.x, ctx.facing.z)).normalized * speed;
             if (speed < ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
@@ -488,6 +490,7 @@ namespace HSM
         private float speed;
         private float timer;
         private bool jumping;
+        private bool hasReleasedJump;
 
         public PlayerRolling(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -497,6 +500,11 @@ namespace HSM
 
         protected override void OnEnter()
         {
+            ctx.desiredJump = false;
+            if (!ctx.pressingJump)
+            {
+                hasReleasedJump = true;
+            }
             if (ctx.lastLandingVelocity.y != 0)
             {
                 //entryVelocity = ctx.lastLandingVelocity;
@@ -528,10 +536,15 @@ namespace HSM
             {
                 timer += deltaTime;
             }
+            if (!ctx.pressingJump)
+            {
+                hasReleasedJump = true;
+            }
         }
         protected override void OnExit()
         {
             timer = 0;
+            hasReleasedJump = false;
             ctx.player.SetTrigger("EndRoll");
             if (jumping)
             {
@@ -559,7 +572,7 @@ namespace HSM
             }
             if (!ctx.disableRollJump)
             {
-                if (ctx.desiredJump || ctx.pressingJump)
+                if (ctx.desiredJump || (ctx.pressingJump && hasReleasedJump))
                 {
                     jumping = true;
                     return ctx.player.Root.airborne.rollJump;
@@ -713,7 +726,8 @@ namespace HSM
     public class PlayerAirTricking : State
     {
         readonly PlayerContext ctx;
-        private float timer;
+        private float trickTimer;
+        private float grabBufferTimer;
 
         public PlayerAirTricking(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -725,17 +739,25 @@ namespace HSM
         {
             ctx.player.SetTrigger("StartBarSwing");
             ctx.disableRoll = true;
-            ctx.disableGrab = true;
             ctx.disablePound = true;
-            ctx.desiredRoll = true;
+            ctx.desiredTrick = false;
             ctx.isTricking = true;
-            timer = 0;
+            trickTimer = 0;
+            grabBufferTimer = 0;
         }
         protected override void OnUpdate(float deltaTime)
         {
-            if (timer < ctx.airTrickLength)
+            if (trickTimer < ctx.airTrickLength)
             {
-                timer += deltaTime;
+                trickTimer += deltaTime;
+            }
+            if (grabBufferTimer < ctx.airTrickGrabBuffer)
+            {
+                grabBufferTimer += deltaTime;
+            }
+            else
+            {
+                ctx.disableGrab = true;
             }
         }
         protected override void OnExit()
@@ -743,13 +765,17 @@ namespace HSM
             ctx.disableRoll = false;
             ctx.disableGrab = false;
             ctx.disablePound = false;
+            ctx.desiredTrick = false;
             ctx.isTricking = false;
-            NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            if (NeoCrimeSpreeManager.instance != null)
+            {
+                NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            }
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            if (timer >= ctx.airTrickLength)
+            if (trickTimer >= ctx.airTrickLength)
             {
                 return ctx.player.Root.airborne;
             }
@@ -984,7 +1010,7 @@ namespace HSM
                 }
                 return ((PlayerRoot)Parent).airborne;
             }
-            if (ctx.rb.isGrounded && ctx.desiredRoll && !ctx.disableRoll)
+            if (ctx.rb.isGrounded && ctx.desiredTrick && !ctx.disableRoll)
             {
                 if (ctx.rb.velocity.magnitude > ctx.rollMinSpeed && !ctx.hasRollJumped)
                 {
@@ -995,7 +1021,7 @@ namespace HSM
                     ctx.hasRollJumped = false;
                 }
             }
-            if (ctx.rb.isGrounded && ctx.desiredRoll && ctx.rb.velocity.magnitude < ctx.rollMinSpeed && !ctx.disableGroundTrick)
+            if (ctx.rb.isGrounded && ctx.desiredTrick && ctx.rb.velocity.magnitude < ctx.rollMinSpeed && !ctx.disableGroundTrick)
             {
                 return ((PlayerRoot)Parent).grounded.groundTricking;
             }
@@ -1157,7 +1183,7 @@ namespace HSM
                 {
                     return null;
                 }
-                if (ctx.desiredRoll && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick)
+                if (ctx.desiredTrick && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick)
                 {
                     return airTricking;
                 }
@@ -1178,7 +1204,7 @@ namespace HSM
                 }
                 if (!ctx.isTumbling)
                 {
-                    if (ctx.desiredRoll && !ctx.disableRoll && !ctx.hasRollJumped)
+                    if (ctx.desiredTrick && !ctx.disableRoll && !ctx.hasRollJumped)
                     {
                         ctx.landingSpeed = 0;
                         return ((PlayerRoot)Parent).grounded.rolling;
@@ -1368,7 +1394,7 @@ namespace HSM
                 ctx.regenTimer += deltaTime;
             }
 
-            
+
 
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
             if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
@@ -1398,7 +1424,7 @@ namespace HSM
                     ctx.bhopCount = 0;
                 }
             }
-            if(ActiveChild == airborne && bhopTimer > 0)
+            if (ActiveChild == airborne && bhopTimer > 0)
             {
                 bhopTimer = 0;
                 ctx.bhopCount++;

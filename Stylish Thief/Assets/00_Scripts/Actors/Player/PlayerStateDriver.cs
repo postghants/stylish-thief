@@ -493,6 +493,7 @@ public class PlayerContext
     [FoldoutGroup("Roll")] public bool disableRollJump;
     [FoldoutGroup("Roll")][Tooltip("How strongly to convert your Roll speed to vertical speed. Set to 0 to not count roll speed. Set to 1 for 1 to 1 conversion")] public float rollJumpConversionStrength;
     [FoldoutGroup("Roll")][Tooltip("From what speed can you Grab during the Roll Jump? Should be close to 0. Enter a positive number")] public float rollJumpGrabSpeedLimit;
+    [FoldoutGroup("Roll")][Tooltip("How long to wait until going up. Should match length of animation")] public float rollJumpDelay;
     [FoldoutGroup("Roll")] public JumpData rollJumpData;
     [FoldoutGroup("Roll")] public MoveData rollJumpMoveData;
 
@@ -552,6 +553,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public float rollTimer;
     [FoldoutGroup("Internal")][ReadOnly] public bool desiredTrick;
     [FoldoutGroup("Internal")][ReadOnly] public bool hasRollJumped;
+    [FoldoutGroup("Internal")][ReadOnly] public Vector3 lastRollSpeed;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;

@@ -5226,7 +5226,7 @@ MonoBehaviour:
       deceleration: 8
       minWalkSpeed: 0
       maxSpeed: 15
-      maxSpeedDeceleration: 0.1
+      maxSpeedDeceleration: 0
       turnSpeedMult: 10
       modelTurnDelay: 0
       turnDecelerationMult: 0
@@ -5834,7 +5834,8 @@ MonoBehaviour:
         m_RotationOrder: 4
     disableRollJump: 0
     rollJumpConversionStrength: 1
-    rollJumpGrabSpeedLimit: 5
+    rollJumpGrabSpeedLimit: 10
+    rollJumpDelay: 0.758
     rollJumpData:
       jumpImpulse: 0
       cuttable: 0
@@ -5990,6 +5991,7 @@ MonoBehaviour:
     rollTimer: 0
     desiredTrick: 0
     hasRollJumped: 0
+    lastRollSpeed: {x: 0, y: 0, z: 0}
     isTumbling: 0
     isTricking: 0
     stunTimer: 0

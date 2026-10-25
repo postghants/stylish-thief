@@ -54,14 +54,22 @@ public abstract class EnemyController : Actor
         }
     }
 
-    public virtual void SetMovement(EnemyMovement movement)
+public virtual void SetMovement(EnemyMovement movement)
+{
+    if (movement == null || movement == currentMovement)
+        return;
+
+    if (currentMovement != null)
     {
-        if (currentMovement.disableTransition) { return; }
+        if (currentMovement.disableTransition)
+            return;
+
         currentMovement.OnExit();
-        Debug.Log("Setting movement to " + movement);
-        movement.OnEnter();
-        currentMovement = movement;
     }
+
+    currentMovement = movement;
+    currentMovement.OnEnter();
+}
 
     public virtual void Attack(EnemyAttack attack)
     {

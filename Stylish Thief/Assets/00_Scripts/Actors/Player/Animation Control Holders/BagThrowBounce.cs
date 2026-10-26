@@ -14,6 +14,11 @@ public class BagThrowBounce : AnimationControlHolder
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if(ctx.player.Machine.Root.ActiveChild == ((PlayerRoot)ctx.player.Machine.Root).fixedSpeed)
+        {
+            ctx.player.ReleaseAnimationControl(this);
+            animator.Play(exitState);
+        }
 
         ctx.player.SetAnimRotation(Quaternion.LookRotation(ctx.rb.velocity));
         if (ctx.bhopCount == 0)

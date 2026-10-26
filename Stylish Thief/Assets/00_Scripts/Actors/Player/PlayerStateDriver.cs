@@ -437,6 +437,11 @@ public class PlayerContext
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceUp;
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceDown;
 
+    [FoldoutGroup("Wall Scramble")] public float scrambleStartDelay;
+    [FoldoutGroup("Wall Scramble")] public float scrambleDuration;
+    [FoldoutGroup("Wall Scramble")] public JumpData scrambleJumpData;
+    [FoldoutGroup("Wall Scramble")] public MoveData scrambleMoveData;
+
     [FoldoutGroup("Ledge Grab")] public bool disableLedgeGrab;
     [FoldoutGroup("Ledge Grab")] public float ledgeCheckDistance;
     [FoldoutGroup("Ledge Grab")] public float maxLedgeHeight;

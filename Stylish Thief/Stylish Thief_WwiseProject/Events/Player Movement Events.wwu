@@ -102,7 +102,7 @@
 						<Action Name="" ID="{BEE8AC67-7D39-4E0C-A473-C3765D08F126}" ShortID="839428736">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Engine Rev" ID="{20A3898A-9100-4612-B6C0-113FF9DFFB72}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -110,6 +110,30 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{B505716D-BE59-445F-9928-5F6AF1E2E83A}" ShortID="784267022">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{6ADF8F02-B14A-4CC3-AFD8-D441DBDDA793}" ShortID="91356858">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="0.1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{8FFCA531-2278-4F00-986D-2278A666820F}" ShortID="260766749">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="motor" ID="{95C38F90-9452-4CD1-8C19-767D497F71AA}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -143,7 +167,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Engine Rev" ID="{20A3898A-9100-4612-B6C0-113FF9DFFB72}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -154,6 +178,36 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{92A613C3-3794-4CF3-B17D-8E170985E5D4}" ShortID="1020940980">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{95B9AF91-4212-42A0-A8D7-0794B1C103AD}" ShortID="210824042">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F02049FB-5D4E-4345-BE3A-580515689C71}" ShortID="702932152">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="motor" ID="{95C38F90-9452-4CD1-8C19-767D497F71AA}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

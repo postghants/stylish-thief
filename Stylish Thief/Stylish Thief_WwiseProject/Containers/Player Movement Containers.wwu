@@ -1295,7 +1295,7 @@
 						</Property>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
-								<Value>400</Value>
+								<Value>430</Value>
 							</ValueList>
 						</Property>
 						<Property Name="UseMaxSoundPerInstance" Type="bool">
@@ -1305,7 +1305,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-6</Value>
+								<Value>-96</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1335,12 +1335,12 @@
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
-								<Value>-340</Value>
+								<Value>-320</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>8</Value>
+								<Value>3</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1365,52 +1365,17 @@
 						<ActiveSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
-				<Sound Name="Engine Rev" ID="{20A3898A-9100-4612-B6C0-113FF9DFFB72}" ShortID="73060858">
-					<PropertyList>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>-280</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-2</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="Whoopee Whistle, Cheap Toy" ID="{FB3E4455-716B-4756-8F00-33E42931DACA}">
-							<PropertyList>
-								<Property Name="FadeInDuration" Type="Real64" Value="0.02642"/>
-								<Property Name="FadeOutDuration" Type="Real64" Value="0.89745"/>
-								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-								<Property Name="TrimBegin" Type="Real64" Value="0.13596"/>
-							</PropertyList>
-							<Language>SFX</Language>
-							<AudioFile>Whoopee Whistle, Cheap Toy.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="105677078"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="Whoopee Whistle, Cheap Toy" ID="{FB3E4455-716B-4756-8F00-33E42931DACA}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
 				<Sound Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" ShortID="27123974">
 					<PropertyList>
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
-								<Value>500</Value>
+								<Value>1050</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1433,6 +1398,214 @@
 					</ChildrenList>
 					<ActiveSourceList>
 						<ActiveSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" ShortID="791039520">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>300</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}">
+							<Language>SFX</Language>
+							<AudioFile>BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="414367951"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Whistle" ID="{B4D597D1-504E-46F9-B80D-283D7A85014E}" ShortID="727735179">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>60</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Whoopee Whistle, Cheap Toy" ID="{218B7B27-135B-49B7-951C-B6D47D8E95E6}">
+							<PropertyList>
+								<Property Name="FadeInDuration" Type="Real64" Value="0.08113"/>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.61654"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.15854"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>Whoopee Whistle, Cheap Toy.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="105677078"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Whoopee Whistle, Cheap Toy" ID="{218B7B27-135B-49B7-951C-B6D47D8E95E6}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" ShortID="1058997466">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>-800</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-20</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{D6E22F02-EF7C-4D1B-A249-6C35FB8A8EA1}">
+							<PropertyList>
+								<Property Name="FadeInDuration" Type="Real64" Value="0.10698"/>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.4177"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.15285"/>
+								<Property Name="TrimEnd" Type="Real64" Value="0.7792"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>FRWKComr_InsJ_Fireworks_Launch_Close_01-03.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="810892970"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{D6E22F02-EF7C-4D1B-A249-6C35FB8A8EA1}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" ShortID="674589909">
+					<PropertyList>
+						<Property Name="Highpass" Type="int16">
+							<ValueList>
+								<Value>43</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MakeUpGain" Type="Real64">
+							<ValueList>
+								<Value>4</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>-640</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{444F007D-C617-4F76-AEC7-AE9AEA17EA11}">
+							<PropertyList>
+								<Property Name="FadeInDuration" Type="Real64" Value="0.19597"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.05465"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="94295577"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{444F007D-C617-4F76-AEC7-AE9AEA17EA11}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="motor" ID="{95C38F90-9452-4CD1-8C19-767D497F71AA}" ShortID="38848280">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>350</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg" ID="{21D52CCF-6ECF-4335-A346-AEB744F3404E}">
+							<PropertyList>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.22315"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="358260831"/>
+							</MediaIDList>
+						</AudioFileSource>
+						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{6BF1C6FA-D82C-4D2C-9880-5F06C6A52511}">
+							<PropertyList>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2).wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="986955766"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{6BF1C6FA-D82C-4D2C-9880-5F06C6A52511}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>

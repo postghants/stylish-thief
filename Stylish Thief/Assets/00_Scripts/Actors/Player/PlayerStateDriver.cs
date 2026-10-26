@@ -236,7 +236,7 @@ public class PlayerStateDriver : Actor, IDamageable
     }
     public void OnTrickStart(InputAction.CallbackContext c)
     {
-        ctx.desiredRoll = true;
+        ctx.desiredTrick = true;
         ctx.pressingTrick = true;
         ctx.rollBufferCounter = 0;
     }
@@ -246,12 +246,12 @@ public class PlayerStateDriver : Actor, IDamageable
     }
     public static void RollBuffer(PlayerContext ctx)
     {
-        if (ctx.desiredRoll)
+        if (ctx.desiredTrick)
         {
             ctx.rollBufferCounter += Time.deltaTime;
             if (ctx.rollBufferCounter > ctx.rollTiming)
             {
-                ctx.desiredRoll = false;
+                ctx.desiredTrick = false;
             }
         }
     }
@@ -437,15 +437,22 @@ public class PlayerContext
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceUp;
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceDown;
 
-    [FoldoutGroup("Vault")] public bool disableVault;
-    [FoldoutGroup("Vault")] public float ledgeCheckDistance;
-    [FoldoutGroup("Vault")] public float maxLedgeHeight;
-    [FoldoutGroup("Vault")] public float maxLedgeHeightGround;
-    [FoldoutGroup("Vault")] public float vaultMaxDuration;
-    [FoldoutGroup("Vault")] public MoveData vaultMoveData;
+    [FoldoutGroup("Wall Scramble")] public float scrambleStartDelay;
+    [FoldoutGroup("Wall Scramble")] public float scrambleDuration;
+    [FoldoutGroup("Wall Scramble")] public JumpData scrambleJumpData;
+    [FoldoutGroup("Wall Scramble")] public MoveData scrambleMoveData;
 
-    [FoldoutGroup("Vault Jump")] public bool disableVaultJump;
-    [FoldoutGroup("Vault Jump")] public JumpData vaultJump;
+    [FoldoutGroup("Ledge Grab")] public bool disableLedgeGrab;
+    [FoldoutGroup("Ledge Grab")] public float ledgeCheckDistance;
+    [FoldoutGroup("Ledge Grab")] public float maxLedgeHeight;
+    [FoldoutGroup("Ledge Grab")] public float maxLedgeHeightGround;
+    [FoldoutGroup("Ledge Grab")] public float ledgeGrabMaxDuration;
+    [FoldoutGroup("Ledge Grab")] public MoveData ledgeGrabMoveData;
+
+    [FoldoutGroup("Vault")] public bool disableVault;
+    [FoldoutGroup("Vault")] public float vaultMinimumSpeed;
+    [FoldoutGroup("Vault")] public float vaultAddedSpeed;
+    [FoldoutGroup("Vault")] public JumpData vaultJumpData;
 
     [FoldoutGroup("Slide")] public bool disableSlide;
     [FoldoutGroup("Slide")] public bool disableAirborneSlide;
@@ -479,6 +486,7 @@ public class PlayerContext
     [FoldoutGroup("Tricks")] public bool disableAirTrick;
     [FoldoutGroup("Tricks")] public float groundTrickLength;
     [FoldoutGroup("Tricks")] public float airTrickLength;
+    [FoldoutGroup("Tricks")] public float airTrickGrabBuffer;
 
     [Header("Roll")]
     [FoldoutGroup("Roll")] public bool disableRoll;
@@ -490,6 +498,7 @@ public class PlayerContext
     [FoldoutGroup("Roll")] public bool disableRollJump;
     [FoldoutGroup("Roll")][Tooltip("How strongly to convert your Roll speed to vertical speed. Set to 0 to not count roll speed. Set to 1 for 1 to 1 conversion")] public float rollJumpConversionStrength;
     [FoldoutGroup("Roll")][Tooltip("From what speed can you Grab during the Roll Jump? Should be close to 0. Enter a positive number")] public float rollJumpGrabSpeedLimit;
+    [FoldoutGroup("Roll")][Tooltip("How long to wait until going up. Should match length of animation")] public float rollJumpDelay;
     [FoldoutGroup("Roll")] public JumpData rollJumpData;
     [FoldoutGroup("Roll")] public MoveData rollJumpMoveData;
 
@@ -547,10 +556,12 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public bool hasGrabbed;
     [FoldoutGroup("Internal")][ReadOnly] public float grabTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float rollTimer;
-    [FoldoutGroup("Internal")][ReadOnly] public bool desiredRoll;
+    [FoldoutGroup("Internal")][ReadOnly] public bool desiredTrick;
     [FoldoutGroup("Internal")][ReadOnly] public bool hasRollJumped;
+    [FoldoutGroup("Internal")][ReadOnly] public Vector3 lastRollSpeed;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isVaulting;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;

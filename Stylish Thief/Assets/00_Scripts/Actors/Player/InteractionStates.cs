@@ -121,6 +121,15 @@ namespace HSM
             speed.y = 0;
             speedMagnitude = speed.magnitude;
             ctx.rb.velocity = Vector3.zero;
+
+            if (speedMagnitude > ctx.groundMoveData.maxSpeed)
+            {
+                ctx.player.SetTrigger("StartPoleSpinFast");
+            }
+            else
+            {
+                ctx.player.SetTrigger("StartPoleSpinSlow");
+            }
         }
         protected override void OnUpdate(float deltaTime)
         {
@@ -133,7 +142,7 @@ namespace HSM
                 else
                 {
                     speedMagnitude = ctx.groundMoveData.maxSpeed;
-                    Debug.Log("Speed lost!");
+                    ctx.player.SetTrigger("StartPoleSpinSlow");
                 }
             }
             speed = ctx.moveDirection * speedMagnitude;
@@ -146,6 +155,7 @@ namespace HSM
             ctx.hasGrabbed = false;
             ctx.rb.velocity = speed;
             ctx.facing = ctx.moveDirection;
+            ctx.player.SetTrigger("EndPoleSpin");
         }
 
         protected override State GetTransition(float deltaTime)

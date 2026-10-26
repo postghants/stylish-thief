@@ -5219,13 +5219,14 @@ MonoBehaviour:
     regenDelay: 0
     invincibilityLength: 0.75
     timeScale: 1
-    spawnSpreeUI: 1
+    spawnSpreeUI: 0
+    bhopTime: 0.2
     groundMoveData:
       acceleration: 40
       deceleration: 8
       minWalkSpeed: 0
       maxSpeed: 15
-      maxSpeedDeceleration: 1
+      maxSpeedDeceleration: 0
       turnSpeedMult: 10
       modelTurnDelay: 0
       turnDecelerationMult: 0
@@ -5592,7 +5593,7 @@ MonoBehaviour:
       jumpMovementMult: 0.2
       jumpMovementMultTime: 0.5
       downwardAccel: 60
-      maxFallSpeed: 55
+      maxFallSpeed: 999
       fastFallSpeed: 49
     baseJumpData:
       jumpImpulse: 15
@@ -5613,7 +5614,7 @@ MonoBehaviour:
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       downwardAccel: 60
-      maxFallSpeed: 55
+      maxFallSpeed: 999
       fastFallSpeed: 49
     disableJump: 0
     coyoteTime: 0.1
@@ -5628,12 +5629,12 @@ MonoBehaviour:
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    disableVault: 0
+    disableLedgeGrab: 0
     ledgeCheckDistance: 1.5
     maxLedgeHeight: 3
     maxLedgeHeightGround: 2
-    vaultMaxDuration: 0.4
-    vaultMoveData:
+    ledgeGrabMaxDuration: 0.4
+    ledgeGrabMoveData:
       acceleration: 0
       deceleration: 0
       minWalkSpeed: 0
@@ -5648,8 +5649,10 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    disableVaultJump: 0
-    vaultJump:
+    disableVault: 0
+    vaultMinimumSpeed: 27
+    vaultAddedSpeed: 1
+    vaultJumpData:
       jumpImpulse: 15
       cuttable: 0
       maxMaxSpeedTime: 0.03
@@ -5662,13 +5665,13 @@ MonoBehaviour:
       upwardDecelApexThreshold: 0
       upwardDecelApex: 0
       hangtimeDuration: 0
-      setSpeed: 1
-      setSpeedSpeed: 27
+      setSpeed: 0
+      setSpeedSpeed: 0
       horizontalBoost: 0
       jumpMovementMult: 0
       jumpMovementMultTime: 0.2
       downwardAccel: 60
-      maxFallSpeed: 55
+      maxFallSpeed: 999
       fastFallSpeed: 50
     disableSlide: 1
     disableAirborneSlide: 1
@@ -5759,7 +5762,7 @@ MonoBehaviour:
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       downwardAccel: 60
-      maxFallSpeed: 55
+      maxFallSpeed: 999
       fastFallSpeed: 49
     tumblingMoveData:
       acceleration: 35
@@ -5806,8 +5809,9 @@ MonoBehaviour:
     minimumHarshLandingSpeed: 30
     disableGroundTrick: 0
     disableAirTrick: 0
-    groundTrickLength: 1
-    airTrickLength: 1
+    groundTrickLength: 0.75
+    airTrickLength: 0.75
+    airTrickGrabBuffer: 0.1
     disableRoll: 0
     rollTiming: 0.2
     rollMinSpeed: 2
@@ -5830,7 +5834,8 @@ MonoBehaviour:
         m_RotationOrder: 4
     disableRollJump: 0
     rollJumpConversionStrength: 1
-    rollJumpGrabSpeedLimit: 5
+    rollJumpGrabSpeedLimit: 10
+    rollJumpDelay: 0.758
     rollJumpData:
       jumpImpulse: 0
       cuttable: 0
@@ -5850,7 +5855,7 @@ MonoBehaviour:
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       downwardAccel: 60
-      maxFallSpeed: 55
+      maxFallSpeed: 999
       fastFallSpeed: 49
     rollJumpMoveData:
       acceleration: 0
@@ -5929,6 +5934,27 @@ MonoBehaviour:
       downwardAccel: 60
       maxFallSpeed: 55
       fastFallSpeed: 49
+    poundBounceJump:
+      jumpImpulse: 0
+      cuttable: 0
+      maxMaxSpeedTime: 0
+      minMaxSpeedTime: 0
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 0
+      cutSpeed: 0
+      upwardDeceleration: 0
+      upwardDecelApexThreshold: 0
+      upwardDecelApex: 0
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0
+      downwardAccel: 0
+      maxFallSpeed: 0
+      fastFallSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -5963,8 +5989,9 @@ MonoBehaviour:
     hasGrabbed: 0
     grabTimer: 0
     rollTimer: 0
-    desiredRoll: 0
+    desiredTrick: 0
     hasRollJumped: 0
+    lastRollSpeed: {x: 0, y: 0, z: 0}
     isTumbling: 0
     isTricking: 0
     stunTimer: 0
@@ -6013,6 +6040,7 @@ MonoBehaviour:
       maxFallSpeed: 0
       fastFallSpeed: 0
     isStunned: 0
+    bhopCount: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0
@@ -16496,7 +16524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081ba5efc2ce5c043ae3acd7a6b6a67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WwiseEventTrigger
-  jumpSoundEvent: Jump_Event
 --- !u!1001 &8753386828389301881
 PrefabInstance:
   m_ObjectHideFlags: 0

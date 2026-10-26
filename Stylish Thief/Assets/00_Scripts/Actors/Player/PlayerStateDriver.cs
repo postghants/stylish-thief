@@ -556,6 +556,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public Vector3 lastRollSpeed;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isVaulting;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;

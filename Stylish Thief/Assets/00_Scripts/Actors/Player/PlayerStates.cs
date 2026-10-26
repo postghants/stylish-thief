@@ -285,6 +285,7 @@ namespace HSM
 
                 ctx.player.SetTrigger("LedgeGrabToVault");
                 ctx.particleManager.StartGroup("Vault");
+                ctx.isVaulting = true;
             }
             else
             {
@@ -455,6 +456,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
+            ctx.isTumbling = false;
             //ctx.playerMat.color = ctx.airColor;
         }
 
@@ -590,6 +592,7 @@ namespace HSM
             if (!jumping)
             {
                 ctx.player.SetTrigger("EndRoll");
+                ctx.disableJump = false;
             }
             else
             {
@@ -712,6 +715,8 @@ namespace HSM
             {
                 ctx.isTumbling = false;
             }
+            ctx.disableJump = false;
+            ctx.player.SetTrigger("EndRollJumpFall");
         }
 
         protected override State GetTransition(float deltaTime)
@@ -1207,7 +1212,11 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
-
+            
+            if (ctx.isVaulting)
+            {
+                ctx.isVaulting = false;
+            }
             /*if (ctx.isTricking)
             {
                 ctx.disableRoll = false;
@@ -1236,7 +1245,7 @@ namespace HSM
                 {
                     return null;
                 }
-                if (ctx.desiredTrick && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick)
+                if (ctx.desiredTrick && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick && !ctx.isVaulting)
                 {
                     return airTricking;
                 }

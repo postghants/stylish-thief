@@ -437,6 +437,11 @@ public class PlayerContext
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceUp;
     [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceDown;
 
+    [FoldoutGroup("Wall Scramble")] public float scrambleStartDelay;
+    [FoldoutGroup("Wall Scramble")] public float scrambleDuration;
+    [FoldoutGroup("Wall Scramble")] public JumpData scrambleJumpData;
+    [FoldoutGroup("Wall Scramble")] public MoveData scrambleMoveData;
+
     [FoldoutGroup("Ledge Grab")] public bool disableLedgeGrab;
     [FoldoutGroup("Ledge Grab")] public float ledgeCheckDistance;
     [FoldoutGroup("Ledge Grab")] public float maxLedgeHeight;
@@ -556,6 +561,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public Vector3 lastRollSpeed;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTumbling;
     [FoldoutGroup("Internal")][ReadOnly] public bool isTricking;
+    [FoldoutGroup("Internal")][ReadOnly] public bool isVaulting;
     [FoldoutGroup("Internal")][ReadOnly] public float stunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float airStunTimer;
     [FoldoutGroup("Internal")][ReadOnly] public float slideTimer;

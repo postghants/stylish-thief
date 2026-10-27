@@ -109,6 +109,113 @@ namespace HSM
         }
     }
 
+    public class PlayerWallScramble : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+        private bool boosted;
+
+        public PlayerWallScramble(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.scrambleMoveData;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer >= ctx.scrambleStartDelay)
+            {
+                //Find ledge for vaulting
+                Vector3 origin = ctx.rb.transform.position;
+                Bounds bounds = ctx.rb.environmentCollider.bounds;
+                bounds.Expand(-ctx.rb.skinWidth * 2);
+
+                if (!ctx.disableLedgeGrab && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
+                {
+                    if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
+                    {
+                        origin = checkHit.point;
+                        if (ctx.rb.isGrounded)
+                        {
+                            origin.y += ctx.maxLedgeHeightGround; //Add the maximum ledge height to where the boxcast hit the ground
+                        }
+                        else
+                        {
+                            origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
+                        }
+
+                        Vector3 cast1Origin = origin;
+                        if (ctx.rb.isGrounded)
+                        {
+                            if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
+                            {
+                                if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeightGround, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                                {
+                                    origin = heightHit.point;
+                                    origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                                    origin.x = cast1Origin.x;
+                                    origin.z = cast1Origin.z;
+                                    ctx.rb.transform.position = origin;
+
+
+                                    Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
+                                    return;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
+                            {
+                                if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                                {
+                                    origin = heightHit.point;
+                                    origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                                    origin.x = cast1Origin.x;
+                                    origin.z = cast1Origin.z;
+                                    ctx.rb.transform.position = origin;
+
+
+                                    Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            boosted = false;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            timer += deltaTime;
+
+            if(!boosted && timer >= ctx.scrambleStartDelay)
+            {
+                boosted = true;
+                ctx.currentJumpData = ctx.scrambleJumpData;
+                Jump.PerformJump(ctx);
+            }
+            if(timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
+            {
+                return Parent;
+            }
+            return null;
+
+        }
+    }
+
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
     public class PlayerSliding : State
     {
@@ -286,6 +393,7 @@ namespace HSM
 
                 ctx.player.SetTrigger("LedgeGrabToVault");
                 ctx.particleManager.StartGroup("Vault");
+                ctx.isVaulting = true;
             }
             else
             {
@@ -365,10 +473,12 @@ namespace HSM
             //    ctx.rb.onCollision -= OnCollision;
             //    return;
             //}
-            if (!ctx.disableStun)
-            {
-                PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
-            }
+            //if (!ctx.disableStun)
+            //{
+            //    PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+            //}
+            Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.wallScramble);
+            //ctx.rb.transform.Translate(hit.normal * 0.1f);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -456,6 +566,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
+            ctx.isTumbling = false;
             //ctx.playerMat.color = ctx.airColor;
         }
 
@@ -597,6 +708,7 @@ namespace HSM
             if (!jumping)
             {
                 ctx.player.SetTrigger("EndRoll");
+                ctx.disableJump = false;
             }
             else
             {
@@ -719,6 +831,8 @@ namespace HSM
             {
                 ctx.isTumbling = false;
             }
+            ctx.disableJump = false;
+            ctx.player.SetTrigger("EndRollJumpFall");
         }
 
         protected override State GetTransition(float deltaTime)
@@ -912,7 +1026,7 @@ namespace HSM
             {
                 return ((PlayerGrounded)Parent).moving;
             }
-            if ( ctx.desiredTrick && !ctx.disableGroundTrick)
+            if (ctx.desiredTrick && !ctx.disableGroundTrick)
             {
                 Debug.Log("Piece of shit gound trick");
                 return ((PlayerRoot)Parent).grounded.groundTricking;
@@ -1119,6 +1233,7 @@ namespace HSM
         public readonly PlayerRollJumping rollJump;
         public readonly PlayerTumbling tumble;
         public readonly PlayerAirTricking airTricking;
+        public readonly PlayerWallScramble wallScramble;
 
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
@@ -1142,6 +1257,7 @@ namespace HSM
             rollJump = new(m, this, ctx);
             tumble = new(m, this, ctx);
             airTricking = new(m, this, ctx);
+            wallScramble = new(m, this, ctx);
 
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
@@ -1214,7 +1330,11 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
-
+            
+            if (ctx.isVaulting)
+            {
+                ctx.isVaulting = false;
+            }
             /*if (ctx.isTricking)
             {
                 ctx.disableRoll = false;
@@ -1243,7 +1363,7 @@ namespace HSM
                 {
                     return null;
                 }
-                if (ctx.desiredTrick && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick)
+                if (ctx.desiredTrick && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick && !ctx.isVaulting)
                 {
                     return airTricking;
                 }

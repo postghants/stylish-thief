@@ -85,13 +85,6 @@
 				</Event>
 				<Event Name="Start_Rolling_Event" ID="{5EC62D83-250E-4D30-9166-717A670F2918}">
 					<ChildrenList>
-						<Action Name="" ID="{7518E568-C9EE-4E3B-AAB7-F854BE44A1A3}" ShortID="683170152">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{676F9057-578F-48E0-B080-1E127520353E}" ShortID="23156435">
 							<ReferenceList>
 								<Reference Name="Target">
@@ -141,16 +134,6 @@
 				</Event>
 				<Event Name="Stop_Rolling_Event" ID="{03ED48E3-A929-429A-86E3-DB2A5C1400D3}">
 					<ChildrenList>
-						<Action Name="" ID="{2D8E586D-46C3-41F6-B475-3F9EB857524A}" ShortID="57959285">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{A5F5EE05-13BC-497A-A4B4-5775AFDA3B95}" ShortID="184494565">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>

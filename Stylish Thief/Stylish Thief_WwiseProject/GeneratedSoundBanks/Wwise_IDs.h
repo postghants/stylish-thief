@@ -26,6 +26,7 @@ namespace AK
     namespace GAME_PARAMETERS
     {
         static const AkUniqueID LOCATION_CHECK = 3739137597U;
+        static const AkUniqueID WWISEVELOCITYCHECK = 2623061375U;
     } // namespace GAME_PARAMETERS
 
     namespace BANKS

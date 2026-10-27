@@ -1280,56 +1280,6 @@
 						</Sound>
 					</ChildrenList>
 				</RandomSequenceContainer>
-				<Sound Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" ShortID="556150445">
-					<PropertyList>
-						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-						<Property Name="Lowpass" Type="int16">
-							<ValueList>
-								<Value>44</Value>
-							</ValueList>
-						</Property>
-						<Property Name="MaxSoundPerInstance" Type="int16">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>430</Value>
-							</ValueList>
-						</Property>
-						<Property Name="UseMaxSoundPerInstance" Type="bool">
-							<ValueList>
-								<Value>True</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-96</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02" ID="{DA63E3D7-272C-47D9-B544-B32E0377443C}">
-							<Language>SFX</Language>
-							<AudioFile>Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="559081286"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02" ID="{DA63E3D7-272C-47D9-B544-B32E0377443C}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
 				<Sound Name="Rolling2" ID="{2870D2C1-16F6-4AD6-BCA8-E3B960D57F14}" ShortID="612825852">
 					<PropertyList>
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
@@ -1429,46 +1379,6 @@
 						<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
-				<Sound Name="Whistle" ID="{B4D597D1-504E-46F9-B80D-283D7A85014E}" ShortID="727735179">
-					<PropertyList>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>60</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>2</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="Whoopee Whistle, Cheap Toy" ID="{218B7B27-135B-49B7-951C-B6D47D8E95E6}">
-							<PropertyList>
-								<Property Name="FadeInDuration" Type="Real64" Value="0.08113"/>
-								<Property Name="FadeOutDuration" Type="Real64" Value="0.61654"/>
-								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-								<Property Name="TrimBegin" Type="Real64" Value="0.15854"/>
-							</PropertyList>
-							<Language>SFX</Language>
-							<AudioFile>Whoopee Whistle, Cheap Toy.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="105677078"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="Whoopee Whistle, Cheap Toy" ID="{218B7B27-135B-49B7-951C-B6D47D8E95E6}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
 				<Sound Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" ShortID="1058997466">
 					<PropertyList>
 						<Property Name="Pitch" Type="int32">
@@ -1564,12 +1474,12 @@
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
-								<Value>350</Value>
+								<Value>370</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-2</Value>
+								<Value>-96</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1596,6 +1506,7 @@
 						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{6BF1C6FA-D82C-4D2C-9880-5F06C6A52511}">
 							<PropertyList>
 								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimEnd" Type="Real64" Value="3.05626"/>
 							</PropertyList>
 							<Language>SFX</Language>
 							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2).wav</AudioFile>
@@ -1603,9 +1514,100 @@
 								<MediaID ID="986955766"/>
 							</MediaIDList>
 						</AudioFileSource>
+						<AudioFileSource Name="Leaf Blower 11 Engine - EXT low rpm loop side perspective stereo XY" ID="{6DEC89DA-B8E8-4F19-ABBA-C4A38D601663}">
+							<Language>SFX</Language>
+							<AudioFile>Leaf Blower 11 Engine - EXT low rpm loop side perspective stereo XY.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="336967109"/>
+							</MediaIDList>
+						</AudioFileSource>
+						<AudioFileSource Name="motor_sample" ID="{FBEBAFB5-CC66-411B-B1A7-6696829354BE}">
+							<PropertyList>
+								<Property Name="FadeInDuration" Type="Real64" Value="0.0555"/>
+								<Property Name="LoopBegin" Type="Real64" Value="4.85621"/>
+								<Property Name="LoopEnd" Type="Real64" Value="6.22289"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>motor_sample.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="92724864"/>
+							</MediaIDList>
+						</AudioFileSource>
 					</ChildrenList>
 					<ActiveSourceList>
-						<ActiveSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{6BF1C6FA-D82C-4D2C-9880-5F06C6A52511}" Platform="Linked"/>
+						<ActiveSource Name="motor_sample" ID="{FBEBAFB5-CC66-411B-B1A7-6696829354BE}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="motor_01" ID="{799A2894-BD58-44E0-A73C-B7483E3DFA31}" ShortID="96211211">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>370</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg" ID="{A6D33244-D79B-4168-AA2F-464B5727C89D}">
+							<PropertyList>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="0.22315"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="358260831"/>
+							</MediaIDList>
+						</AudioFileSource>
+						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{7971EE31-A941-4F74-A940-AA476ECF7AB9}">
+							<PropertyList>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimEnd" Type="Real64" Value="3.05626"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2).wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="986955766"/>
+							</MediaIDList>
+						</AudioFileSource>
+						<AudioFileSource Name="Leaf Blower 11 Engine - EXT low rpm loop side perspective stereo XY" ID="{EBEA3A69-CF47-4E24-A59B-880194C64054}">
+							<Language>SFX</Language>
+							<AudioFile>Leaf Blower 11 Engine - EXT low rpm loop side perspective stereo XY.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="336967109"/>
+							</MediaIDList>
+						</AudioFileSource>
+						<AudioFileSource Name="motor_sample" ID="{D00AE9F0-6E73-4928-957B-6391020ED095}">
+							<PropertyList>
+								<Property Name="FadeInDuration" Type="Real64" Value="0.02775"/>
+								<Property Name="LoopBegin" Type="Real64" Value="4.85621"/>
+								<Property Name="LoopEnd" Type="Real64" Value="6.22289"/>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="1.38725"/>
+							</PropertyList>
+							<Language>SFX</Language>
+							<AudioFile>motor_sample.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="772674083"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="motor_sample" ID="{D00AE9F0-6E73-4928-957B-6391020ED095}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>

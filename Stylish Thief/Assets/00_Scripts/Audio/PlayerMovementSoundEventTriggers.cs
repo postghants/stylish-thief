@@ -3,6 +3,26 @@ using UnityEngine;
 
 public class PlayerMovementSoundEventTriggers : MonoBehaviour
 {
+    private PlayerStateDriver psd;
+
+    [SerializeField]
+    private AK.Wwise.RTPC WwiseVelocityCheck;
+
+
+    public void Start()
+    {
+        psd = GetComponentInParent<PlayerStateDriver>();
+    }
+
+    public void Update()
+    {
+        if (psd.ctx != null)
+        {
+            WwiseVelocityCheck.SetGlobalValue(psd.ctx.rb.velocity.magnitude);
+            Debug.Log(psd.ctx.rb.velocity.magnitude);
+        }
+    }
+
     public void TriggerWwiseJumpEvent()
     {
         AkUnitySoundEngine.PostEvent("Jump_Event", gameObject);

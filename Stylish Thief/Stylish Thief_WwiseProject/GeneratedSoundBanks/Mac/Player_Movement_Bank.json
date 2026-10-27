@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7ACAEFF9-FAB3-4DEB-ACB7-262C43670519}",
     "Language": "SFX",
-    "Hash": "{C6286052-94B3-0B71-F8DE-A2850D9155CB}",
+    "Hash": "{1F29F78F-B384-6329-88F2-18A24D183DAA}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Player_Movement_Bank",
     "ShortName": "Player_Movement_Bank",
     "Path": "Player_Movement_Bank.bnk",
@@ -46,6 +46,14 @@
       "Location": "Memory",
       "ShortName": "SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10).wav",
       "CachePath": "02/{02418BF9-5FD4-53B8-A78C-E4226568E622}.wem"
+     },
+     {
+      "Id": "92724864",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "motor_sample.wav",
+      "CachePath": "A0/{A0E0E733-4F93-26F5-06F4-05AE7C16435F}.wem"
      },
      {
       "Id": "94295577",
@@ -216,14 +224,6 @@
       "CachePath": "5C/{5C5AF753-846B-B22B-7490-D9C2B263D1C7}.wem"
      },
      {
-      "Id": "559081286",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02.wav",
-      "CachePath": "98/{9853B540-861B-1411-2437-2E534ED55D9F}.wem"
-     },
-     {
       "Id": "564200249",
       "Language": "SFX",
       "Streaming": "false",
@@ -374,14 +374,6 @@
       "Location": "Memory",
       "ShortName": "footstep_right-001.wav",
       "CachePath": "67/{67F7F60E-6D1D-22CD-D1F0-D3409C2C77DF}.wem"
-     },
-     {
-      "Id": "986955766",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2).wav",
-      "CachePath": "98/{98D1CE39-3C62-0B06-6FD3-EFF9C4757E5F}.wem"
      },
      {
       "Id": "1007922957",
@@ -610,6 +602,9 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
+        "Id": "92724864"
+       },
+       {
         "Id": "94295577"
        },
        {
@@ -622,13 +617,7 @@
         "Id": "547757811"
        },
        {
-        "Id": "559081286"
-       },
-       {
         "Id": "810892970"
-       },
-       {
-        "Id": "986955766"
        }
       ]
      },
@@ -653,6 +642,6 @@
     ]
    }
   ],
-  "FileHash": "{E2AAA388-9E1D-8D44-7282-4D027C9E58B1}"
+  "FileHash": "{46C9092F-3D10-3506-C97A-96242F394E7F}"
  }
 }

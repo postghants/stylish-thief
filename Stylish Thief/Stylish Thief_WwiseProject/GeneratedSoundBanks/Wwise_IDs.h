@@ -18,7 +18,11 @@ namespace AK
         static const AkUniqueID LANDING_EVENT = 505559691U;
         static const AkUniqueID LEFT_FOOTSTEP_EVENT = 2306741778U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
+        static const AkUniqueID PLAYER_SPLAT = 1332353947U;
         static const AkUniqueID RIGHT_FOOTSTEP_EVENT = 4014281127U;
+        static const AkUniqueID ROLL_JUMP_BUILDUP = 1673631577U;
+        static const AkUniqueID ROLL_JUMP_LAUNCH = 3470266339U;
+        static const AkUniqueID SPLAT_RECOVER = 3255104830U;
         static const AkUniqueID START_ROLLING_EVENT = 3696591592U;
         static const AkUniqueID STOP_ROLLING_EVENT = 445167262U;
     } // namespace EVENTS

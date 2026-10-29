@@ -5854,29 +5854,29 @@ MonoBehaviour:
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    scrambleStartDelay: 0
-    scrambleDuration: 0
+    scrambleStartDelay: 0.1
+    scrambleDuration: 0.4
     scrambleJumpData:
-      jumpImpulse: 0
+      jumpImpulse: 17
       cuttable: 0
-      maxMaxSpeedTime: 0
-      minMaxSpeedTime: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
       cutJump: 0
       useCutoffGravMult: 0
-      cutoffGravMult: 0
+      cutoffGravMult: 90
       cutSpeed: 0
-      upwardDeceleration: 0
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 0
+      upwardDeceleration: 30
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
       hangtimeDuration: 0
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
-      jumpMovementMult: 0
+      jumpMovementMult: 1
       jumpMovementMultTime: 0
-      downwardAccel: 0
-      maxFallSpeed: 0
-      fastFallSpeed: 0
+      downwardAccel: 30
+      maxFallSpeed: 999
+      fastFallSpeed: 49
     scrambleMoveData:
       acceleration: 0
       deceleration: 0
@@ -5964,7 +5964,7 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
-    disableStun: 1
+    disableStun: 0
     useStunDeceleration: 1
     stunDeceleration: 1
     stunMinSpeed: 1
@@ -6069,7 +6069,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minimumHarshLandingSpeed: 30
+    minimumHarshLandingSpeed: 1
     disableGroundTrick: 0
     disableAirTrick: 0
     groundTrickLength: 0.75
@@ -6079,7 +6079,7 @@ MonoBehaviour:
     rollTiming: 0.2
     rollMinSpeed: 2
     rollYConversionStrength: 1
-    rollMinTime: 0
+    rollMinTime: 0.25
     rollMoveData:
       acceleration: 60
       deceleration: 0
@@ -6099,6 +6099,7 @@ MonoBehaviour:
     rollJumpConversionStrength: 1
     rollJumpGrabSpeedLimit: 10
     rollJumpDelay: 0.758
+    landingSpeedMemoryTime: 0.1
     rollJumpData:
       jumpImpulse: 0
       cuttable: 0
@@ -6156,9 +6157,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    poundSpeedDown: 15
-    poundSpeedFw: 15
-    poundAcceleration: 60
+    poundSpeedDown: 20
+    poundSpeedFw: 20
+    poundAcceleration: 40
     poundMove:
       acceleration: 99
       deceleration: 0
@@ -6177,7 +6178,7 @@ MonoBehaviour:
     poundLandDelay: 1
     poundLandSpeed: 0
     poundWallBounce:
-      jumpImpulse: 5
+      jumpImpulse: 9
       cuttable: 0
       maxMaxSpeedTime: 0.1
       minMaxSpeedTime: 0.05
@@ -6190,34 +6191,34 @@ MonoBehaviour:
       upwardDecelApex: 30
       hangtimeDuration: 0
       setSpeed: 1
-      setSpeedSpeed: -4
+      setSpeedSpeed: -10
+      horizontalBoost: 0
+      jumpMovementMult: 0.1
+      jumpMovementMultTime: 0.4
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
+    poundBounceJump:
+      jumpImpulse: 15
+      cuttable: 1
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 1
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
       horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
       downwardAccel: 60
       maxFallSpeed: 55
       fastFallSpeed: 49
-    poundBounceJump:
-      jumpImpulse: 0
-      cuttable: 0
-      maxMaxSpeedTime: 0
-      minMaxSpeedTime: 0
-      cutJump: 0
-      useCutoffGravMult: 0
-      cutoffGravMult: 0
-      cutSpeed: 0
-      upwardDeceleration: 0
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 0
-      hangtimeDuration: 0
-      setSpeed: 0
-      setSpeedSpeed: 0
-      horizontalBoost: 0
-      jumpMovementMult: 0
-      jumpMovementMultTime: 0
-      downwardAccel: 0
-      maxFallSpeed: 0
-      fastFallSpeed: 0
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}

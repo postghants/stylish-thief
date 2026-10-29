@@ -123,6 +123,7 @@ namespace HSM
 
         protected override void OnEnter()
         {
+            ctx.rb.velocity = Vector3.zero;
             ctx.cmd = ctx.scrambleMoveData;
         }
 
@@ -135,9 +136,9 @@ namespace HSM
                 Bounds bounds = ctx.rb.environmentCollider.bounds;
                 bounds.Expand(-ctx.rb.skinWidth * 2);
 
-                if (!ctx.disableLedgeGrab && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
+                if (!ctx.disableLedgeGrab && Physics.BoxCast(origin, bounds.extents, ctx.anim.transform.forward, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
                 {
-                    if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
+                    if (Vector3.Angle(checkHit.normal, -ctx.anim.transform.forward) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
                     {
                         origin = checkHit.point;
                         if (ctx.rb.isGrounded)
@@ -1495,19 +1496,7 @@ namespace HSM
                 return ((PlayerRoot)Parent.Parent).grounded;
             }
 
-            Vector3 direction = ctx.bagHitbox.transform.position - ctx.player.transform.position;
-            RaycastHit[] hits = Physics.BoxCastAll(ctx.player.transform.position, ctx.bagHitbox.bounds.extents, direction, ctx.bagHitbox.transform.rotation, direction.magnitude, LayerMasks.actorCollision);
-            foreach (RaycastHit hit in hits)
-            {
-                if (Mathf.Abs(hit.normal.y) < 0.1f)
-                {
-                    ctx.currentJumpData = ctx.poundWallBounce;
-                    ctx.rb.velocity.y = 0;
-                    Jump.PerformJump(ctx);
-                    Debug.Log("bye bye!!");
-                    return ((PlayerRoot)Machine.Root).airborne;
-                }
-            }
+            
             return null;
         }
 
@@ -1519,6 +1508,19 @@ namespace HSM
                 velocity.z += ctx.facing.normalized.z * ctx.poundAcceleration * deltaTime;
                 velocity.y += -ctx.poundAcceleration * deltaTime;
                 ctx.rb.velocity = velocity;
+            }
+
+            Vector3 direction = ctx.bagHitbox.transform.position - ctx.player.transform.position;
+            RaycastHit[] hits = Physics.BoxCastAll(ctx.player.transform.position, ctx.bagHitbox.bounds.extents, direction, ctx.bagHitbox.transform.rotation, direction.magnitude, LayerMasks.actorCollision);
+            foreach (RaycastHit hit in hits)
+            {
+                if (Mathf.Abs(hit.normal.y) < 0.1f)
+                {
+                    Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne);
+                    ctx.currentJumpData = ctx.poundWallBounce;
+                    Jump.PerformJump(ctx);
+                    Debug.Log("bye bye!!");
+                }
             }
         }
     }

@@ -69,4 +69,9 @@ public class PlayerMovementSoundEventTriggers : MonoBehaviour
     {
         AkUnitySoundEngine.PostEvent("Splat_Recover", psd.ctx.player.gameObject);
     }
+
+    public void TriggerWwiseFallEvent()
+    {
+        AkUnitySoundEngine.PostEvent("Fall_Event", psd.ctx.player.gameObject);
+    }
 }

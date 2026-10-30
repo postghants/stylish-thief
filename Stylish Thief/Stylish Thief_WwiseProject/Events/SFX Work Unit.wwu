@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{763A2AF7-297E-47E8-9F94-0CF2CCDFC0C4}" SchemaVersion="133">
+	<Events>
+		<WorkUnit Name="SFX Work Unit" ID="{763A2AF7-297E-47E8-9F94-0CF2CCDFC0C4}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="Player" ID="{3747E8A7-0DAE-42C8-B2E7-7176AFB35EE8}" ShortID="273500495">
+					<ChildrenList>
+						<Event Name="Start_Rolling_Event" ID="{5EC62D83-250E-4D30-9166-717A670F2918}">
+							<ChildrenList>
+								<Action Name="" ID="{93BE264E-C297-4B31-A7FC-84EC76EC0743}" ShortID="680981819">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Start Rolling Container" ID="{F5A79BDB-EA05-4475-9E34-5FCAB2649B94}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Left_Footstep_Event" ID="{FCAD2B6E-4D55-4AA5-8418-EFD7E63C760F}">
+							<ChildrenList>
+								<Action Name="" ID="{8164F899-66B5-4E27-993A-7FF6084ACD10}" ShortID="616156863">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Left Footstep Random Container" ID="{4E58D764-116D-43D3-B64C-7C81DE56B742}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Dash_Event" ID="{3EBD5391-A089-4735-916E-5FF454F1F8CA}">
+							<ChildrenList>
+								<Action Name="" ID="{EB8C961E-B364-469F-82B7-B9ABAC00ECB0}" ShortID="949863804">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Dash Woosh Random Container" ID="{3ED6CA83-BDA4-4B9D-AB31-881ADD181E47}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Roll_Jump_Buildup" ID="{8A7E2565-06FF-4DC4-BE7D-11E93D173E05}">
+							<ChildrenList>
+								<Action Name="" ID="{4CE2897A-EFF9-4BAA-9C3B-0DADF3E86B34}" ShortID="833402584">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Roll Jump Buildup Container" ID="{2E7B63EC-F98F-4F15-9EDD-A2736EF259AF}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Stop_Rolling_Event" ID="{03ED48E3-A929-429A-86E3-DB2A5C1400D3}">
+							<ChildrenList>
+								<Action Name="" ID="{8B3F83A6-1C3F-4868-8E97-34E729B9D830}" ShortID="374013151">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Start Rolling Container" ID="{F5A79BDB-EA05-4475-9E34-5FCAB2649B94}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Splat_Recover" ID="{C623CC3E-22A5-476F-9D9F-00515DD5E833}">
+							<ChildrenList>
+								<Action Name="" ID="{5369C7EA-09B7-45BF-9FC1-A5F686237276}" ShortID="220386181">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Splat Recover SFX" ID="{0F785EF5-77DB-415F-89B0-E88E43B146E1}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Jump_Event" ID="{182B6EBA-F328-4DAD-929B-6722AF7B971D}">
+							<ChildrenList>
+								<Action Name="" ID="{FD5B9A9A-F667-4BB3-824B-49811CA853F1}" ShortID="820047117">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Jump Vocals Random Container" ID="{E242F72C-3B19-4DC6-A3D6-058AAE8668F6}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{DF3A19FE-DC05-49F3-A797-B17C1ADAD8DB}" ShortID="712785675">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Jump Woosh Random Container" ID="{EB7E8108-A491-49DF-B191-C1F530CA621A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{05B5C9D0-5600-4B90-8DF2-07FBDC5BAAE9}" ShortID="799104867">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Foley_Jump" ID="{AD16EC17-6544-4CC5-A597-44AF93B2FE35}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Right_Footstep_Event" ID="{99582002-A377-495C-B5F5-8E7F9E3C8604}">
+							<ChildrenList>
+								<Action Name="" ID="{40E17FA9-62E5-44BB-A617-2EA97BD99D02}" ShortID="794133742">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Right Footstep Random Container" ID="{6E70BA02-5EE4-4A00-9D2D-8B93BBF6B423}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Roll_Jump_Launch" ID="{94ACEE6F-FDE4-4794-A172-9039AABA12DE}">
+							<ChildrenList>
+								<Action Name="" ID="{7B6EA688-1D0C-42F5-93FC-DCC7B13B7076}" ShortID="393936303">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Roll Jump Launch Container" ID="{EE199088-7F43-4DCB-A494-F235A261C6CF}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Landing_Event" ID="{EE72B72C-7D62-4460-B4AB-6445A387AC9E}">
+							<ChildrenList>
+								<Action Name="" ID="{530785A2-3F1B-4CB5-83B8-031BDB6063A9}" ShortID="869141283">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Foley_Landing" ID="{CBFEE28F-DFCB-4A8D-B172-1FE6D6BD384D}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Player_Splat" ID="{7C050724-EBDC-4448-B037-1657E4DD03ED}">
+							<ChildrenList>
+								<Action Name="" ID="{4FE4FC14-8BC6-46C4-B9CA-1C91B50FAD35}" ShortID="408519461">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Player Falling Flat Container" ID="{DA99AAF0-05C3-4A66-8D6E-45540A415BFD}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{440A06A8-9CE6-4FFA-AEAE-4AEF5DF0A784}" ShortID="632716706">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Roll Jump Launch Container" ID="{EE199088-7F43-4DCB-A494-F235A261C6CF}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{BFC219B8-ECA1-47B2-AB8F-40D0ADC0CE33}" ShortID="602529157">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Fall Vocal" ID="{58D871F4-DD14-4EB4-9DF9-12BEE932DBFE}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Fall_Event" ID="{F08F82D2-45B1-40A5-8D69-496CE856C5F8}">
+							<ChildrenList>
+								<Action Name="" ID="{FB664BAC-66DD-4E57-AF22-E812600F4EDC}" ShortID="803931286">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Fall Vocal" ID="{58D871F4-DD14-4EB4-9DF9-12BEE932DBFE}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Music" ID="{5B36CDD4-3B2C-4C22-85E9-F959529CE7A6}" ShortID="642585983">
+					<ChildrenList>
+						<Event Name="Play_Music" ID="{7C7119C5-A6CE-4ABE-B259-C9DB59DCCF22}">
+							<ChildrenList>
+								<Action Name="" ID="{3FA057FC-2FB4-4287-B287-B2D6D02F869D}" ShortID="592345003">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Hideout Music Playlist" ID="{F59F1731-47D3-41F1-A898-10BE698813A4}" WorkUnitID="{523D670E-BF41-4B15-9EAA-4320738E6BF7}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Interactions" ID="{3903A00F-BCB9-4B6E-9CB7-71F105EE7793}" ShortID="807748916">
+					<ChildrenList>
+						<Event Name="Bird_Flapping" ID="{E7F41226-A59B-44F2-ADCC-BC3C8FAA2612}">
+							<ChildrenList>
+								<Action Name="" ID="{5D0F8C55-6955-49D4-B1D1-A04D3B20631C}" ShortID="251733556">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Birds Fluttering Container" ID="{70B7A958-0F92-481F-8192-95207F63572E}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

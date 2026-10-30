@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7ACAEFF9-FAB3-4DEB-ACB7-262C43670519}",
     "Language": "SFX",
-    "Hash": "{E1553B9B-5180-4A5F-50E0-286503A2B546}",
+    "Hash": "{8D3DF62B-124E-6B96-9A8D-9C5AD72B1076}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Player_Movement_Bank",
     "ShortName": "Player_Movement_Bank",
     "Path": "Player_Movement_Bank.bnk",
@@ -189,7 +189,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "stretch 20.wav",
-      "CachePath": "39/{398123D6-F2BC-914E-DA78-04AB17D6271C}.wem"
+      "CachePath": "A3/{A3697EF6-7861-11EE-B9A4-191C520066E8}.wem"
      },
      {
       "Id": "424613849",
@@ -320,6 +320,14 @@
       "CachePath": "E6/{E6FEE092-AB3F-4F35-9376-DFC5B9E7AAF8}.wem"
      },
      {
+      "Id": "653457312",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "vocal_launch4.wav",
+      "CachePath": "B2/{B293CACE-287C-F7BC-C5E6-A015F3363783}.wem"
+     },
+     {
       "Id": "670219798",
       "Language": "SFX",
       "Streaming": "false",
@@ -334,6 +342,30 @@
       "Location": "Memory",
       "ShortName": "footstep_left-008.wav",
       "CachePath": "55/{5508C94A-6CB8-9E45-6405-924B6B13FD12}.wem"
+     },
+     {
+      "Id": "703299427",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "vocal_launch2.wav",
+      "CachePath": "E4/{E468CA8D-AB10-65CF-BB89-5FB0BFE13BD9}.wem"
+     },
+     {
+      "Id": "704228604",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "vocal_charge1.wav",
+      "CachePath": "8C/{8C7E4489-0CDD-7809-C41B-384D7A246856}.wem"
+     },
+     {
+      "Id": "761844004",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "roll_jump_buildup2.wav",
+      "CachePath": "58/{588FABDF-B831-9507-85DE-2C69A191F66E}.wem"
      },
      {
       "Id": "778671190",
@@ -466,6 +498,20 @@
        },
        {
         "Id": "875242688"
+       }
+      ]
+     },
+     {
+      "Id": "546146523",
+      "Name": "Fall_Event",
+      "ObjectPath": "\\Events\\Player Movement Events\\Fall_Event",
+      "GUID": "{F08F82D2-45B1-40A5-8D69-496CE856C5F8}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.9817667",
+      "DurationMax": "1.9817667",
+      "MediaRefs": [
+       {
+        "Id": "703299427"
        }
       ]
      },
@@ -665,11 +711,17 @@
       "ObjectPath": "\\Events\\Player Movement Events\\Roll_Jump_Buildup",
       "GUID": "{8A7E2565-06FF-4DC4-BE7D-11E93D173E05}",
       "DurationType": "OneShot",
-      "DurationMin": "0.7451262",
-      "DurationMax": "0.7451262",
+      "DurationMin": "0.73147917",
+      "DurationMax": "0.73147917",
       "MediaRefs": [
        {
         "Id": "418847201"
+       },
+       {
+        "Id": "704228604"
+       },
+       {
+        "Id": "761844004"
        }
       ]
      },
@@ -687,6 +739,9 @@
        },
        {
         "Id": "364739167"
+       },
+       {
+        "Id": "653457312"
        },
        {
         "Id": "1028108861"
@@ -752,6 +807,6 @@
     ]
    }
   ],
-  "FileHash": "{706567C7-DF88-EADB-0971-83A31146E267}"
+  "FileHash": "{EA62B5C5-8802-4BDC-7C62-3A586C0DDEB9}"
  }
 }

@@ -1,6 +1,7 @@
 Event	ID	Name			Wwise Object Path	Notes
 	445167262	Stop_Rolling_Event			\Player Movement Events\Stop_Rolling_Event	
 	505559691	Landing_Event			\Player Movement Events\Landing_Event	
+	546146523	Fall_Event			\Player Movement Events\Fall_Event	
 	623275868	Jump_Event			\Player Movement Events\Jump_Event	
 	763920020	Dash_Event			\Player Movement Events\Dash_Event	
 	1332353947	Player_Splat			\Player Movement Events\Player_Splat	
@@ -37,7 +38,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	394596120	footstep_left-005	.cache\2F\{2FA85573-FFC4-3D9C-9B44-83168B819DC0}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-005		23744
 	405824073	Hideout_schets_top_layer_looping	.cache\00\{00C1E60E-BE3E-A581-A4C4-61630E3E47EC}.wem		\Containers\Music Work Unit\Hideout Music Playlist\Hideout Music Segment\Hideout_schets_top_layer_looping		9216096
 	414367951	Dashing Off	.cache\08\{083CBF0C-CE58-6707-8322-1BAB35E15812}.wem		\Containers\Player Movement Containers\Start Rolling Container\Dashing Off		98210
-	418847201	Roll Jump Buildup SFX	.cache\39\{398123D6-F2BC-914E-DA78-04AB17D6271C}.wem		\Containers\Player Movement Containers\Roll Jump Buildup SFX		85162
+	418847201	Roll Jump Buildup SFX	.cache\A3\{A3697EF6-7861-11EE-B9A4-191C520066E8}.wem		\Containers\Player Movement Containers\Roll Jump Buildup Container\Roll Jump Buildup SFX		58582
 	424613849	Splat Recover SFX	.cache\69\{6975DD45-81C5-109F-39BE-B6C790CCB226}.wem		\Containers\Player Movement Containers\Splat Recover SFX		12278
 	425884829	footstep_right-003	.cache\5C\{5CB65E88-0DBB-83DC-D1B2-AE5174CA964C}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-003		23168
 	441637916	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [2]	.cache\E1\{E10C01DE-42FB-989A-FF0A-EA3F7871DFE5}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [2]		28550
@@ -54,8 +55,12 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	592050086	footstep_right-002	.cache\C1\{C1BEA511-FA8B-8BA4-95FB-C00E3A8D1296}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-002		21438
 	633105048	Hideout_schets_base_layer_looping	.cache\72\{72A477F3-DDDB-D250-E1F6-B74843AEBA2B}.wem		\Containers\Music Work Unit\Hideout Music Playlist\Hideout Music Segment\Hideout_schets_base_layer_looping		9216096
 	643322396	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [3]	.cache\E6\{E6FEE092-AB3F-4F35-9376-DFC5B9E7AAF8}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [3]		24716
+	653457312	vocal_launch4	.cache\B2\{B293CACE-287C-F7BC-C5E6-A015F3363783}.wem		\Containers\Player Movement Containers\Roll Jump Launch Container\vocal_launch4		139836
 	670219798	SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [1]	.cache\03\{0398EC43-C932-7E84-E969-AC1C49547E5A}.wem		\Containers\Player Movement Containers\Jump\Jump Woosh Random Container\SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [1]		28370
 	692823205	footstep_left-008	.cache\55\{5508C94A-6CB8-9E45-6405-924B6B13FD12}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-008		25182
+	703299427	Fall Vocal	.cache\E4\{E468CA8D-AB10-65CF-BB89-5FB0BFE13BD9}.wem		\Containers\Player Movement Containers\Fall Vocal		380596
+	704228604	vocal_charge1	.cache\8C\{8C7E4489-0CDD-7809-C41B-384D7A246856}.wem		\Containers\Player Movement Containers\Roll Jump Buildup Container\vocal_charge1		120428
+	761844004	roll_jump_buildup2	.cache\58\{588FABDF-B831-9507-85DE-2C69A191F66E}.wem		\Containers\Player Movement Containers\Roll Jump Buildup Container\roll_jump_buildup2		140540
 	778671190	footstep_right-013	.cache\6D\{6DA97E0E-8DE0-92F1-7CE3-F1B2BB88A771}.wem		\Containers\Player Movement Containers\Footsteps\Right Footstep Random Container\footstep_right-013		23616
 	802591313	footstep_left-013	.cache\C7\{C77F8977-F188-0ADC-63B6-8B16A88FDADF}.wem		\Containers\Player Movement Containers\Footsteps\Left Footstep Random Container\footstep_left-013		23816
 	810892970	FRWKComr_InsJ_Fireworks_Launch_Close_01-03	.cache\FD\{FDD9128F-4E61-32D6-80B3-7277D5D76112}.wem		\Containers\Player Movement Containers\Start Rolling Container\FRWKComr_InsJ_Fireworks_Launch_Close_01-03		60224

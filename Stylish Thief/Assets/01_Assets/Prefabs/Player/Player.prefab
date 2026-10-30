@@ -5857,12 +5857,12 @@ MonoBehaviour:
     scrambleStartDelay: 0.1
     scrambleDuration: 0.4
     scrambleJumpData:
-      jumpImpulse: 17
-      cuttable: 0
+      jumpImpulse: 22
+      cuttable: 1
       maxMaxSpeedTime: 0.1
-      minMaxSpeedTime: 0.05
+      minMaxSpeedTime: 0.1
       cutJump: 0
-      useCutoffGravMult: 0
+      useCutoffGravMult: 1
       cutoffGravMult: 90
       cutSpeed: 0
       upwardDeceleration: 30
@@ -5879,10 +5879,10 @@ MonoBehaviour:
       fastFallSpeed: 49
     scrambleMoveData:
       acceleration: 0
-      deceleration: 0
+      deceleration: 1
       minWalkSpeed: 0
       maxSpeed: 0
-      maxSpeedDeceleration: 0
+      maxSpeedDeceleration: 1
       turnSpeedMult: 0
       modelTurnDelay: 0
       turnDecelerationMult: 1
@@ -5893,7 +5893,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     disableLedgeGrab: 0
-    ledgeCheckDistance: 1.5
+    ledgeCheckDistance: 2.3
     maxLedgeHeight: 3
     maxLedgeHeightGround: 2
     ledgeGrabMaxDuration: 0.4

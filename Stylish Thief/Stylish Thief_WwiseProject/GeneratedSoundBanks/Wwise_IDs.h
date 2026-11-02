@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID BIRD_FLAPPING = 2365579062U;
         static const AkUniqueID DASH_EVENT = 763920020U;
         static const AkUniqueID FALL_EVENT = 546146523U;
         static const AkUniqueID JUMP_EVENT = 623275868U;

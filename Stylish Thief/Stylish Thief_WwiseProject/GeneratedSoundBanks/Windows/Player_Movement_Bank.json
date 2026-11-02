@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{7ACAEFF9-FAB3-4DEB-ACB7-262C43670519}",
     "Language": "SFX",
-    "Hash": "{8D3DF62B-124E-6B96-9A8D-9C5AD72B1076}",
+    "Hash": "{B6AFA562-A033-F8EE-CB50-7FB115DDABBB}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Player_Movement_Bank",
     "ShortName": "Player_Movement_Bank",
     "Path": "Player_Movement_Bank.bnk",
@@ -484,7 +484,7 @@
      {
       "Id": "763920020",
       "Name": "Dash_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Dash_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Dash_Event",
       "GUID": "{3EBD5391-A089-4735-916E-5FF454F1F8CA}",
       "DurationType": "OneShot",
       "DurationMin": "0.18456292",
@@ -504,7 +504,7 @@
      {
       "Id": "546146523",
       "Name": "Fall_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Fall_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Fall_Event",
       "GUID": "{F08F82D2-45B1-40A5-8D69-496CE856C5F8}",
       "DurationType": "OneShot",
       "DurationMin": "1.9817667",
@@ -518,7 +518,7 @@
      {
       "Id": "623275868",
       "Name": "Jump_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Jump_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Jump_Event",
       "GUID": "{182B6EBA-F328-4DAD-929B-6722AF7B971D}",
       "DurationType": "OneShot",
       "DurationMin": "0.36063376",
@@ -559,7 +559,7 @@
      {
       "Id": "505559691",
       "Name": "Landing_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Landing_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Landing_Event",
       "GUID": "{EE72B72C-7D62-4460-B4AB-6445A387AC9E}",
       "DurationType": "OneShot",
       "DurationMin": "0.26978627",
@@ -573,7 +573,7 @@
      {
       "Id": "2306741778",
       "Name": "Left_Footstep_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Left_Footstep_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Left_Footstep_Event",
       "GUID": "{FCAD2B6E-4D55-4AA5-8418-EFD7E63C760F}",
       "DurationType": "OneShot",
       "DurationMin": "0.232625",
@@ -626,7 +626,7 @@
      {
       "Id": "2932040671",
       "Name": "Play_Music",
-      "ObjectPath": "\\Events\\Player Movement Events\\Play_Music",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Music\\Play_Music",
       "GUID": "{7C7119C5-A6CE-4ABE-B259-C9DB59DCCF22}",
       "DurationType": "Infinite",
       "MediaRefs": [
@@ -641,7 +641,7 @@
      {
       "Id": "1332353947",
       "Name": "Player_Splat",
-      "ObjectPath": "\\Events\\Player Movement Events\\Player_Splat",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Player_Splat",
       "GUID": "{7C050724-EBDC-4448-B037-1657E4DD03ED}",
       "DurationType": "OneShot",
       "DurationMin": "0.5897369",
@@ -658,7 +658,7 @@
      {
       "Id": "4014281127",
       "Name": "Right_Footstep_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Right_Footstep_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Right_Footstep_Event",
       "GUID": "{99582002-A377-495C-B5F5-8E7F9E3C8604}",
       "DurationType": "OneShot",
       "DurationMin": "0.2223125",
@@ -708,7 +708,7 @@
      {
       "Id": "1673631577",
       "Name": "Roll_Jump_Buildup",
-      "ObjectPath": "\\Events\\Player Movement Events\\Roll_Jump_Buildup",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Roll_Jump_Buildup",
       "GUID": "{8A7E2565-06FF-4DC4-BE7D-11E93D173E05}",
       "DurationType": "OneShot",
       "DurationMin": "0.73147917",
@@ -728,7 +728,7 @@
      {
       "Id": "3470266339",
       "Name": "Roll_Jump_Launch",
-      "ObjectPath": "\\Events\\Player Movement Events\\Roll_Jump_Launch",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Roll_Jump_Launch",
       "GUID": "{94ACEE6F-FDE4-4794-A172-9039AABA12DE}",
       "DurationType": "OneShot",
       "DurationMin": "4.064354",
@@ -751,7 +751,7 @@
      {
       "Id": "3255104830",
       "Name": "Splat_Recover",
-      "ObjectPath": "\\Events\\Player Movement Events\\Splat_Recover",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Splat_Recover",
       "GUID": "{C623CC3E-22A5-476F-9D9F-00515DD5E833}",
       "DurationType": "OneShot",
       "DurationMin": "0.13811791",
@@ -765,7 +765,7 @@
      {
       "Id": "3696591592",
       "Name": "Start_Rolling_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Start_Rolling_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Start_Rolling_Event",
       "GUID": "{5EC62D83-250E-4D30-9166-717A670F2918}",
       "DurationType": "Infinite",
       "MediaRefs": [
@@ -789,7 +789,7 @@
      {
       "Id": "445167262",
       "Name": "Stop_Rolling_Event",
-      "ObjectPath": "\\Events\\Player Movement Events\\Stop_Rolling_Event",
+      "ObjectPath": "\\Events\\SFX Work Unit\\Player\\Stop_Rolling_Event",
       "GUID": "{03ED48E3-A929-429A-86E3-DB2A5C1400D3}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
@@ -807,6 +807,6 @@
     ]
    }
   ],
-  "FileHash": "{5357ADE3-DC24-3E96-CFDA-D25FCC6EF379}"
+  "FileHash": "{0E3871D0-7122-E16A-0897-378CAB615FEA}"
  }
 }

@@ -201,13 +201,13 @@ namespace HSM
         {
             timer += deltaTime;
 
-            if(!boosted && timer >= ctx.scrambleStartDelay)
+            if (!boosted && timer >= ctx.scrambleStartDelay)
             {
                 boosted = true;
                 ctx.currentJumpData = ctx.scrambleJumpData;
                 Jump.PerformJump(ctx);
             }
-            if(timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
+            if (timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
             {
                 return Parent;
             }
@@ -458,6 +458,10 @@ namespace HSM
             }
 
             float speed = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude;
+            if (speed < ctx.groundMoveData.maxSpeed)
+            {
+                speed = ctx.groundMoveData.maxSpeed;
+            }
             Vector2 horizontalVel = (new Vector2(ctx.facing.x, ctx.facing.z)).normalized * speed;
             if (speed < ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
@@ -701,7 +705,7 @@ namespace HSM
             ctx.desiredTrick = false;
             ctx.isTricking = false;
             ctx.disableAirTrick = false;
-            
+
             //Tom's Wwise trigger
             AkUnitySoundEngine.PostEvent("Stop_Rolling_Event", ctx.player.gameObject);
 
@@ -837,11 +841,11 @@ namespace HSM
 
         protected override State GetTransition(float deltaTime)
         {
-            if (ctx.rb.isGrounded) //This never runs because its parent always sees this condition first and acts on it by transitioning before this class ever notices
+            /*if (ctx.rb.isGrounded) //This never runs because its parent always sees this condition first and acts on it by transitioning before this class ever notices
             {
                 Debug.Log("The thing runs!!!!!");
                 return ((PlayerRoot)Parent).grounded.harshLanded;
-            }
+            }*/
             return null;
         }
     }
@@ -1106,6 +1110,8 @@ namespace HSM
         public readonly PlayerRolling rolling;
         public readonly PlayerGroundedTricking groundTricking;
 
+        private float rollSpeedRemovalTimer;
+
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -1164,6 +1170,19 @@ namespace HSM
                 ctx.rb.velocity += new Vector3(-ctx.rb.velocity.x, 0, -ctx.rb.velocity.z) * ctx.cmd.deceleration * deltaTime;
             }
 
+            //Preventing Roll from infinitely remembering your last fall speed
+            if (ctx.lastLandingVelocity != Vector3.zero)
+            {
+                if (rollSpeedRemovalTimer < ctx.landingSpeedMemoryTime)
+                {
+                    rollSpeedRemovalTimer += deltaTime;
+                }
+                else
+                {
+                    ctx.lastLandingVelocity = Vector3.zero;
+                    rollSpeedRemovalTimer = 0;
+                }
+            }
         }
 
         protected override State GetInitialState()
@@ -1175,7 +1194,6 @@ namespace HSM
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.isStunned && !ctx.disableGrab)
             {
-                Debug.Log("Grabbing one");
                 return ((PlayerRoot)Parent).airborne.grabbing;
             }
             if (!ctx.rb.isGrounded)
@@ -1184,14 +1202,13 @@ namespace HSM
                 {
                     return ((PlayerRoot)Parent).airborne.slidingAirborne;
                 }
-                Debug.Log("The airborne one");
                 return ((PlayerRoot)Parent).airborne;
             }
             if (ctx.rb.isGrounded && ctx.desiredTrick && !ctx.disableRoll)
             {
                 if (ctx.rb.velocity.magnitude > ctx.rollMinSpeed && !ctx.hasRollJumped)
                 {
-                    Debug.Log("Transition to Roll");
+                    rollSpeedRemovalTimer = 0;
                     return ((PlayerRoot)Parent).grounded.rolling;
                 }
                 else if (ctx.hasRollJumped)
@@ -1330,7 +1347,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
-            
+
             if (ctx.isVaulting)
             {
                 ctx.isVaulting = false;
@@ -1384,11 +1401,11 @@ namespace HSM
                 }
                 if (!ctx.isTumbling)
                 {
-                    if (ctx.desiredTrick && !ctx.disableRoll && !ctx.hasRollJumped)
+                    /*if (ctx.desiredTrick && !ctx.disableRoll && !ctx.hasRollJumped)
                     {
                         ctx.landingSpeed = 0;
                         return ((PlayerRoot)Parent).grounded.rolling;
-                    }
+                    }*/
                 }
                 else if (-ctx.landingSpeed > ctx.minimumHarshLandingSpeed)
                 {

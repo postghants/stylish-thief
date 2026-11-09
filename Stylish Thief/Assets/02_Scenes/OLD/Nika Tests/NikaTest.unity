@@ -5009,6 +5009,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideDist
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.maxLedgeHeight
       value: 2.75
       objectReference: {fileID: 0}
@@ -5051,6 +5055,10 @@ PrefabInstance:
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.vaultJump.horizontalBoost
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideMoveData.maxSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.jumpImpulse
@@ -5101,6 +5109,18 @@ PrefabInstance:
       value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideJumpData.maxFallSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideMoveData.acceleration
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideMoveData.deceleration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.maxMaxSpeedTime
       value: 0.1
       objectReference: {fileID: 0}
@@ -5115,6 +5135,18 @@ PrefabInstance:
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.scrambleJumpData.cutoffGravMult
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideJumpData.downwardAccel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideJumpData.fastFallSpeed
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideMoveData.turnSpeedMult
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.jumpMovementMult
@@ -5135,6 +5167,10 @@ PrefabInstance:
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.scrambleJumpData.upwardDecelApex
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideMoveData.modelTurnDelay
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.useCutoffGravMult
@@ -5159,6 +5195,10 @@ PrefabInstance:
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundWallBounce.jumpMovementMultTime
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
+      propertyPath: ctx.wallSlideMoveData.maxSpeedDeceleration
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.upwardDecelApexThreshold

@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace HSM
 {
@@ -109,6 +110,51 @@ namespace HSM
         }
     }
 
+    public class PlayerWallSliding : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerWallSliding(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.wallSlideMoveData;
+            ctx.currentJumpData = ctx.wallSlideJumpData;
+            ctx.lockRotation++;
+        }
+
+        protected override void OnExit()
+        {
+            ctx.lockRotation--;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            Bounds bounds = ctx.rb.environmentCollider.bounds;
+            bounds.Expand(-2 * ctx.rb.skinWidth);
+
+            if (Physics.BoxCast(ctx.player.transform.position, bounds.extents, -ctx.wallNormal, out RaycastHit hit, Quaternion.identity, ctx.wallSlideDist, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore)
+                && Vector3.Angle(Vector3.up, hit.normal) > ctx.rb.maxSlopeAngle)
+            {
+                if (ctx.wallNormal != hit.normal)
+                {
+                    ctx.wallNormal = hit.normal;
+                    ctx.anim.transform.LookAt(ctx.anim.transform.position - hit.normal);
+                }
+                return null;
+
+            }
+
+            ctx.cmd = ctx.airMoveData;
+            ctx.currentJumpData = ctx.baseJumpData;
+            return ctx.player.Root.airborne;
+        }
+    }
+
     public class PlayerWallScramble : State
     {
         readonly PlayerContext ctx;
@@ -202,13 +248,13 @@ namespace HSM
         {
             timer += deltaTime;
 
-            if(!boosted && timer >= ctx.scrambleStartDelay)
+            if (!boosted && timer >= ctx.scrambleStartDelay)
             {
                 boosted = true;
                 ctx.currentJumpData = ctx.scrambleJumpData;
                 Jump.PerformJump(ctx);
             }
-            if(timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
+            if (timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
             {
                 return Parent;
             }
@@ -702,7 +748,7 @@ namespace HSM
             ctx.desiredTrick = false;
             ctx.isTricking = false;
             ctx.disableAirTrick = false;
-            
+
             //Tom's Wwise trigger
             AkUnitySoundEngine.PostEvent("Stop_Rolling_Event", ctx.player.gameObject);
 
@@ -1219,6 +1265,28 @@ namespace HSM
         {
             ctx.anim.SetBool("OverFastFallSpeed", ctx.rb.velocity.y > ctx.currentJumpData.fastFallSpeed);
         }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            Bounds bounds = ctx.rb.environmentCollider.bounds;
+            bounds.Expand(-2 * ctx.rb.skinWidth);
+
+            // check for walls
+            if (ctx.rb.velocity.y <= 0
+                && Physics.BoxCast(ctx.player.transform.position, bounds.extents, ctx.rb.velocity, out RaycastHit hit, Quaternion.identity, ctx.wallSlideDist, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore)
+                && Vector3.Angle(Vector3.up, hit.normal) > ctx.rb.maxSlopeAngle)
+            {
+                if (ctx.wallNormal != hit.normal)
+                {
+                    ctx.wallNormal = hit.normal;
+                    ctx.anim.transform.LookAt(ctx.anim.transform.position - hit.normal);
+                }
+                return ctx.player.Root.airborne.wallSliding;
+
+            }
+
+            return null;
+        }
     }
 
     // All airborne states are children of this state.
@@ -1235,6 +1303,7 @@ namespace HSM
         public readonly PlayerTumbling tumble;
         public readonly PlayerAirTricking airTricking;
         public readonly PlayerWallScramble wallScramble;
+        public readonly PlayerWallSliding wallSliding;
 
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
@@ -1259,6 +1328,7 @@ namespace HSM
             tumble = new(m, this, ctx);
             airTricking = new(m, this, ctx);
             wallScramble = new(m, this, ctx);
+            wallSliding = new(m, this, ctx);
 
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
@@ -1331,7 +1401,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
-            
+
             if (ctx.isVaulting)
             {
                 ctx.isVaulting = false;
@@ -1496,7 +1566,7 @@ namespace HSM
                 return ((PlayerRoot)Parent.Parent).grounded;
             }
 
-            
+
             return null;
         }
 

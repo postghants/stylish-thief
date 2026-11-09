@@ -75,7 +75,7 @@ public class PlayerStateDriver : Actor, IDamageable
         }
 
         // Face model forward
-        if (ctx.rb.velocity.sqrMagnitude > 0)
+        if (ctx.rb.velocity.sqrMagnitude > 0 && ctx.lockRotation <= 0)
         {
             if (animationControlHolder != null)
             {
@@ -432,15 +432,19 @@ public class PlayerContext
     [FoldoutGroup("Grab")][Tooltip("Time until player can move after grab")] public float grabEndLag;
 
     [Header("Grab Targeting")]
-    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetAngle;
-    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceHorizontal;
-    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceUp;
-    [FoldoutGroup("Grab Targeting")] public float maxGrabTargetDistanceDown;
+    [FoldoutGroup("Grab/Targeting")] public float maxGrabTargetAngle;
+    [FoldoutGroup("Grab/Targeting")] public float maxGrabTargetDistanceHorizontal;
+    [FoldoutGroup("Grab/Targeting")] public float maxGrabTargetDistanceUp;
+    [FoldoutGroup("Grab/Targeting")] public float maxGrabTargetDistanceDown;
 
     [FoldoutGroup("Wall Scramble")] public float scrambleStartDelay;
     [FoldoutGroup("Wall Scramble")] public float scrambleDuration;
     [FoldoutGroup("Wall Scramble")] public JumpData scrambleJumpData;
     [FoldoutGroup("Wall Scramble")] public MoveData scrambleMoveData;
+
+    [FoldoutGroup("Wall Slide")] public float wallSlideDist;
+    [FoldoutGroup("Wall Slide")] public JumpData wallSlideJumpData;
+    [FoldoutGroup("Wall Slide")] public MoveData wallSlideMoveData;
 
     [FoldoutGroup("Ledge Grab")] public bool disableLedgeGrab;
     [FoldoutGroup("Ledge Grab")] public float ledgeCheckDistance;
@@ -575,6 +579,8 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public JumpData currentJumpData;
     [FoldoutGroup("Internal")][ReadOnly] public bool isStunned;
     [FoldoutGroup("Internal")][ReadOnly] public int bhopCount;
+    [FoldoutGroup("Internal")][ReadOnly] public Vector3 wallNormal;
+    [FoldoutGroup("Internal")][ReadOnly] public int lockRotation;
 
     [FoldoutGroup("Input values")][ReadOnly] public Vector2 moveInputValue;
     [FoldoutGroup("Input values")][ReadOnly] public bool desiredJump;

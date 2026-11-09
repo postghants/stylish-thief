@@ -232,7 +232,7 @@ namespace HSM
                                     origin.z = cast1Origin.z;
                                     ctx.rb.transform.position = origin;
 
-
+                                    ctx.rb.velocity = ctx.anim.transform.forward * ctx.grabEndSpeed;
                                     Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                     return;
                                 }
@@ -250,7 +250,7 @@ namespace HSM
                                     origin.z = cast1Origin.z;
                                     ctx.rb.transform.position = origin;
 
-
+                                    ctx.rb.velocity = ctx.anim.transform.forward * ctx.grabEndSpeed;
                                     Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                     return;
                                 }
@@ -447,7 +447,7 @@ namespace HSM
 
                 ctx.rb.velocity.x = startVel.x;
                 ctx.rb.velocity.z = startVel.z;
-                Debug.Log(startVel.magnitude);
+                Debug.Log(ctx.rb.velocity.magnitude);
 
                 ctx.rb.velocity.x += ctx.rb.velocity.normalized.x * ctx.vaultAddedSpeed;
                 ctx.rb.velocity.z += ctx.rb.velocity.normalized.z * ctx.vaultAddedSpeed;
@@ -1097,7 +1097,7 @@ namespace HSM
             if (ctx.desiredTrick && !ctx.disableGroundTrick)
             {
                 Debug.Log("Piece of shit gound trick");
-                return ((PlayerRoot)Parent).grounded.groundTricking;
+                return ((PlayerGrounded)Parent).groundTricking;
             }
             return null;
         }

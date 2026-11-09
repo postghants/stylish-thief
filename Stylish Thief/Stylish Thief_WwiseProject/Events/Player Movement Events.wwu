@@ -85,55 +85,10 @@
 				</Event>
 				<Event Name="Start_Rolling_Event" ID="{5EC62D83-250E-4D30-9166-717A670F2918}">
 					<ChildrenList>
-						<Action Name="" ID="{7518E568-C9EE-4E3B-AAB7-F854BE44A1A3}" ShortID="683170152">
+						<Action Name="" ID="{93BE264E-C297-4B31-A7FC-84EC76EC0743}" ShortID="680981819">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{676F9057-578F-48E0-B080-1E127520353E}" ShortID="23156435">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Rolling2" ID="{2870D2C1-16F6-4AD6-BCA8-E3B960D57F14}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{BEE8AC67-7D39-4E0C-A473-C3765D08F126}" ShortID="839428736">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{BFF707EA-FE16-45BA-BB91-DBB05A03A90D}" ShortID="778792176">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{B505716D-BE59-445F-9928-5F6AF1E2E83A}" ShortID="784267022">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{6ADF8F02-B14A-4CC3-AFD8-D441DBDDA793}" ShortID="91356858">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="0.1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{8FFCA531-2278-4F00-986D-2278A666820F}" ShortID="260766749">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="motor" ID="{95C38F90-9452-4CD1-8C19-767D497F71AA}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Start Rolling Container" ID="{F5A79BDB-EA05-4475-9E34-5FCAB2649B94}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -141,73 +96,67 @@
 				</Event>
 				<Event Name="Stop_Rolling_Event" ID="{03ED48E3-A929-429A-86E3-DB2A5C1400D3}">
 					<ChildrenList>
-						<Action Name="" ID="{2D8E586D-46C3-41F6-B475-3F9EB857524A}" ShortID="57959285">
+						<Action Name="" ID="{8B3F83A6-1C3F-4868-8E97-34E729B9D830}" ShortID="374013151">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Start Rolling Container" ID="{F5A79BDB-EA05-4475-9E34-5FCAB2649B94}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{A5F5EE05-13BC-497A-A4B4-5775AFDA3B95}" ShortID="184494565">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
+					</ChildrenList>
+				</Event>
+				<Event Name="Roll_Jump_Buildup" ID="{8A7E2565-06FF-4DC4-BE7D-11E93D173E05}">
+					<ChildrenList>
+						<Action Name="" ID="{4CE2897A-EFF9-4BAA-9C3B-0DADF3E86B34}" ShortID="833402584">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Rolling2" ID="{2870D2C1-16F6-4AD6-BCA8-E3B960D57F14}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Roll Jump Buildup SFX" ID="{C78F0D30-BF71-4ADA-9216-73454020E22B}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{E5D9569A-89C7-4AC3-B284-88E7A90DA0ED}" ShortID="244619558">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
+					</ChildrenList>
+				</Event>
+				<Event Name="Roll_Jump_Launch" ID="{94ACEE6F-FDE4-4794-A172-9039AABA12DE}">
+					<ChildrenList>
+						<Action Name="" ID="{7B6EA688-1D0C-42F5-93FC-DCC7B13B7076}" ShortID="393936303">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Roll Jump Launch Container" ID="{EE199088-7F43-4DCB-A494-F235A261C6CF}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{DA510EDF-EB70-40AA-A406-F76DEAE25BEC}" ShortID="211330567">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
+					</ChildrenList>
+				</Event>
+				<Event Name="Player_Splat" ID="{7C050724-EBDC-4448-B037-1657E4DD03ED}">
+					<ChildrenList>
+						<Action Name="" ID="{4FE4FC14-8BC6-46C4-B9CA-1C91B50FAD35}" ShortID="408519461">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Player Falling Flat Container" ID="{DA99AAF0-05C3-4A66-8D6E-45540A415BFD}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{92A613C3-3794-4CF3-B17D-8E170985E5D4}" ShortID="1020940980">
+						<Action Name="" ID="{440A06A8-9CE6-4FFA-AEAE-4AEF5DF0A784}" ShortID="632716706">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Roll Jump Launch Container" ID="{EE199088-7F43-4DCB-A494-F235A261C6CF}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{95B9AF91-4212-42A0-A8D7-0794B1C103AD}" ShortID="210824042">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
+					</ChildrenList>
+				</Event>
+				<Event Name="Splat_Recover" ID="{C623CC3E-22A5-476F-9D9F-00515DD5E833}">
+					<ChildrenList>
+						<Action Name="" ID="{5369C7EA-09B7-45BF-9FC1-A5F686237276}" ShortID="220386181">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{F02049FB-5D4E-4345-BE3A-580515689C71}" ShortID="702932152">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="motor" ID="{95C38F90-9452-4CD1-8C19-767D497F71AA}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
+									<ObjectRef Name="Splat Recover SFX" ID="{0F785EF5-77DB-415F-89B0-E88E43B146E1}" WorkUnitID="{A5E86EC9-CB47-47A4-9F3A-61127BD43429}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

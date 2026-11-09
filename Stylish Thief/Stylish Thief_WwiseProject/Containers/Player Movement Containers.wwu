@@ -5,115 +5,6 @@
 			<ChildrenList>
 				<Folder Name="Jump" ID="{842E10D8-024F-4C0A-99B0-AD11F6C5CAB2}" ShortID="865013358">
 					<ChildrenList>
-						<RandomSequenceContainer Name="Jump Violin Random Container" ID="{030CD381-9890-47DF-A521-660568BC0F23}" ShortID="489727056">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<Sound Name="viool_sprong_samples2" ID="{6C8203A0-8FC8-4FC1-8A8C-8411E227D19E}" ShortID="356629997">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="viool_sprong_samples2" ID="{A7014ECF-21AD-424F-AA68-4A97693CBD7C}">
-											<PropertyList>
-												<Property Name="FadeOutDuration" Type="Real64" Value="0.18863"/>
-												<Property Name="LoopEnd" Type="Real64" Value="0.42956"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimBegin" Type="Real64" Value="0.04351"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>viool_sprong_samples2.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="61730344"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="viool_sprong_samples2" ID="{A7014ECF-21AD-424F-AA68-4A97693CBD7C}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="viool_sprong_samples3" ID="{8A6C5DA8-97DF-4FE0-9B82-E016C0B463C5}" ShortID="50435816">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="viool_sprong_samples3" ID="{DC86C69E-850F-4F04-9B11-0E6708A5C062}">
-											<PropertyList>
-												<Property Name="FadeOutDuration" Type="Real64" Value="0.1007"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimBegin" Type="Real64" Value="0.02264"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>viool_sprong_samples3.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="749598264"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="viool_sprong_samples3" ID="{DC86C69E-850F-4F04-9B11-0E6708A5C062}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="viool_sprong_samples" ID="{B17FA502-81D5-435F-A3DB-193880DA19FD}" ShortID="827991714">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="viool_sprong_samples" ID="{4EDD2728-5377-4DB2-B3F5-CB033EDDA9CB}">
-											<PropertyList>
-												<Property Name="FadeOutDuration" Type="Real64" Value="0.24728"/>
-												<Property Name="LoopEnd" Type="Real64" Value="0.61506"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimBegin" Type="Real64" Value="0.05456"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>viool_sprong_samples.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="701034011"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="viool_sprong_samples" ID="{4EDD2728-5377-4DB2-B3F5-CB033EDDA9CB}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-							</ChildrenList>
-						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="Jump Vocals Random Container" ID="{E242F72C-3B19-4DC6-A3D6-058AAE8668F6}" ShortID="439535282">
 							<PropertyList>
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
@@ -132,7 +23,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="beta_jump-001" ID="{E75030B1-DFCC-438B-A573-D1F846921B05}" ShortID="407077850">
+								<Sound Name="beta_jump_vocal-001" ID="{E75030B1-DFCC-438B-A573-D1F846921B05}" ShortID="407077850">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -142,24 +33,24 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="beta_jump-001" ID="{DF3913B8-8C04-4902-BDF9-B3EBB14E2060}">
+										<AudioFileSource Name="beta_jump_vocal-001" ID="{DF3913B8-8C04-4902-BDF9-B3EBB14E2060}">
 											<PropertyList>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.25064"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="0.14547"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>beta_jump-001.wav</AudioFile>
+											<AudioFile>beta_jump_vocal-001.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="199501263"/>
+												<MediaID ID="199501264"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="beta_jump-001" ID="{DF3913B8-8C04-4902-BDF9-B3EBB14E2060}" Platform="Linked"/>
+										<ActiveSource Name="beta_jump_vocal-001" ID="{DF3913B8-8C04-4902-BDF9-B3EBB14E2060}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="beta_jump-002" ID="{94989FF1-F81F-4600-AEA2-980A4133468A}" ShortID="183426377">
+								<Sound Name="beta_jump_vocal-002" ID="{94989FF1-F81F-4600-AEA2-980A4133468A}" ShortID="183426377">
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -176,24 +67,24 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="beta_jump-002" ID="{AC62C98D-2A8F-4DE5-99F0-8F2776C2B37D}">
+										<AudioFileSource Name="beta_jump_vocal-002" ID="{AC62C98D-2A8F-4DE5-99F0-8F2776C2B37D}">
 											<PropertyList>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.26825"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="0.16369"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>beta_jump-002.wav</AudioFile>
+											<AudioFile>beta_jump_vocal-002.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="1007922957"/>
+												<MediaID ID="1007922958"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="beta_jump-002" ID="{AC62C98D-2A8F-4DE5-99F0-8F2776C2B37D}" Platform="Linked"/>
+										<ActiveSource Name="beta_jump_vocal-002" ID="{AC62C98D-2A8F-4DE5-99F0-8F2776C2B37D}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="beta_jump-003" ID="{84EAEF16-CAD9-4893-8044-A5A664C90F8C}" ShortID="735468908">
+								<Sound Name="beta_jump_vocal-003" ID="{84EAEF16-CAD9-4893-8044-A5A664C90F8C}" ShortID="735468908">
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -210,24 +101,24 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="beta_jump-003" ID="{74DABA3E-2428-4EFB-8985-442D675A422B}">
+										<AudioFileSource Name="beta_jump_vocal-003" ID="{74DABA3E-2428-4EFB-8985-442D675A422B}">
 											<PropertyList>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.19961"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="0.13939"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>beta_jump-003.wav</AudioFile>
+											<AudioFile>beta_jump_vocal-003.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="885507443"/>
+												<MediaID ID="885507444"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="beta_jump-003" ID="{74DABA3E-2428-4EFB-8985-442D675A422B}" Platform="Linked"/>
+										<ActiveSource Name="beta_jump_vocal-003" ID="{74DABA3E-2428-4EFB-8985-442D675A422B}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="beta_jump-004" ID="{3C2A9F2B-2E30-4A35-BC7A-077891F1E05C}" ShortID="442929260">
+								<Sound Name="beta_jump_vocal-004" ID="{3C2A9F2B-2E30-4A35-BC7A-077891F1E05C}" ShortID="442929260">
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -244,24 +135,24 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="beta_jump-004" ID="{A13BAFD7-3E11-4C7E-BF39-2F38633F0ADE}">
+										<AudioFileSource Name="beta_jump_vocal-004" ID="{A13BAFD7-3E11-4C7E-BF39-2F38633F0ADE}">
 											<PropertyList>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.21048"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="0.18046"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>beta_jump-004.wav</AudioFile>
+											<AudioFile>beta_jump_vocal-004.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="564200249"/>
+												<MediaID ID="564200250"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="beta_jump-004" ID="{A13BAFD7-3E11-4C7E-BF39-2F38633F0ADE}" Platform="Linked"/>
+										<ActiveSource Name="beta_jump_vocal-004" ID="{A13BAFD7-3E11-4C7E-BF39-2F38633F0ADE}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="beta_jump-005" ID="{9CA38731-C487-48D4-BF5D-779A429E9EFF}" ShortID="37288806">
+								<Sound Name="beta_jump_vocal-005" ID="{9CA38731-C487-48D4-BF5D-779A429E9EFF}" ShortID="37288806">
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -278,21 +169,21 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="beta_jump-005" ID="{052E8111-47A4-4ECF-A7DA-E6CA2C5F77E1}">
+										<AudioFileSource Name="beta_jump_vocal-005" ID="{052E8111-47A4-4ECF-A7DA-E6CA2C5F77E1}">
 											<PropertyList>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.24257"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="0.13119"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>beta_jump-005.wav</AudioFile>
+											<AudioFile>beta_jump_vocal-005.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="969418624"/>
+												<MediaID ID="969418625"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="beta_jump-005" ID="{052E8111-47A4-4ECF-A7DA-E6CA2C5F77E1}" Platform="Linked"/>
+										<ActiveSource Name="beta_jump_vocal-005" ID="{052E8111-47A4-4ECF-A7DA-E6CA2C5F77E1}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
@@ -302,11 +193,6 @@
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
 										<Value>450</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -319,7 +205,14 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(7)" ID="{89CF0661-C5BD-4890-AD6B-68E7BDF54C9E}" ShortID="443077219">
+								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [1]" ID="{89CF0661-C5BD-4890-AD6B-68E7BDF54C9E}" ShortID="443077219">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-350</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -329,7 +222,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(7)" ID="{48AC8847-4AF6-4E1A-9182-2C4DC96D0E9C}">
+										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [1]" ID="{48AC8847-4AF6-4E1A-9182-2C4DC96D0E9C}">
 											<PropertyList>
 												<Property Name="FadeInDuration" Type="Real64" Value="0.00657"/>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.03141"/>
@@ -337,17 +230,24 @@
 												<Property Name="TrimBegin" Type="Real64" Value="0.00965"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(7).wav</AudioFile>
+											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [1].wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="670219797"/>
+												<MediaID ID="670219798"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(7)" ID="{48AC8847-4AF6-4E1A-9182-2C4DC96D0E9C}" Platform="Linked"/>
+										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [1]" ID="{48AC8847-4AF6-4E1A-9182-2C4DC96D0E9C}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(8)" ID="{052A7F33-3038-4585-9633-5941FB66973D}" ShortID="955621262">
+								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [2]" ID="{052A7F33-3038-4585-9633-5941FB66973D}" ShortID="955621262">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-330</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -357,24 +257,31 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(8)" ID="{D3FAD1F0-1EE7-43F3-80A2-02D39B06E1E9}">
+										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [2]" ID="{D3FAD1F0-1EE7-43F3-80A2-02D39B06E1E9}">
 											<PropertyList>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.05256"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="0.03322"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(8).wav</AudioFile>
+											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [2].wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="441637915"/>
+												<MediaID ID="441637916"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(8)" ID="{D3FAD1F0-1EE7-43F3-80A2-02D39B06E1E9}" Platform="Linked"/>
+										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [2]" ID="{D3FAD1F0-1EE7-43F3-80A2-02D39B06E1E9}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(9)" ID="{A6372E75-BD53-43B8-8DA4-4D0AC003F1D9}" ShortID="647043120">
+								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [3]" ID="{A6372E75-BD53-43B8-8DA4-4D0AC003F1D9}" ShortID="647043120">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-580</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -384,7 +291,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(9)" ID="{AA96B70A-4EF3-4651-AEC3-115A16308D1E}">
+										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [3]" ID="{AA96B70A-4EF3-4651-AEC3-115A16308D1E}">
 											<PropertyList>
 												<Property Name="FadeInDuration" Type="Real64" Value="0.00756"/>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.04788"/>
@@ -392,17 +299,24 @@
 												<Property Name="TrimBegin" Type="Real64" Value="0.02072"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(9).wav</AudioFile>
+											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [3].wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="643322395"/>
+												<MediaID ID="643322396"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(9)" ID="{AA96B70A-4EF3-4651-AEC3-115A16308D1E}" Platform="Linked"/>
+										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [3]" ID="{AA96B70A-4EF3-4651-AEC3-115A16308D1E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10)" ID="{661677AF-74ED-4906-AF5A-672BF54B2E32}" ShortID="659173584">
+								<Sound Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [4]" ID="{661677AF-74ED-4906-AF5A-672BF54B2E32}" ShortID="659173584">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-400</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
@@ -412,21 +326,21 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10)" ID="{BC39F815-91A3-457C-B248-27C06C63C920}">
+										<AudioFileSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [4]" ID="{BC39F815-91A3-457C-B248-27C06C63C920}">
 											<PropertyList>
 												<Property Name="FadeInDuration" Type="Real64" Value="0.0053"/>
 												<Property Name="FadeOutDuration" Type="Real64" Value="0.01914"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 											</PropertyList>
 											<Language>SFX</Language>
-											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10).wav</AudioFile>
+											<AudioFile>SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [4].wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="74712230"/>
+												<MediaID ID="74712231"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib(10)" ID="{BC39F815-91A3-457C-B248-27C06C63C920}" Platform="Linked"/>
+										<ActiveSource Name="SWSH_Lo Fight Whoosh 03_PSE_ANI_l9Vib [4]" ID="{BC39F815-91A3-457C-B248-27C06C63C920}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
@@ -1280,62 +1194,11 @@
 						</Sound>
 					</ChildrenList>
 				</RandomSequenceContainer>
-				<Sound Name="Rolling" ID="{7CE32AE9-3CA4-482E-9C5E-740D7A519F9A}" ShortID="556150445">
+				<Sound Name="Roll Jump Buildup SFX" ID="{C78F0D30-BF71-4ADA-9216-73454020E22B}" ShortID="335350514">
 					<PropertyList>
-						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-						<Property Name="Lowpass" Type="int16">
-							<ValueList>
-								<Value>44</Value>
-							</ValueList>
-						</Property>
-						<Property Name="MaxSoundPerInstance" Type="int16">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
-								<Value>430</Value>
-							</ValueList>
-						</Property>
-						<Property Name="UseMaxSoundPerInstance" Type="bool">
-							<ValueList>
-								<Value>True</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-96</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02" ID="{DA63E3D7-272C-47D9-B544-B32E0377443C}">
-							<Language>SFX</Language>
-							<AudioFile>Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="559081286"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="Electric_Mower_moving_over_concrete_dragging_scrape_scraping_rolling_metal_plastic_02" ID="{DA63E3D7-272C-47D9-B544-B32E0377443C}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
-				<Sound Name="Rolling2" ID="{2870D2C1-16F6-4AD6-BCA8-E3B960D57F14}" ShortID="612825852">
-					<PropertyList>
-						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>-320</Value>
+								<Value>300</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Volume" Type="Real64">
@@ -1353,29 +1216,23 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<AudioFileSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}">
+						<AudioFileSource Name="stretch 20" ID="{40F8F158-E1A4-4114-A92C-24746F610B14}">
 							<Language>SFX</Language>
-							<AudioFile>Foley Tire Rolling Over Gravel 01.wav</AudioFile>
+							<AudioFile>stretch 20.wav</AudioFile>
 							<MediaIDList>
-								<MediaID ID="547757811"/>
+								<MediaID ID="418847201"/>
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
 					<ActiveSourceList>
-						<ActiveSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}" Platform="Linked"/>
+						<ActiveSource Name="stretch 20" ID="{40F8F158-E1A4-4114-A92C-24746F610B14}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
-				<Sound Name="Rolling3" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" ShortID="27123974">
+				<Sound Name="Splat Recover SFX" ID="{0F785EF5-77DB-415F-89B0-E88E43B146E1}" ShortID="234392280">
 					<PropertyList>
-						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>1050</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-2</Value>
+								<Value>3</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1388,226 +1245,503 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<AudioFileSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}">
-							<Language>SFX</Language>
-							<AudioFile>VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="362193023"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
-				<Sound Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" ShortID="791039520">
-					<PropertyList>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>300</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}">
-							<Language>SFX</Language>
-							<AudioFile>BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="414367951"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
-				<Sound Name="Whistle" ID="{B4D597D1-504E-46F9-B80D-283D7A85014E}" ShortID="727735179">
-					<PropertyList>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>60</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>2</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="Whoopee Whistle, Cheap Toy" ID="{218B7B27-135B-49B7-951C-B6D47D8E95E6}">
+						<AudioFileSource Name="Cartoon - Smoochy Squeak + Plop" ID="{AA53FA4D-4F06-48C3-9511-90C6D8CA5A3A}">
 							<PropertyList>
-								<Property Name="FadeInDuration" Type="Real64" Value="0.08113"/>
-								<Property Name="FadeOutDuration" Type="Real64" Value="0.61654"/>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.05615"/>
 								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-								<Property Name="TrimBegin" Type="Real64" Value="0.15854"/>
+								<Property Name="TrimEnd" Type="Real64" Value="0.13021"/>
 							</PropertyList>
 							<Language>SFX</Language>
-							<AudioFile>Whoopee Whistle, Cheap Toy.wav</AudioFile>
+							<AudioFile>Cartoon - Smoochy Squeak + Plop.wav</AudioFile>
 							<MediaIDList>
-								<MediaID ID="105677078"/>
+								<MediaID ID="473507171"/>
 							</MediaIDList>
 						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="Whoopee Whistle, Cheap Toy" ID="{218B7B27-135B-49B7-951C-B6D47D8E95E6}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
-				<Sound Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" ShortID="1058997466">
-					<PropertyList>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>-800</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-20</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{D6E22F02-EF7C-4D1B-A249-6C35FB8A8EA1}">
+						<AudioFileSource Name="[Freesound] Cartoon - Smoochy Squeak + Plop" ID="{28A5BFBE-EC15-4AD3-961D-42E2B78695FA}">
 							<PropertyList>
-								<Property Name="FadeInDuration" Type="Real64" Value="0.10698"/>
-								<Property Name="FadeOutDuration" Type="Real64" Value="0.4177"/>
-								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-								<Property Name="TrimBegin" Type="Real64" Value="0.15285"/>
-								<Property Name="TrimEnd" Type="Real64" Value="0.7792"/>
-							</PropertyList>
-							<Language>SFX</Language>
-							<AudioFile>FRWKComr_InsJ_Fireworks_Launch_Close_01-03.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="810892970"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{D6E22F02-EF7C-4D1B-A249-6C35FB8A8EA1}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
-				<Sound Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" ShortID="674589909">
-					<PropertyList>
-						<Property Name="Highpass" Type="int16">
-							<ValueList>
-								<Value>43</Value>
-							</ValueList>
-						</Property>
-						<Property Name="MakeUpGain" Type="Real64">
-							<ValueList>
-								<Value>4</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>-640</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-2</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{444F007D-C617-4F76-AEC7-AE9AEA17EA11}">
-							<PropertyList>
-								<Property Name="FadeInDuration" Type="Real64" Value="0.19597"/>
-								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-								<Property Name="TrimBegin" Type="Real64" Value="0.05465"/>
-							</PropertyList>
-							<Language>SFX</Language>
-							<AudioFile>BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="94295577"/>
-							</MediaIDList>
-						</AudioFileSource>
-					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{444F007D-C617-4F76-AEC7-AE9AEA17EA11}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
-				<Sound Name="motor" ID="{95C38F90-9452-4CD1-8C19-767D497F71AA}" ShortID="38848280">
-					<PropertyList>
-						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-						<Property Name="Pitch" Type="int32">
-							<ValueList>
-								<Value>350</Value>
-							</ValueList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-2</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg" ID="{21D52CCF-6ECF-4335-A346-AEB744F3404E}">
-							<PropertyList>
-								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-								<Property Name="TrimBegin" Type="Real64" Value="0.22315"/>
-							</PropertyList>
-							<Language>SFX</Language>
-							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="358260831"/>
-							</MediaIDList>
-						</AudioFileSource>
-						<AudioFileSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{6BF1C6FA-D82C-4D2C-9880-5F06C6A52511}">
-							<PropertyList>
+								<Property Name="FadeOutDuration" Type="Real64" Value="0.06371"/>
 								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 							</PropertyList>
 							<Language>SFX</Language>
-							<AudioFile>VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2).wav</AudioFile>
+							<AudioFile>[Freesound] Cartoon - Smoochy Squeak + Plop.wav</AudioFile>
 							<MediaIDList>
-								<MediaID ID="986955766"/>
+								<MediaID ID="424613849"/>
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
 					<ActiveSourceList>
-						<ActiveSource Name="VEHMoto_1967 Triumph TR6 Trophy Motorcycle Small Revs 03_PSE_OV_Dkjfg(2)" ID="{6BF1C6FA-D82C-4D2C-9880-5F06C6A52511}" Platform="Linked"/>
+						<ActiveSource Name="[Freesound] Cartoon - Smoochy Squeak + Plop" ID="{28A5BFBE-EC15-4AD3-961D-42E2B78695FA}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<BlendContainer Name="Player Falling Flat Container" ID="{DA99AAF0-05C3-4A66-8D6E-45540A415BFD}" ShortID="936022887">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="[Freesound] Cartoon Splat [1]" ID="{47ECDE48-B034-4022-9338-5E5858E4F0A0}" ShortID="811214036">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-580</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="[Freesound] Cartoon Splat" ID="{E4E4BD51-B987-4AB6-845A-A0C2B03AA2A7}">
+									<PropertyList>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.39731"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.47542"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>[Freesound] Cartoon Splat.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="72843355"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="[Freesound] Cartoon Splat" ID="{E4E4BD51-B987-4AB6-845A-A0C2B03AA2A7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="[Freesound] Cartoon Splat [2]" ID="{1FF90C87-B66E-40E8-B3BF-2ADDADAF92C2}" ShortID="504473676">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>24</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-910</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="[Freesound] Cartoon Splat" ID="{C7341689-F76E-4734-9281-95F960B0506E}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.12552"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.04836"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.397"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>[Freesound] Cartoon Splat.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="336110616"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="[Freesound] Cartoon Splat" ID="{C7341689-F76E-4734-9281-95F960B0506E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</BlendContainer>
+				<BlendContainer Name="Roll Jump Launch Container" ID="{EE199088-7F43-4DCB-A494-F235A261C6CF}" ShortID="600172695">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="[Freesound] Boing Box 01" ID="{C4DE1102-B505-428B-9617-356D3E28F585}" ShortID="678051143">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Boing Box 01" ID="{15A37DC2-CDCF-4ACB-B169-9757671FAF45}">
+									<Language>SFX</Language>
+									<AudioFile>Boing Box 01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="907620254"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="[Freesound] Boing Box 01" ID="{F1AB49E4-3647-4BB3-86AB-A1117CBF0DBF}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.02051"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>[Freesound] Boing Box 01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="337026655"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="[Freesound] Boing Box 01" ID="{F1AB49E4-3647-4BB3-86AB-A1117CBF0DBF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="[synth] cartoon_warble1" ID="{8AD2A5A3-449C-4ACD-B72C-61E0CCAFA2FA}" ShortID="260908646">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-19</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="[synth] cartoon_warble1" ID="{539A124E-BD50-43F9-BB1A-21139F4EB574}">
+									<PropertyList>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="1.04355"/>
+										<Property Name="TrimEnd" Type="Real64" Value="1.34609"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>[synth] cartoon_warble1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="364739167"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="[synth] cartoon_warble1" ID="{539A124E-BD50-43F9-BB1A-21139F4EB574}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="FGHTMisc_Anime Jump 2" ID="{680A18F0-D1F4-4851-B87B-7C74CE27741E}" ShortID="420079987">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-240</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="FGHTMisc_Anime Jump 2" ID="{B3B85213-EC30-4E1F-8815-A403DDD3ABA0}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.03397"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.03397"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>FGHTMisc_Anime Jump 2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1028108861"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="FGHTMisc_Anime Jump 2" ID="{B3B85213-EC30-4E1F-8815-A403DDD3ABA0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</BlendContainer>
+				<BlendContainer Name="Start Rolling Container" ID="{F5A79BDB-EA05-4475-9E34-5FCAB2649B94}" ShortID="317964707">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="Dashing Off Low Tail" ID="{E80C0118-0282-4AC0-9219-5C85AF634176}" ShortID="674589909">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>43</Value>
+									</ValueList>
+								</Property>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-640</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{444F007D-C617-4F76-AEC7-AE9AEA17EA11}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.19597"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.05465"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="94295577"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{444F007D-C617-4F76-AEC7-AE9AEA17EA11}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Dashing Off" ID="{5EC5750E-3CFC-41D0-94B3-1AAC2A4D864C}" ShortID="791039520">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>300</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}">
+									<Language>SFX</Language>
+									<AudioFile>BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="414367951"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="BLLTBy_Sci Fi Weapon Hard Impact Blaster Shot Buzzy_PSE_OW_CaZ7J" ID="{6D16F0B9-4982-4C00-8A05-5DE978123CFB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Rolling SFX [2]" ID="{FB3C95A2-E274-4E6F-B7FA-4CAA8E00AD1A}" ShortID="27123974">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>1050</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}">
+									<Language>SFX</Language>
+									<AudioFile>VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="362193023"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VEHTire_Car Driving-VEHTire_Car Driving-Car Driving Tires AB BK_EXT_SYSO_SYSO012" ID="{80271FE7-6E6F-4AB7-BFEB-233B2007F2BD}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Rolling SFX [1]" ID="{2870D2C1-16F6-4AD6-BCA8-E3B960D57F14}" ShortID="612825852">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-320</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}">
+									<Language>SFX</Language>
+									<AudioFile>Foley Tire Rolling Over Gravel 01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="547757811"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Foley Tire Rolling Over Gravel 01" ID="{DE771255-CA2F-4E9A-944E-C99091B3C168}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{F3216401-2839-49B5-9437-B9BBC4440DE1}" ShortID="1058997466">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-800</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{D6E22F02-EF7C-4D1B-A249-6C35FB8A8EA1}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.10698"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.4177"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.15285"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.7792"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>FRWKComr_InsJ_Fireworks_Launch_Close_01-03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="810892970"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="FRWKComr_InsJ_Fireworks_Launch_Close_01-03" ID="{D6E22F02-EF7C-4D1B-A249-6C35FB8A8EA1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</BlendContainer>
+				<Folder Name="Currently Unused" ID="{599D573B-E6D0-488E-8D2C-879E4D5FD2C2}" ShortID="16747665">
+					<ChildrenList>
+						<Sound Name="viool_sprong_samples" ID="{B17FA502-81D5-435F-A3DB-193880DA19FD}" ShortID="827991714">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="viool_sprong_samples" ID="{4EDD2728-5377-4DB2-B3F5-CB033EDDA9CB}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.24728"/>
+										<Property Name="LoopEnd" Type="Real64" Value="0.61506"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.05456"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>viool_sprong_samples.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="701034011"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="viool_sprong_samples" ID="{4EDD2728-5377-4DB2-B3F5-CB033EDDA9CB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Crash Tree Branch Break 01" ID="{029D8068-1606-4A5E-AEFF-3A506465F989}" ShortID="104151257">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{092D9D73-FAAA-42A3-B214-726123FAC20F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{BA77F6BA-1D04-4A41-A36E-5464F48FC3ED}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Crash Tree Branch Break 01" ID="{4C0546DA-5810-432A-BA57-B90844AED334}">
+									<Language>SFX</Language>
+									<AudioFile>Crash Tree Branch Break 01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="339582368"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Crash Tree Branch Break 01" ID="{4C0546DA-5810-432A-BA57-B90844AED334}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</Containers>

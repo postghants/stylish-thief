@@ -114,6 +114,8 @@ namespace HSM
     {
         readonly PlayerContext ctx;
 
+        private bool jumpExited;
+
         public PlayerWallSliding(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -129,14 +131,37 @@ namespace HSM
 
         protected override void OnExit()
         {
+            if (!jumpExited)
+            {
+                ctx.cmd = ctx.airMoveData;
+                ctx.currentJumpData = ctx.baseJumpData;
+            }
+            else { jumpExited = false; }
             ctx.lockRotation--;
         }
 
         protected override State GetTransition(float deltaTime)
         {
+            //jump off
+            if (ctx.desiredJump)
+            {
+                ctx.rb.velocity = ctx.wallNormal * 15;
+
+                ctx.currentJumpData = ctx.wallJumpData;
+                Jump.PerformJump(ctx);
+                jumpExited = true;
+            }
+
+            //drop off
+            if (Vector3.Angle(ctx.moveDirection, -ctx.wallNormal) > 90)
+            {
+                ctx.rb.velocity += ctx.moveDirection * ctx.wallSlideExitSpeed;
+                return ctx.player.Root.airborne;
+            }
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-2 * ctx.rb.skinWidth);
 
+            //stay on if wall's still there
             if (Physics.BoxCast(ctx.player.transform.position, bounds.extents, -ctx.wallNormal, out RaycastHit hit, Quaternion.identity, ctx.wallSlideDist, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore)
                 && Vector3.Angle(Vector3.up, hit.normal) > ctx.rb.maxSlopeAngle)
             {
@@ -148,9 +173,7 @@ namespace HSM
                 return null;
 
             }
-
-            ctx.cmd = ctx.airMoveData;
-            ctx.currentJumpData = ctx.baseJumpData;
+            //or fall
             return ctx.player.Root.airborne;
         }
     }
@@ -433,7 +456,6 @@ namespace HSM
                     ctx.rb.velocity.x = ctx.rb.velocity.normalized.x * ctx.vaultMinimumSpeed;
                     ctx.rb.velocity.z = ctx.rb.velocity.normalized.z * ctx.vaultMinimumSpeed;
                 }
-                ctx.currentVelocity = ctx.rb.velocity;
 
                 ctx.currentJumpData = ctx.vaultJumpData;
                 Jump.PerformJump(ctx);
@@ -731,7 +753,6 @@ namespace HSM
                 ctx.lastRollSpeed = ctx.rb.velocity;
                 ctx.lastRollSpeed.y = 0;
                 ctx.rb.velocity = Vector3.zero;
-                ctx.currentVelocity = ctx.rb.velocity;
                 ctx.cmd = ctx.rollJumpMoveData;
             }
             if (jumping)
@@ -1681,7 +1702,6 @@ namespace HSM
                 bhopTimer = 0;
                 ctx.bhopCount++;
             }
-            ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
             {
                 if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)

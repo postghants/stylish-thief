@@ -443,8 +443,10 @@ public class PlayerContext
     [FoldoutGroup("Wall Scramble")] public MoveData scrambleMoveData;
 
     [FoldoutGroup("Wall Slide")] public float wallSlideDist;
+    [FoldoutGroup("Wall Slide")] public float wallSlideExitSpeed;
     [FoldoutGroup("Wall Slide")] public JumpData wallSlideJumpData;
     [FoldoutGroup("Wall Slide")] public MoveData wallSlideMoveData;
+    [FoldoutGroup("Wall Slide")] public JumpData wallJumpData;
 
     [FoldoutGroup("Ledge Grab")] public bool disableLedgeGrab;
     [FoldoutGroup("Ledge Grab")] public float ledgeCheckDistance;

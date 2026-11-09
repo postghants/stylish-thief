@@ -5854,9 +5854,47 @@ MonoBehaviour:
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    scrambleStartDelay: 0
-    scrambleDuration: 0
+    scrambleStartDelay: 0.1
+    scrambleDuration: 0.4
     scrambleJumpData:
+      jumpImpulse: 20
+      cuttable: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 30
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 30
+      maxFallSpeed: 999
+      fastFallSpeed: 49
+    scrambleMoveData:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    wallSlideDist: 0.1
+    wallSlideExitSpeed: 4
+    wallSlideJumpData:
       jumpImpulse: 0
       cuttable: 0
       maxMaxSpeedTime: 0
@@ -5874,16 +5912,16 @@ MonoBehaviour:
       horizontalBoost: 0
       jumpMovementMult: 0
       jumpMovementMultTime: 0
-      downwardAccel: 0
-      maxFallSpeed: 0
-      fastFallSpeed: 0
-    scrambleMoveData:
-      acceleration: 0
-      deceleration: 0
+      downwardAccel: 10
+      maxFallSpeed: 8
+      fastFallSpeed: 999
+    wallSlideMoveData:
+      acceleration: 4
+      deceleration: 8
       minWalkSpeed: 0
-      maxSpeed: 0
-      maxSpeedDeceleration: 0
-      turnSpeedMult: 0
+      maxSpeed: 10
+      maxSpeedDeceleration: 5
+      turnSpeedMult: 1
       modelTurnDelay: 0
       turnDecelerationMult: 1
       turnDeceleration:
@@ -5892,6 +5930,27 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    wallJumpData:
+      jumpImpulse: 15
+      cuttable: 1
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 1
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 1
+      setSpeedSpeed: 15
+      horizontalBoost: 0
+      jumpMovementMult: 0
+      jumpMovementMultTime: 0.3
+      downwardAccel: 60
+      maxFallSpeed: 999
+      fastFallSpeed: 49
     disableLedgeGrab: 0
     ledgeCheckDistance: 1.5
     maxLedgeHeight: 3
@@ -6305,6 +6364,8 @@ MonoBehaviour:
       fastFallSpeed: 0
     isStunned: 0
     bhopCount: 0
+    wallNormal: {x: 0, y: 0, z: 0}
+    lockRotation: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0

@@ -1680,7 +1680,12 @@ namespace HSM
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            ctx.rb.Tick(deltaTime, doGravityPass);
+            PhysicsInfo info = ctx.rb.Tick(deltaTime, doGravityPass);
+
+            if (ctx.rb.isGrounded && info.hitWall && VectorUtils.HorizontalizeV2(ctx.rb.velocity).magnitude > ctx.groundMoveData.maxSpeed)
+            {
+                ctx.rb.velocity = ctx.rb.velocity.normalized * ctx.groundMoveData.maxSpeed;
+            }
         }
 
         protected override State GetInitialState() => airborne;

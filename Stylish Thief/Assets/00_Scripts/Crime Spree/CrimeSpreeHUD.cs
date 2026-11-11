@@ -33,7 +33,7 @@ public class CrimeSpreeHUD : MonoBehaviour
             {
                 for (int i = 0; i < lamps.Length; i++)
                 {
-                    if (i <= manager.comboTimer)
+                    if (i <= manager.comboTimer / manager.comboDuration * lamps.Length)
                     {
                         lamps[i].enabled = true;
                     }

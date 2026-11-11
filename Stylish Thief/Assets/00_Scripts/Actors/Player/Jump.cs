@@ -11,7 +11,7 @@ public class Jump
 
     public static void PerformJump(PlayerContext ctx)
     {
-
+        ctx.currentVelocity = ctx.rb.velocity;
         ctx.OnJump.Invoke(ctx);
         ctx.currentlyJumping = true;
         ctx.desiredJump = false;
@@ -20,7 +20,7 @@ public class Jump
         ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
         if (ctx.currentJumpData.setSpeed)
         {
-            ctx.currentVelocity = ctx.facing * ctx.currentJumpData.setSpeedSpeed;
+            ctx.currentVelocity = (ctx.currentVelocity.sqrMagnitude > 0 ? ctx.currentVelocity : ctx.facing).normalized * ctx.currentJumpData.setSpeedSpeed;
         }
         ctx.currentVelocity += ctx.currentVelocity.normalized * ctx.currentJumpData.horizontalBoost;
         ctx.currentVelocity.y += ctx.currentJumpData.jumpImpulse;
@@ -177,6 +177,7 @@ public class Jump
     private static IEnumerator SetMovementMult(PlayerContext ctx)
     {
         float timer = 0;
+        float endTime = ctx.currentJumpData.jumpMovementMultTime;
         ctx.currentJumpMoveMult = ctx.currentJumpData.jumpMovementMult;
         while (timer < ctx.currentJumpData.jumpMovementMultTime)
         {

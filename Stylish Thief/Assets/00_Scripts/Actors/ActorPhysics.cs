@@ -1,8 +1,5 @@
-using Beans.Unity.Mathematics;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 //Physics behaviour specifically made for actors.
 public class ActorPhysics : MonoBehaviour
@@ -44,24 +41,27 @@ public class ActorPhysics : MonoBehaviour
     private Queue<RaycastHit> hits = new();
     private Queue<Vector3> impactVelocities = new();
 
-    public void Tick(float deltaTime, bool doGravityPass)
+    public PhysicsInfo Tick(float deltaTime, bool doGravityPass)
     {
         if (velocity.sqrMagnitude > 0)
         {
             transform.rotation = Quaternion.identity;
         }
+
         if (movingPlatformRef != null && isGrounded)
         {
-            MoveOnPlatform(velocity * deltaTime + movingPlatformRef.GetVelocity() * deltaTime, doGravityPass, deltaTime);
+            return MoveOnPlatform(velocity * deltaTime + movingPlatformRef.GetVelocity() * deltaTime, doGravityPass, deltaTime);
         }
         else
         {
-            Move(deltaTime * velocity, doGravityPass);
+            return Move(deltaTime * velocity, doGravityPass);
         }
+
     }
 
-    public void Move(Vector3 moveAmount, bool doGravityPass)
+    public PhysicsInfo Move(Vector3 moveAmount, bool doGravityPass)
     {
+        Vector3 startMove = moveAmount;
         moveAmount = CollideAndSlide(moveAmount, transform.position, 0, false, moveAmount);
 
         // do a gravity pass if 
@@ -84,10 +84,17 @@ public class ActorPhysics : MonoBehaviour
         }
         hits.Clear();
 
+        Vector2 horizontalMove = new(moveAmount.x, moveAmount.z);
+        return new PhysicsInfo(moveAmount,
+            new Vector2(moveAmount.x, moveAmount.z).sqrMagnitude < new Vector2(startMove.x, startMove.z).sqrMagnitude,
+            moveAmount.y > startMove.y
+            );
+
     }
 
-    public void MoveOnPlatform(Vector3 moveAmount, bool doGravityPass, float deltaTime)
+    public PhysicsInfo MoveOnPlatform(Vector3 moveAmount, bool doGravityPass, float deltaTime)
     {
+        Vector3 startMove = moveAmount;
         moveAmount = CollideAndSlide(moveAmount, transform.position, 0, false, moveAmount);
 
         // do a gravity pass if 
@@ -124,6 +131,13 @@ public class ActorPhysics : MonoBehaviour
             onCollision?.Invoke(hits.Dequeue(), impactVelocities.Dequeue());
         }
         hits.Clear();
+
+
+        Vector2 horizontalMove = new(moveAmount.x, moveAmount.z);
+        return new PhysicsInfo(moveAmount,
+            new Vector2(moveAmount.x, moveAmount.z).sqrMagnitude < new Vector2(startMove.x, startMove.z).sqrMagnitude,
+            moveAmount.y > startMove.y
+            );
     }
 
     protected Vector3 CollideAndSlide(Vector3 vel, Vector3 pos, int depth, bool gravityPass, Vector3 velInit)
@@ -418,5 +432,19 @@ public class ActorPhysics : MonoBehaviour
         {
             return velocity + movingPlatformRef.GetVelocity();
         }
+    }
+}
+
+public struct PhysicsInfo
+{
+    public Vector3 moveAmount;
+    public bool hitWall;
+    public bool hitSlope;
+
+    public PhysicsInfo(Vector3 moveAmount, bool hitWall, bool hitSlope)
+    {
+        this.moveAmount = moveAmount;
+        this.hitWall = hitWall;
+        this.hitSlope = hitSlope;
     }
 }

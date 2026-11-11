@@ -1539,6 +1539,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533114612}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &667295415
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7216715893213471048, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_Name
+      value: Speed Changer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.925488
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000006111252
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.025287
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9741734
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.22580124
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 26.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587896860416151774, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3d099d18dcbb746408841c9271f27fd8, type: 3}
 --- !u!1 &692064195 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2661236939835075516, guid: 6174b34e0d55e7a43bb16a466abd916e, type: 3}
@@ -5021,16 +5078,8 @@ PrefabInstance:
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleDuration
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundAcceleration
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleStartDelay
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.vaultJump.setSpeed
@@ -5042,10 +5091,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.cuttable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.cuttable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
@@ -5065,10 +5110,6 @@ PrefabInstance:
       value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.jumpImpulse
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.baseJumpData.hangtimeDuration
       value: 0
       objectReference: {fileID: 0}
@@ -5085,20 +5126,8 @@ PrefabInstance:
       value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.maxFallSpeed
-      value: 999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.cutoffGravMult
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.downwardAccel
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.fastFallSpeed
-      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.maxMaxSpeedTime
@@ -5113,10 +5142,6 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.cutoffGravMult
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.jumpMovementMult
       value: 1
       objectReference: {fileID: 0}
@@ -5125,36 +5150,12 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.maxMaxSpeedTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.minMaxSpeedTime
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.upwardDecelApex
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.useCutoffGravMult
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.jumpMovementMult
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.upwardDeceleration
       value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.useCutoffGravMult
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.upwardDeceleration
-      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundWallBounce.jumpMovementMultTime
@@ -5162,10 +5163,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
       propertyPath: ctx.poundBounceJump.upwardDecelApexThreshold
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213460866877035327, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
-      propertyPath: ctx.scrambleJumpData.upwardDecelApexThreshold
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5692928195147020320, guid: 6833873750b2d894c9de93615de9dc1e, type: 3}
@@ -5353,3 +5350,4 @@ SceneRoots:
   - {fileID: 2095025221}
   - {fileID: 1283844565}
   - {fileID: 752407567}
+  - {fileID: 667295415}

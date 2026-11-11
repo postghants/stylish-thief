@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace HSM
 {
@@ -109,6 +110,74 @@ namespace HSM
         }
     }
 
+    public class PlayerWallSliding : State
+    {
+        readonly PlayerContext ctx;
+
+        private bool jumpExited;
+
+        public PlayerWallSliding(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.wallSlideMoveData;
+            ctx.currentJumpData = ctx.wallSlideJumpData;
+            ctx.lockRotation++;
+        }
+
+        protected override void OnExit()
+        {
+            if (!jumpExited)
+            {
+                ctx.cmd = ctx.airMoveData;
+                ctx.currentJumpData = ctx.baseJumpData;
+            }
+            else { jumpExited = false; }
+            ctx.lockRotation--;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            //jump off
+            if (ctx.desiredJump)
+            {
+                ctx.rb.velocity = ctx.wallNormal * 15;
+
+                ctx.currentJumpData = ctx.wallJumpData;
+                Jump.PerformJump(ctx);
+                jumpExited = true;
+            }
+
+            //drop off
+            if (Vector3.Angle(ctx.moveDirection, -ctx.wallNormal) > 90)
+            {
+                ctx.rb.velocity += ctx.moveDirection * ctx.wallSlideExitSpeed;
+                return ctx.player.Root.airborne;
+            }
+            Bounds bounds = ctx.rb.environmentCollider.bounds;
+            bounds.Expand(-2 * ctx.rb.skinWidth);
+
+            //stay on if wall's still there
+            if (Physics.BoxCast(ctx.player.transform.position, bounds.extents, -ctx.wallNormal, out RaycastHit hit, Quaternion.identity, ctx.wallSlideDist, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore)
+                && Vector3.Angle(Vector3.up, hit.normal) > ctx.rb.maxSlopeAngle)
+            {
+                if (ctx.wallNormal != hit.normal)
+                {
+                    ctx.wallNormal = hit.normal;
+                    ctx.anim.transform.LookAt(ctx.anim.transform.position - hit.normal);
+                }
+                return null;
+
+            }
+            //or fall
+            return ctx.player.Root.airborne;
+        }
+    }
+
     public class PlayerWallScramble : State
     {
         readonly PlayerContext ctx;
@@ -163,7 +232,7 @@ namespace HSM
                                     origin.z = cast1Origin.z;
                                     ctx.rb.transform.position = origin;
 
-
+                                    ctx.rb.velocity = ctx.anim.transform.forward * ctx.grabEndSpeed;
                                     Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                     return;
                                 }
@@ -181,7 +250,7 @@ namespace HSM
                                     origin.z = cast1Origin.z;
                                     ctx.rb.transform.position = origin;
 
-
+                                    ctx.rb.velocity = ctx.anim.transform.forward * ctx.grabEndSpeed;
                                     Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                     return;
                                 }
@@ -202,13 +271,13 @@ namespace HSM
         {
             timer += deltaTime;
 
-            if(!boosted && timer >= ctx.scrambleStartDelay)
+            if (!boosted && timer >= ctx.scrambleStartDelay)
             {
                 boosted = true;
                 ctx.currentJumpData = ctx.scrambleJumpData;
                 Jump.PerformJump(ctx);
             }
-            if(timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
+            if (timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
             {
                 return Parent;
             }
@@ -378,7 +447,7 @@ namespace HSM
 
                 ctx.rb.velocity.x = startVel.x;
                 ctx.rb.velocity.z = startVel.z;
-                Debug.Log(startVel.magnitude);
+                Debug.Log(ctx.rb.velocity.magnitude);
 
                 ctx.rb.velocity.x += ctx.rb.velocity.normalized.x * ctx.vaultAddedSpeed;
                 ctx.rb.velocity.z += ctx.rb.velocity.normalized.z * ctx.vaultAddedSpeed;
@@ -387,7 +456,6 @@ namespace HSM
                     ctx.rb.velocity.x = ctx.rb.velocity.normalized.x * ctx.vaultMinimumSpeed;
                     ctx.rb.velocity.z = ctx.rb.velocity.normalized.z * ctx.vaultMinimumSpeed;
                 }
-                ctx.currentVelocity = ctx.rb.velocity;
 
                 ctx.currentJumpData = ctx.vaultJumpData;
                 Jump.PerformJump(ctx);
@@ -685,7 +753,6 @@ namespace HSM
                 ctx.lastRollSpeed = ctx.rb.velocity;
                 ctx.lastRollSpeed.y = 0;
                 ctx.rb.velocity = Vector3.zero;
-                ctx.currentVelocity = ctx.rb.velocity;
                 ctx.cmd = ctx.rollJumpMoveData;
             }
             if (jumping)
@@ -702,7 +769,7 @@ namespace HSM
             ctx.desiredTrick = false;
             ctx.isTricking = false;
             ctx.disableAirTrick = false;
-            
+
             //Tom's Wwise trigger
             AkUnitySoundEngine.PostEvent("Stop_Rolling_Event", ctx.player.gameObject);
 
@@ -1030,7 +1097,7 @@ namespace HSM
             if (ctx.desiredTrick && !ctx.disableGroundTrick)
             {
                 Debug.Log("Piece of shit gound trick");
-                return ((PlayerRoot)Parent).grounded.groundTricking;
+                return ((PlayerGrounded)Parent).groundTricking;
             }
             return null;
         }
@@ -1219,6 +1286,28 @@ namespace HSM
         {
             ctx.anim.SetBool("OverFastFallSpeed", ctx.rb.velocity.y > ctx.currentJumpData.fastFallSpeed);
         }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            Bounds bounds = ctx.rb.environmentCollider.bounds;
+            bounds.Expand(-2 * ctx.rb.skinWidth);
+
+            // check for walls
+            if (ctx.rb.velocity.y <= 0
+                && Physics.BoxCast(ctx.player.transform.position, bounds.extents, ctx.rb.velocity, out RaycastHit hit, Quaternion.identity, ctx.wallSlideDist, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore)
+                && Vector3.Angle(Vector3.up, hit.normal) > ctx.rb.maxSlopeAngle)
+            {
+                if (ctx.wallNormal != hit.normal)
+                {
+                    ctx.wallNormal = hit.normal;
+                    ctx.anim.transform.LookAt(ctx.anim.transform.position - hit.normal);
+                }
+                return ctx.player.Root.airborne.wallSliding;
+
+            }
+
+            return null;
+        }
     }
 
     // All airborne states are children of this state.
@@ -1235,6 +1324,7 @@ namespace HSM
         public readonly PlayerTumbling tumble;
         public readonly PlayerAirTricking airTricking;
         public readonly PlayerWallScramble wallScramble;
+        public readonly PlayerWallSliding wallSliding;
 
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
@@ -1259,6 +1349,7 @@ namespace HSM
             tumble = new(m, this, ctx);
             airTricking = new(m, this, ctx);
             wallScramble = new(m, this, ctx);
+            wallSliding = new(m, this, ctx);
 
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
@@ -1331,7 +1422,7 @@ namespace HSM
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
-            
+
             if (ctx.isVaulting)
             {
                 ctx.isVaulting = false;
@@ -1496,7 +1587,7 @@ namespace HSM
                 return ((PlayerRoot)Parent.Parent).grounded;
             }
 
-            
+
             return null;
         }
 
@@ -1589,7 +1680,12 @@ namespace HSM
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            ctx.rb.Tick(deltaTime, doGravityPass);
+            PhysicsInfo info = ctx.rb.Tick(deltaTime, doGravityPass);
+
+            if (ctx.rb.isGrounded && info.hitWall && VectorUtils.HorizontalizeV2(ctx.rb.velocity).magnitude > ctx.groundMoveData.maxSpeed)
+            {
+                ctx.rb.velocity = ctx.rb.velocity.normalized * ctx.groundMoveData.maxSpeed;
+            }
         }
 
         protected override State GetInitialState() => airborne;
@@ -1611,7 +1707,6 @@ namespace HSM
                 bhopTimer = 0;
                 ctx.bhopCount++;
             }
-            ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
             {
                 if (Leaf() == airborne.slidingAirborne || Leaf() == grounded.sliding)

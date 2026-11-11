@@ -6,6 +6,7 @@ using UnityEngine.Splines;
 
 public class SplineObjectPlacer : MonoBehaviour
 {
+    [Header("For permanent trails")]
     [OnValueChanged("SpawnObjects")]
     [SerializeField] private bool useRotation;
     [OnValueChanged("SpawnObjects")]
@@ -13,8 +14,51 @@ public class SplineObjectPlacer : MonoBehaviour
     [OnValueChanged("SpawnObjects")]
     [SerializeField] private float count;
 
+    [Header("For triggered trails")]
+    public bool spawnOnTrigger;
+    public float fullSpawnTime;
+    private float timer;
+    public float distance;
+    private float nextSpawnPoint = 0;
+    public bool triggered;
+
     private List<GameObject> objects = new();
     private SplineContainer spline;
+
+    private void Start()
+    {
+        if (spline == null) { spline = GetComponent<SplineContainer>(); }
+        if (spawnOnTrigger)
+        {
+            objects.Clear();
+        }
+    }
+
+    private void Update()
+    {
+        if (spawnOnTrigger && triggered)
+        {
+            if (timer < fullSpawnTime)
+            {
+                float splinePos = timer / fullSpawnTime;
+                if (nextSpawnPoint <= 1)
+                {
+                    if (splinePos > nextSpawnPoint)
+                    {
+                        GameObject o = Instantiate(prefab, spline.EvaluatePosition(splinePos), Quaternion.identity);
+                        nextSpawnPoint += distance;
+                        if (useRotation)
+                        {
+                            o.transform.LookAt(transform.position + (Vector3)spline.EvaluateTangent(splinePos));
+                        }
+                        objects.Add(o);
+                    }
+                    timer += Time.deltaTime;
+                }
+            }
+
+        }
+    }
 
     [Button]
     private void SpawnObjects()

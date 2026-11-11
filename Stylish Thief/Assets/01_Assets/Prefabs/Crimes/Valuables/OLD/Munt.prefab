@@ -170,19 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962052175f7c06d4681364ea593565b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rotationSpeed: 80
-  givenTime: 2.5
-  respawnTime: 45
-  givenScore: 100
+  crimeTier: 1
   crimeName: Minor Theft
-  theftIsMinor: 1
-  onCollectEvent:
-    Guid:
-      Data1: 115418221
-      Data2: 1314484416
-      Data3: 727699879
-      Data4: 1218809611
-    Path: event:/sfx events/sfx UI/score_event
+  givenScore: 100
+  rotationSpeed: 80
   particles: {fileID: 271925206680183597}
 --- !u!114 &6732557815498601103
 MonoBehaviour:

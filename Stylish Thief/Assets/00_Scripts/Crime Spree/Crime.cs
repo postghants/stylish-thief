@@ -35,8 +35,6 @@ public class Crime : MonoBehaviour
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime += manager.crimeData.miniGainedTime / 100 * manager.maxSpreeTime;
             resetTimer = manager.crimeData.miniResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.miniComboAddition);
-            //Mini UI response
 
         }
     }
@@ -48,8 +46,6 @@ public class Crime : MonoBehaviour
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime += manager.crimeData.minorGainedTime / 100 * manager.maxSpreeTime;
             resetTimer = manager.crimeData.minorResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.minorComboAddition);
-            //Minor UI response
 
         }
     }
@@ -61,9 +57,6 @@ public class Crime : MonoBehaviour
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime += manager.crimeData.middleGainedTime / 100 * manager.maxSpreeTime;
             resetTimer = manager.crimeData.middleResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.middleComboAddition);
-            if (!manager.activeSpree) { manager.activeSpree = true; }
-            //Middle UI response
 
         }
     }
@@ -75,9 +68,6 @@ public class Crime : MonoBehaviour
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime += manager.crimeData.majorGainedTime / 100 * manager.maxSpreeTime;
             resetTimer = manager.crimeData.majorResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.majorComboAddition);
-            if (!manager.activeSpree) { manager.activeSpree = true; }
-            //Major UI response
 
         }
     }
@@ -88,9 +78,7 @@ public class Crime : MonoBehaviour
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime = manager.maxSpreeTime;
-            manager.ResetComboTimer(manager.crimeData.megaComboAddition);
             if (!manager.activeSpree) { manager.activeSpree = true; }
-            //Comically bombastic UI response!
 
         }
     }

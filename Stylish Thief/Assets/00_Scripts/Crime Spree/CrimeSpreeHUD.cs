@@ -7,10 +7,8 @@ using UnityEngine.UI;
 public class CrimeSpreeHUD : MonoBehaviour
 {
     public UIBar spreeTimer;
-    public UIBar comboTimer;
     public TMP_Text points;
-    public TMP_Text gainedPoints;
-    public TMP_Text crimeName;
+    public TMP_Text committedCrime;
     public TMP_Text multiplier;
 
     public Image[] lamps;
@@ -53,8 +51,7 @@ public class CrimeSpreeHUD : MonoBehaviour
 
 
                 points.text = manager.points.ToString();
-            gainedPoints.text = "+" + manager.lastGainedPointsRaw.ToString();
-            crimeName.text = manager.lastCrimeCommitted;
+            committedCrime.text = "+" + manager.lastGainedPointsRaw.ToString() + " <size=40%>" + manager.lastCrimeCommitted;
             
             float decimalNumber = manager.currentMultiplier - Mathf.CeilToInt(manager.currentMultiplier);
             float number = manager.currentMultiplier - decimalNumber;

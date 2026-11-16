@@ -6,12 +6,15 @@ using UnityEngine.UI;
 
 public class CrimeSpreeHUD : MonoBehaviour
 {
+    public Vector2 crimeNameStartPos;
+
     public UIBar spreeTimer;
     public TMP_Text points;
     public TMP_Text committedCrime;
     public TMP_Text multiplier;
 
     public Image[] lamps;
+    public GameObject crimeNamePrefab;
 
     private NeoCrimeSpreeManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,30 +30,10 @@ public class CrimeSpreeHUD : MonoBehaviour
         {
             spreeTimer.SetFill(manager.currentSpreeTime / manager.maxSpreeTime);
             //comboTimer.SetFill(manager.comboTimer / manager.comboDuration);
-            if (manager.comboTimer < manager.comboDuration)
-            {
-                for (int i = 0; i < lamps.Length; i++)
-                {
-                    if (i <= manager.comboTimer / manager.comboDuration * lamps.Length)
-                    {
-                        lamps[i].enabled = true;
-                    }
-                    else
-                    {
-                        lamps[i].enabled = false;
-                    }
-                }
-            }
-            else
-            {
-                foreach (Image lamp in lamps)
-                {
-                    lamp.enabled = false;
-                }
-            }
 
+            Lamps();
 
-                points.text = manager.points.ToString();
+            points.text = manager.points.ToString();
             committedCrime.text = "+" + manager.lastGainedPointsRaw.ToString() + " <size=40%>" + manager.lastCrimeCommitted;
             
             float decimalNumber = manager.currentMultiplier - Mathf.CeilToInt(manager.currentMultiplier);
@@ -63,6 +46,39 @@ public class CrimeSpreeHUD : MonoBehaviour
             {
                 multiplier.text = "<size=40%>x<size=100%>" + manager.currentMultiplier.ToString();
             }
+            
         }
     }
+    private void Lamps()
+    {
+        if (manager.comboTimer < manager.comboDuration)
+        {
+            for (int i = 0; i < lamps.Length; i++)
+            {
+                if (i <= manager.comboTimer / manager.comboDuration * lamps.Length)
+                {
+                    lamps[i].enabled = true;
+                }
+                else
+                {
+                    lamps[i].enabled = false;
+                }
+            }
+        }
+        else
+        {
+            foreach (Image lamp in lamps)
+            {
+                lamp.enabled = false;
+            }
+        }
+    }
+    public void spawnCrime()
+    {
+        GameObject crimeHudElement = Instantiate(crimeNamePrefab, crimeNameStartPos, Quaternion.identity);
+        crimeHudElement.transform.parent = gameObject.transform;
+    }
 }
+
+//
+//If position of spawned ui isn't position of target, keep increasing lerp position

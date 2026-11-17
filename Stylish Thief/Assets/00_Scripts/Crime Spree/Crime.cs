@@ -75,11 +75,11 @@ public class Crime : MonoBehaviour
     {
         if (manager != null)
         {
+            if (!manager.activeSpree) { manager.activeSpree = true; }
+
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime = manager.maxSpreeTime;
-            if (!manager.activeSpree) { manager.activeSpree = true; }
-
         }
     }
     /// <summary>

@@ -1,32 +1,67 @@
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIMovement : MonoBehaviour
 {
-    public Vector2 target;
-    public float speed;
-    public bool move;
+    public bool destroyOnEnd;
+    //public UIMovementTargets[] targets;
+    public List<UIMovementTargets> targets = new();
+    [Header("Internal")]
+    public int multipliedPoints;
+    public int currentTarget;
+    public float delayTimer;
+    public float currentInterpolation;
 
-    private RectTransform rect;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        rect = GetComponent<RectTransform>();
-    }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
-        if (new Vector2(transform.position.x, transform.position.y) != target)
+        if (currentTarget < targets.Count)
         {
-            if (move)
+            if (targets[currentTarget].target.position == transform.position)
             {
-                transform.position = Vector3.Lerp(transform.position, target, speed * Time.deltaTime);
+                delayTimer = 0;
+                currentInterpolation = 0;
+                targets[currentTarget].targetReachedAction?.Invoke();
+                currentTarget++;
+            }
+            else
+            {
+                if (delayTimer < targets[currentTarget].delay)
+                {
+                    delayTimer += Time.deltaTime;
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, targets[currentTarget].target.position, currentInterpolation);
+                    if (currentInterpolation < 1)
+                    {
+                        currentInterpolation += targets[currentTarget].speed * Time.deltaTime;
+                    }
+                }
             }
         }
-        else
+        if (destroyOnEnd && currentTarget >= targets.Count)
         {
-            move = false;
+            Destroy(gameObject);
         }
     }
+
+    //Now follows a bunch of functions that we can expand at any time. They are to be used by this script's own events
+    public void SetTextToMultipliedPoints()
+    {
+        GetComponent<TMP_Text>().text = "+" + multipliedPoints;
+    }
+}
+
+[Serializable]
+public struct UIMovementTargets
+{
+    public Transform target;
+    public float speed;
+    public float delay;
+    public UnityEvent targetReachedAction;
 }

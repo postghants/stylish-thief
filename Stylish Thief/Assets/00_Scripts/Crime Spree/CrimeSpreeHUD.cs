@@ -2,6 +2,7 @@ using System;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CrimeSpreeHUD : MonoBehaviour
@@ -14,7 +15,13 @@ public class CrimeSpreeHUD : MonoBehaviour
     public TMP_Text multiplier;
 
     public Image[] lamps;
+
+    [Header("Internal")]
     public GameObject crimeNamePrefab;
+    public GameObject crimeNameInstance;
+    public UIMovement movement;
+
+    public UIMovementTargets[] crimeNameTargets;
 
     private NeoCrimeSpreeManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,17 +41,16 @@ public class CrimeSpreeHUD : MonoBehaviour
             Lamps();
 
             points.text = manager.points.ToString();
-            committedCrime.text = "+" + manager.lastGainedPointsRaw.ToString() + " <size=40%>" + manager.lastCrimeCommitted;
             
             float decimalNumber = manager.currentMultiplier - Mathf.CeilToInt(manager.currentMultiplier);
             float number = manager.currentMultiplier - decimalNumber;
-            if (manager.combo < 100)
+            if (manager.currentMultiplier < 100)
             {
-                multiplier.text = "<size=40%>x1.<size=100%>" + manager.combo.ToString();
+                multiplier.text = /*"<size=40%>x1.<size=100%>" + */manager.currentMultiplier.ToString();
             }
             else
             {
-                multiplier.text = "<size=40%>x<size=100%>" + manager.currentMultiplier.ToString();
+                multiplier.text = /*"<size=40%>x<size=100%>" + */manager.currentMultiplier.ToString();
             }
             
         }
@@ -73,10 +79,22 @@ public class CrimeSpreeHUD : MonoBehaviour
             }
         }
     }
-    public void spawnCrime()
+    public void SpawnCrime(string name, float points)
     {
-        GameObject crimeHudElement = Instantiate(crimeNamePrefab, crimeNameStartPos, Quaternion.identity);
-        crimeHudElement.transform.parent = gameObject.transform;
+        if (movement != null)
+        {
+            if (movement.currentTarget == 0) { movement.delayTimer = 99; }
+        }
+        crimeNameInstance = Instantiate(crimeNamePrefab, transform.position, Quaternion.identity);
+        movement = crimeNameInstance.GetComponent<UIMovement>();
+        crimeNameInstance.transform.parent = gameObject.transform;
+        crimeNameInstance.GetComponent<TMP_Text>().text = "+" + points.ToString() + " <size=40%>" + name;
+        movement.multipliedPoints = manager.lastGainedPointsMultiplied;
+
+        foreach (var item in crimeNameTargets)
+        {
+            movement.targets.Add(item);
+        }
     }
 }
 

@@ -13,18 +13,20 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
     [Header("Internal")]
     [Tooltip("How many points the player has")] public int points;
     [Tooltip("How many points the last Crime gave without multiplier effects. Used for UI")] public float lastGainedPointsRaw;
+    [Tooltip("How many points the last Crime gave without multiplier effects. Used for UI")] public int lastGainedPointsMultiplied;
     [Tooltip("Name of the last Crime committed")] public string lastCrimeCommitted;
-    [Tooltip("How high the player's combo is. This doubles as the multiplier")] public float combo;
+    //[Tooltip("How high the player's combo is. This doubles as the multiplier")] public float combo;
     [Tooltip("How high the player's combo is")] public float comboRaw;
     [Tooltip("Current combo multiplier")] public float currentMultiplier;
     [Tooltip("How long the combo currently has left")] public float comboTimer;
-
-    public CrimeData crimeData;
     [Tooltip("Is there a Crime Spree happening right now?")] public bool activeSpree;
+
+    [Header("References")]
+    public CrimeData crimeData;
     public GameObject spreeHUD;
     public GameObject gameOverUIPrefab;
-
     public PlayerStateDriver player;
+    public CrimeSpreeHUD hud;
 
     private void Start()
     {
@@ -35,6 +37,7 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
         }
         currentSpreeTime = maxSpreeTime;
         comboTimer = comboDuration;
+        hud = GetComponentInChildren<CrimeSpreeHUD>();
     }
     private void Update()
     {
@@ -52,12 +55,12 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
                 currentSpreeTime = maxSpreeTime;
             }
 
-            if (combo > 0)
+            if (currentMultiplier > 1)
             {
                 comboTimer -= Time.deltaTime;
                 if (comboTimer < 0)
                 {
-                    combo = 0;
+                    currentMultiplier = 1;
                     comboTimer = comboDuration;
                 }
             }
@@ -66,24 +69,29 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
         {
             spreeHUD.SetActive(false);
         }
-        currentMultiplier = 1 + (combo * multiplierStrength);
     }
 
     public void AddPoints(int pointsToGain)
     {
-        lastGainedPointsRaw = pointsToGain;     //Logging this for UI
+        if (activeSpree)
+        {
+            lastGainedPointsRaw = pointsToGain;     //Logging this for UI
 
-        if (combo != 0)
-        {
-            points += Mathf.CeilToInt(pointsToGain * currentMultiplier);
+            if (currentMultiplier != 1)
+            {
+                lastGainedPointsMultiplied = Mathf.CeilToInt(pointsToGain * currentMultiplier);
+                points += lastGainedPointsMultiplied;
+            }
+            else
+            {
+                lastGainedPointsMultiplied = pointsToGain;
+                points += pointsToGain;
+            }
+            comboRaw += pointsToGain;
+            currentMultiplier = 1 + comboRaw * multiplierStrength;
+            comboTimer = comboDuration;
+            hud.SpawnCrime(lastCrimeCommitted, lastGainedPointsRaw);
         }
-        else
-        {
-            points += pointsToGain;
-        }
-        comboRaw += pointsToGain;
-        currentMultiplier = 1 + comboRaw * multiplierStrength;
-        comboTimer = comboDuration;
     }
     public void RegisterCrimeName(string name)
     {

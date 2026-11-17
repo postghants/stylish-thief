@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HSM
@@ -108,6 +109,113 @@ namespace HSM
         }
     }
 
+    public class PlayerWallScramble : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+        private bool boosted;
+
+        public PlayerWallScramble(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.scrambleMoveData;
+        }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer >= ctx.scrambleStartDelay)
+            {
+                //Find ledge for vaulting
+                Vector3 origin = ctx.rb.transform.position;
+                Bounds bounds = ctx.rb.environmentCollider.bounds;
+                bounds.Expand(-ctx.rb.skinWidth * 2);
+
+                if (!ctx.disableLedgeGrab && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
+                {
+                    if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
+                    {
+                        origin = checkHit.point;
+                        if (ctx.rb.isGrounded)
+                        {
+                            origin.y += ctx.maxLedgeHeightGround; //Add the maximum ledge height to where the boxcast hit the ground
+                        }
+                        else
+                        {
+                            origin.y += ctx.maxLedgeHeight; //Add the maximum ledge height to where the boxcast hit the ground
+                        }
+
+                        Vector3 cast1Origin = origin;
+                        if (ctx.rb.isGrounded)
+                        {
+                            if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
+                            {
+                                if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeightGround, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                                {
+                                    origin = heightHit.point;
+                                    origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                                    origin.x = cast1Origin.x;
+                                    origin.z = cast1Origin.z;
+                                    ctx.rb.transform.position = origin;
+
+
+                                    Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
+                                    return;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Physics.OverlapSphere(origin, 0.1f, ctx.rb.collisionLayerMask, QueryTriggerInteraction.Ignore).Length == 0)
+                            {
+                                if (Physics.BoxCast(origin, bounds.extents, Vector3.down, out RaycastHit heightHit, Quaternion.identity, ctx.maxLedgeHeight, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //if the ledge is low enough based on middlepoint. Should be the edges!
+                                {
+                                    origin = heightHit.point;
+                                    origin.y += ctx.rb.environmentCollider.bounds.extents.y + ctx.rb.skinWidth;
+                                    origin.x = cast1Origin.x;
+                                    origin.z = cast1Origin.z;
+                                    ctx.rb.transform.position = origin;
+
+
+                                    Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            boosted = false;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            timer += deltaTime;
+
+            if(!boosted && timer >= ctx.scrambleStartDelay)
+            {
+                boosted = true;
+                ctx.currentJumpData = ctx.scrambleJumpData;
+                Jump.PerformJump(ctx);
+            }
+            if(timer >= ctx.scrambleStartDelay + ctx.scrambleDuration)
+            {
+                return Parent;
+            }
+            return null;
+
+        }
+    }
+
     // Entered when you hit the ground when sliding. Transitions to SlidingAirborne when you leave the ground.
     public class PlayerSliding : State
     {
@@ -162,9 +270,6 @@ namespace HSM
                 {
                     newVel *= ctx.stunDeceleration;
                 }
-
-                //tom toevoeging
-                ctx.playerAnimEventHandler.Bump();
 
                 ctx.rb.velocity = newVel;
                 ctx.rb.velocity.y += ctx.stunUpwardSpeed;
@@ -255,20 +360,40 @@ namespace HSM
             base.OnEnter();
             timer = 0;
             startVel = ctx.rb.velocity;
-            ctx.cmd = ctx.vaultMoveData;
+            ctx.cmd = ctx.ledgeGrabMoveData;
             ctx.rb.velocity = Vector3.zero;
             ctx.player.SetTrigger("StartLedgeGrab");
+
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
         }
 
         protected override void OnExit()
         {
-            if (ctx.pressingTrick && !ctx.disableVaultJump)
+            if (ctx.pressingTrick && !ctx.disableVault)
             {
-                ctx.rb.velocity = startVel;
-                ctx.currentJumpData = ctx.vaultJump;
+                ctx.desiredTrick = false;
+                ctx.isTricking = false;
+
+                ctx.rb.velocity.x = startVel.x;
+                ctx.rb.velocity.z = startVel.z;
+                Debug.Log(startVel.magnitude);
+
+                ctx.rb.velocity.x += ctx.rb.velocity.normalized.x * ctx.vaultAddedSpeed;
+                ctx.rb.velocity.z += ctx.rb.velocity.normalized.z * ctx.vaultAddedSpeed;
+                if (new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude < ctx.vaultMinimumSpeed)
+                {
+                    ctx.rb.velocity.x = ctx.rb.velocity.normalized.x * ctx.vaultMinimumSpeed;
+                    ctx.rb.velocity.z = ctx.rb.velocity.normalized.z * ctx.vaultMinimumSpeed;
+                }
+                ctx.currentVelocity = ctx.rb.velocity;
+
+                ctx.currentJumpData = ctx.vaultJumpData;
                 Jump.PerformJump(ctx);
+
                 ctx.player.SetTrigger("LedgeGrabToVault");
                 ctx.particleManager.StartGroup("Vault");
+                ctx.isVaulting = true;
             }
             else
             {
@@ -280,7 +405,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
-            if ((ctx.pressingTrick && !ctx.disableVaultJump) || timer >= ctx.vaultMaxDuration)
+            if ((ctx.pressingTrick && !ctx.disableVault) || timer >= ctx.ledgeGrabMaxDuration)
             {
                 return Parent;
             }
@@ -308,11 +433,10 @@ namespace HSM
             ctx.useGravity = false;
             ctx.hasGrabbed = true;
             ctx.grabTimer = 0.001f;
-            //ctx.playerMat.color = ctx.grabColor;
             addedCollisionEvent = false;
 
+            ctx.OnGrab.Invoke(ctx);
             ctx.player.SetTrigger("StartGrab");
-
 
             var grabbables = Physics.OverlapSphere(ctx.rb.transform.position, ctx.maxGrabTargetDistanceHorizontal);
             float bestAngle = 360;
@@ -333,13 +457,13 @@ namespace HSM
                 }
             }
 
-            Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
-            if (horizontalVel.sqrMagnitude < ctx.grabSpeed * ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
+            float speed = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z).magnitude;
+            Vector2 horizontalVel = (new Vector2(ctx.facing.x, ctx.facing.z)).normalized * speed;
+            if (speed < ctx.grabSpeed) { horizontalVel = horizontalVel.normalized * ctx.grabSpeed; }
             ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
+            initialVelocity = horizontalVel;
+            targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
             ctx.rb.velocity.y = 0;
-
-
-            ctx.particleManager.StartGroup("Grab");
         }
 
         private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
@@ -349,29 +473,22 @@ namespace HSM
             //    ctx.rb.onCollision -= OnCollision;
             //    return;
             //}
-            if (!ctx.disableStun)
-            {
-                PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
-            }
+            //if (!ctx.disableStun)
+            //{
+            //    PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+            //}
+            Machine.ChangeState(this, ((PlayerRoot)Machine.Root).airborne.wallScramble);
+            //ctx.rb.transform.Translate(hit.normal * 0.1f);
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (ctx.rb.isGrounded)
-            {
-                Debug.Log("Grounded Grabbing");
-
-            }
-            else
-            {
-
-            }
             //Find ledge for vaulting
             Vector3 origin = ctx.rb.transform.position;
             Bounds bounds = ctx.rb.environmentCollider.bounds;
             bounds.Expand(-ctx.rb.skinWidth * 2);
 
-            if (!ctx.disableVault && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
+            if (!ctx.disableLedgeGrab && Physics.BoxCast(origin, bounds.extents, ctx.rb.velocity, out RaycastHit checkHit, Quaternion.identity, ctx.ledgeCheckDistance, ctx.rb.groundMask, QueryTriggerInteraction.Ignore)) //If found ledge
             {
                 if (Vector3.Angle(checkHit.normal, -ctx.rb.velocity) < ctx.rb.maxSlopeAngle) //if the ledge is on a walkable angle
                 {
@@ -399,7 +516,7 @@ namespace HSM
                                 ctx.rb.transform.position = origin;
 
 
-                                Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                                Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                 return;
                             }
                         }
@@ -417,7 +534,7 @@ namespace HSM
                                 ctx.rb.transform.position = origin;
 
 
-                                Machine.ChangeState(this, ((PlayerAirborne)Parent).vaulting);
+                                Machine.Sequencer.RequestTransition(this, ((PlayerAirborne)Parent).vaulting);
                                 return;
                             }
                         }
@@ -449,6 +566,7 @@ namespace HSM
             isDecelerating = false;
             initialVelocity = Vector2.zero;
             targetVelocity = Vector2.zero;
+            ctx.isTumbling = false;
             //ctx.playerMat.color = ctx.airColor;
         }
 
@@ -468,8 +586,6 @@ namespace HSM
                     isDecelerating = true;
                     ctx.player.SetTrigger("EndGrab");
                     Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                    initialVelocity = horizontalVel;
-                    targetVelocity = horizontalVel.normalized * ctx.grabEndSpeed;
                 }
                 if (ctx.grabTimer <= ctx.grabDuration + ctx.grabDeceleration)
                 {
@@ -483,6 +599,11 @@ namespace HSM
                     //{
                     //    return ((PlayerRoot)Machine.Root).grounded;
                     //}
+                    if (ctx.isTumbling)
+                    {
+                        ctx.player.SetTrigger("StartRollJumpFall");
+                        return ((PlayerAirborne)Parent).tumble;
+                    }
                     return Parent;
                 }
             }
@@ -493,10 +614,13 @@ namespace HSM
     public class PlayerRolling : State
     {
         readonly PlayerContext ctx;
-        private bool isDecelerating;
-        private Vector2 initialVelocity;
-        private Vector2 targetVelocity;
-        private bool addedCollisionEvent = false;
+        private Vector3 entryVelocity;
+        private float speed;
+        private float timer;
+        private float delayTimer;
+        private bool jumping;
+        private bool hasReleasedJump;
+
         public PlayerRolling(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -505,103 +629,131 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.cmd = ctx.airMoveData;
-            ctx.useGravity = false;
-            ctx.rollTimer = 0.001f;
-            addedCollisionEvent = false;
-            ctx.pressingJump = false;
-            ctx.blockJump = 1;
-
-            ctx.player.SetTrigger("StartRoll");
-
-            Vector2 horizontalVel = new(ctx.facing.x, ctx.facing.z);
-            if (horizontalVel.sqrMagnitude < ctx.rollSpeed * ctx.rollSpeed) { horizontalVel = horizontalVel.normalized * ctx.rollSpeed; }
-            ctx.rb.velocity.x = horizontalVel.x; ctx.rb.velocity.z = horizontalVel.y;
-            ctx.rb.velocity.y = 0;
-        }
-
-        private void OnCollision(RaycastHit hit, Vector3 impactVelocity)
-        {
-            //if (Leaf() != ((PlayerAirborne)Parent).rollbing)
-            //{
-            //    ctx.rb.onCollision -= OnCollision;
-            //    return;
-            //}
-            if (!ctx.disableStun)
+            ctx.desiredJump = false;
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            ctx.disableAirTrick = true;
+            ctx.disableJump = true;
+            if (!ctx.pressingJump)
             {
-                PlayerSliding.Collision(hit, impactVelocity, ctx, Machine);
+                hasReleasedJump = true;
             }
-        }
-
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (!addedCollisionEvent && !ctx.disableStun)
+            if (ctx.lastLandingVelocity.y != 0)
             {
-                addedCollisionEvent = true;
-                ctx.rb.onCollision += OnCollision;
-            }
-        }
-
-        protected override void OnExit()
-        {
-            ctx.blockJump--;
-            ctx.rollTimer = 0;
-            try
-            {
-                if (!ctx.disableStun)
+                Vector2 horizontalVelocity = new Vector2(ctx.rb.velocity.x, ctx.rb.velocity.z);
+                if (-ctx.lastLandingVelocity.y > horizontalVelocity.magnitude)
                 {
-                    ctx.rb.onCollision -= OnCollision;
+                    speed = -ctx.lastLandingVelocity.y * ctx.rollYConversionStrength;
+                }
+                else
+                {
+                    speed = horizontalVelocity.magnitude;
                 }
             }
-            catch { }
-            ctx.useGravity = true;
-            isDecelerating = false;
-            initialVelocity = Vector2.zero;
-            targetVelocity = Vector2.zero;
-            //ctx.playerMat.color = ctx.airColor;
+            else
+            {
+                speed = ctx.rb.velocity.magnitude;
+            }
+            ctx.lastLandingVelocity = Vector3.zero;
+            ctx.cmd = ctx.rollMoveData;
+            ctx.rb.velocity = ctx.facing * speed;
+            ctx.player.SetTrigger("StartRoll");
+
+            //Tom's Wwise trigger
+            AkUnitySoundEngine.PostEvent("Start_Rolling_Event", ctx.player.gameObject);
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.rollMinTime)
+            {
+                timer += deltaTime;
+            }
+            if (!ctx.pressingJump)
+            {
+                hasReleasedJump = true;
+            }
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            ctx.disableAirTrick = true;
+
+            if ((ctx.desiredJump || (ctx.pressingJump && hasReleasedJump)) && !jumping)
+            {
+                jumping = true;
+
+                ctx.player.SetTrigger("StartRollJumpLiftoff");
+                ctx.lastRollSpeed = ctx.rb.velocity;
+                ctx.lastRollSpeed.y = 0;
+                ctx.rb.velocity = Vector3.zero;
+                ctx.currentVelocity = ctx.rb.velocity;
+                ctx.cmd = ctx.rollJumpMoveData;
+            }
+            if (jumping)
+            {
+                delayTimer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            timer = 0;
+            delayTimer = 0;
+            hasReleasedJump = false;
+
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            ctx.disableAirTrick = false;
+            
+            //Tom's Wwise trigger
+            AkUnitySoundEngine.PostEvent("Stop_Rolling_Event", ctx.player.gameObject);
+
+            if (!jumping)
+            {
+                ctx.player.SetTrigger("EndRoll");
+                ctx.disableJump = false;
+            }
+            else
+            {
+                ctx.currentJumpData = ctx.rollJumpData;
+                ctx.rollJumpData.jumpImpulse = ctx.lastRollSpeed.magnitude * ctx.rollJumpConversionStrength;
+                ctx.lastRollSpeed = Vector3.zero;
+
+                ctx.disableJump = false;
+                Jump.PerformJump(ctx);
+                ctx.rb.velocity.x = 0;
+                ctx.rb.velocity.z = 0;
+            }
+            jumping = false;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            ctx.rollTimer += deltaTime;
-
-            if (ctx.pressingJump && !ctx.disableRollJump)
+            if (ctx.rb.velocity.magnitude < ctx.rollMinSpeed && !jumping && delayTimer == 0)
             {
-                ctx.currentJumpData = ctx.rollJump;
-                ctx.player.SetTrigger("RollToJump");
-                Jump.PerformJump(ctx);
+                Debug.Log("Slow and jumping and delay timer are off");
+                return ctx.player.Root;
             }
-            if (ctx.rollTimer > ctx.rollDuration)
+            if (!ctx.pressingTrick && timer >= ctx.rollMinTime && !jumping && delayTimer == 0)
             {
-                if (!isDecelerating)
+                Debug.Log("Let go and jumping and timer are off");
+                return ctx.player.Root;
+            }
+            if (!ctx.disableRollJump)
+            {
+                if (delayTimer >= ctx.rollJumpDelay)
                 {
-                    isDecelerating = true;
-                    Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
-                    initialVelocity = horizontalVel;
-                    targetVelocity = horizontalVel.normalized * ctx.rollEndSpeed;
-                }
-                if (ctx.rollTimer <= ctx.rollDuration + ctx.rollDeceleration)
-                {
-                    var newVel = Vector2.Lerp(initialVelocity, targetVelocity, (ctx.rollTimer - ctx.rollDuration) / ctx.rollDeceleration);
-                    ctx.rb.velocity.x = newVel.x; ctx.rb.velocity.z = newVel.y;
-                }
-                if (ctx.rollTimer > ctx.rollDuration + ctx.rollDeceleration + ctx.rollEndLag)
-                {
-                    ctx.rollTimer = 0;
-                    ctx.player.SetTrigger("EndRoll");
-                    return Parent;
+                    return ctx.player.Root.airborne.rollJump;
                 }
             }
             return null;
         }
     }
 
-    public class PlayerHarshLanded : State
+    public class PlayerRollJumping : State
     {
         readonly PlayerContext ctx;
-        private float timer;
-        private bool isVeryBad;
-        public PlayerHarshLanded(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        private bool hasGoneUp;
+        private bool hasTriggeredStall;
+
+        public PlayerRollJumping(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
@@ -609,49 +761,242 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            timer = 0;
-            ctx.landingSpeed = 0;
-            ctx.blockJump++;
-            ctx.isStunned = true;
-
-            if (!ctx.disableRoll && ctx.rollBufferCounter > 0 && ctx.rollBufferCounter < ctx.rollTiming)
-            {
-                Machine.ChangeState(this, ((PlayerGrounded)Parent).rolling);
-                return;
-            }
-
-            if (ctx.rollBufferCounter > ctx.rollTiming)
-            {
-                ctx.player.TakeDamage(ctx.veryBadLandingDamage);
-                ctx.cmd = ctx.veryBadLandingData;
-                isVeryBad = true;
-                ctx.player.SetTrigger("StartVeryBadLanding");
-            }
-            else
-            {
-                ctx.player.TakeDamage(ctx.harshLandingDamage);
-                ctx.cmd = ctx.harshLandingData;
-                isVeryBad = false;
-                ctx.player.SetTrigger("StartBadLanding");
-            }
-
+            ctx.disablePound = true;
+            ctx.disableGrab = true;
+            ctx.disableAirTrick = true;
+            ctx.hasRollJumped = true;
         }
-
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (ctx.rb.velocity.y > 0)
+            {
+                hasGoneUp = true;
+            }
+            if (ctx.rb.velocity.y < ctx.rollJumpGrabSpeedLimit)
+            {
+                ctx.disableGrab = false;
+                if (!hasTriggeredStall)
+                {
+                    ctx.player.SetTrigger("StartRollJumpStall");
+                    hasTriggeredStall = true;
+                }
+            }
+        }
         protected override void OnExit()
         {
-            ctx.blockJump = 0;
-            ctx.isStunned = false;
+            hasGoneUp = false;
+            ctx.disablePound = false;
+            ctx.disableGrab = false;
+            ctx.disableAirTrick = false;
+            ctx.isTumbling = true;
+            hasTriggeredStall = false;
         }
 
         protected override State GetTransition(float deltaTime)
         {
-            timer += deltaTime;
-            if (!isVeryBad && timer >= ctx.harshLandingDuration || isVeryBad && timer >= ctx.veryBadLandingDuration)
+            if (ctx.rb.velocity.y <= 0 && hasTriggeredStall)
             {
-                ctx.player.SetTrigger("EndBadLanding");
-                ctx.blockJump--;
-                ctx.cmd = ctx.groundMoveData;
-                return ((PlayerGrounded)Parent).moving;
+                return ctx.player.Root.airborne.tumble;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerTumbling : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerTumbling(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.cmd = ctx.tumblingMoveData;
+            ctx.currentJumpData = ctx.tumblingJumpData;
+            ctx.isTumbling = true;
+
+            ctx.disablePound = true;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+
+        }
+        protected override void OnExit()
+        {
+            ctx.disablePound = false;
+            if (!ctx.desiredGrab)
+            {
+                ctx.isTumbling = false;
+            }
+            ctx.disableJump = false;
+            ctx.player.SetTrigger("EndRollJumpFall");
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.rb.isGrounded) //This never runs because its parent always sees this condition first and acts on it by transitioning before this class ever notices
+            {
+                Debug.Log("The thing runs!!!!!");
+                return ((PlayerRoot)Parent).grounded.harshLanded;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerGroundedTricking : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerGroundedTricking(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.blockJump++;
+            ctx.isStunned = true;
+            ctx.player.SetTrigger("LedgeGrabToVault");
+            ctx.cmd = ctx.harshLandingData;
+            ctx.disableRoll = true;
+            NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.groundTrickLength)
+            {
+                timer += deltaTime;
+
+                NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            }
+        }
+        protected override void OnExit()
+        {
+            ctx.blockJump = 0;
+            ctx.isStunned = false;
+            ctx.cmd = ctx.groundMoveData;
+            timer = 0;
+            ctx.disableRoll = false;
+            NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.groundTrickLength)
+            {
+                return ctx.player.Root;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerAirTricking : State
+    {
+        readonly PlayerContext ctx;
+        private float trickTimer;
+        private float grabBufferTimer;
+
+        public PlayerAirTricking(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            //ctx.player.SetTrigger("StartBarSwing");
+            ctx.disableRoll = true;
+            ctx.disablePound = true;
+            ctx.desiredTrick = false;
+            ctx.isTricking = true;
+            trickTimer = 0;
+            grabBufferTimer = 0;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (trickTimer < ctx.airTrickLength)
+            {
+                trickTimer += deltaTime;
+            }
+            if (grabBufferTimer < ctx.airTrickGrabBuffer)
+            {
+                grabBufferTimer += deltaTime;
+            }
+            else
+            {
+                ctx.disableGrab = true;
+            }
+        }
+        protected override void OnExit()
+        {
+            ctx.disableRoll = false;
+            ctx.disableGrab = false;
+            ctx.disablePound = false;
+            ctx.desiredTrick = false;
+            ctx.isTricking = false;
+            if (NeoCrimeSpreeManager.instance != null)
+            {
+                NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            }
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (trickTimer >= ctx.airTrickLength)
+            {
+                return ctx.player.Root.airborne;
+            }
+            return null;
+        }
+    }
+
+    public class PlayerHarshLanding : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerHarshLanding(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.blockJump++;
+            ctx.isStunned = true;
+            ctx.player.SetTrigger("StartBadLanding");
+            ctx.cmd = ctx.harshLandingData;
+            ctx.disableRoll = true;
+            ctx.lastLandingVelocity = Vector3.zero;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (timer < ctx.harshLandingDuration)
+            {
+                timer += deltaTime;
+            }
+        }
+        protected override void OnExit()
+        {
+            ctx.blockJump = 0;
+            ctx.isStunned = false;
+            ctx.cmd = ctx.groundMoveData;
+            timer = 0;
+            ctx.disableRoll = false;
+            ctx.player.SetTrigger("EndBadLanding");
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (timer >= ctx.harshLandingDuration)
+            {
+                return ctx.player.Root;
             }
             return null;
         }
@@ -680,6 +1025,11 @@ namespace HSM
             if (ctx.rb.velocity != Vector3.zero)
             {
                 return ((PlayerGrounded)Parent).moving;
+            }
+            if (ctx.desiredTrick && !ctx.disableGroundTrick)
+            {
+                Debug.Log("Piece of shit gound trick");
+                return ((PlayerRoot)Parent).grounded.groundTricking;
             }
             return null;
         }
@@ -752,8 +1102,9 @@ namespace HSM
         public readonly PlayerMoving moving;
         public readonly PlayerIdle idle;
         public readonly PlayerStunned stunned;
-        public readonly PlayerHarshLanded harshLanded;
+        public readonly PlayerHarshLanding harshLanded;
         public readonly PlayerRolling rolling;
+        public readonly PlayerGroundedTricking groundTricking;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -766,6 +1117,7 @@ namespace HSM
             stunned = new(m, this, ctx);
             harshLanded = new(m, this, ctx);
             rolling = new(m, this, ctx);
+            groundTricking = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -823,6 +1175,7 @@ namespace HSM
         {
             if (ctx.desiredGrab && !ctx.hasGrabbed && !ctx.isStunned && !ctx.disableGrab)
             {
+                Debug.Log("Grabbing one");
                 return ((PlayerRoot)Parent).airborne.grabbing;
             }
             if (!ctx.rb.isGrounded)
@@ -831,7 +1184,20 @@ namespace HSM
                 {
                     return ((PlayerRoot)Parent).airborne.slidingAirborne;
                 }
+                Debug.Log("The airborne one");
                 return ((PlayerRoot)Parent).airborne;
+            }
+            if (ctx.rb.isGrounded && ctx.desiredTrick && !ctx.disableRoll)
+            {
+                if (ctx.rb.velocity.magnitude > ctx.rollMinSpeed && !ctx.hasRollJumped)
+                {
+                    Debug.Log("Transition to Roll");
+                    return ((PlayerRoot)Parent).grounded.rolling;
+                }
+                else if (ctx.hasRollJumped)
+                {
+                    ctx.hasRollJumped = false;
+                }
             }
             return null;
         }
@@ -864,8 +1230,17 @@ namespace HSM
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
         public readonly PlayerPrePound prePound;
+        public readonly PlayerRollJumping rollJump;
+        public readonly PlayerTumbling tumble;
+        public readonly PlayerAirTricking airTricking;
+        public readonly PlayerWallScramble wallScramble;
+
         public readonly IntUmbrellaLaunch umbrellaLaunch;
         public readonly IntUmbrellaGlide umbrellaGlide;
+        public readonly IntPoleSpin poleSpin;
+        public readonly IntParry parry;
+        public readonly IntDrowning drowning;
+        public readonly IntBarSwing barSwing;
 
         public PlayerAirborne(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -878,13 +1253,23 @@ namespace HSM
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
             prePound = new(m, this, ctx);
+            barSwing = new(m, this, ctx);
+            rollJump = new(m, this, ctx);
+            tumble = new(m, this, ctx);
+            airTricking = new(m, this, ctx);
+            wallScramble = new(m, this, ctx);
+
             umbrellaLaunch = new(m, this, ctx);
             umbrellaGlide = new(m, this, ctx);
+            poleSpin = new(m, this, ctx);
+            parry = new(m, this, ctx);
+            drowning = new(m, this, ctx);
         }
 
         protected override void OnEnter()
         {
             ctx.cmd = ctx.airMoveData;
+            ctx.lastLandingVelocity = Vector3.zero;
             //ctx.playerMat.color = ctx.airColor;
         }
 
@@ -935,12 +1320,29 @@ namespace HSM
                 {
                     ctx.rb.velocity.y = -ctx.currentJumpData.maxFallSpeed;
                 }
+                if (ctx.rb.velocity.y < 0)
+                {
+                    ctx.lastLandingVelocity = ctx.rb.velocity;
+                }
             }
         }
 
         protected override void OnExit()
         {
             ctx.coyoteTimeCounter = 0;
+            
+            if (ctx.isVaulting)
+            {
+                ctx.isVaulting = false;
+            }
+            /*if (ctx.isTricking)
+            {
+                ctx.disableRoll = false;
+                ctx.disableGrab = false;
+                ctx.disablePound = false;
+                ctx.isTricking = false;
+                NeoCrimeSpreeManager.instance.comboTimer = NeoCrimeSpreeManager.instance.comboDuration;
+            }*/
         }
 
         protected override State GetInitialState() => falling;
@@ -952,14 +1354,18 @@ namespace HSM
                 {
                     return grabbing;
                 }
-                if (ctx.pressingPound && !ctx.disablePound && Leaf() != prePound)
+                if (ctx.pressingPound && !ctx.disablePound)
                 {
-                    return prePound;
+                    return ((PlayerRoot)Parent).fixedSpeed.prePound;
                 }
 
                 if (ctx.grabTimer > 0 || Leaf() == vaulting)
                 {
                     return null;
+                }
+                if (ctx.desiredTrick && ctx.rb.velocity.y > 0 && !ctx.isTricking && !ctx.disableAirTrick && !ctx.isVaulting)
+                {
+                    return airTricking;
                 }
             }
             if (ctx.rb.isGrounded)
@@ -976,13 +1382,29 @@ namespace HSM
                     }
                     return null;
                 }
-
-                ctx.particleManager.StartGroup("Land");
-
-                if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
+                if (!ctx.isTumbling)
+                {
+                    if (ctx.desiredTrick && !ctx.disableRoll && !ctx.hasRollJumped)
+                    {
+                        ctx.landingSpeed = 0;
+                        return ((PlayerRoot)Parent).grounded.rolling;
+                    }
+                }
+                else if (-ctx.landingSpeed > ctx.minimumHarshLandingSpeed)
+                {
+                    /*if (ctx.landingSpeed <= -ctx.currentJumpData.fastFallSpeed)
+                    {
+                        return ((PlayerRoot)Parent).grounded.harshLanded;
+                    }*/
+                    ctx.landingSpeed = 0;
+                    return ((PlayerRoot)Parent).grounded.harshLanded;
+                }
+                if (ctx.isTricking)
                 {
                     return ((PlayerRoot)Parent).grounded.harshLanded;
                 }
+
+                ctx.OnLand.Invoke(ctx);
 
                 return ((PlayerRoot)Parent).grounded;
 
@@ -995,6 +1417,7 @@ namespace HSM
     {
         private PlayerContext ctx;
         private float timer;
+        private Vector3 startSpeed;
         public PlayerPrePound(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
@@ -1004,6 +1427,7 @@ namespace HSM
         protected override void OnEnter()
         {
             timer = 0;
+            startSpeed = ctx.rb.velocity;
             if (ctx.additive)
             {
                 ctx.rb.velocity.y = Mathf.Clamp(ctx.rb.velocity.y + ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
@@ -1027,6 +1451,7 @@ namespace HSM
         protected override State GetTransition(float deltaTime)
         {
             timer += deltaTime;
+            ctx.rb.velocity = startSpeed * (ctx.prePoundDuration - timer);
 
             if (timer >= ctx.prePoundDuration)
             {
@@ -1049,11 +1474,9 @@ namespace HSM
 
         protected override void OnEnter()
         {
-            ctx.cmd = ctx.airMoveData;
-            //ctx.rb.velocity = ctx.facing * ctx.poundSpeedFw;
-            //ctx.rb.velocity.y = -ctx.poundSpeedDown;
+            ctx.cmd = ctx.poundMove;
 
-            velocity = ctx.facing * ctx.poundSpeedFw;
+            velocity = ctx.facing.normalized * ctx.poundSpeedFw;
             velocity.y = -ctx.poundSpeedDown;
             ctx.rb.velocity = velocity;
         }
@@ -1062,12 +1485,28 @@ namespace HSM
         {
             if (ctx.rb.isGrounded)
             {
-                //if(ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
-                //{
-                return ((PlayerRoot)Parent.Parent).grounded.idle;
-                //}
-                //implement land state later
-                //return ((PlayerRoot)Parent.Parent).grounded;
+                if (ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
+                {
+                    ctx.player.SetTrigger("StartBagThrowBounce");
+                    ctx.currentJumpData = ctx.poundBounceJump;
+                    Jump.PerformJump(ctx);
+                    return ((PlayerRoot)Parent.Parent).grounded;
+                }
+                return ((PlayerRoot)Parent.Parent).grounded;
+            }
+
+            Vector3 direction = ctx.bagHitbox.transform.position - ctx.player.transform.position;
+            RaycastHit[] hits = Physics.BoxCastAll(ctx.player.transform.position, ctx.bagHitbox.bounds.extents, direction, ctx.bagHitbox.transform.rotation, direction.magnitude, LayerMasks.actorCollision);
+            foreach (RaycastHit hit in hits)
+            {
+                if (Mathf.Abs(hit.normal.y) < 0.1f)
+                {
+                    ctx.currentJumpData = ctx.poundWallBounce;
+                    ctx.rb.velocity.y = 0;
+                    Jump.PerformJump(ctx);
+                    Debug.Log("bye bye!!");
+                    return ((PlayerRoot)Machine.Root).airborne;
+                }
             }
             return null;
         }
@@ -1076,14 +1515,10 @@ namespace HSM
         {
             if (ctx.poundAccelerate)
             {
-                velocity.x += ctx.facing.x * ctx.downAcceleration * deltaTime;
-                velocity.z += ctx.facing.z * ctx.downAcceleration * deltaTime;
-                velocity.y -= ctx.downAcceleration * deltaTime;
+                velocity.x += ctx.facing.normalized.x * ctx.poundAcceleration * deltaTime;
+                velocity.z += ctx.facing.normalized.z * ctx.poundAcceleration * deltaTime;
+                velocity.y += -ctx.poundAcceleration * deltaTime;
                 ctx.rb.velocity = velocity;
-            }
-            if (ctx.rb.velocity.y <= -ctx.baseJumpData.fastFallSpeed)
-            {
-                Debug.Log("Rollable!");
             }
         }
     }
@@ -1091,12 +1526,14 @@ namespace HSM
     public class PlayerFixedSpeed : State
     {
         readonly PlayerContext ctx;
+        public readonly PlayerPrePound prePound;
         public readonly PlayerPound pound;
         public PlayerFixedSpeed(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
             this.ctx = ctx;
             Parent = parent;
 
+            prePound = new(m, this, ctx);
             pound = new(m, this, ctx);
         }
     }
@@ -1109,6 +1546,8 @@ namespace HSM
         public readonly PlayerAirborne airborne;
         public readonly PlayerFrozen frozen;
         public readonly PlayerFixedSpeed fixedSpeed;
+
+        private float bhopTimer;
 
         public PlayerRoot(StateMachine m, PlayerContext ctx) : base(m)
         {
@@ -1135,6 +1574,8 @@ namespace HSM
                 ctx.regenTimer += deltaTime;
             }
 
+
+
             Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
             if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
             {
@@ -1146,7 +1587,7 @@ namespace HSM
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            ctx.rb.Move(deltaTime * ctx.rb.velocity, doGravityPass);
+            ctx.rb.Tick(deltaTime, doGravityPass);
         }
 
         protected override State GetInitialState() => airborne;
@@ -1154,6 +1595,20 @@ namespace HSM
         {
 
             if (Leaf() == frozen) { return null; }
+
+            if (ActiveChild == grounded)
+            {
+                bhopTimer += deltaTime;
+                if (bhopTimer > ctx.bhopTime)
+                {
+                    ctx.bhopCount = 0;
+                }
+            }
+            if (ActiveChild == airborne && bhopTimer > 0)
+            {
+                bhopTimer = 0;
+                ctx.bhopCount++;
+            }
             ctx.currentVelocity = ctx.rb.velocity; //Reads the current speed we're shmoving at to make new calculations with
             if (ctx.desiredJump && Leaf() != airborne.grabbing && ctx.blockJump == 0)
             {
@@ -1165,108 +1620,14 @@ namespace HSM
                     }
                     ctx.currentJumpData = ctx.slideJumpData;
                 }
-                else if (!ctx.disableJump)
+                if (((ctx.rb.isGrounded && ctx.rb.velocity.y > -0.1) || (ctx.coyoteTimeCounter > 0.03f && ctx.coyoteTimeCounter < ctx.coyoteTime && !ctx.currentlyJumping)) && !ctx.disableJump) //If grounded or if you still have coyote time
                 {
                     ctx.currentJumpData = ctx.baseJumpData;
+                    Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
                 }
-                Jump.PerformJump(ctx); //Resets jump preparations and calculates a new Y speed to jump with
             }
             Jump.CalculateGravity(ctx);
 
-            return null;
-        }
-    }
-
-    //From here on all classes are states used for level interactions! These are all refered to as Int[Something]
-
-    //The upward motion when grabbing an umbrella.
-    public class IntUmbrellaLaunch : State
-    {
-        readonly PlayerContext ctx;
-        float timer = 0f;
-        //public AnimationCurve turnDeceleration;
-
-        public IntUmbrellaLaunch(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.intUmbrellaMoveData;
-            ctx.useGravity = false;
-            ctx.hasGrabbed = true;
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (timer < ctx.umbrellaDuration)
-            {
-                timer += deltaTime;
-            }
-            Vector3 flightSpeed = ctx.rb.velocity;
-            flightSpeed.y = ctx.umbrellaAcceleration.Evaluate(timer / ctx.umbrellaDuration) * ctx.umbrellaSpeed;
-            ctx.rb.velocity = flightSpeed;
-        }
-        protected override void OnExit()
-        {
-            timer = 0;
-            ctx.useGravity = true;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (timer >= ctx.umbrellaDuration || ctx.rb.isGrounded)
-            {
-                return ((PlayerAirborne)Parent).umbrellaGlide;
-            }
-            return null;
-        }
-    }
-
-    //The glide following IntUmbrellaLaunch.
-    public class IntUmbrellaGlide : State
-    {
-        readonly PlayerContext ctx;
-        float timer = 0f;
-
-        public IntUmbrellaGlide(StateMachine m, State parent, PlayerContext ctx) : base(m)
-        {
-            this.ctx = ctx;
-            Parent = parent;
-        }
-
-        protected override void OnEnter()
-        {
-            ctx.cmd = ctx.intUmbrellaMoveData;
-            ctx.useGravity = false;
-            ctx.hasGrabbed = false;
-            ctx.currentlyJumping = true;
-        }
-        protected override void OnUpdate(float deltaTime)
-        {
-            if (timer < ctx.umbrellaFloatAccelDuration)
-            {
-                timer += deltaTime;
-            }
-            Vector3 floatSpeed = ctx.rb.velocity;
-            floatSpeed.y = ctx.umbrellaFloatAcceleration.Evaluate(timer / ctx.umbrellaFloatAccelDuration) * -ctx.umbrellaFloatSpeed;
-            ctx.rb.velocity = floatSpeed;
-            Debug.Log(floatSpeed.y);
-        }
-        protected override void OnExit()
-        {
-            timer = 0;
-            ctx.useGravity = true;
-            ctx.disableJump = false;
-        }
-
-        protected override State GetTransition(float deltaTime)
-        {
-            if (timer >= ctx.umbrellaMaxDuration || ctx.desiredJump || ctx.rb.isGrounded)
-            {
-                return ctx.player.Root;
-            }
             return null;
         }
     }

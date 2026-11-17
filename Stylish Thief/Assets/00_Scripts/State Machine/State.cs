@@ -8,6 +8,9 @@ namespace HSM
         public StateMachine Machine;
         public State Parent;
         public State ActiveChild;
+
+        readonly List<IActivity> activities = new List<IActivity>();
+        public IReadOnlyList<IActivity> Activities => activities;
         public State(StateMachine machine, State parent = null)
         {
             Machine = machine;

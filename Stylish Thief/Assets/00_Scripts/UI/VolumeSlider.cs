@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using FMODUnity;
 
 public class VolumeSlider : MonoBehaviour
 {
@@ -31,7 +30,5 @@ public class VolumeSlider : MonoBehaviour
     {
         volume = slider.value;
         PlayerPrefs.SetFloat("Volume", volume);
-        //Change the volume number in the FMod stuff
-        RuntimeManager.StudioSystem.setParameterByName("VolumeSliderValue", volume);
     }
 }

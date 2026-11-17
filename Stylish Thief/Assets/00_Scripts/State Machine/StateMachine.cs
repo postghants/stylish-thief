@@ -27,7 +27,7 @@ namespace HSM {
         public void Update(float deltaTime)
         {
             if (!started) { Start(); }
-            InternalTick(deltaTime);
+            Sequencer.Tick(deltaTime);
         }
 
         internal void InternalTick(float deltaTime) => Root.Update(deltaTime);

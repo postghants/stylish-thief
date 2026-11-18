@@ -6,47 +6,62 @@ using UnityEngine.Events;
 
 public class UIMovement : MonoBehaviour
 {
+    public bool move;
+    public bool autoCycleTargets;
     public bool destroyOnEnd;
     //public UIMovementTargets[] targets;
-    public List<UIMovementTargets> targets = new();
+    [Tooltip("An event that triggers at the start of this script")] public UnityEvent crimeNameStartEvent;
+    [Tooltip("A list of places to go along with the speed to move at and how long to wait before moving. This shouldn't be done here but in the CrimeSpreeHUD script")] public List<UIMovementTargets> targets = new();
+    [Tooltip("Events that play when reaching the targets. Match their IDs with their targets! This must be set here.")] public List<UnityEvent> events = new();
     [Header("Internal")]
     public int multipliedPoints;
+    public float multiplier;
+    public float totalPoints;
     public int currentTarget;
     public float delayTimer;
     public float currentInterpolation;
+    public CrimeSpreeHUD HUD;
 
-
-
+    private void Start()
+    {
+        crimeNameStartEvent?.Invoke();
+    }
     void Update()
     {
-        if (currentTarget < targets.Count)
+        if (move)
         {
-            if (targets[currentTarget].target.position == transform.position)
+            if (currentTarget < targets.Count)
             {
-                delayTimer = 0;
-                currentInterpolation = 0;
-                targets[currentTarget].targetReachedAction?.Invoke();
-                currentTarget++;
-            }
-            else
-            {
-                if (delayTimer < targets[currentTarget].delay)
+                if (targets[currentTarget].target.position == transform.position)
                 {
-                    delayTimer += Time.deltaTime;
+                    delayTimer = 0;
+                    currentInterpolation = 0;
+                    events[currentTarget]?.Invoke();
+                    if (autoCycleTargets)
+                    {
+                        currentTarget++;
+                    }
                 }
                 else
                 {
-                    transform.position = Vector3.Lerp(transform.position, targets[currentTarget].target.position, currentInterpolation);
-                    if (currentInterpolation < 1)
+                    if (delayTimer < targets[currentTarget].delay)
                     {
-                        currentInterpolation += targets[currentTarget].speed * Time.deltaTime;
+                        delayTimer += Time.deltaTime;
+                    }
+                    else
+                    {
+                        transform.position = Vector3.Lerp(transform.position, targets[currentTarget].target.position, currentInterpolation);
+                        if (currentInterpolation < 1)
+                        {
+                            currentInterpolation += targets[currentTarget].speed * Time.deltaTime;
+                        }
                     }
                 }
             }
-        }
-        if (destroyOnEnd && currentTarget >= targets.Count)
-        {
-            Destroy(gameObject);
+            if (destroyOnEnd && currentTarget >= targets.Count)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -55,13 +70,12 @@ public class UIMovement : MonoBehaviour
     {
         GetComponent<TMP_Text>().text = "+" + multipliedPoints;
     }
-}
-
-[Serializable]
-public struct UIMovementTargets
-{
-    public Transform target;
-    public float speed;
-    public float delay;
-    public UnityEvent targetReachedAction;
+    public void IncreaseComboCount()
+    {
+        HUD.multiplier.text = multiplier.ToString();
+    }
+    public void IncreasePointCount()
+    {
+        HUD.points.text = totalPoints.ToString();
+    }
 }

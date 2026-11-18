@@ -7,23 +7,28 @@ using UnityEngine.UI;
 
 public class CrimeSpreeHUD : MonoBehaviour
 {
+    [Header("Crime indicator stuff")]
     public Vector2 crimeNameStartPos;
+    public UIMovementTargets[] crimeNameTargets;
 
+    [Header("References")]
     public UIBar spreeTimer;
     public TMP_Text points;
     public TMP_Text committedCrime;
     public TMP_Text multiplier;
-
     public Image[] lamps;
+    public NeoCrimeSpreeManager manager;
+
+    [Header("Locations")]
+    public Transform pointsLocation;
+    public Transform multLocation;
+    public Transform crimeLocation;
 
     [Header("Internal")]
     public GameObject crimeNamePrefab;
     public GameObject crimeNameInstance;
     public UIMovement movement;
 
-    public UIMovementTargets[] crimeNameTargets;
-
-    private NeoCrimeSpreeManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,18 +45,18 @@ public class CrimeSpreeHUD : MonoBehaviour
 
             Lamps();
 
-            points.text = manager.points.ToString();
+            /*points.text = manager.points.ToString();
             
             float decimalNumber = manager.currentMultiplier - Mathf.CeilToInt(manager.currentMultiplier);
             float number = manager.currentMultiplier - decimalNumber;
             if (manager.currentMultiplier < 100)
             {
-                multiplier.text = /*"<size=40%>x1.<size=100%>" + */manager.currentMultiplier.ToString();
+                multiplier.text = *//*"<size=40%>x1.<size=100%>" + *//*manager.currentMultiplier.ToString();
             }
             else
             {
-                multiplier.text = /*"<size=40%>x<size=100%>" + */manager.currentMultiplier.ToString();
-            }
+                multiplier.text = *//*"<size=40%>x<size=100%>" + *//*manager.currentMultiplier.ToString();
+            }*/
             
         }
     }
@@ -79,17 +84,23 @@ public class CrimeSpreeHUD : MonoBehaviour
             }
         }
     }
-    public void SpawnCrime(string name, float points)
+    public void SpawnCrime(string name, float points, float totalPoints, float multiplier)
     {
         if (movement != null)
         {
             if (movement.currentTarget == 0) { movement.delayTimer = 99; }
         }
-        crimeNameInstance = Instantiate(crimeNamePrefab, transform.position, Quaternion.identity);
+        crimeNameInstance = Instantiate(crimeNamePrefab, crimeLocation.position, Quaternion.identity);
         movement = crimeNameInstance.GetComponent<UIMovement>();
         crimeNameInstance.transform.parent = gameObject.transform;
         crimeNameInstance.GetComponent<TMP_Text>().text = "+" + points.ToString() + " <size=40%>" + name;
         movement.multipliedPoints = manager.lastGainedPointsMultiplied;
+        if (totalPoints == 0) { totalPoints = points; }
+        movement.totalPoints = totalPoints;
+        movement.multiplier = manager.currentMultiplier;
+        movement.move = true;
+        movement.autoCycleTargets = true;
+        movement.HUD = this;
 
         foreach (var item in crimeNameTargets)
         {
@@ -98,5 +109,13 @@ public class CrimeSpreeHUD : MonoBehaviour
     }
 }
 
+[Serializable]
+public struct UIMovementTargets
+{
+    public Transform target;
+    public float speed;
+    public float delay;
+    //public UnityEvent targetReachedAction;
+}
 //
 //If position of spawned ui isn't position of target, keep increasing lerp position

@@ -17,7 +17,7 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
     [Tooltip("Name of the last Crime committed")] public string lastCrimeCommitted;
     //[Tooltip("How high the player's combo is. This doubles as the multiplier")] public float combo;
     [Tooltip("How high the player's combo is")] public float comboRaw;
-    [Tooltip("Current combo multiplier")] public float currentMultiplier;
+    [Tooltip("Current combo multiplier")] public float currentMultiplier = 1;
     [Tooltip("How long the combo currently has left")] public float comboTimer;
     [Tooltip("Is there a Crime Spree happening right now?")] public bool activeSpree;
 
@@ -90,7 +90,7 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
             comboRaw += pointsToGain;
             currentMultiplier = 1 + comboRaw * multiplierStrength;
             comboTimer = comboDuration;
-            hud.SpawnCrime(lastCrimeCommitted, lastGainedPointsRaw);
+            hud.SpawnCrime(lastCrimeCommitted, lastGainedPointsRaw, points, currentMultiplier);
         }
     }
     public void RegisterCrimeName(string name)

@@ -61,6 +61,7 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
                 if (comboTimer < 0)
                 {
                     currentMultiplier = 1;
+                    comboRaw = 0;
                     comboTimer = comboDuration;
                 }
             }

@@ -45,6 +45,11 @@ public class CrimeSpreeHUD : MonoBehaviour
 
             Lamps();
 
+            if (manager.currentMultiplier <= 1)
+            {
+                multiplier.text = "1";
+            }
+
             /*points.text = manager.points.ToString();
             
             float decimalNumber = manager.currentMultiplier - Mathf.CeilToInt(manager.currentMultiplier);

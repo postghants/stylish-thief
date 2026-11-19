@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2914935627354771788}
   - component: {fileID: 9086882944554565530}
   - component: {fileID: 4407952027123761044}
+  - component: {fileID: 4499181304773957603}
   m_Layer: 0
   m_Name: Pane
   m_TagString: Untagged
@@ -77,6 +78,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   givenScore: 10
   crime: Breaking and Entering
+--- !u!54 &4499181304773957603
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3065395418493197870}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!1 &8812039886084055530
 GameObject:
   m_ObjectHideFlags: 0

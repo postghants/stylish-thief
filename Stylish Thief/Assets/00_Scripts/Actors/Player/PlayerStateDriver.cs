@@ -53,6 +53,7 @@ public class PlayerStateDriver : Actor, IDamageable
         ctx.player = this;
         ctx.currentJumpData = ctx.baseJumpData;
         ctx.gravMultiplier = ctx.currentJumpData.downwardAccel;
+        ctx.facing = transform.forward;
     }
 
     private void FixedUpdate()
@@ -499,6 +500,7 @@ public class PlayerContext
     [FoldoutGroup("Roll")][Tooltip("How strongly to convert your Roll speed to vertical speed. Set to 0 to not count roll speed. Set to 1 for 1 to 1 conversion")] public float rollJumpConversionStrength;
     [FoldoutGroup("Roll")][Tooltip("From what speed can you Grab during the Roll Jump? Should be close to 0. Enter a positive number")] public float rollJumpGrabSpeedLimit;
     [FoldoutGroup("Roll")][Tooltip("How long to wait until going up. Should match length of animation")] public float rollJumpDelay;
+    [FoldoutGroup("Roll")][Tooltip("How long should your landing speed be remembered when you try to roll? Never set to 0")] public float landingSpeedMemoryTime;
     [FoldoutGroup("Roll")] public JumpData rollJumpData;
     [FoldoutGroup("Roll")] public MoveData rollJumpMoveData;
 

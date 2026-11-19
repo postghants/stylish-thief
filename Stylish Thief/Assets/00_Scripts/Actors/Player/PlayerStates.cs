@@ -1563,6 +1563,7 @@ namespace HSM
         public readonly PlayerAirborne airborne;
         public readonly PlayerFrozen frozen;
         public readonly PlayerFixedSpeed fixedSpeed;
+        public readonly IntBumper intBumper;
 
         private float bhopTimer;
 
@@ -1572,6 +1573,7 @@ namespace HSM
             airborne = new(m, this, ctx);
             frozen = new(m, this, ctx);
             fixedSpeed = new(m, this, ctx);
+            intBumper = new(m, this, ctx);
             this.ctx = ctx;
         }
 

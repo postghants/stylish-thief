@@ -16,7 +16,7 @@ public class Jump
         ctx.currentlyJumping = true;
         ctx.desiredJump = false;
         ctx.jumpBufferCounter = 0;
-        ctx.landingSpeed = 0;
+        //ctx.landingSpeed = 0;
         ctx.currentVelocity.y = 0; //Very brute force fix for super jump I guess...
         if (ctx.currentJumpData.setSpeed)
         {

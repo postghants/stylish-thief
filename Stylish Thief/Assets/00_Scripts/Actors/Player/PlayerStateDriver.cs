@@ -519,8 +519,10 @@ public class PlayerContext
     [FoldoutGroup("Bag Throw")] public float poundSpeedFw;
     [FoldoutGroup("Bag Throw")] public float poundAcceleration;
     [FoldoutGroup("Bag Throw")] public MoveData poundMove;
-    [FoldoutGroup("Bag Throw")] public float poundLandDelay;
-    [FoldoutGroup("Bag Throw")] public float poundLandSpeed;
+    [FoldoutGroup("Bag Throw")] public float poundLandDuration;
+    [FoldoutGroup("Bag Throw")] public MoveData poundLandMove;
+    [FoldoutGroup("Bag Throw")] public float poundBounceMult;
+    [FoldoutGroup("Bag Throw")] public MoveData poundBounceMove;
     [FoldoutGroup("Bag Throw")] public JumpData poundWallBounce;
     [FoldoutGroup("Bag Throw")] public JumpData poundBounceJump;
 
@@ -583,6 +585,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public int bhopCount;
     [FoldoutGroup("Internal")][ReadOnly] public Vector3 wallNormal;
     [FoldoutGroup("Internal")][ReadOnly] public int lockRotation;
+    [FoldoutGroup("Internal")][ReadOnly] public bool disableGroundedTransition;
 
     [FoldoutGroup("Input values")][ReadOnly] public Vector2 moveInputValue;
     [FoldoutGroup("Input values")][ReadOnly] public bool desiredJump;

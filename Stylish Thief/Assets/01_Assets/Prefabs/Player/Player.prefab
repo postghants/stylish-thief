@@ -6233,8 +6233,38 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    poundLandDelay: 1
-    poundLandSpeed: 0
+    poundLandDuration: 0.2
+    poundLandMove:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    poundBounceMult: 0.6
+    poundBounceMove:
+      acceleration: 0
+      deceleration: 0
+      minWalkSpeed: 0
+      maxSpeed: 0
+      maxSpeedDeceleration: 0
+      turnSpeedMult: 0
+      modelTurnDelay: 0
+      turnDecelerationMult: 1
+      turnDeceleration:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     poundWallBounce:
       jumpImpulse: 5
       cuttable: 0
@@ -6257,26 +6287,26 @@ MonoBehaviour:
       maxFallSpeed: 55
       fastFallSpeed: 49
     poundBounceJump:
-      jumpImpulse: 0
+      jumpImpulse: 15
       cuttable: 0
-      maxMaxSpeedTime: 0
-      minMaxSpeedTime: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
       cutJump: 0
       useCutoffGravMult: 0
       cutoffGravMult: 0
       cutSpeed: 0
-      upwardDeceleration: 0
-      upwardDecelApexThreshold: 0
-      upwardDecelApex: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
       hangtimeDuration: 0
       setSpeed: 0
       setSpeedSpeed: 0
       horizontalBoost: 0
-      jumpMovementMult: 0
+      jumpMovementMult: 1
       jumpMovementMultTime: 0
-      downwardAccel: 0
-      maxFallSpeed: 0
-      fastFallSpeed: 0
+      downwardAccel: 60
+      maxFallSpeed: 55
+      fastFallSpeed: 49
     panTime: 0.2
     panAngle: -45
     player: {fileID: 0}
@@ -6366,6 +6396,7 @@ MonoBehaviour:
     bhopCount: 0
     wallNormal: {x: 0, y: 0, z: 0}
     lockRotation: 0
+    disableGroundedTransition: 0
     moveInputValue: {x: 0, y: 0}
     desiredJump: 0
     pressingJump: 0

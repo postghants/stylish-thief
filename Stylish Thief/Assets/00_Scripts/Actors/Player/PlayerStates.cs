@@ -1173,6 +1173,7 @@ namespace HSM
         public readonly PlayerHarshLanding harshLanded;
         public readonly PlayerRolling rolling;
         public readonly PlayerGroundedTricking groundTricking;
+        public readonly PlayerPoundLand poundLand;
 
         public PlayerGrounded(StateMachine m, State parent, PlayerContext ctx) : base(m)
         {
@@ -1186,6 +1187,7 @@ namespace HSM
             harshLanded = new(m, this, ctx);
             rolling = new(m, this, ctx);
             groundTricking = new(m, this, ctx);
+            poundLand = new(m, this, ctx);
         }
 
         protected override void OnEnter()
@@ -1320,6 +1322,7 @@ namespace HSM
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
         public readonly PlayerPrePound prePound;
+        public readonly PlayerPoundBounce poundBounce;
         public readonly PlayerRollJumping rollJump;
         public readonly PlayerTumbling tumble;
         public readonly PlayerAirTricking airTricking;
@@ -1344,6 +1347,7 @@ namespace HSM
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
             prePound = new(m, this, ctx);
+            poundBounce = new(m, this, ctx);
             barSwing = new(m, this, ctx);
             rollJump = new(m, this, ctx);
             tumble = new(m, this, ctx);
@@ -1460,7 +1464,7 @@ namespace HSM
                     return airTricking;
                 }
             }
-            if (ctx.rb.isGrounded)
+            if (ctx.rb.isGrounded && !ctx.disableGroundedTransition)
             {
                 if (Leaf() == slidingAirborne)
                 {
@@ -1573,24 +1577,6 @@ namespace HSM
             ctx.rb.velocity = velocity;
         }
 
-        protected override State GetTransition(float deltaTime)
-        {
-            if (ctx.rb.isGrounded)
-            {
-                if (ctx.jumpBufferCounter > 0 && ctx.jumpBufferCounter <= ctx.rollTiming)
-                {
-                    ctx.player.SetTrigger("StartBagThrowBounce");
-                    ctx.currentJumpData = ctx.poundBounceJump;
-                    Jump.PerformJump(ctx);
-                    return ((PlayerRoot)Parent.Parent).grounded;
-                }
-                return ((PlayerRoot)Parent.Parent).grounded;
-            }
-
-
-            return null;
-        }
-
         protected override void OnUpdate(float deltaTime)
         {
             if (ctx.poundAccelerate)
@@ -1613,6 +1599,100 @@ namespace HSM
                     Debug.Log("bye bye!!");
                 }
             }
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.rb.isGrounded)
+            {
+                ctx.bhopCount = 0;
+                ctx.player.SetTrigger("StartBagThrowLand");
+                return ((PlayerRoot)Parent.Parent).grounded.poundLand;
+            }
+
+            return null;
+        }
+    }
+
+    public class PlayerPoundLand : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerPoundLand(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.disableJump = true;
+            ctx.anim.SetTrigger("StartBagThrowLand");
+            timer = 0;
+            ctx.cmd = ctx.poundLandMove;
+        }
+
+        protected override void OnExit()
+        {
+            ctx.disableJump = false;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.desiredJump)
+            {
+                ctx.disableJump = false;
+                return ctx.player.Root.airborne.poundBounce;
+            }
+
+            timer += deltaTime;
+            if (timer >= ctx.poundLandDuration)
+            {
+                ctx.disableJump = false;
+                return ctx.player.Root.grounded;
+            }
+
+            return null;
+        }
+    }
+
+    public class PlayerPoundBounce : State
+    {
+        readonly PlayerContext ctx;
+
+        public PlayerPoundBounce(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            ctx.poundBounceJump.jumpImpulse = -ctx.landingSpeed * ctx.poundBounceMult;
+            ctx.currentJumpData = ctx.poundBounceJump;
+            Jump.PerformJump(ctx);
+
+            ctx.anim.SetTrigger("StartBagThrowBounce");
+            ctx.disableGroundedTransition = true;
+            ctx.cmd = ctx.poundBounceMove;
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+
+        }
+        protected override void OnExit()
+        {
+            ctx.disableGroundedTransition = false;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            if (ctx.rb.isGrounded)
+            {
+                return ctx.player.Root.grounded.poundLand;
+            }
+            return null;
         }
     }
 

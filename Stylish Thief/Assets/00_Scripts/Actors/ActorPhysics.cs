@@ -41,6 +41,8 @@ public class ActorPhysics : MonoBehaviour
     private Queue<RaycastHit> hits = new();
     private Queue<Vector3> impactVelocities = new();
 
+    private PhysicsInfo physicsInfo;
+
     public PhysicsInfo Tick(float deltaTime, bool doGravityPass)
     {
         if (velocity.sqrMagnitude > 0)
@@ -84,11 +86,8 @@ public class ActorPhysics : MonoBehaviour
         }
         hits.Clear();
 
-        Vector2 horizontalMove = new(moveAmount.x, moveAmount.z);
-        return new PhysicsInfo(moveAmount,
-            new Vector2(moveAmount.x, moveAmount.z).sqrMagnitude < new Vector2(startMove.x, startMove.z).sqrMagnitude,
-            moveAmount.y > startMove.y
-            );
+        physicsInfo.moveAmount = moveAmount;
+        return physicsInfo.Clone();
 
     }
 
@@ -132,12 +131,8 @@ public class ActorPhysics : MonoBehaviour
         }
         hits.Clear();
 
-
-        Vector2 horizontalMove = new(moveAmount.x, moveAmount.z);
-        return new PhysicsInfo(moveAmount,
-            new Vector2(moveAmount.x, moveAmount.z).sqrMagnitude < new Vector2(startMove.x, startMove.z).sqrMagnitude,
-            moveAmount.y > startMove.y
-            );
+        physicsInfo.moveAmount = moveAmount;
+        return physicsInfo.Clone();
     }
 
     protected Vector3 CollideAndSlide(Vector3 vel, Vector3 pos, int depth, bool gravityPass, Vector3 velInit)
@@ -146,6 +141,10 @@ public class ActorPhysics : MonoBehaviour
         {
             return Vector3.zero;
         }
+        if (depth == 0 && !gravityPass)
+        {
+            physicsInfo.Reset();
+        }
 
         Bounds bounds = environmentCollider.bounds;
         bounds.Expand(-2 * skinWidth);
@@ -153,7 +152,7 @@ public class ActorPhysics : MonoBehaviour
         float dist = vel.magnitude + skinWidth;
         if (Physics.BoxCast(pos, bounds.extents, vel.normalized, out RaycastHit hit, Quaternion.identity, dist, collisionLayerMask, QueryTriggerInteraction.Ignore))
         {
-            if(hit.collider.GetComponent<MovingPlatform>()) { return vel; }
+            if (hit.collider.GetComponent<MovingPlatform>()) { return vel; }
             Vector3 snapToSurface = vel.normalized * (hit.distance - skinWidth);
             Vector3 leftover = vel - snapToSurface;
             float verticalAngle = Vector3.Angle(Vector3.up, hit.normal);
@@ -174,6 +173,17 @@ public class ActorPhysics : MonoBehaviour
             // wall or steep slope
             else
             {
+                if (verticalAngle < 85)
+                {
+                    physicsInfo.slopeNormal = hit.normal;
+                    physicsInfo.hitSlope = true;
+                }
+                else
+                {
+                    physicsInfo.hitWall = true;
+                    physicsInfo.wallNormal = hit.normal;
+                }
+
                 float scale = 1 - Vector3.Dot(
                     new Vector3(hit.normal.x, 0, hit.normal.z).normalized,
                     -new Vector3(velInit.x, 0, velInit.z).normalized);
@@ -225,7 +235,6 @@ public class ActorPhysics : MonoBehaviour
 
                     }
                     leftover = ProjectAndScale(new Vector3(leftover.x, 0, leftover.z), new Vector3(hit.normal.x, 0, hit.normal.z)) * scale;
-
 
                 }
                 else
@@ -378,7 +387,7 @@ public class ActorPhysics : MonoBehaviour
 
         if (ground != null && ground.TryGetComponent(out MovingPlatform platform))
         {
-            if(velocity.y > platform.GetVelocity(transform.position).y) { return; }
+            if (velocity.y > platform.GetVelocity(transform.position).y) { return; }
             if (movingPlatformRef == null)
             {
                 //make new ref
@@ -440,11 +449,26 @@ public struct PhysicsInfo
     public Vector3 moveAmount;
     public bool hitWall;
     public bool hitSlope;
+    public Vector3 slopeNormal;
+    public Vector3 wallNormal;
 
-    public PhysicsInfo(Vector3 moveAmount, bool hitWall, bool hitSlope)
+    public PhysicsInfo(Vector3 moveAmount, bool hitWall, bool hitSlope, Vector3 slopeNormal, Vector3 wallNormal)
     {
         this.moveAmount = moveAmount;
         this.hitWall = hitWall;
         this.hitSlope = hitSlope;
+        this.slopeNormal = slopeNormal;
+        this.wallNormal = wallNormal;
     }
+
+    public void Reset()
+    {
+        moveAmount = Vector3.zero;
+        hitWall = false;
+        hitSlope = false;
+        slopeNormal = Vector3.zero;
+        wallNormal = Vector3.zero;
+    }
+
+    public PhysicsInfo Clone() => new PhysicsInfo(moveAmount, hitWall, hitSlope, slopeNormal, wallNormal);
 }

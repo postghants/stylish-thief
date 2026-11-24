@@ -1135,8 +1135,12 @@ namespace HSM
 
         protected override void OnUpdate(float deltaTime)
         {
-            Vector3 horizontalVel = ctx.rb.velocity;
-            horizontalVel.y = 0;
+            Vector3 horizontalVel = VectorUtils.HorizontalizeV3(ctx.rb.velocity);
+            if (ctx.physicsInfo.hitWall && horizontalVel.magnitude > ctx.cmd.maxSpeed)
+            {
+                //todo: make something more convoluted for this if necessary
+                ctx.rb.velocity -= ctx.rb.velocity.normalized * ctx.cmd.deceleration;
+            }
             if (ctx.moveInputValue != Vector2.zero)
             {
                 ctx.anim.SetBool("OverRunSpeed", horizontalVel.magnitude > ctx.animRunSpeed);
@@ -1157,6 +1161,12 @@ namespace HSM
             if (ctx.rb.velocity == Vector3.zero)
             {
                 return ((PlayerGrounded)Parent).idle;
+            }
+
+            //"wall splat"
+            if (ctx.physicsInfo.hitWall && Vector3.Angle(ctx.physicsInfo.wallNormal, -ctx.rb.velocity) < ctx.wallSplatAngle && ctx.rb.velocity.magnitude > ctx.wallSplatSpeed)
+            {
+                return ctx.player.Root.airborne.stunnedAirborne;
             }
             return null;
         }
@@ -1322,6 +1332,7 @@ namespace HSM
         public readonly PlayerStunnedAirborne stunnedAirborne;
         public readonly PlayerVaulting vaulting;
         public readonly PlayerPrePound prePound;
+        public readonly PlayerPrePoundArc prePoundArc;
         public readonly PlayerPoundBounce poundBounce;
         public readonly PlayerRollJumping rollJump;
         public readonly PlayerTumbling tumble;
@@ -1347,6 +1358,7 @@ namespace HSM
             stunnedAirborne = new(m, this, ctx);
             vaulting = new(m, this, ctx);
             prePound = new(m, this, ctx);
+            prePoundArc = new(m, this, ctx);
             poundBounce = new(m, this, ctx);
             barSwing = new(m, this, ctx);
             rollJump = new(m, this, ctx);
@@ -1412,6 +1424,10 @@ namespace HSM
             if (ctx.useGravity)
             {
                 ctx.rb.velocity.y += deltaTime * -ctx.baseGrav;
+                if (ctx.physicsInfo.slopeNormal != Vector3.zero)
+                {
+                    ctx.rb.velocity += ctx.steepSlopeBoost * deltaTime * VectorUtils.HorizontalizeV3(ctx.physicsInfo.slopeNormal).normalized;
+                }
                 if (ctx.rb.velocity.y < -ctx.currentJumpData.maxFallSpeed)
                 {
                     ctx.rb.velocity.y = -ctx.currentJumpData.maxFallSpeed;
@@ -1530,7 +1546,7 @@ namespace HSM
             }
             else
             {
-                ctx.rb.velocity.y = Mathf.Clamp(ctx.prePoundUpBoost, ctx.prePoundUpBoost, Mathf.Infinity);
+                ctx.rb.velocity.y = ctx.prePoundUpBoost;
             }
 
             ctx.cmd = ctx.prePoundMove;
@@ -1551,9 +1567,60 @@ namespace HSM
 
             if (timer >= ctx.prePoundDuration)
             {
-                return ((PlayerRoot)Parent.Parent).fixedSpeed.pound;
+                if (ctx.disablePrePoundArc)
+                {
+                    return ctx.player.Root.fixedSpeed.pound;
+                }
+                else
+                {
+                    return ctx.player.Root.airborne.prePoundArc;
+                }
             }
 
+            return null;
+        }
+    }
+
+    public class PlayerPrePoundArc : State
+    {
+        readonly PlayerContext ctx;
+        private float timer;
+
+        public PlayerPrePoundArc(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+
+        protected override void OnEnter()
+        {
+            timer = 0;
+            ctx.lockRotation++;
+
+            ctx.anim.Play("BagThrowStraight");
+
+            ctx.rb.velocity = ctx.facing.normalized * ctx.poundSpeedFw;
+            ctx.cmd = ctx.prePoundMove;
+
+            ctx.currentJumpData = ctx.prePoundArcJump;
+            Jump.PerformJump(ctx);
+        }
+        protected override void OnUpdate(float deltaTime)
+        {
+            ctx.anim.transform.LookAt(ctx.anim.transform.position + ctx.rb.velocity);
+        }
+        protected override void OnExit()
+        {
+            ctx.lockRotation--;
+        }
+
+        protected override State GetTransition(float deltaTime)
+        {
+            timer += deltaTime;
+            if (timer >= ctx.prePoundArcDuration)
+            {
+                return ctx.player.Root.fixedSpeed.pound;
+            }
             return null;
         }
     }
@@ -1749,7 +1816,7 @@ namespace HSM
 
 
 
-            Vector2 horizontalVel = new(ctx.rb.velocity.x, ctx.rb.velocity.z);
+            Vector2 horizontalVel = VectorUtils.HorizontalizeV2(ctx.rb.velocity);
             if (horizontalVel.magnitude > ctx.cmd.maxSpeed + 0.01f && ctx.cmd.maxSpeedDeceleration != 0)
             {
                 horizontalVel -= horizontalVel * ctx.cmd.maxSpeedDeceleration * deltaTime;
@@ -1760,12 +1827,7 @@ namespace HSM
 
             bool doGravityPass = !ctx.currentlyJumping;
 
-            PhysicsInfo info = ctx.rb.Tick(deltaTime, doGravityPass);
-
-            if (ctx.rb.isGrounded && info.hitWall && VectorUtils.HorizontalizeV2(ctx.rb.velocity).magnitude > ctx.groundMoveData.maxSpeed)
-            {
-                ctx.rb.velocity = ctx.rb.velocity.normalized * ctx.groundMoveData.maxSpeed;
-            }
+            ctx.physicsInfo = ctx.rb.Tick(deltaTime, doGravityPass);
         }
 
         protected override State GetInitialState() => airborne;

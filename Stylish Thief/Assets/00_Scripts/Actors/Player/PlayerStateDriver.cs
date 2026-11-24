@@ -369,8 +369,10 @@ public class PlayerContext
     [FoldoutGroup("General")] public bool spawnSpreeUI = true;
     [FoldoutGroup("General")] public float bhopTime = 0.2f;
 
-    [Header("Grounded Movement")]
-    public MoveData groundMoveData;
+    [FoldoutGroup("Grounded Movement")] public float wallMoveMult;
+    [FoldoutGroup("Grounded Movement")] public float wallSplatSpeed;
+    [FoldoutGroup("Grounded Movement")] public float wallSplatAngle;
+    [FoldoutGroup("Grounded Movement")] public MoveData groundMoveData;
     //[Tooltip("Acceleration in units/s^2")] public float acceleration;
     //[Tooltip("Friction applied when on the ground.")] public float groundFriction;
     //[Tooltip("Extra friction applied when on the ground AND not pressing any move input.")] public float groundDeceleration;
@@ -379,8 +381,8 @@ public class PlayerContext
     //[Tooltip("Multiplier on turn deceleration curve for convenience. Represents units per second squared")] public float turnDecelerationMult = 1;
     //[Tooltip("Intensity of deceleration when trying to switch direction. Read as a gradient from 0 degrees to 180 degrees")] public AnimationCurve turnDeceleration;
 
-    [Header("Air Movement")]
-    public MoveData airMoveData;
+    [FoldoutGroup("Air Movement")] public float steepSlopeBoost;
+    [FoldoutGroup("Air Movement")] public MoveData airMoveData;
     //[Tooltip("Acceleration when airborne.")] public float airAccel;
     //[Tooltip("Friction applied when airborne.")] public float airFriction;
 
@@ -515,6 +517,11 @@ public class PlayerContext
     [FoldoutGroup("Bag Throw")] public float prePoundDuration;
     [FoldoutGroup("Bag Throw")] public float prePoundGrav;
     [FoldoutGroup("Bag Throw")] public MoveData prePoundMove;
+
+    [FoldoutGroup("Bag Throw")] public bool disablePrePoundArc;
+    [FoldoutGroup("Bag Throw")] public float prePoundArcDuration;
+    [FoldoutGroup("Bag Throw")] public JumpData prePoundArcJump;
+
     [FoldoutGroup("Bag Throw")] public float poundSpeedDown;
     [FoldoutGroup("Bag Throw")] public float poundSpeedFw;
     [FoldoutGroup("Bag Throw")] public float poundAcceleration;
@@ -586,6 +593,7 @@ public class PlayerContext
     [FoldoutGroup("Internal")][ReadOnly] public Vector3 wallNormal;
     [FoldoutGroup("Internal")][ReadOnly] public int lockRotation;
     [FoldoutGroup("Internal")][ReadOnly] public bool disableGroundedTransition;
+    [FoldoutGroup("Internal")][ReadOnly] public PhysicsInfo physicsInfo;
 
     [FoldoutGroup("Input values")][ReadOnly] public Vector2 moveInputValue;
     [FoldoutGroup("Input values")][ReadOnly] public bool desiredJump;

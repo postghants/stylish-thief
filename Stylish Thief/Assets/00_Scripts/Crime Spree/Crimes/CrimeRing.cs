@@ -2,35 +2,21 @@ using UnityEngine;
 
 public class CrimeRing : MonoBehaviour
 {
-    public int crimeTier;
-    public string crimeName;
-    public int givenScore;
-
     private PlayerStateDriver player;
 
     [SerializeField] private Renderer renderer;
     [SerializeField] private Crime crime;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
             renderer.enabled = false;
-            crime.DoCrimeOfTier(crimeTier, crimeName, givenScore);
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
         }
     }
 
-    public void Reset()
+    public void ResetCrime()
     {
         renderer.enabled = true;
     }

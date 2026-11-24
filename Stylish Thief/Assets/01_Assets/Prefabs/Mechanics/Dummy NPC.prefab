@@ -128,10 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0130fa730b6c3a4a9420feeeb452aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  crime: Annoying Someone
-  givenScore: 300
   parryHeight: 1
   parryDelay: 5
+  crime: {fileID: 1739298022364092268}
 --- !u!114 &1739298022364092268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Public Nuisance
+  crimeValue: 20
   resetCrime:
     m_PersistentCalls:
       m_Calls: []

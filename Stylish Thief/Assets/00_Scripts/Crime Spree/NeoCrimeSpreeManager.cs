@@ -22,7 +22,7 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
     [Tooltip("Is there a Crime Spree happening right now?")] public bool activeSpree;
 
     [Header("References")]
-    public CrimeData crimeData;
+    public GeneralCrimeData generalCrimeData;
     public GameObject spreeHUD;
     public GameObject gameOverUIPrefab;
     public PlayerStateDriver player;
@@ -115,7 +115,7 @@ public class NeoCrimeSpreeManager : Singleton<NeoCrimeSpreeManager>
 }
 
 [Serializable]
-public class CrimeData
+public class GeneralCrimeData
 {
     [Header("Gained Spree Time")]
     public float miniGainedTime;

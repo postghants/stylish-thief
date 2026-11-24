@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 101212844540363710}
   - component: {fileID: 589714658151904205}
   - component: {fileID: 5801253374345301096}
+  - component: {fileID: -3077751579237896183}
   m_Layer: 21
   m_Name: Bouncy Platform
   m_TagString: Untagged
@@ -126,9 +127,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b9036eb8b1a2947abc407b61072596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  score: 10
-  crime: Criminal Mischief
   launchForce: 35
+--- !u!114 &-3077751579237896183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5538648765321524833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Criminal Mischief
+  crimeValue: 10
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &8588342377606519748
 PrefabInstance:
   m_ObjectHideFlags: 0

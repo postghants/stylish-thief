@@ -128,8 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d286648d711deed4f96c4ed8c6752a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  givenScore: 5
-  crime: Disturbing wildlife
+  crime: {fileID: 1451775639255304051}
   player: {fileID: 0}
 --- !u!114 &5215982992427609949
 MonoBehaviour:
@@ -157,12 +156,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Disturbing Wildlife
+  crimeValue: 10
   resetCrime:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6684564496972676378}
         m_TargetAssemblyTypeName: RickBirdTrigger, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: ResetCrime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 3768491945025048992}
   - component: {fileID: 5598774978658481550}
   - component: {fileID: 4763153747649924558}
+  - component: {fileID: 4435949935806518152}
   m_Layer: 0
   m_Name: Sticker
   m_TagString: Untagged
@@ -150,8 +151,8 @@ Transform:
   m_GameObject: {fileID: 8495067195896019968}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 104.5, y: 4.25, z: -9.5}
-  m_LocalScale: {x: 1, y: 3, z: 3}
+  m_LocalPosition: {x: 103.75, y: 4.25, z: -9.5}
+  m_LocalScale: {x: 2.5, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5699606570972490066}
@@ -248,9 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376276d1cead0f445a53efd40e3a6205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  givenScore: 100
-  crime: Sabotaging Corporate Messaging
   sticker: {fileID: 2497786427303117025}
+  crime: {fileID: 4435949935806518152}
 --- !u!114 &4763153747649924558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,3 +265,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RickRendererDisabler
   disableTarget: {fileID: 0}
   timeScale: 0
+--- !u!114 &4435949935806518152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495067195896019968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Vandalism
+  crimeValue: 100
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5598774978658481550}
+        m_TargetAssemblyTypeName: StickerCrime, Assembly-CSharp
+        m_MethodName: ResetCrime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -72,9 +72,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962052175f7c06d4681364ea593565b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  crimeTier: 1
-  crimeName: Minor Theft
-  givenScore: 100
   rotationSpeed: 80
   crime: {fileID: 7420598932428018290}
   renderer: {fileID: 852723452973605740}
@@ -126,12 +123,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Minor Theft
+  crimeValue: 100
   resetCrime:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6465611317597009899}
         m_TargetAssemblyTypeName: Collection, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: ResetCrime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

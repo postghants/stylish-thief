@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class Collection : MonoBehaviour
 {
-    public int crimeTier;
-    public string crimeName;
-    public int givenScore;
     public float rotationSpeed;
 
     [SerializeField] private Crime crime;
@@ -24,9 +21,9 @@ public class Collection : MonoBehaviour
         light.enabled = false;
         particles.SetActive(false);
 
-        crime.DoCrimeOfTier(crimeTier, crimeName, givenScore);
+        crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
     }
-    public void Reset()
+    public void ResetCrime()
     {
         renderer.enabled = true;
         collider.enabled = true;

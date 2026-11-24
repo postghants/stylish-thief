@@ -3,15 +3,13 @@ using UnityEngine;
 public class Parryable : MonoBehaviour
 {
     PlayerStateDriver player;
-    public string crime;
-    public int givenScore;
     [Tooltip("How high the player teleports to get over this NPC. Typically set to...")] public float parryHeight;
     [Tooltip("How long it takes before you can parry the same enemy again")] public float parryDelay;
     float timer;
     bool parried;
     Collider coll;
     Renderer renderer;
-    private Crime crimeScript;
+    [SerializeField] private Crime crime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -55,8 +53,7 @@ public class Parryable : MonoBehaviour
                 parried = true;
 
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.parry);
-                crimeScript = GetComponent<Crime>();
-                crimeScript.DoMiddleCrime(crime, givenScore);
+                crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
             }
         }
     }

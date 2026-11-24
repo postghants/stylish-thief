@@ -9,9 +9,11 @@ public class Bumper : MonoBehaviour
     private float currentInterpolationValue;
     private float convertedSpeed;
     private bool launching;
+
+    [SerializeField] private Crime crime;
     void Start()
     {
-        visualsToRotate.transform.LookAt(target.transform);
+        visualsToRotate.transform.LookAt(target.transform); 
     }
 
     void Update()
@@ -53,6 +55,8 @@ public class Bumper : MonoBehaviour
             convertedSpeed = speed / Vector3.Distance(transform.position, target.position);
             currentInterpolationValue = 0;
             launching = true;
+
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
         }
     }
     

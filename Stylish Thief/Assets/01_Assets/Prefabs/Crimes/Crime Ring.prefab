@@ -69,9 +69,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104720cc29bdf94429343c5c6ca9bd92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  crimeTier: 1
-  crimeName: Colluding with crime rings
-  givenScore: 100
   renderer: {fileID: 9186631658538072235}
   crime: {fileID: 2457925752662290581}
 --- !u!114 &2457925752662290581
@@ -86,12 +83,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Colluding with Crime Rings
+  crimeValue: 100
   resetCrime:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5793023792220796346}
         m_TargetAssemblyTypeName: CrimeRing, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: ResetCrime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

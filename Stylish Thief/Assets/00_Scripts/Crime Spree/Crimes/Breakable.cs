@@ -4,19 +4,15 @@ public class Breakable : MonoBehaviour
 {
     public bool breakOnHorizontal;
     public bool breakOnVertical;
-    public int crimeTier;
-    public string crimeName;
-    public int crimeValue;
     public bool alwaysBreaks;
 
     private Collider playerSideCollider;
     public Collider enemySideCollider;
     public GameObject art;
-    private Crime crime;
+    [SerializeField] private Crime crime;
     private void Start()
     {
         playerSideCollider = GetComponent<Collider>();
-        crime = GetComponent<Crime>();
         if (alwaysBreaks)
         {
             playerSideCollider.isTrigger = true;
@@ -46,7 +42,7 @@ public class Breakable : MonoBehaviour
                 playerSideCollider.enabled = false;
                 enemySideCollider.enabled = false;
                 art.SetActive(false);
-                crime.DoCrimeOfTier(crimeTier, crimeName, crimeValue);
+                crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
             }
         }
     }

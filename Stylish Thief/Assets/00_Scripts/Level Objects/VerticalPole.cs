@@ -3,11 +3,7 @@ using UnityEngine;
 public class VerticalPole : MonoBehaviour
 {
     PlayerStateDriver player;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Crime crime;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
@@ -20,6 +16,7 @@ public class VerticalPole : MonoBehaviour
             player.ctx.rb.isGrounded = false;
 
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.poleSpin);
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
         }
     }
 }

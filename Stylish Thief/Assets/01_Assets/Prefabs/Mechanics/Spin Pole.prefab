@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 524600154872815299}
   - component: {fileID: 3892926623417343760}
   - component: {fileID: 6090384056963088733}
+  - component: {fileID: 1771296634709041914}
   m_Layer: 0
   m_Name: Spin Pole
   m_TagString: Untagged
@@ -127,3 +128,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4650eaacc083f3049a39eb489033aa7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  crime: {fileID: 1771296634709041914}
+--- !u!114 &1771296634709041914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023391241941451224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Nauseating Staff
+  crimeValue: 10
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls: []

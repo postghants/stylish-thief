@@ -353,16 +353,16 @@ MonoBehaviour:
   currentMultiplier: 0
   comboTimer: 0
   activeSpree: 0
-  crimeData:
+  generalCrimeData:
     miniGainedTime: 1
-    minorGainedTime: 20
-    middleGainedTime: 40
-    majorGainedTime: 75
-    megaGainedTime: 100
+    minorGainedTime: 10
+    middleGainedTime: 20
+    majorGainedTime: 30
+    megaGainedTime: 40
     miniResetTime: 10
     minorResetTime: 20
-    middleResetTime: 30
-    majorResetTime: 40
+    middleResetTime: 40
+    majorResetTime: 80
   spreeHUD: {fileID: 1998947698651299266}
   gameOverUIPrefab: {fileID: 712810117838577000, guid: 8f20845b4725afd40a1f70e2bb2b9ef3, type: 3}
   player: {fileID: 0}

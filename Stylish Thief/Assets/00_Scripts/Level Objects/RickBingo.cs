@@ -1,24 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class RickBingo : MonoBehaviour
 {
     [Header("Crime stuff")]
-    [Tooltip("How many points does the player get from this?")] public float givenScore;
-    [Tooltip("What is the name of this crime?")] public string crime;
+    [Tooltip("How many points does the player get from this?")] public int unfinishedScore;
     [Tooltip("What did you get X out of Y of?")] public string unfinishedText;
     string unfinishedCrime;
 
     [Header("Stats stuff")]
     float currentItemCount;
-    [Tooltip("How long until they all come back when you get them all?")] public float respawnTime;
-    float timer;
-    bool count;
 
     [SerializeField] private List<RickBingoBall> bingoBalls;
-    
+    [SerializeField] private Crime crime;
+
     void Start()
     {
         foreach (Transform child in transform)
@@ -30,52 +26,33 @@ public class RickBingo : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (count)
-        {
-            timer += Time.deltaTime;
-            if (timer >= respawnTime)
-            {
-                count = false;
-                timer = 0;
-                ResetBingo();
-            }
-        }
-    }
-
     public void CheckCompletion(GameObject obj)
     {
         currentItemCount++;
         
 
-        if (currentItemCount == bingoBalls.Count)
+        if (currentItemCount >= bingoBalls.Count)
         {
-            Debug.Log(currentItemCount.ToString() + "/" + bingoBalls.Count.ToString());
-            GrantScore();
-            count = true;
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
         }
         else
         {
-            Debug.Log(currentItemCount.ToString() + "/" + bingoBalls.Count.ToString());
             unfinishedCrime = currentItemCount.ToString() + "/" + bingoBalls.Count.ToString() + unfinishedText;
-            CrimeSpreeManager.instance.DoMinorCrime(0, unfinishedCrime, obj);
+            crime.DoCrimeOfTier(crime.crimeTier, unfinishedCrime, unfinishedScore);
         }
     }
-    public void GrantScore()
-    {
-        CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
-    }
 
-    public void ResetBingo()
+    public void ResetCrime()
     {
-        currentItemCount = currentItemCount - bingoBalls.Count;
-        foreach (Transform child in transform)
+        if (currentItemCount >= bingoBalls.Count)
         {
-            if (child.GetComponent<RickBingoBall>() != null)
+            currentItemCount = 0;
+            foreach (Transform child in transform)
             {
-                child.gameObject.SetActive(true);
+                if (child.GetComponent<RickBingoBall>() != null)
+                {
+                    child.gameObject.SetActive(true);
+                }
             }
         }
     }

@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class Umbrella : MonoBehaviour
 {
-    public string crime;
-    public int givenScore;
     PlayerStateDriver player;
-    private Crime crimeScript;
+    [SerializeField] private Crime crime;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
@@ -16,8 +14,7 @@ public class Umbrella : MonoBehaviour
                 player.transform.position += new Vector3(0, .2f, 0);
                 player.ctx.rb.isGrounded = false;
                 player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.umbrellaLaunch);
-                crimeScript = GetComponent<Crime>();
-                crimeScript.DoMegaCrime(crime, givenScore);
+                crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
             }
         }
     }

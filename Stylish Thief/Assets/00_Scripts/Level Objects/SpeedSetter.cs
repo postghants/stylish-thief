@@ -7,21 +7,13 @@ public class SpeedSetter : MonoBehaviour
     public float speed;
 
     private PlayerStateDriver player;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Crime crime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             if (replaceSpeed)
             {

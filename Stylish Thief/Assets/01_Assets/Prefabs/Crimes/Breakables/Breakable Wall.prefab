@@ -163,11 +163,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   breakOnHorizontal: 1
   breakOnVertical: 0
-  crimeTier: 1
-  crimeName: Destruction of Property
-  crimeValue: 1000
+  alwaysBreaks: 0
   enemySideCollider: {fileID: 3988608575239243118}
   art: {fileID: 1315457192391465685}
+  crime: {fileID: 3129242926153754071}
 --- !u!114 &3129242926153754071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Destruction of Property
+  crimeValue: 1000
   resetCrime:
     m_PersistentCalls:
       m_Calls:

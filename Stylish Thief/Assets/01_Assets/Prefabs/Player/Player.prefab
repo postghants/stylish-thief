@@ -5446,6 +5446,9 @@ MonoBehaviour:
     timeScale: 1
     spawnSpreeUI: 0
     bhopTime: 0.2
+    wallMoveMult: 0
+    wallSplatSpeed: 0
+    wallSplatAngle: 0
     groundMoveData:
       acceleration: 40
       deceleration: 8
@@ -5488,6 +5491,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    steepSlopeBoost: 0
     airMoveData:
       acceleration: 35
       deceleration: 4
@@ -6215,6 +6219,29 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    disablePrePoundArc: 0
+    prePoundArcDuration: 1
+    prePoundArcJump:
+      jumpImpulse: 15
+      cuttable: 0
+      maxMaxSpeedTime: 0.1
+      minMaxSpeedTime: 0.05
+      cutJump: 0
+      useCutoffGravMult: 0
+      cutoffGravMult: 90
+      cutSpeed: 0
+      upwardDeceleration: 60
+      upwardDecelApexThreshold: 5
+      upwardDecelApex: 30
+      hangtimeDuration: 0
+      setSpeed: 0
+      setSpeedSpeed: 0
+      horizontalBoost: 0
+      jumpMovementMult: 1
+      jumpMovementMultTime: 0
+      downwardAccel: 60
+      maxFallSpeed: 999
+      fastFallSpeed: 49
     poundSpeedDown: 15
     poundSpeedFw: 15
     poundAcceleration: 60

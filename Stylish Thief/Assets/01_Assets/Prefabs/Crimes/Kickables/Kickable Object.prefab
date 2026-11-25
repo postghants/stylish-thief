@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7786340376008176476}
   - component: {fileID: 9048153686906372131}
   - component: {fileID: 6070613700938812023}
-  - component: {fileID: 4083808138971622530}
+  - component: {fileID: 3475034358403424713}
   m_Layer: 0
   m_Name: Kickable Object
   m_TagString: Untagged
@@ -105,8 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a260224bcde8d6e42b4cb84a934093af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  givenScore: 20
-  crime: Minor Vandalism
+  destroyTime: 5
   force: 18
   upForce: 0.5
   rotationalForce: 15
@@ -114,14 +113,8 @@ MonoBehaviour:
   centerAfterHit: {x: 0, y: 0, z: 0}
   sizeAfterHit: {x: 1, y: 1, z: 1}
   visualPositionAfterHit: {x: 0, y: 0, z: 0}
-  kickCanEvent:
-    Guid:
-      Data1: 74498629
-      Data2: 1302472494
-      Data3: 185712276
-      Data4: 1850235603
-    Path: event:/sfx events/sfx interactions/Can_Kick
---- !u!114 &4083808138971622530
+  crime: {fileID: 3475034358403424713}
+--- !u!114 &3475034358403424713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,28 +123,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 4259167836769667273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 1476313087
-      Data2: 1116692985
-      Data3: -2132087630
-      Data4: 1933202830
-    Path: event:/sfx events/sfx interactions/Can_Impact
-  Event: 
-  EventPlayTrigger: 7
-  EventStopTrigger: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 40
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Minor Vandalism
+  crimeValue: 10
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6070613700938812023}
+        m_TargetAssemblyTypeName: KickableObject, Assembly-CSharp
+        m_MethodName: ResetCrime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5256515982368569607
 GameObject:
   m_ObjectHideFlags: 0

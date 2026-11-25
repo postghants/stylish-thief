@@ -6,7 +6,8 @@ public class BarSwing : MonoBehaviour
     private Vector3 entryRotation;
     private Quaternion barStartRotation;
     private Transform animator;
-    
+    [SerializeField] private Crime crime;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
@@ -19,6 +20,7 @@ public class BarSwing : MonoBehaviour
             barStartRotation = transform.rotation;
             CalculateAngles();
             player.Machine.ChangeState(player.Root.Leaf(), player.Root.airborne.barSwing);
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
         }
     }
     private void CalculateAngles()

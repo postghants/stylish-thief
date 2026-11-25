@@ -131,8 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e7d558f0d20de448b5036ae573937f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  givenScore: 500
-  crime: Destruction of corporate property
   requiresGrab: 0
   distance: 3.5
   force: 5
@@ -286,7 +284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.77308846
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -324,6 +322,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robin Tas Texture Test 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5373420583385811280, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1af62ebcedf942340933e0edf62ec002, type: 2}
+    - target: {fileID: 5373420583385811280, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1af62ebcedf942340933e0edf62ec002, type: 2}
+    - target: {fileID: 5373420583385811280, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1af62ebcedf942340933e0edf62ec002, type: 2}
+    - target: {fileID: 5373420583385811280, guid: 7cc4b8ce0615e7a4fac85e8e62db216e, type: 3}
+      propertyPath: 'm_Materials.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1af62ebcedf942340933e0edf62ec002, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -360,4 +361,16 @@ namespace HSM
             return null;
         }
     }
+
+    public class IntBumper : State
+    {
+        readonly PlayerContext ctx;
+
+        public IntBumper(StateMachine m, State parent, PlayerContext ctx) : base(m)
+        {
+            this.ctx = ctx;
+            Parent = parent;
+        }
+    }
 }
+    

@@ -130,8 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1618ea9bf26b1741a7e2a4b7394acf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  crime: Umbrella Theft
-  givenScore: 500
+  crime: {fileID: 3203493095400464284}
 --- !u!54 &6949748397928071047
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -171,6 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 1
+  crimeName: Umbrella Theft
+  crimeValue: 50
   resetCrime:
     m_PersistentCalls:
       m_Calls: []

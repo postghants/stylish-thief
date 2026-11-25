@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class RickBouncyPlatform : MonoBehaviour
 {
-    [Tooltip("How many points does the player get from this?")] public float score;
-    [Tooltip("What is the name of this crime?")] public string crime;
     [Tooltip("How hard does this launch you?")] public float launchForce;
     //public float oneToOneConstant = 1.5f;
     //public float minimumHeight;
@@ -11,13 +9,14 @@ public class RickBouncyPlatform : MonoBehaviour
     //public bool fullSpeedReplacement;
     Vector3 directionalForce;
     PlayerStateDriver player;
+    [SerializeField] private Crime crime;
 
     private void OnTriggerEnter(Collider other)
     {
         directionalForce = transform.up * launchForce;
         if (other.gameObject.layer == 6)
         {
-            CrimeSpreeManager.instance?.DoMinorCrime(score, crime, gameObject);
+            crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
             player = other.gameObject.GetComponentInParent<PlayerStateDriver>();
             
             /*if (oneToOne)

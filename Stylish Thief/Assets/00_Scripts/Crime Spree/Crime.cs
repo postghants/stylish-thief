@@ -1,9 +1,15 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 public class Crime : MonoBehaviour
 {
+    [Header("Standard Crime Data")]
+    [Tooltip("What tier is this crime? Number from 1 to 5, each with increasingly high time rewards and reset times")] public int crimeTier;
+    [Tooltip("What is the legal name of this crime?")] public string crimeName;
+    [Tooltip("How many points and multiplier does the player get from this?")] public int crimeValue;
+
     private NeoCrimeSpreeManager manager;
     private float resetTimer = 0;
     public UnityEvent resetCrime;
@@ -33,10 +39,8 @@ public class Crime : MonoBehaviour
         {
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
-            manager.currentSpreeTime += manager.crimeData.miniGainedTime / 100 * manager.maxSpreeTime;
-            resetTimer = manager.crimeData.miniResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.miniComboAddition);
-            //Mini UI response
+            manager.currentSpreeTime += manager.generalCrimeData.miniGainedTime / 100 * manager.maxSpreeTime;
+            resetTimer = manager.generalCrimeData.miniResetTime; count = true;
 
         }
     }
@@ -46,10 +50,8 @@ public class Crime : MonoBehaviour
         {
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
-            manager.currentSpreeTime += manager.crimeData.minorGainedTime / 100 * manager.maxSpreeTime;
-            resetTimer = manager.crimeData.minorResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.minorComboAddition);
-            //Minor UI response
+            manager.currentSpreeTime += manager.generalCrimeData.minorGainedTime / 100 * manager.maxSpreeTime;
+            resetTimer = manager.generalCrimeData.minorResetTime; count = true;
 
         }
     }
@@ -59,11 +61,8 @@ public class Crime : MonoBehaviour
         {
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
-            manager.currentSpreeTime += manager.crimeData.middleGainedTime / 100 * manager.maxSpreeTime;
-            resetTimer = manager.crimeData.middleResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.middleComboAddition);
-            if (!manager.activeSpree) { manager.activeSpree = true; }
-            //Middle UI response
+            manager.currentSpreeTime += manager.generalCrimeData.middleGainedTime / 100 * manager.maxSpreeTime;
+            resetTimer = manager.generalCrimeData.middleResetTime; count = true;
 
         }
     }
@@ -73,11 +72,8 @@ public class Crime : MonoBehaviour
         {
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
-            manager.currentSpreeTime += manager.crimeData.majorGainedTime / 100 * manager.maxSpreeTime;
-            resetTimer = manager.crimeData.majorResetTime; count = true;
-            manager.ResetComboTimer(manager.crimeData.majorComboAddition);
-            if (!manager.activeSpree) { manager.activeSpree = true; }
-            //Major UI response
+            manager.currentSpreeTime += manager.generalCrimeData.majorGainedTime / 100 * manager.maxSpreeTime;
+            resetTimer = manager.generalCrimeData.majorResetTime; count = true;
 
         }
     }
@@ -85,13 +81,11 @@ public class Crime : MonoBehaviour
     {
         if (manager != null)
         {
+            if (!manager.activeSpree) { manager.activeSpree = true; }
+
             manager.RegisterCrimeName(crimeName); //Also to be logged later in a Spree record
             manager.AddPoints(crimeValue);
             manager.currentSpreeTime = manager.maxSpreeTime;
-            manager.ResetComboTimer(manager.crimeData.megaComboAddition);
-            if (!manager.activeSpree) { manager.activeSpree = true; }
-            //Comically bombastic UI response!
-
         }
     }
     /// <summary>

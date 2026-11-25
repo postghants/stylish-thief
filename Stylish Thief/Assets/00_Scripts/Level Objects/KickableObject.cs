@@ -7,8 +7,7 @@ public class KickableObject : MonoBehaviour
     BoxCollider coll;
     PlayerStateDriver player;
     bool kicked;
-    [Tooltip("How many points does the player get from this?")] public int givenScore;
-    [Tooltip("What is the name of this crime?")] public string crime;
+
     [Tooltip("How hard is this object kicked forward?")] public float force;
     [Tooltip("How hard is this object kicked up?")] public float upForce;
     [Tooltip("How fast does this object rotate?")] public float rotationalForce;
@@ -21,7 +20,7 @@ public class KickableObject : MonoBehaviour
     private Quaternion startRotation;
     private Vector3 initialCollCenter;
     private Vector3 initialCollSize;
-    private Crime crimeScript;
+    [SerializeField] private Crime crime;
 
     //public float scaleMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,7 +33,6 @@ public class KickableObject : MonoBehaviour
         startRotation = transform.rotation;
         initialCollCenter = coll.center;
         initialCollSize = coll.size;
-        crimeScript = GetComponent<Crime>();
     }
 
     // Update is called once per frame
@@ -62,13 +60,13 @@ public class KickableObject : MonoBehaviour
             if (!kicked)
             {
                 //CrimeSpreeManager.instance.DoMinorCrime(givenScore, crime, gameObject);
-                crimeScript.DoMiniCrime(crime, givenScore);
+                crime.DoCrimeOfTier(crime.crimeTier, crime.crimeName, crime.crimeValue);
             }
             kicked = true;
             //Destroy(gameObject, destroyTime);
         }
     }
-    public void Reset()
+    public void ResetCrime()
     {
         Debug.Log("Resetting");
         transform.position = startPosition;

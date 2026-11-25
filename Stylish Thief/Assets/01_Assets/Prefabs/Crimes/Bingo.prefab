@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6648779001503400567}
   - component: {fileID: 2392600662659270244}
+  - component: {fileID: 637570428367621414}
   m_Layer: 0
   m_Name: Bingo
   m_TagString: Untagged
@@ -45,11 +46,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835cecc4dfb76e6429f0f721888e45cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  givenScore: 777
-  crime: BINGO!!!
+  unfinishedScore: 10
   unfinishedText: ' bingo...'
-  respawnTime: 5
   bingoBalls: []
+  crime: {fileID: 637570428367621414}
+--- !u!114 &637570428367621414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4774275892077706940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c530f248d8e60488b22bdbacf499ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crime
+  crimeTier: 4
+  crimeName: BINGO!!!
+  crimeValue: 1000
+  resetCrime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2392600662659270244}
+        m_TargetAssemblyTypeName: RickBingo, Assembly-CSharp
+        m_MethodName: ResetCrime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &5380030117368042068
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5854,7 +5854,7 @@ MonoBehaviour:
     maxGrabTargetDistanceHorizontal: 4
     maxGrabTargetDistanceUp: 0.3
     maxGrabTargetDistanceDown: -1
-    scrambleStartDelay: 1
+    scrambleStartDelay: 0.1
     scrambleDuration: 0.4
     scrambleJumpData:
       jumpImpulse: 22
@@ -5862,10 +5862,10 @@ MonoBehaviour:
       maxMaxSpeedTime: 0.1
       minMaxSpeedTime: 0.1
       cutJump: 0
-      useCutoffGravMult: 1
+      useCutoffGravMult: 0
       cutoffGravMult: 90
       cutSpeed: 0
-      upwardDeceleration: 30
+      upwardDeceleration: 60
       upwardDecelApexThreshold: 5
       upwardDecelApex: 30
       hangtimeDuration: 0
@@ -5874,7 +5874,7 @@ MonoBehaviour:
       horizontalBoost: 0
       jumpMovementMult: 1
       jumpMovementMultTime: 0
-      downwardAccel: 30
+      downwardAccel: 60
       maxFallSpeed: 999
       fastFallSpeed: 49
     scrambleMoveData:
@@ -5964,7 +5964,7 @@ MonoBehaviour:
       downwardAccel: 0
       maxFallSpeed: 0
       fastFallSpeed: 0
-    disableStun: 1
+    disableStun: 0
     useStunDeceleration: 1
     stunDeceleration: 1
     stunMinSpeed: 1
@@ -6070,8 +6070,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minimumHarshLandingSpeed: 30
-    disableGroundTrick: 0
-    disableAirTrick: 0
+    disableGroundTrick: 1
+    disableAirTrick: 1
     groundTrickLength: 0.75
     airTrickLength: 0.75
     airTrickGrabBuffer: 0.1

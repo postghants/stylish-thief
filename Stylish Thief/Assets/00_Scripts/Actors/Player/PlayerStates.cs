@@ -543,7 +543,7 @@ namespace HSM
                 }
             }
 
-            if (!addedCollisionEvent && !ctx.disableStun)
+            if (!addedCollisionEvent)
             {
                 addedCollisionEvent = true;
                 ctx.rb.onCollision += OnCollision;
@@ -556,7 +556,7 @@ namespace HSM
             ctx.grabTimer = 0;
             try
             {
-                if (!ctx.disableStun)
+                if (addedCollisionEvent)
                 {
                     ctx.rb.onCollision -= OnCollision;
                 }

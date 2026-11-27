@@ -25,6 +25,9 @@ public class Collection : MonoBehaviour
         particles.SetActive(false);
 
         crime.DoCrimeOfTier(crimeTier, crimeName, givenScore);
+
+        //Tom Wwise Event
+        AkUnitySoundEngine.PostEvent("Crime_Spree_Feedback", gameObject);
     }
     public void Reset()
     {
